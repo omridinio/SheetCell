@@ -1,6 +1,6 @@
-package builders.expressions;
-import builders.expressions.impl.*;
-import builders.expressions.impl.Number;
+package methods.expressions;
+import methods.expressions.impl.*;
+import methods.expressions.impl.Number;
 //import builders.expressions.impl.Number;
 
 public class Main {

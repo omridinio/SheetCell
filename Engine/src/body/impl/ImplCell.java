@@ -1,20 +1,20 @@
-package builders.impl;
+package body.impl;
 
-import builders.interCell;
+import body.Cell;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cell implements interCell{
+public class ImplCell implements Cell {
 
     private String Id;
     private int lastVersionUpdate;
     private String originalValue;
     private String effectiveValue;
-    private List<interCell> cellsDependsOnThem = new ArrayList<>();
-    private List<interCell> cellsDependsOnHim =new ArrayList<>();
+    private List<Cell> cellsDependsOnThem = new ArrayList<>();
+    private List<Cell> cellsDependsOnHim =new ArrayList<>();
 
-    public Cell(String id) {
+    public ImplCell(String id) {
         Id = id;
     }
 
@@ -59,7 +59,7 @@ public class Cell implements interCell{
     }
 
     @Override
-    public List<interCell> getCellsDependsOnThem() {
+    public List<Cell> getCellsDependsOnThem() {
         return getCellsDependsOnThem();
     }
 

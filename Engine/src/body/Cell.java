@@ -1,10 +1,8 @@
-package builders;
-
-import builders.impl.Cell;
+package body;
 
 import java.util.List;
 
-public interface interCell {
+public interface Cell {
     String getId();
     void setId(String id);
     int getLastVersionUpdate();
@@ -13,6 +11,6 @@ public interface interCell {
     void setOriginalValue(String original);
     String getEffectivelValue();
     void setEffectivelValue(String effective);
-    List<interCell> getCellsDependsOnThem();
+    List<Cell> getCellsDependsOnThem();
 
 }

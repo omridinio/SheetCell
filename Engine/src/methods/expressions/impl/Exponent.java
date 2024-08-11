@@ -1,6 +1,6 @@
-package builders.expressions.impl;
+package methods.expressions.impl;
 
-import builders.expressions.Expression;
+import methods.expressions.Expression;
 
 public class Exponent extends BinaryExpression {
 
