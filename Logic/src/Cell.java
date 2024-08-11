@@ -1,5 +1,6 @@
 public interface Cell {
     String getId();
+    String setId();
     int getLastVersionUpdate();
     int setLastVersionUpdate();
     String getOriginalValue();
