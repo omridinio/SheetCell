@@ -1,6 +1,8 @@
-package methods.expressions;
-import methods.expressions.impl.*;
-import methods.expressions.impl.Number;
+package method.expression;
+import method.expression.impl.Exponent;
+import method.expression.impl.Str;
+import method.expression.impl.Sum;
+import method.expression.impl.Number;
 //import builders.expressions.impl.Number;
 
 public class Main {

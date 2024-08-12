@@ -1,6 +1,6 @@
-package methods.expressions.impl;
+package method.expression.impl;
 
-import methods.expressions.Expression;
+import method.expression.Expression;
 
 public class Number implements Expression {
 

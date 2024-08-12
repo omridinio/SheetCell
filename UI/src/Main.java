@@ -1,5 +1,8 @@
 
-import methods.Menu;
+import body.Logic;
+import body.impl.implLogic;
+import menu.impl.MainMenu;
+import method.Menu;
 import body.impl.ImplCell;
 import body.Cell;
 
@@ -14,10 +17,14 @@ public class Main {
         implCell.setEffectivelValue("A4 + A5");
         implCell.setLastVersionUpdate(3);
 
-        Scanner scanner = new Scanner(System.in);
-        Menu mainMenu = new Menu();
-        mainMenu.printMenu();
-        int option = scanner.nextInt();
+        Logic logic = new implLogic();
+        while (true){
+            MainMenu.printMenu();
+            Scanner scanner = new Scanner(System.in);
+            int option = scanner.nextInt();
+            MainMenu choose = MainMenu.parser(option);
+            choose.invoke();
+        }
 
         //mainMenu.displaySingleCell(cell);
 

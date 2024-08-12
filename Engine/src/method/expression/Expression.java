@@ -1,4 +1,4 @@
-package methods.expressions;
+package method.expression;
 
 public interface Expression {
 
