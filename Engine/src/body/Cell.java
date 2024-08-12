@@ -9,7 +9,7 @@ public interface Cell {
     void setLastVersionUpdate(int version);
     String getOriginalValue();
     void setOriginalValue(String original);
-    String getEffectivelValue();
+    Object getEffectivelValue();
     void setEffectivelValue(String effective);
     List<Cell> getCellsDependsOnThem();
 

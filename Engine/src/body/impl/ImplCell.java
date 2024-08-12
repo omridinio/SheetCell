@@ -1,6 +1,7 @@
 package body.impl;
 
 import body.Cell;
+import method.expression.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ public class ImplCell implements Cell {
     private String Id;
     private int lastVersionUpdate;
     private String originalValue;
-    private String effectiveValue;
+    private Expression effectiveValue;
     private List<Cell> cellsDependsOnThem = new ArrayList<>();
     private List<Cell> cellsDependsOnHim =new ArrayList<>();
 
@@ -49,13 +50,12 @@ public class ImplCell implements Cell {
     }
 
     @Override
-    public String getEffectivelValue() {
-        return effectiveValue;
+    public Object getEffectivelValue() {return effectiveValue.evaluate();
     }
-
+    //TODO : creat function that get string(from original value) and convert it to expression
     @Override
     public void setEffectivelValue(String effective) {
-        effectiveValue = effective;
+        String[] words = originalValue.split(",");
     }
 
     @Override
@@ -63,4 +63,7 @@ public class ImplCell implements Cell {
         return getCellsDependsOnThem();
     }
 
+//    private Boolean checkBracketValidetoin(String expression){
+//
+//    }
 }

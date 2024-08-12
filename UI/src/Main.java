@@ -23,7 +23,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             int option = scanner.nextInt();
             MainMenu choose = MainMenu.parser(option);
-            choose.invoke();
+            choose.invoke(logic);
         }
 
         //mainMenu.displaySingleCell(cell);
