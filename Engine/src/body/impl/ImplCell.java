@@ -60,7 +60,7 @@ public class ImplCell implements Cell {
 
     @Override
     public List<Cell> getCellsDependsOnThem() {
-        return getCellsDependsOnThem();
+        return cellsDependsOnThem;
     }
 
     @Override

@@ -57,7 +57,6 @@ public enum MainMenu implements Menu {
             logic.updateCell(enterdCell, enterdValue);
             printCell(logic.getCell(enterdCell));
 
-
         }
 
         void display(){
@@ -81,6 +80,7 @@ public enum MainMenu implements Menu {
         System.out.println("3) Display Single Cell");
         System.out.println("4) Update Single Cell");
         System.out.println("5) Display Versions");
+        System.out.println("6) Exit");
     }
 
     public static MainMenu parser (int option){
@@ -95,10 +95,11 @@ public enum MainMenu implements Menu {
                 return UPDATECELL;
             case 5:
                 return DISPLAYVERSION;
+            case 6:
+                exit(0);
             default:
-                exit(1);
+                throw new IllegalArgumentException("Invalid option was pressed. Please try again.");
         }
-        return null;
     }
     public static void printCell (CellDTO cell){
         System.out.println("Name: " + cell.getId());

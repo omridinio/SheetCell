@@ -12,7 +12,10 @@ public class ImplLogic implements Logic {
         Cell temp = mainSheet.getCell(cellId);
         return new CellDTO(temp);
     }
+
+
     public void updateCell(String cellId, String value){
+
         mainSheet.updateCell(cellId, value);
     }
 }
