@@ -1,8 +1,7 @@
 
 import body.Logic;
-import body.impl.implLogic;
+import body.impl.ImplLogic;
 import menu.impl.MainMenu;
-import method.Menu;
 import body.impl.ImplCell;
 import body.Cell;
 
@@ -13,11 +12,9 @@ public class Main {
 
     public static void main(String[] args) {
         Cell implCell = new ImplCell("A3");
-        implCell.setOriginalValue("4");
-        implCell.setEffectivelValue("A4 + A5");
         implCell.setLastVersionUpdate(3);
 
-        Logic logic = new implLogic();
+        Logic logic = new ImplLogic();
         while (true){
             MainMenu.printMenu();
             Scanner scanner = new Scanner(System.in);

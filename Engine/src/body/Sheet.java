@@ -2,6 +2,6 @@ package body;
 
 public interface Sheet {
     String getSheetName();
-    String setSheetName();
-
+    Cell getCell(String cellId);
+    void updateCell(String cellId, String value);
 }

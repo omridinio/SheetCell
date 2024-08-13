@@ -1,5 +1,7 @@
 package body;
 
+import method.expression.Expression;
+
 import java.util.List;
 
 public interface Cell {
@@ -9,8 +11,8 @@ public interface Cell {
     void setLastVersionUpdate(int version);
     String getOriginalValue();
     void setOriginalValue(String original);
-    Object getEffectivelValue();
-    void setEffectivelValue(String effective);
+    Object getEffectiveValue();
+    public Expression getExpression();
     List<Cell> getCellsDependsOnThem();
 
 }

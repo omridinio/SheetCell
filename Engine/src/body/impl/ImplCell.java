@@ -2,6 +2,8 @@ package body.impl;
 
 import body.Cell;
 import method.expression.Expression;
+import method.expression.impl.*;
+import method.expression.impl.Number;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ public class ImplCell implements Cell {
 
     public ImplCell(String id) {
         Id = id;
+        lastVersionUpdate = 1;
+        originalValue = "";
     }
 
     @Override
@@ -47,15 +51,11 @@ public class ImplCell implements Cell {
     @Override
     public void setOriginalValue(String original) {
         originalValue = original;
+        effectiveValue = stringToExpression(originalValue);
     }
 
     @Override
-    public Object getEffectivelValue() {return effectiveValue.evaluate();
-    }
-    //TODO : creat function that get string(from original value) and convert it to expression
-    @Override
-    public void setEffectivelValue(String effective) {
-        String[] words = originalValue.split(",");
+    public Object getEffectiveValue()throws NumberFormatException {return effectiveValue.evaluate();
     }
 
     @Override
@@ -63,7 +63,57 @@ public class ImplCell implements Cell {
         return getCellsDependsOnThem();
     }
 
-//    private Boolean checkBracketValidetoin(String expression){
-//
-//    }
+    @Override
+    public Expression getExpression() {
+        return effectiveValue;
+    }
+    private Expression stringToExpression(String input) {
+        if(input.isEmpty()){
+            return null;
+        }
+        input = input.substring(1, input.length() - 1);
+        List<Expression> e = new ArrayList<>();
+        if(!input.contains("{")) {
+            String[] expression = input.split(",");
+
+            for (int i = 1; i < expression.length; i++){
+                try{
+                    Double.parseDouble(expression[i]);
+                    e.add(new Number(expression[i]));
+                }catch (NumberFormatException error){
+                    e.add(new Str(expression[i]));
+                }
+            }
+            return createExpression(expression[0],e);
+        }
+        else{
+            int open=0;
+            int close=0;
+            String expression = input.split(",")[0];
+            for (int i = 0; i < input.length(); i++) {
+                char ch = input.charAt(i);
+                if (ch == '{') {
+                    open = i;
+                }
+                if (ch == '}') {
+                    close = i+1;
+                    Expression exp = stringToExpression(input.substring(open, close));
+                    e.add(exp);
+                }
+            }
+            return createExpression(expression,e);
+        }
+
+    }
+
+
+    private Expression createExpression(String operator, List<Expression> args) {
+        return switch (operator) {
+            case "PLUS" -> new Plus(args.get(0), args.get(1));
+            case "MINUS" -> new Minus(args.get(0), args.get(1));
+            case "POW" -> new Pow(args.get(0), args.get(1));
+            case "CONCAT" -> new Concat(args.get(0), args.get(1));
+            default -> throw new IllegalArgumentException("Unknown operator: " + operator);
+        };
+    }
 }

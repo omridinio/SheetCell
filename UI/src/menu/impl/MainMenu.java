@@ -1,7 +1,11 @@
 package menu.impl;
 
+import body.Cell;
 import body.Logic;
+import dto.CellDTO;
 import menu.Menu;
+
+import java.util.Scanner;
 
 import static java.lang.System.exit;
 
@@ -31,6 +35,9 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             display();
+            Scanner scanner = new Scanner(System.in);
+            String enterdCell = scanner.next();
+            printCell(logic.getCell(enterdCell));
         }
 
         void display(){
@@ -41,6 +48,16 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             display();
+            Scanner scanner = new Scanner(System.in);
+            String enterdCell = scanner.next();
+            printCell(logic.getCell(enterdCell));
+            System.out.println("Please enter the new Value:");
+            scanner.nextLine();
+            String enterdValue = scanner.nextLine();
+            logic.updateCell(enterdCell, enterdValue);
+            printCell(logic.getCell(enterdCell));
+
+
         }
 
         void display(){
@@ -82,5 +99,14 @@ public enum MainMenu implements Menu {
                 exit(1);
         }
         return null;
+    }
+    public static void printCell (CellDTO cell){
+        System.out.println("Name: " + cell.getId());
+        System.out.println("Original value: " + cell.getOriginalValue());
+        try{
+            System.out.println("Effective value: " + cell.getEffectiveValue());
+        }catch(NullPointerException e){
+            System.out.println("Empty effective value");
+        }
     }
 }

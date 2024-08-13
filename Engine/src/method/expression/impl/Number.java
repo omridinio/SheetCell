@@ -10,6 +10,10 @@ public class Number implements Expression {
         this.num = num;
     }
 
+    public Number(String num) {
+        this.num = Double.parseDouble(num);
+    }
+
     @Override
     public Object evaluate() {
         return num;

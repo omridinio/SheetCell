@@ -18,10 +18,8 @@ public abstract class BinaryExpression implements Expression {
     }
 
     @Override
-    public String toString() {
-        return "(" + expression1 + getOperationSign() + expression2 + ")";
-    }
+    public String toString() {return "(" + expression1 + getOperationSign() + expression2 + ")";}
 
-    abstract protected Object evaluate(Object evaluate, Object evaluate2);
+    abstract protected Object evaluate(Object evaluate, Object evaluate2) throws NumberFormatException;
 
 }

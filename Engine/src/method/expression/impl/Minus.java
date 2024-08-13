@@ -14,7 +14,7 @@ public class Minus extends BinaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object e1, Object e2) {
+    protected Object evaluate(Object e1, Object e2)throws NumberFormatException{
         return (Double)e1 - (Double)e2;
     }
 
