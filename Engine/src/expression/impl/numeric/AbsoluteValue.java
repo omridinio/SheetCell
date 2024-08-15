@@ -1,7 +1,6 @@
 package expression.impl.numeric;
 
-import expression.Expression;
-import expression.impl.BinaryExpression;
+import expression.api.Expression;
 import expression.impl.UnaryExpression;
 
 public class AbsoluteValue  extends UnaryExpression {

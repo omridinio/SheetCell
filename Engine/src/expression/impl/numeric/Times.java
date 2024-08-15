@@ -1,6 +1,6 @@
 package expression.impl.numeric;
 
-import expression.Expression;
+import expression.api.Expression;
 import expression.impl.BinaryExpression;
 
 public class Times extends BinaryExpression {

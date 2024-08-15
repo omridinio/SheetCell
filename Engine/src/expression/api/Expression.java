@@ -1,4 +1,4 @@
-package expression;
+package expression.api;
 
 public interface Expression {
 

@@ -1,6 +1,6 @@
 package body;
 
-import expression.Expression;
+import expression.api.Expression;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package expression.impl.system;
 
-import expression.Expression;
+import expression.api.Expression;
 import expression.impl.UnaryExpression;
 
 //TODO fill reference function

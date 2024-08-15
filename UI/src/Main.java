@@ -22,14 +22,14 @@ public class Main {
             int option = scanner.nextInt();
             MainMenu choose = MainMenu.parser(option);
             while (!success) {
-               try {
-                   choose.invoke(logic);
-                   success = true;
+                try {
+                    choose.invoke(logic);
+                    success = true;
                } catch (ClassCastException e) {
-                   System.out.println("ERROR! Please enter Values that match to the function:");
+                    System.out.println("ERROR! Please enter Values that match to the function:");
                }
-
             }
+
         }
     }
 }

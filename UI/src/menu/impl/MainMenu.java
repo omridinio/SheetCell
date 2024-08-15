@@ -19,7 +19,7 @@ public enum MainMenu implements Menu {
         }
         void display(){
             System.out.println("Please enter the full path to the XML file you want to load: ");
-            System.out.println("Example for Windows: C:\\path\\to\\your\\file.xml");
+            System.out.println("(Example for Windows: C:\\path\\to\\your\\file.xml)\n");
         }
     },
     DISPLAYSPREADSHEET{
@@ -29,7 +29,7 @@ public enum MainMenu implements Menu {
         }
 
         void display(){
-            System.out.println("SPREADSHEET ");
+            System.out.println("SPREADSHEET \n");
         }
     },
     DISPLAYCELL{
@@ -71,7 +71,7 @@ public enum MainMenu implements Menu {
 
         }
         private void display(){
-            System.out.print("Please enter the version number to preview: ");
+            System.out.print("Please enter the version number to preview:");
         }
     };
 

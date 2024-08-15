@@ -1,13 +1,13 @@
 package body.impl;
 
 import body.Cell;
-import expression.Expression;
+import expression.api.Expression;
 import expression.impl.*;
 import expression.impl.Number;
-import expression.impl.numeric.Minus;
-import expression.impl.numeric.Plus;
-import expression.impl.numeric.Pow;
+import expression.impl.numeric.*;
 import expression.impl.string.Concat;
+import expression.impl.string.Sub;
+import expression.impl.system.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,8 +123,14 @@ public class ImplCell implements Cell {
         return switch (operator.trim()) {
             case "PLUS" -> new Plus(args.get(0), args.get(1));
             case "MINUS" -> new Minus(args.get(0), args.get(1));
+            case "TIMES" -> new Times(args.get(0), args.get(1));
+            case "DIVIDE" -> new Divide(args.get(0), args.get(1));
+            case "MOD" -> new Modulo(args.get(0), args.get(1));
             case "POW" -> new Pow(args.get(0), args.get(1));
+            case "ABS" -> new AbsoluteValue(args.get(0));
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
+            case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
+            case "REF" -> new Reference(args.get(0));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }

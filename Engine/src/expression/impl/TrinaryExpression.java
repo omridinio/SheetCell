@@ -1,5 +1,5 @@
 package expression.impl;
-import expression.Expression;
+import expression.api.Expression;
 
 public abstract class TrinaryExpression implements Expression {
 

@@ -1,6 +1,6 @@
 package expression.impl.string;
 
-import expression.Expression;
+import expression.api.Expression;
 import expression.impl.TrinaryExpression;
 
 public class Sub  extends TrinaryExpression {
