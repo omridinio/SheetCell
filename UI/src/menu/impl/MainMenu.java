@@ -2,6 +2,7 @@ package menu.impl;
 
 import body.Cell;
 import body.Logic;
+import body.impl.ImplCell;
 import dto.CellDTO;
 import menu.Menu;
 

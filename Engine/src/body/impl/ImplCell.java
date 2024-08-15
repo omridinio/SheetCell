@@ -68,55 +68,55 @@ public class ImplCell implements Cell {
         return effectiveValue;
     }
 
-
     private Expression stringToExpression(String input) {
         if(input.isEmpty()){
             return null;
         }
-        input = input.substring(1, input.length() - 1);
-        List<Expression> e = new ArrayList<>();
-        int openBracket = 0;
-        if(!input.contains("{")) {
-            String[] expression = input.split(",");
 
-            for (int i = 1; i < expression.length; i++){
-                try{
-                    Double.parseDouble(expression[i]);
-                    e.add(new Number(expression[i]));
-                }catch (NumberFormatException error){
-                    e.add(new Str(expression[i]));
-                }
+        if(!input.contains(",")){
+            try{
+                Double.parseDouble(input);
+                return (new Number(input));
+            }catch (NumberFormatException error){
+                return (new Str(input));
             }
-            return createExpression(expression[0],e);
         }
-        else{
-            int start=0;
-            int end=0;
-            String expression = input.split(",")[0];
-            for (int i = 0; i < input.length(); i++) {
-                char ch = input.charAt(i);
-                if (ch == '{') {
-                    if(openBracket == 0)
-                        start = i;
+
+        else {
+            input = input.substring(1, input.length() - 1);
+            List<String> result = new ArrayList<>();
+            List<Expression> e = new ArrayList<>();
+            StringBuilder currentElement = new StringBuilder();
+            boolean insideBraces = false;
+            int openBracket = 0;
+            for (char c : input.toCharArray()) {
+                if (c == '{') {
+                    insideBraces = true;
                     openBracket++;
-                }
-                if (ch == '}') {
-                    end = i+1;
+                } else if (c == '}') {
                     openBracket--;
-                    if (openBracket == 0) {
-                        Expression exp = stringToExpression(input.substring(start, end));
-                        e.add(exp);
+                    if(openBracket == 0){
+                        insideBraces = false;
                     }
                 }
-            }
-            return createExpression(expression,e);
-        }
+                if (c == ',' && !insideBraces) {
+                    result.add(currentElement.toString().trim());
 
+                    currentElement.setLength(0); // Clear the current element
+                } else {
+                    currentElement.append(c);
+                }
+            }
+            result.add(currentElement.toString().trim()); // Add the last element
+            for(int i = 1; i < result.size(); i++) {
+                e.add(stringToExpression(result.get(i)));
+            }
+            return createExpression(result.get(0),e);
+        }
     }
 
-
     private Expression createExpression(String operator, List<Expression> args) {
-        return switch (operator) {
+        return switch (operator.trim()) {
             case "PLUS" -> new Plus(args.get(0), args.get(1));
             case "MINUS" -> new Minus(args.get(0), args.get(1));
             case "POW" -> new Pow(args.get(0), args.get(1));
@@ -125,3 +125,4 @@ public class ImplCell implements Cell {
         };
     }
 }
+

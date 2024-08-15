@@ -1,3 +1,7 @@
 {MINUS, {PLUS,4,5},{POW,2,3}}
 {MINUS, {PLUS,{POW,2,3},{MINUS,2,1}},{POW,2,3}}
-{MINUS,{POW,2,3} ,4}
+
+
+{MINUS, {POW,2 ,3} ,4}
+
+MINUS, {POW,2 ,3} ,4
