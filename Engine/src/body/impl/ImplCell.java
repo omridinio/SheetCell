@@ -1,9 +1,13 @@
 package body.impl;
 
 import body.Cell;
-import method.expression.Expression;
-import method.expression.impl.*;
-import method.expression.impl.Number;
+import expression.Expression;
+import expression.impl.*;
+import expression.impl.Number;
+import expression.impl.numeric.Minus;
+import expression.impl.numeric.Plus;
+import expression.impl.numeric.Pow;
+import expression.impl.string.Concat;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,7 @@
-package method.expression.impl;
+package expression.impl.string;
 
-import method.expression.Expression;
+import expression.Expression;
+import expression.impl.BinaryExpression;
 
 public class Concat extends BinaryExpression {
 

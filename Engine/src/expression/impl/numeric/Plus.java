@@ -1,6 +1,7 @@
-package method.expression.impl;
+package expression.impl.numeric;
 
-import method.expression.Expression;
+import expression.Expression;
+import expression.impl.BinaryExpression;
 
 public class Plus extends BinaryExpression {
 

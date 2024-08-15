@@ -1,7 +1,11 @@
-package method.expression;
+package expression;
 
+import expression.impl.*;
+import expression.impl.Number;
+import expression.impl.numeric.Minus;
+import expression.impl.numeric.Plus;
+import expression.impl.numeric.Pow;
 import method.expression.impl.*;
-import method.expression.impl.Number;
 
 public class testMain {
         public static void main(String[] args) {

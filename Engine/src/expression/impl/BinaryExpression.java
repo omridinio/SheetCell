@@ -1,6 +1,6 @@
-package method.expression.impl;
+package expression.impl;
 
-import method.expression.Expression;
+import expression.Expression;
 
 public abstract class BinaryExpression implements Expression {
 

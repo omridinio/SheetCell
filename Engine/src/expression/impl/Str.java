@@ -1,6 +1,6 @@
-package method.expression.impl;
+package expression.impl;
 
-import method.expression.Expression;
+import expression.Expression;
 
 public class Str implements Expression {
 

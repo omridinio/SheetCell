@@ -1,7 +1,7 @@
 package dto;
 
 import body.Cell;
-import method.expression.Expression;
+import expression.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
