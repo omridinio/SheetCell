@@ -29,10 +29,6 @@ public class Main {
                    System.out.println("ERROR! Please enter Values that match to the function:");
                }
 
-
-
-
-
             }
         }
     }

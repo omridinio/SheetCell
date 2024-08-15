@@ -67,12 +67,15 @@ public class ImplCell implements Cell {
     public Expression getExpression() {
         return effectiveValue;
     }
+
+
     private Expression stringToExpression(String input) {
         if(input.isEmpty()){
             return null;
         }
         input = input.substring(1, input.length() - 1);
         List<Expression> e = new ArrayList<>();
+        int openBracket = 0;
         if(!input.contains("{")) {
             String[] expression = input.split(",");
 
@@ -87,18 +90,23 @@ public class ImplCell implements Cell {
             return createExpression(expression[0],e);
         }
         else{
-            int open=0;
-            int close=0;
+            int start=0;
+            int end=0;
             String expression = input.split(",")[0];
             for (int i = 0; i < input.length(); i++) {
                 char ch = input.charAt(i);
                 if (ch == '{') {
-                    open = i;
+                    if(openBracket == 0)
+                        start = i;
+                    openBracket++;
                 }
                 if (ch == '}') {
-                    close = i+1;
-                    Expression exp = stringToExpression(input.substring(open, close));
-                    e.add(exp);
+                    end = i+1;
+                    openBracket--;
+                    if (openBracket == 0) {
+                        Expression exp = stringToExpression(input.substring(start, end));
+                        e.add(exp);
+                    }
                 }
             }
             return createExpression(expression,e);
