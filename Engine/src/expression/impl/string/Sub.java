@@ -11,7 +11,7 @@ public class Sub  extends TrinaryExpression {
 
     @Override
     protected Object evaluate(Object evaluate, Object evaluate2, Object evaluate3) throws NumberFormatException {
-        return ((String)evaluate).substring((int)evaluate2, (int)evaluate3);
+        return ((String)((String) evaluate).substring(((Double) evaluate2).intValue(),(Integer)((Double) evaluate3).intValue()));
     }
 
     @Override

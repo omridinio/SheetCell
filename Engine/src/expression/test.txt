@@ -3,5 +3,6 @@
 
 
 {MINUS, {POW,2 ,3} ,4}
+{CONCAT, {SUB,hello!!,0,5} , world}
 
 MINUS, {POW,2 ,3} ,4
