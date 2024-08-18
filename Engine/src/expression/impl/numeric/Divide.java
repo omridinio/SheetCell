@@ -1,7 +1,9 @@
 package expression.impl.numeric;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.BinaryExpression;
+import expression.impl.Number;
 
 public class Divide extends BinaryExpression {
 
@@ -10,8 +12,9 @@ public class Divide extends BinaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object evaluate, Object evaluate2) throws NumberFormatException {
-        return (Double)evaluate / (Double)evaluate2;
+    protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2) throws NumberFormatException {
+        Double res = (Double)evaluate.getValue() / (Double)evaluate2.getValue();
+        return new Number(res);
     }
 
     @Override

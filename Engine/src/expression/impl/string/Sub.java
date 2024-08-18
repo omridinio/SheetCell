@@ -1,6 +1,8 @@
 package expression.impl.string;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
+import expression.impl.Str;
 import expression.impl.TrinaryExpression;
 
 public class Sub  extends TrinaryExpression {
@@ -10,8 +12,9 @@ public class Sub  extends TrinaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object evaluate, Object evaluate2, Object evaluate3) throws NumberFormatException {
-        return ((String)((String) evaluate).substring(((Double) evaluate2).intValue(),(Integer)((Double) evaluate3).intValue()));
+    protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2, EffectiveValue evaluate3) throws NumberFormatException {
+        String res = ((String)((String) evaluate.getValue()).substring(((Double) evaluate2.getValue()).intValue(),(Integer)((Double) evaluate3.getValue()).intValue()));
+        return new Str(res);
     }
 
     @Override

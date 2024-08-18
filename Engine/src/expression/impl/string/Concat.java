@@ -1,7 +1,9 @@
 package expression.impl.string;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.BinaryExpression;
+import expression.impl.Str;
 
 public class Concat extends BinaryExpression {
 
@@ -11,8 +13,9 @@ public class Concat extends BinaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object evaluate, Object evaluate2) {
-        return (String)evaluate + (String)evaluate2;
+    protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2) {
+        String res = (String)evaluate.getValue() + (String)evaluate2.getValue();
+        return new Str(res);
     }
 
     @Override

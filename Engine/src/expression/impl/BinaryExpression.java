@@ -1,5 +1,6 @@
 package expression.impl;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 
 public abstract class BinaryExpression implements Expression {
@@ -13,13 +14,13 @@ public abstract class BinaryExpression implements Expression {
     }
 
     @Override
-    public Object evaluate() {
+    public EffectiveValue evaluate() {
         return evaluate(expression1.evaluate(), expression2.evaluate());
     }
 
     @Override
     public String toString() {return "(" + expression1 + getOperationSign() + expression2 + ")";}
 
-    abstract protected Object evaluate(Object evaluate, Object evaluate2) throws NumberFormatException;
+    abstract protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2) throws NumberFormatException;
 
 }

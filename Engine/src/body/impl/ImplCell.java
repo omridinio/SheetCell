@@ -1,6 +1,8 @@
 package body.impl;
 
 import body.Cell;
+import body.Coordinate;
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.*;
 import expression.impl.Number;
@@ -11,13 +13,16 @@ import expression.impl.system.Reference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class ImplCell implements Cell {
 
+    private Coordinate coor;
     private String Id;
     private int lastVersionUpdate;
     private String originalValue;
     private Expression effectiveValue;
+    private EffectiveValue effectiveValue1;
     private List<Cell> cellsDependsOnThem = new ArrayList<>();
     private List<Cell> cellsDependsOnHim =new ArrayList<>();
 
@@ -56,11 +61,11 @@ public class ImplCell implements Cell {
     public void setOriginalValue(String original) {
         originalValue = original;
         effectiveValue = stringToExpression(originalValue);
+        effectiveValue1 = effectiveValue.evaluate();
     }
 
     @Override
-    public Object getEffectiveValue()throws NumberFormatException {return effectiveValue.evaluate();
-    }
+    public EffectiveValue getEffectiveValue()throws NumberFormatException {return effectiveValue1;}
 
     @Override
     public List<Cell> getCellsDependsOnThem() {
@@ -68,15 +73,45 @@ public class ImplCell implements Cell {
     }
 
     @Override
+    public Coordinate getCoordinate() {
+        return coor;
+    }
+
+    @Override
     public Expression getExpression() {
         return effectiveValue;
     }
 
+    private void validInputBracket(String input){
+        if(input.charAt(0) == '{') {
+            if(!isValidBracket(input)){
+                throw new NumberFormatException("Invalid expression Bracket");
+            }
+        }
+
+    }
+    private boolean isValidBracket(String s) {
+
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (c == '{') {
+                stack.push(c);
+            } else if (c == '}') {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+                char openBracket = stack.pop();
+            }
+        }
+        return stack.isEmpty();
+    }
+
     private Expression stringToExpression(String input) {
+
         if(input.isEmpty()){
             return null;
         }
-
+        validInputBracket(input);
         if(!input.contains(",")){
             try{
                 Double.parseDouble(input);
@@ -112,11 +147,48 @@ public class ImplCell implements Cell {
                 }
             }
             result.add(currentElement.toString().trim()); // Add the last element
+            isValidNumOfArgs(result);
             for(int i = 1; i < result.size(); i++) {
                 e.add(stringToExpression(result.get(i)));
             }
+
             return createExpression(result.get(0),e);
         }
+    }
+
+    private Boolean isValidNumOfArgs(List<String> args){
+        Boolean res = true;
+        switch (args.get(0)) {
+            case "PLUS":
+            case "MINUS":
+            case "TIMES":
+            case "DIVIDE":
+            case "MOD":
+            case "POW":
+            case "CONCAT":
+                if (args.size() != 3){
+                    res = false;
+                    throw new NumberFormatException("Error: Incorrect number of arguments. Expected 2 arguments.");
+                }
+                break;
+            case "REF":
+            case "ABS":
+                if (args.size() != 2){
+                    res = false;
+                    throw new NumberFormatException("Error: Incorrect number of arguments. Expected 1 arguments.");
+                }
+                break;
+            case "SUB":
+                if (args.size() != 4){
+                    res = false;
+                    throw new NumberFormatException("Error: Incorrect number of arguments. Expected 3 arguments.");
+                }
+                break;
+            default:
+                res = true;
+                break;
+        }
+        return res;
     }
 
     private Expression createExpression(String operator, List<Expression> args) {

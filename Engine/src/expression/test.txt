@@ -1,8 +1,9 @@
 {MINUS, {PLUS,4,5},{POW,2,3}}
 {MINUS, {TIMES,{POW,2,3},{MINUS,2,1}},{POW,2,3}}
-
-
 {MINUS, {POW,2 ,3} ,4}
-{CONCAT, {SUB,hello!!,0,5} , world}
+{CONCAT, {SUB,hello!!,0,4} , world}
+{CONCAT, hello , world}
+{PLUS,4,5}
+{PLUS,{REF,A2},5}
 
-MINUS, {POW,2 ,3} ,4
+(lo_)

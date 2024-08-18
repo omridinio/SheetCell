@@ -1,6 +1,8 @@
 package expression.impl.numeric;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
+import expression.impl.Number;
 import expression.impl.UnaryExpression;
 
 public class AbsoluteValue  extends UnaryExpression {
@@ -10,8 +12,9 @@ public class AbsoluteValue  extends UnaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object evaluate) throws NumberFormatException {
-        return Math.abs((Double)evaluate);
+    protected EffectiveValue evaluate(EffectiveValue evaluate) throws NumberFormatException {
+        Double res = Math.abs((Double)evaluate.getValue());
+        return new Number(res);
     }
 
     @Override

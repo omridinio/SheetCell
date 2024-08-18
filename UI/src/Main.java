@@ -15,6 +15,7 @@ public class Main {
         Cell implCell = new ImplCell("A3");
         implCell.setLastVersionUpdate(3);
         Logic logic = new ImplLogic();
+        logic.printSheet();
         while (true) {
             boolean success = false;
             MainMenu.printMenu();
@@ -27,7 +28,9 @@ public class Main {
                     success = true;
                } catch (ClassCastException e) {
                     System.out.println("ERROR! Please enter Values that match to the function:");
-               }
+               }catch (NumberFormatException e){
+                    System.out.println(e.getMessage());
+                }
             }
 
         }

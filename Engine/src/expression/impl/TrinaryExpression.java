@@ -1,4 +1,5 @@
 package expression.impl;
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 
 public abstract class TrinaryExpression implements Expression {
@@ -14,7 +15,7 @@ public abstract class TrinaryExpression implements Expression {
     }
 
     @Override
-    public Object evaluate() {
+    public EffectiveValue evaluate() {
         return evaluate(expression1.evaluate(), expression2.evaluate(), expression3.evaluate());
     }
 
@@ -22,7 +23,7 @@ public abstract class TrinaryExpression implements Expression {
     @Override
     public String toString() {return "(" + expression1 + getOperationSign() + expression2 + ")";}
 
-    abstract protected Object evaluate(Object evaluate, Object evaluate2, Object evaluate3) throws NumberFormatException;
+    abstract protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2, EffectiveValue evaluate3) throws NumberFormatException;
 
 }
 

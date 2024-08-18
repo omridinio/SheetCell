@@ -1,5 +1,6 @@
 package expression.impl.system;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.UnaryExpression;
 
@@ -11,7 +12,7 @@ public class Reference  extends UnaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object evaluate) throws NumberFormatException {
+    protected EffectiveValue evaluate(EffectiveValue evaluate) throws NumberFormatException {
         return null;
     }
 

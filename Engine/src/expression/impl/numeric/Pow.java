@@ -1,7 +1,9 @@
 package expression.impl.numeric;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.BinaryExpression;
+import expression.impl.Number;
 
 public class Pow extends BinaryExpression {
 
@@ -16,8 +18,9 @@ public class Pow extends BinaryExpression {
     }
 
     @Override
-    protected Object evaluate(Object e1, Object e2) {
-        return Math.pow((Double) e1, (Double) e2);
+    protected EffectiveValue evaluate(EffectiveValue e1, EffectiveValue e2) {
+        Double res = Math.pow((Double) e1.getValue(), (Double) e2.getValue());
+        return new Number(res);
     }
 
 }

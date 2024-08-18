@@ -1,5 +1,6 @@
 package body;
 
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 
 import java.util.List;
@@ -11,8 +12,8 @@ public interface Cell {
     void setLastVersionUpdate(int version);
     String getOriginalValue();
     void setOriginalValue(String original);
-    Object getEffectiveValue();
+    EffectiveValue getEffectiveValue();
     public Expression getExpression();
     List<Cell> getCellsDependsOnThem();
-
+    Coordinate getCoordinate();
 }

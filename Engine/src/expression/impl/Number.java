@@ -1,8 +1,10 @@
 package expression.impl;
 
+import expression.CellType;
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public class Number implements Expression {
+public class Number implements Expression, EffectiveValue {
 
     private double num;
 
@@ -15,8 +17,8 @@ public class Number implements Expression {
     }
 
     @Override
-    public Object evaluate() {
-        return num;
+    public EffectiveValue evaluate() {
+        return new Number(num);
     }
 
     @Override
@@ -31,4 +33,14 @@ public class Number implements Expression {
                 Double.toString(num);
     }
 
+
+    @Override
+    public CellType getCellType() {
+        return CellType.NUMERIC;
+    }
+
+    @Override
+    public Object getValue() {
+        return num;
+    }
 }

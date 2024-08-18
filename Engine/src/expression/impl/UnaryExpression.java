@@ -1,4 +1,5 @@
 package expression.impl;
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 
 public abstract class UnaryExpression implements Expression {
@@ -10,7 +11,7 @@ public abstract class UnaryExpression implements Expression {
     }
 
     @Override
-    public Object evaluate() {
+    public EffectiveValue evaluate() {
         return evaluate(expression1.evaluate());
     }
 
@@ -18,7 +19,7 @@ public abstract class UnaryExpression implements Expression {
     @Override
     public String toString() {return "(" + getOperationSign() + expression1 + ")";}
 
-    abstract protected Object evaluate(Object evaluate) throws NumberFormatException;
+    abstract protected EffectiveValue evaluate(EffectiveValue evaluate) throws NumberFormatException;
 
 }
 

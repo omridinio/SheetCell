@@ -7,7 +7,7 @@ public interface Expression {
      *
      * @return the results of the expression
      */
-    Object evaluate();
+    EffectiveValue evaluate();
 
     String getOperationSign();
 }
