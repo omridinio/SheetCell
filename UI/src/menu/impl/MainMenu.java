@@ -42,8 +42,8 @@ public enum MainMenu implements Menu {
             System.out.println();
 
             // Print the rows with numbers and placeholders
-            for (int i = 0; i < currSheet.getRowCount(); i++) {
-                System.out.print(i+1 + "|"); // Print the row number
+            for (int i = 1; i <= currSheet.getRowCount(); i++) {
+                System.out.print(i + "|"); // Print the row number
                 for (int j = 0; j < currSheet.getColumnCount(); j++) {
                     Coordinate currCoord = new CoordinateImpl(i,j);
                     EffectiveValue currCell = currSheet.getEfectivevalueCell(currCoord);
@@ -102,7 +102,7 @@ public enum MainMenu implements Menu {
             String enterdCell = null;
             while(true) {
                 enterdCell = scanner.next();
-                validInputCell(enterdCell);
+                enterdCell = validInputCell(enterdCell);
                 try{
                     printCell(logic.getCell(enterdCell));
                     break;
@@ -182,18 +182,20 @@ public enum MainMenu implements Menu {
         }
     }
 
-    void validInputCell(String input){
+    String validInputCell(String input){
         while(true) {
             if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
                 String temp = input.substring(1);
                 try {
-                    Integer.parseInt(temp);
-                    break;
+                    if(Integer.parseInt(temp) > 0) {
+                        break;
+                    }
                 } catch (NumberFormatException e) { }
             }
             System.out.println("Invalid input, please enter a valid cell identifier (e.g., A4):");
             Scanner scanner = new Scanner(System.in);
             input = scanner.next();
         }
+        return input;
     }
 }
