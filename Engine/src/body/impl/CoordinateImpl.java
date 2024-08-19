@@ -16,6 +16,11 @@ public class CoordinateImpl implements Coordinate {
         this.column = coordinate.getColumn();
     }
 
+    public CoordinateImpl(String coordinate) {
+        this.row = Integer.parseInt(coordinate.substring(1)) - 1;
+        this.column = coordinate.charAt(0) - 'A';
+    }
+
     @Override
     public int getRow() {
         return row;

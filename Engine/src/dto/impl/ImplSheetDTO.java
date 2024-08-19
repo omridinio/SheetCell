@@ -1,22 +1,19 @@
 package dto.impl;
 
 import body.Coordinate;
+import body.Sheet;
 import dto.SheetDTO;
 import body.impl.ImplSheet;
 import expression.api.EffectiveValue;
 import body.Cell;
 
 public class ImplSheetDTO implements SheetDTO {
-    final private ImplSheet currSheet;
+    final private Sheet currSheet;
 
-    public ImplSheetDTO() {
-        this.currSheet = new ImplSheet();
+
+    public ImplSheetDTO(Sheet sheet) {
+        this.currSheet = sheet;
     }
-
-    public ImplSheetDTO(ImplSheet sheet) {
-        this.currSheet = new ImplSheet(sheet);
-    }
-
 
     @Override
     public String getSheetName() {

@@ -2,6 +2,7 @@ package body;
 
 public interface Sheet {
     String getSheetName();
+    Cell getCell(String cellID);
     Cell getCell(Coordinate coordinate);
     int getRowCount();
     int getColumnCount();
@@ -12,6 +13,6 @@ public interface Sheet {
 
     void setVersion(int version);
     void updateCell(String cellId, String value);
-    void printSheet();
+
 
 }

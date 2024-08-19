@@ -26,23 +26,16 @@ public class ImplCell implements Cell {
     private List<Cell> cellsDependsOnThem = new ArrayList<>();
     private List<Cell> cellsDependsOnHim = new ArrayList<>();
 
-//    public ImplCell(String id) {
-//        Id = id;
-//        lastVersionUpdate = 1;
-//        originalValue = "";
-//    }
-
-    public ImplCell(String str){
-        Str string = new Str(str);
-        effectiveValue1 = string;
+    public ImplCell(String id) {
+        Id = id;
+        lastVersionUpdate = 1;
+        originalValue = "";
     }
-
 
     public ImplCell(double num){
         Number number = new Number(num);
         effectiveValue1 = number;
     }
-
 
     public ImplCell(Cell cell) {
         Id = cell.getId();
@@ -169,6 +162,9 @@ public class ImplCell implements Cell {
                 }
             }
             result.add(currentElement.toString().trim()); // Add the last element
+            if(!isValidOperator(result.get(0))){
+                throw new NumberFormatException("Invalid Operator" + System.lineSeparator() + "The valid Operator are: PLUS, MINUS, TIMES, DIVIDE, MOD, POW, CONCAT, ABS, SUB, REF");
+            }
             isValidNumOfArgs(result);
             for(int i = 1; i < result.size(); i++) {
                 e.add(stringToExpression(result.get(i)));
@@ -226,6 +222,13 @@ public class ImplCell implements Cell {
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
             case "REF" -> new Reference(args.get(0));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
+        };
+    }
+
+    private boolean isValidOperator(String operator){
+        return switch (operator) {
+            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF" -> true;
+            default -> false;
         };
     }
 }

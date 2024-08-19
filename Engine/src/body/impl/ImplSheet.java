@@ -16,18 +16,6 @@ public class ImplSheet implements Sheet {
     final private int col;
     private Map<Coordinate, Cell> activeCells = new java.util.HashMap<>();
 
-    //TODO delete it after the rest will work
-    Cell spreadSheet = new ImplCell("A3");
-
-    public ImplSheet() {
-        this.sheetName = "Sheet1";
-        this.thickness = 4;
-        this.width = 10;
-        this.row = 5;
-        this.col = 4;
-        activeCells.put(new CoordinateImpl(1, 1), new ImplCell("A1"));
-        activeCells.put(new CoordinateImpl(0, 0), new ImplCell(7));
-    }
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
         this.sheetName = sheetName;
@@ -59,7 +47,22 @@ public class ImplSheet implements Sheet {
     }
 
     @Override
+    public Cell getCell(String cellID) {
+        Coordinate coordinate = new CoordinateImpl(cellID);
+        if(coordinate.getRow() > row || coordinate.getColumn() > col){
+            throw new IllegalArgumentException("Cell is out of bounds");
+        }
+        if(!activeCells.containsKey(coordinate)){
+            activeCells.put(coordinate, new ImplCell(cellID));
+        }
+        return activeCells.get(coordinate);
+    }
+
+    @Override
     public Cell getCell(Coordinate coordinate) {
+        if(!activeCells.containsKey(coordinate)){
+           return null;
+        }
         return activeCells.get(coordinate);
     }
 
@@ -93,46 +96,21 @@ public class ImplSheet implements Sheet {
         this.sheetVersion = version;
     }
 
-    @Override
-    public void printSheet() {
-        String whiteSpace = makeWidth();
-        System.out.print("  "); // Leading space for row numbers
-        for (int i = 0; i < col; i++) {
-            System.out.print((char) ('A' + i) + whiteSpace + " ");
-        }
-        System.out.println();
-
-        // Print the rows with numbers and placeholders
-        for (int i = 1; i <= row; i++) {
-            System.out.print(i); // Print the row number
-            if (i < 10) System.out.print("|"); // Extra space for single digit rows
-            for (int j = 0; j < col; j++) {
-                Coordinate currCoord = new CoordinateImpl(i,j);
-                if(activeCells.containsKey(currCoord)){
-                    Object currCell = activeCells.get(currCoord).getEffectiveValue().getValue();
-                    System.out.print(currCell);
-                }
-                System.out.print("X"+ whiteSpace + "|"); // Placeholder for cell content
-            }
-            System.out.println();
-        }
-    }
-
-    private String makeWidth(){
-        String res = " ";
-        for (int i = 0; i < width; i++) {
-            res += " ";
-        }
-        return res;
-    }
     //TODO check if it work
     @Override
     public void updateCell(String cellId, String value) {
-        spreadSheet.setOriginalValue(value);
+        Coordinate currCoord = new CoordinateImpl(cellId);
+        if(currCoord.getRow() > row || currCoord.getColumn() > col){
+            throw new IllegalArgumentException("Cell is out of bounds");
+        }
+        if(activeCells.containsKey(currCoord)){
+            activeCells.get(currCoord).setOriginalValue(value);
+        }
+        else{
+            activeCells.put(currCoord, new ImplCell(cellId));
+            activeCells.get(currCoord).setOriginalValue(value);
+        }
+
     }
 
-    public void copy(){
-
-
-    }
 }

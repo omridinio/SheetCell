@@ -1,11 +1,14 @@
 package menu.impl;
 
-import body.Cell;
+import body.Coordinate;
 import body.Logic;
-import body.impl.ImplCell;
+import body.impl.CoordinateImpl;
+import dto.SheetDTO;
 import dto.impl.CellDTO;
+import expression.api.EffectiveValue;
 import menu.Menu;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -26,6 +29,51 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             display();
+            printSheet(logic.getSheet());
+        }
+
+        public void printSheet(SheetDTO currSheet) {
+            String whiteSpace = makeWidth(currSheet.getWidth());
+            System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
+            System.out.print("  "); // Leading space for row numbers
+            for (int i = 0; i < currSheet.getColumnCount(); i++) {
+                System.out.print((char) ('A' + i) + whiteSpace);
+            }
+            System.out.println();
+
+            // Print the rows with numbers and placeholders
+            for (int i = 0; i < currSheet.getRowCount(); i++) {
+                System.out.print(i+1 + "|"); // Print the row number
+                for (int j = 0; j < currSheet.getColumnCount(); j++) {
+                    Coordinate currCoord = new CoordinateImpl(i,j);
+                    EffectiveValue currCell = currSheet.getEfectivevalueCell(currCoord);
+                    if(currCell != null){
+                        int cellWidth = currCell.getValue().toString().length();
+                        String tempWhiteSpace = makeWidth(currSheet.getWidth() - cellWidth);
+                        System.out.print(currCell.getValue() + tempWhiteSpace + "|");
+                    }
+                    else {
+                        System.out.print(whiteSpace + "|"); // Placeholder for cell content
+                    }
+                }
+                System.out.println();
+                for(int j = 0; j < currSheet.getThickness() - 1; j++){
+                    System.out.print(" |");
+                    for (int K = 0; K < currSheet.getColumnCount(); K++) {
+                        System.out.print(whiteSpace + "|");
+                    }
+                    System.out.println();
+                }
+
+            }
+        }
+
+        private String makeWidth(int width){
+            String res = " ";
+            for (int i = 0; i < width; i++) {
+                res += " ";
+            }
+            return res;
         }
 
         void display(){
@@ -51,21 +99,40 @@ public enum MainMenu implements Menu {
         public void invoke(Logic logic) {
             display();
             Scanner scanner = new Scanner(System.in);
-            String enterdCell = scanner.next();
-            //printCell(logic.getCell(enterdCell));
-            printCell(logic.getCell(null));
+            String enterdCell = null;
+            while(true) {
+                enterdCell = scanner.next();
+                validInputCell(enterdCell);
+                try{
+                    printCell(logic.getCell(enterdCell));
+                    break;
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                System.out.println("Please enter the cell identifier (e.g., A4):");
+            }
             System.out.println("Please enter the new Value:");
             scanner.nextLine();
-            String enterdValue = scanner.nextLine();
-            logic.updateCell(enterdCell, enterdValue);
-            //(logic.getCell(enterdCell));
-            logic.getCell(null);
-
+            while(true){
+                String enterdValue = scanner.nextLine();
+                try {
+                    logic.updateCell(enterdCell, enterdValue);
+                    printCell(logic.getCell(enterdCell));
+                    break;
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                System.out.println("Please enter the new Value:");
+            }
         }
 
         void display(){
             System.out.println("Please enter the cell identifier (e.g. A4):");
         }
+
+
     },
     DISPLAYVERSION{
         @Override
@@ -112,6 +179,21 @@ public enum MainMenu implements Menu {
             System.out.println("Effective value: " + cell.getEffectiveValue());
         }catch(NullPointerException e){
             System.out.println("Empty effective value");
+        }
+    }
+
+    void validInputCell(String input){
+        while(true) {
+            if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
+                String temp = input.substring(1);
+                try {
+                    Integer.parseInt(temp);
+                    break;
+                } catch (NumberFormatException e) { }
+            }
+            System.out.println("Invalid input, please enter a valid cell identifier (e.g., A4):");
+            Scanner scanner = new Scanner(System.in);
+            input = scanner.next();
         }
     }
 }
