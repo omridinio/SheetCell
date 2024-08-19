@@ -24,12 +24,34 @@ public class ImplCell implements Cell {
     private Expression effectiveValue;
     private EffectiveValue effectiveValue1;
     private List<Cell> cellsDependsOnThem = new ArrayList<>();
-    private List<Cell> cellsDependsOnHim =new ArrayList<>();
+    private List<Cell> cellsDependsOnHim = new ArrayList<>();
 
-    public ImplCell(String id) {
-        Id = id;
-        lastVersionUpdate = 1;
-        originalValue = "";
+//    public ImplCell(String id) {
+//        Id = id;
+//        lastVersionUpdate = 1;
+//        originalValue = "";
+//    }
+
+    public ImplCell(String str){
+        Str string = new Str(str);
+        effectiveValue1 = string;
+    }
+
+
+    public ImplCell(double num){
+        Number number = new Number(num);
+        effectiveValue1 = number;
+    }
+
+
+    public ImplCell(Cell cell) {
+        Id = cell.getId();
+        lastVersionUpdate = cell.getLastVersionUpdate();
+        originalValue = cell.getOriginalValue();
+        effectiveValue = cell.getExpression();
+        effectiveValue1 = cell.getEffectiveValue();
+        cellsDependsOnThem = cell.getCellsDependsOnThem();
+        coor = cell.getCoordinate();
     }
 
     @Override

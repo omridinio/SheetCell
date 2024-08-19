@@ -3,7 +3,7 @@ package menu.impl;
 import body.Cell;
 import body.Logic;
 import body.impl.ImplCell;
-import dto.CellDTO;
+import dto.impl.CellDTO;
 import menu.Menu;
 
 import java.util.Scanner;
@@ -38,7 +38,8 @@ public enum MainMenu implements Menu {
             display();
             Scanner scanner = new Scanner(System.in);
             String enterdCell = scanner.next();
-            printCell(logic.getCell(enterdCell));
+
+            printCell(logic.getCell(null));
         }
 
         void display(){
@@ -51,12 +52,14 @@ public enum MainMenu implements Menu {
             display();
             Scanner scanner = new Scanner(System.in);
             String enterdCell = scanner.next();
-            printCell(logic.getCell(enterdCell));
+            //printCell(logic.getCell(enterdCell));
+            printCell(logic.getCell(null));
             System.out.println("Please enter the new Value:");
             scanner.nextLine();
             String enterdValue = scanner.nextLine();
             logic.updateCell(enterdCell, enterdValue);
-            printCell(logic.getCell(enterdCell));
+            //(logic.getCell(enterdCell));
+            logic.getCell(null);
 
         }
 

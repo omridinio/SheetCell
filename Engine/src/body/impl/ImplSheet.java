@@ -14,10 +14,20 @@ public class ImplSheet implements Sheet {
     final private int width;
     final private int row;
     final private int col;
-    private Map<Coordinate, Cell> activeCells;
+    private Map<Coordinate, Cell> activeCells = new java.util.HashMap<>();
 
     //TODO delete it after the rest will work
     Cell spreadSheet = new ImplCell("A3");
+
+    public ImplSheet() {
+        this.sheetName = "Sheet1";
+        this.thickness = 4;
+        this.width = 10;
+        this.row = 5;
+        this.col = 4;
+        activeCells.put(new CoordinateImpl(1, 1), new ImplCell("A1"));
+        activeCells.put(new CoordinateImpl(0, 0), new ImplCell(7));
+    }
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
         this.sheetName = sheetName;
@@ -27,9 +37,21 @@ public class ImplSheet implements Sheet {
         this.col = col;
     }
 
-
-
-
+    public ImplSheet(Sheet sheet) {
+        this.sheetName = sheet.getSheetName();
+        this.thickness = sheet.getThickness();
+        this.width = sheet.getWidth();
+        this.row = sheet.getRowCount();
+        this.col = sheet.getColumnCount();
+        this.sheetVersion = sheet.getVersion();
+        Map<Coordinate, Cell> copiedActiveCells = new java.util.HashMap<>();
+        for (Map.Entry<Coordinate, Cell> entry : this.activeCells.entrySet()) {
+            Coordinate copiedCoordinate = new CoordinateImpl(entry.getKey());
+            Cell copiedCell = new ImplCell(entry.getValue());
+            copiedActiveCells.put(copiedCoordinate, copiedCell);
+        }
+        this.activeCells = copiedActiveCells;
+    }
 
     @Override
     public String getSheetName() {
@@ -37,8 +59,8 @@ public class ImplSheet implements Sheet {
     }
 
     @Override
-    public Cell getCell(String cellId) {
-        return null;
+    public Cell getCell(Coordinate coordinate) {
+        return activeCells.get(coordinate);
     }
 
     @Override
@@ -107,5 +129,10 @@ public class ImplSheet implements Sheet {
     @Override
     public void updateCell(String cellId, String value) {
         spreadSheet.setOriginalValue(value);
+    }
+
+    public void copy(){
+
+
     }
 }

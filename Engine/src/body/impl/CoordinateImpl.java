@@ -11,6 +11,11 @@ public class CoordinateImpl implements Coordinate {
         this.column = column;
     }
 
+    public CoordinateImpl(Coordinate coordinate) {
+        this.row = coordinate.getRow();
+        this.column = coordinate.getColumn();
+    }
+
     @Override
     public int getRow() {
         return row;
@@ -19,5 +24,18 @@ public class CoordinateImpl implements Coordinate {
     @Override
     public int getColumn() {
         return column;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CoordinateImpl that = (CoordinateImpl) o;
+        return row == that.row && column == that.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * row + column;
     }
 }

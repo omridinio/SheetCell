@@ -27,7 +27,7 @@ public class Str implements Expression, EffectiveValue {
 
     @Override
     public CellType getCellType() {
-        return null;
+        return CellType.STRING;
     }
 
     @Override
