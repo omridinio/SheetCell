@@ -14,6 +14,16 @@ public class Graph {
         this.graph_T = new HashMap<>();
     }
 
+    //return you list of cells that depend on you
+    public List<Coordinate> getNeighbors(Coordinate coordinate) {
+        return this.graph.get(coordinate);
+    }
+
+    //return you list of cells that you depend on them
+    public List<Coordinate> getSources(Coordinate coordinate) {
+        return this.graph_T.get(coordinate);
+    }
+
     public void addVertex(Coordinate coordinate) {
         graph.putIfAbsent(coordinate, new LinkedList<>());
         graph_T.putIfAbsent(coordinate, new LinkedList<>());  // Ensure vertex is also added to the transpose graph
@@ -44,9 +54,6 @@ public class Graph {
 
     public void removeEntryEdges(Coordinate coordinate) {
         List<Coordinate> neighbors = graph_T.get(coordinate);
-//        for (Coordinate neighbor : neighbors) {
-//            removeEdge(neighbor, coordinate);
-//        }
         for(int i = 0 ; i < neighbors.size() ;) {
             removeEdge(neighbors.get(i), coordinate);
         }

@@ -17,8 +17,8 @@ public class ImplCell implements Cell {
     private String originalValue;
     private Expression expression;
     private EffectiveValue effectiveValue;
-    private List<Cell> cellsDependsOnThem = new ArrayList<>();
-    private List<Cell> cellsDependsOnHim = new ArrayList<>();
+    private List<Coordinate> cellsDependsOnThem = new ArrayList<>();
+    private List<Coordinate> cellsDependsOnHim = new ArrayList<>();
 
     public ImplCell(String id) {
         Id = id;
@@ -69,8 +69,6 @@ public class ImplCell implements Cell {
     @Override
     public void setOriginalValue(String original) {
         originalValue = original;
-        //expression = stringToExpression(originalValue);
-        //effectiveValue = expression.evaluate();
     }
 
     @Override
@@ -86,8 +84,22 @@ public class ImplCell implements Cell {
     public EffectiveValue getEffectiveValue()throws NumberFormatException {return effectiveValue;}
 
     @Override
-    public List<Cell> getCellsDependsOnThem() {
+    public void setDependsOnThem(List<Coordinate> dependsOnThem) {
+        this.cellsDependsOnThem = dependsOnThem;
+    }
+
+    @Override
+    public void setDependsOnHim(List<Coordinate> dependsOnHim) {
+        this.cellsDependsOnHim = dependsOnHim;
+    }
+
+    @Override
+    public List<Coordinate> getCellsDependsOnThem() {
         return cellsDependsOnThem;
+    }
+    @Override
+    public List<Coordinate> getCellsDependsOnHim() {
+        return cellsDependsOnHim;
     }
 
     @Override

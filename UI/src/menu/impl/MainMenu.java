@@ -8,7 +8,6 @@ import dto.impl.CellDTO;
 import expression.api.EffectiveValue;
 import menu.Menu;
 
-import javax.swing.*;
 import java.util.Scanner;
 
 import static java.lang.System.exit;
@@ -18,8 +17,6 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             display();
-            logic.sortG();
-
         }
         void display(){
             System.out.println("Please enter the full path to the XML file you want to load: ");
@@ -36,7 +33,7 @@ public enum MainMenu implements Menu {
         public void printSheet(SheetDTO currSheet) {
             String whiteSpace = makeWidth(currSheet.getWidth());
             System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
-            System.out.print("  "); // Leading space for row numbers
+            System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + " "); // Leading space for row numbers
             for (int i = 0; i < currSheet.getColumnCount(); i++) {
                 System.out.print((char) ('A' + i) + whiteSpace);
             }
@@ -44,8 +41,9 @@ public enum MainMenu implements Menu {
 
             // Print the rows with numbers and placeholders
             for (int i = 1; i <= currSheet.getRowCount(); i++) {
-                System.out.print(i + "|"); // Print the row number
-                for (int j = 0; j < currSheet.getColumnCount(); j++) {
+                String whiteSpaceBeforeRow = makeWidth(howManyDigits(currSheet.getRowCount()) - howManyDigits(i));
+                System.out.print(i+ whiteSpaceBeforeRow + "|"); // Print the row number
+                for (int j = 1; j <= currSheet.getColumnCount(); j++) {
                     Coordinate currCoord = new CoordinateImpl(i,j);
                     EffectiveValue currCell = currSheet.getEfectivevalueCell(currCoord);
                     if(currCell != null){
@@ -59,7 +57,7 @@ public enum MainMenu implements Menu {
                 }
                 System.out.println();
                 for(int j = 0; j < currSheet.getThickness() - 1; j++){
-                    System.out.print(" |");
+                    System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + "|");
                     for (int K = 0; K < currSheet.getColumnCount(); K++) {
                         System.out.print(whiteSpace + "|");
                     }
@@ -69,8 +67,16 @@ public enum MainMenu implements Menu {
             }
         }
 
+        private int howManyDigits(int number){
+            if (number == 0) {
+                return 1;
+            }
+            return (int) Math.log10(Math.abs(number)) + 1;
+        }
+
+
         private String makeWidth(int width){
-            String res = " ";
+            String res = "";
             for (int i = 0; i < width; i++) {
                 res += " ";
             }
@@ -88,7 +94,7 @@ public enum MainMenu implements Menu {
             Scanner scanner = new Scanner(System.in);
             String enterdCell = scanner.next();
 
-            printCell(logic.getCell(null));
+            printCell(logic.getCell(enterdCell),false);
         }
 
         void display(){
@@ -105,7 +111,7 @@ public enum MainMenu implements Menu {
                 enterdCell = scanner.next();
                 enterdCell = validInputCell(enterdCell);
                 try{
-                    printCell(logic.getCell(enterdCell));
+                    printCell(logic.getCell(enterdCell),true);
                     break;
                 }
                 catch (Exception e) {
@@ -119,10 +125,11 @@ public enum MainMenu implements Menu {
                 String enterdValue = scanner.nextLine();
                 try {
                     logic.updateCell(enterdCell, enterdValue);
-                    printCell(logic.getCell(enterdCell));
+                    printCell(logic.getCell(enterdCell),true);
                     break;
-                }
-                catch (Exception e) {
+                } catch (ClassCastException  e) {
+                    System.out.println("ERROR! Please enter Values that match to the function:");
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
                 System.out.println("Please enter the new Value:");
@@ -173,13 +180,18 @@ public enum MainMenu implements Menu {
                 throw new IllegalArgumentException("Invalid option was pressed. Please try again.");
         }
     }
-    public static void printCell (CellDTO cell){
+    public static void printCell (CellDTO cell,boolean inUpdate){
         System.out.println("Name: " + cell.getId());
         System.out.println("Original value: " + cell.getOriginalValue());
         try{
             System.out.println("Effective value: " + cell.getEffectiveValue());
         }catch(NullPointerException e){
             System.out.println("Empty effective value");
+        }
+        if(!inUpdate){
+            System.out.println("Last changed version: " + cell.getLastVersionUpdate());
+            System.out.println("List of cells that Depend on " + cell.getId() + ": " + cell.getCellsDependsOnHim() );
+            System.out.println("List of cells that " + cell.getId() + " depend on: " + cell.getCellsDependsOnThem() );
         }
     }
 

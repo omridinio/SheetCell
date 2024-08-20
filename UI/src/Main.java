@@ -5,6 +5,7 @@ import menu.impl.MainMenu;
 import body.impl.ImplCell;
 import body.Cell;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -20,7 +21,17 @@ public class Main {
             boolean success = false;
             MainMenu.printMenu();
             Scanner scanner = new Scanner(System.in);
-            int option = scanner.nextInt();
+            int option;
+            while (true){
+                try {
+                    option = scanner.nextInt();
+                    break;
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Invalid option, try again");
+                    scanner.next();
+                }
+            }
             MainMenu choose = MainMenu.parser(option);
             while (!success) {
                 try {

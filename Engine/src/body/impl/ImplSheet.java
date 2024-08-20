@@ -15,6 +15,8 @@ import java.util.*;
 
 public class ImplSheet implements Sheet {
 
+
+
     private int sheetVersion;
     final private String sheetName;
     final private int thickness;
@@ -48,9 +50,7 @@ public class ImplSheet implements Sheet {
             activeCells.put(coordinate, new ImplCell(cellID));
             graph.addVertex(coordinate);
         }
-//        else {
-//            graph.removeEntryEdges(coordinate);
-//        }
+        updateListsOfDependencies(coordinate);
         return activeCells.get(coordinate);
     }
 
@@ -100,10 +100,6 @@ public class ImplSheet implements Sheet {
         if(currCoord.getRow() > row || currCoord.getColumn() > col){
             throw new IllegalArgumentException("Cell is out of bounds");
         }
-
-//        if(!activeCells.containsKey(currCoord)){
-//            activeCells.put(currCoord, new ImplCell(cellId));
-//        }
         graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
@@ -117,15 +113,12 @@ public class ImplSheet implements Sheet {
         }
     }
 
-
-
     @Override
-    public void checkGraph(){
-        List<Coordinate> res = graph.topologicalSort();
-        System.out.println(res.size());
+    public void updateListsOfDependencies(Coordinate coord) {
+            Cell cell= activeCells.get(coord);
+            cell.setDependsOnHim(graph.getNeighbors(coord));
+            cell.setDependsOnThem(graph.getSources(coord));
     }
-
-
 
 
     private void validInputBracket(String input){
@@ -303,5 +296,8 @@ public class ImplSheet implements Sheet {
             default -> false;
         };
     }
+
+
+
 
 }

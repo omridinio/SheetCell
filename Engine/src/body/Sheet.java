@@ -1,5 +1,7 @@
 package body;
 
+import java.util.List;
+
 public interface Sheet {
     String getSheetName();
     Cell getCell(String cellID);
@@ -9,10 +11,7 @@ public interface Sheet {
     int getThickness();
     int getWidth();
     int getVersion();
-
-
     void setVersion(int version);
     void updateCell(String cellId, String value);
-
-    void checkGraph();
+    void updateListsOfDependencies(Coordinate coord);
 }

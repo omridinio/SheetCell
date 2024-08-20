@@ -9,7 +9,7 @@ import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
 
 public class ImplLogic implements Logic {
-    private Sheet mainSheet = new ImplSheet("stam",3,4,5,4);
+    private Sheet mainSheet = new ImplSheet("stam",6,6,10,4);
 
     public CellDTO getCell(String cellID) {
         Cell temp = mainSheet.getCell(cellID);
@@ -21,10 +21,6 @@ public class ImplLogic implements Logic {
         mainSheet.updateCell(cellId, value);
     }
 
-    public void sortG(){
-        mainSheet.checkGraph();
-
-    }
     @Override
     public SheetDTO getSheet() {
         return new ImplSheetDTO(mainSheet);

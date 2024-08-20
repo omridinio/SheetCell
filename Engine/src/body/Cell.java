@@ -14,8 +14,11 @@ public interface Cell {
     void setOriginalValue(String original);
     EffectiveValue getEffectiveValue();
     Expression getExpression();
-    List<Cell> getCellsDependsOnThem();
+    List<Coordinate> getCellsDependsOnThem();
+    List<Coordinate> getCellsDependsOnHim();
     Coordinate getCoordinate();
     void setExpression(Expression expression);
     void setEffectiveValue(EffectiveValue value);
+    void setDependsOnThem(List<Coordinate> dependsOnThem);
+    void setDependsOnHim(List<Coordinate> dependsOnHim);
 }

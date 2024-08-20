@@ -43,4 +43,10 @@ public class CoordinateImpl implements Coordinate {
     public int hashCode() {
         return (int) (Math.pow(2,row) * Math.pow(3,column));
     }
+    @Override
+    public String toString() {
+        String res = String.valueOf((char) ('A' + (column - 1)));
+        res += Integer.toString(row);
+        return res;
+    }
 }
