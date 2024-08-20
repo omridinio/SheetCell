@@ -33,6 +33,6 @@ public class Reference implements Expression, EffectiveValue {
 
     @Override
     public Object getValue() {
-        return cell.getEffectiveValue();
+        return cell.getEffectiveValue().getValue();
     }
 }

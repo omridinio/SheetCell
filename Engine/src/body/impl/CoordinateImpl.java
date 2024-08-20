@@ -41,6 +41,6 @@ public class CoordinateImpl implements Coordinate {
 
     @Override
     public int hashCode() {
-        return 31 * row + column;
+        return (int) (Math.pow(2,row) * Math.pow(3,column));
     }
 }

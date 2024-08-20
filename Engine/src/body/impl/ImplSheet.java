@@ -10,7 +10,6 @@ import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
 import expression.impl.system.REF;
-
 import java.lang.ref.Reference;
 import java.util.*;
 
@@ -22,8 +21,8 @@ public class ImplSheet implements Sheet {
     final private int width;
     final private int row;
     final private int col;
-    private Map<Coordinate, Cell> activeCells = new java.util.HashMap<>();
-
+    private Map<Coordinate, Cell> activeCells = new HashMap<>();
+    private Graph graph;
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
         this.sheetName = sheetName;
@@ -31,6 +30,7 @@ public class ImplSheet implements Sheet {
         this.width = width;
         this.row = row;
         this.col = col;
+        this.graph = new Graph();
     }
 
     public ImplSheet(Sheet sheet) {
@@ -62,6 +62,7 @@ public class ImplSheet implements Sheet {
         }
         if(!activeCells.containsKey(coordinate)){
             activeCells.put(coordinate, new ImplCell(cellID));
+            graph.addVertex(coordinate);
         }
         return activeCells.get(coordinate);
     }
@@ -117,7 +118,7 @@ public class ImplSheet implements Sheet {
         }
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
-        Expression currExpression= stringToExpression(value);
+        Expression currExpression= stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
         cell.setEffectiveValue(currExpression.evaluate());
     }
@@ -146,7 +147,7 @@ public class ImplSheet implements Sheet {
         return stack.isEmpty();
     }
 
-    private Expression stringToExpression(String input) {
+    private Expression stringToExpression(String input,Coordinate coordinate) {
 
         if(input.isEmpty()){
             return null;
@@ -192,10 +193,10 @@ public class ImplSheet implements Sheet {
             }
             isValidNumOfArgs(result);
             for(int i = 1; i < result.size(); i++) {
-                e.add(stringToExpression(result.get(i)));
+                e.add(stringToExpression(result.get(i),coordinate));
             }
 
-            return createExpression(result.get(0),e);
+            return createExpression(result.get(0),e, coordinate);
         }
     }
 
@@ -234,7 +235,7 @@ public class ImplSheet implements Sheet {
         return res;
     }
 
-    private Expression createExpression(String operator, List<Expression> args) {
+    private Expression createExpression(String operator, List<Expression> args,Coordinate coordinate) {
         return switch (operator.trim()) {
             case "PLUS" -> new Plus(args.get(0), args.get(1));
             case "MINUS" -> new Minus(args.get(0), args.get(1));
@@ -245,16 +246,18 @@ public class ImplSheet implements Sheet {
             case "ABS" -> new AbsoluteValue(args.get(0));
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
-            case "REF" -> new REF(args.get(0), refHelper(args.get(0)));
+            case "REF" -> {graph.addEdge(refHelper(args.get(0)),coordinate);
+                yield new REF(args.get(0), activeCells.get(refHelper(args.get(0))));
+            }
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
 
-    private Cell refHelper(Expression input){
+    private Coordinate refHelper(Expression input){
         String cellID = (String) input.evaluate().getValue();
         if(validInputCell(cellID)){
             Coordinate coordinate = new CoordinateImpl(cellID);
-            return activeCells.get(coordinate);
+            return coordinate;
         }
         return null;
     }
