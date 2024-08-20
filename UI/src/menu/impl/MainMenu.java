@@ -18,6 +18,7 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             display();
+            logic.sortG();
 
         }
         void display(){

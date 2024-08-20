@@ -16,14 +16,15 @@ public class ImplLogic implements Logic {
         return new CellDTO(temp);
     }
 
-//    public void printSheet(){
-//        mainSheet.printSheet();
-//    }
 
     public void updateCell(String cellId, String value){
         mainSheet.updateCell(cellId, value);
     }
 
+    public void sortG(){
+        mainSheet.checkGraph();
+
+    }
     @Override
     public SheetDTO getSheet() {
         return new ImplSheetDTO(mainSheet);

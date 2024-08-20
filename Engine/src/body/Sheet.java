@@ -14,5 +14,5 @@ public interface Sheet {
     void setVersion(int version);
     void updateCell(String cellId, String value);
 
-
+    void checkGraph();
 }

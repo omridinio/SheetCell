@@ -120,8 +120,26 @@ public class ImplSheet implements Sheet {
         cell.setOriginalValue(value);
         Expression currExpression= stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
-        cell.setEffectiveValue(currExpression.evaluate());
+
+        List<Coordinate> res = graph.topologicalSort();
+        for(Coordinate coord : res){
+            Cell currCell = activeCells.get(coord);
+            currCell.setEffectiveValue(currCell.getExpression().evaluate());
+        }
+        //cell.setEffectiveValue(currExpression.evaluate());
+
     }
+
+
+
+    @Override
+    public void checkGraph(){
+        List<Coordinate> res = graph.topologicalSort();
+        System.out.println(res.size());
+    }
+
+
+
 
     private void validInputBracket(String input){
         if(input.charAt(0) == '{') {
@@ -246,23 +264,23 @@ public class ImplSheet implements Sheet {
             case "ABS" -> new AbsoluteValue(args.get(0));
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
-            case "REF" -> {graph.addEdge(refHelper(args.get(0)),coordinate);
-                yield new REF(args.get(0), activeCells.get(refHelper(args.get(0))));
+            case "REF" -> {graph.addEdge(refHelper(args.get(0), coordinate),coordinate);
+                yield new REF(args.get(0), activeCells.get(refHelper(args.get(0), coordinate)));
             }
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
 
-    private Coordinate refHelper(Expression input){
+    private Coordinate refHelper(Expression input, Coordinate toCoordinate){
         String cellID = (String) input.evaluate().getValue();
-        if(validInputCell(cellID)){
+        if(validInputCell(cellID, toCoordinate)){
             Coordinate coordinate = new CoordinateImpl(cellID);
             return coordinate;
         }
         return null;
     }
 
-    private boolean validInputCell(String input){
+    private boolean validInputCell(String input, Coordinate toCoordinate){
         if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
             String temp = input.substring(1);
             try {
@@ -274,6 +292,11 @@ public class ImplSheet implements Sheet {
                     throw new IllegalArgumentException("Cell is not exist");
                 }
                 //TODO: check if have a circle
+                graph.addEdge(coordinate, toCoordinate);
+                if(graph.hasCycle()){
+                    graph.removeEdge(coordinate, toCoordinate);
+                    throw new IllegalArgumentException("Error: the cell: " + input + "create a circle");
+                }
 
 
             } catch (NumberFormatException e) {
