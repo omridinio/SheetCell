@@ -13,7 +13,9 @@ public interface Cell {
     String getOriginalValue();
     void setOriginalValue(String original);
     EffectiveValue getEffectiveValue();
-    public Expression getExpression();
+    Expression getExpression();
     List<Cell> getCellsDependsOnThem();
     Coordinate getCoordinate();
+    void setExpression(Expression expression);
+    void setEffectiveValue(EffectiveValue value);
 }

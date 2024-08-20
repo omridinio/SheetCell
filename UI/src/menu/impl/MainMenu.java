@@ -31,7 +31,7 @@ public enum MainMenu implements Menu {
             display();
             printSheet(logic.getSheet());
         }
-
+        //TODO A3 prints in B3 check why!!
         public void printSheet(SheetDTO currSheet) {
             String whiteSpace = makeWidth(currSheet.getWidth());
             System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
@@ -182,6 +182,7 @@ public enum MainMenu implements Menu {
         }
     }
 
+    //TODO: maybe fowrod to logic
     String validInputCell(String input){
         while(true) {
             if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {

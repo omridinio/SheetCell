@@ -18,7 +18,7 @@ public class CoordinateImpl implements Coordinate {
 
     public CoordinateImpl(String coordinate) {
         this.row = Integer.parseInt(coordinate.substring(1));
-        this.column = coordinate.charAt(0) - 'A';
+        this.column = coordinate.charAt(0) + 1 - 'A';
     }
 
     @Override

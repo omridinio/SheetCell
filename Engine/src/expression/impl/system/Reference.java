@@ -13,7 +13,8 @@ public class Reference  extends UnaryExpression {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue evaluate) throws NumberFormatException {
-        return null;
+
+        return evaluate;
     }
 
     @Override
