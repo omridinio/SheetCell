@@ -9,8 +9,9 @@ import expression.impl.Str;
 import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
-import expression.impl.system.Reference;
+import expression.impl.system.REF;
 
+import java.lang.ref.Reference;
 import java.util.*;
 
 public class ImplSheet implements Sheet {
@@ -244,16 +245,16 @@ public class ImplSheet implements Sheet {
             case "ABS" -> new AbsoluteValue(args.get(0));
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
-            case "REF" -> new Reference(refHelper(args.get(0)));
+            case "REF" -> new REF(args.get(0), refHelper(args.get(0)));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
 
-    private Expression refHelper(Expression input){
+    private Cell refHelper(Expression input){
         String cellID = (String) input.evaluate().getValue();
         if(validInputCell(cellID)){
             Coordinate coordinate = new CoordinateImpl(cellID);
-            return activeCells.get(coordinate).getExpression();
+            return activeCells.get(coordinate);
         }
         return null;
     }
