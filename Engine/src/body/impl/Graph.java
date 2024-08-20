@@ -6,26 +6,51 @@ import body.Coordinate;
 import java.util.*;
 
 public class Graph {
-    private Map<Coordinate,List<Coordinate>> graph;
+    private Map<Coordinate, List<Coordinate>> graph;  // Original graph
+    private Map<Coordinate, List<Coordinate>> graph_T;  // Transpose of the graph
 
     public Graph() {
         this.graph = new HashMap<>();
+        this.graph_T = new HashMap<>();
     }
-
 
     public void addVertex(Coordinate coordinate) {
         graph.putIfAbsent(coordinate, new LinkedList<>());
+        graph_T.putIfAbsent(coordinate, new LinkedList<>());  // Ensure vertex is also added to the transpose graph
     }
-    //TODO maybe change the "to" to CELL
+
     public void addEdge(Coordinate from, Coordinate to) {
+        graph.putIfAbsent(from, new LinkedList<>());
+        graph.putIfAbsent(to, new LinkedList<>());
+
         graph.get(from).add(to);
+
+        graph_T.putIfAbsent(to, new LinkedList<>());
+        graph_T.get(to).add(from);  // Add reverse edge in the transpose graph
     }
 
     public void removeEdge(Coordinate from, Coordinate to) {
         List<Coordinate> neighbors = graph.get(from);
+        List<Coordinate> neighborsT = graph_T.get(to);  // Transpose neighbors
+
         if (neighbors != null) {
             neighbors.remove(to);
         }
+
+        if (neighborsT != null) {
+            neighborsT.remove(from);
+        }
+    }
+
+    public void removeEntryEdges(Coordinate coordinate) {
+        List<Coordinate> neighbors = graph_T.get(coordinate);
+//        for (Coordinate neighbor : neighbors) {
+//            removeEdge(neighbor, coordinate);
+//        }
+        for(int i = 0 ; i < neighbors.size() ;) {
+            removeEdge(neighbors.get(i), coordinate);
+        }
+
     }
 
     public List<Coordinate> topologicalSort() {

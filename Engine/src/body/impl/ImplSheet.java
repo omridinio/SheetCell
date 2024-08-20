@@ -33,22 +33,6 @@ public class ImplSheet implements Sheet {
         this.graph = new Graph();
     }
 
-    public ImplSheet(Sheet sheet) {
-        this.sheetName = sheet.getSheetName();
-        this.thickness = sheet.getThickness();
-        this.width = sheet.getWidth();
-        this.row = sheet.getRowCount();
-        this.col = sheet.getColumnCount();
-        this.sheetVersion = sheet.getVersion();
-        Map<Coordinate, Cell> copiedActiveCells = new java.util.HashMap<>();
-        for (Map.Entry<Coordinate, Cell> entry : this.activeCells.entrySet()) {
-            Coordinate copiedCoordinate = new CoordinateImpl(entry.getKey());
-            Cell copiedCell = new ImplCell(entry.getValue());
-            copiedActiveCells.put(copiedCoordinate, copiedCell);
-        }
-        this.activeCells = copiedActiveCells;
-    }
-
     @Override
     public String getSheetName() {
         return sheetName;
@@ -64,6 +48,9 @@ public class ImplSheet implements Sheet {
             activeCells.put(coordinate, new ImplCell(cellID));
             graph.addVertex(coordinate);
         }
+//        else {
+//            graph.removeEntryEdges(coordinate);
+//        }
         return activeCells.get(coordinate);
     }
 
@@ -113,9 +100,11 @@ public class ImplSheet implements Sheet {
         if(currCoord.getRow() > row || currCoord.getColumn() > col){
             throw new IllegalArgumentException("Cell is out of bounds");
         }
-        if(!activeCells.containsKey(currCoord)){
-            activeCells.put(currCoord, new ImplCell(cellId));
-        }
+
+//        if(!activeCells.containsKey(currCoord)){
+//            activeCells.put(currCoord, new ImplCell(cellId));
+//        }
+        graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
         Expression currExpression= stringToExpression(value,currCoord);
@@ -126,8 +115,6 @@ public class ImplSheet implements Sheet {
             Cell currCell = activeCells.get(coord);
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
         }
-        //cell.setEffectiveValue(currExpression.evaluate());
-
     }
 
 
@@ -264,7 +251,7 @@ public class ImplSheet implements Sheet {
             case "ABS" -> new AbsoluteValue(args.get(0));
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
-            case "REF" -> {graph.addEdge(refHelper(args.get(0), coordinate),coordinate);
+            case "REF" -> {//graph.addEdge(refHelper(args.get(0), coordinate),coordinate);
                 yield new REF(args.get(0), activeCells.get(refHelper(args.get(0), coordinate)));
             }
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
