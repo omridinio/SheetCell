@@ -16,7 +16,7 @@ public class ImplLogic implements Logic {
     private List<Sheet> mainSheet = new ArrayList<Sheet>();
 
     public ImplLogic() {
-        mainSheet.add(new ImplSheet("stam",6,6,10,4));
+        mainSheet.add(new ImplSheet("stam",3,10,5,4));
     }
     public CellDTO getCell(String cellID) {
         Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(cellID);
@@ -27,7 +27,9 @@ public class ImplLogic implements Logic {
     public void updateCell(String cellId, String value){
         Sheet newVersion = new ImplSheet((ImplSheet) mainSheet.get(mainSheet.size() - 1));
         newVersion.updateCell(cellId, value);
+        newVersion.setVersion(newVersion.getVersion() + 1);
         mainSheet.add(newVersion);
+
     }
 
     @Override

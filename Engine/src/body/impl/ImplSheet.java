@@ -3,6 +3,7 @@ package body.impl;
 import body.Cell;
 import body.Coordinate;
 import body.Sheet;
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.Number;
 import expression.impl.Str;
@@ -10,15 +11,15 @@ import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
 import expression.impl.system.REF;
-import java.lang.ref.Reference;
 import java.security.PublicKey;
 import java.util.*;
+import expression.impl.Reference;
 
 public class ImplSheet implements Sheet {
 
 
 
-    private int sheetVersion;
+    private int sheetVersion = 1;
     final private String sheetName;
     final private int thickness;
     final private int width;
@@ -130,13 +131,26 @@ public class ImplSheet implements Sheet {
         cell.setOriginalValue(value);
         Expression currExpression= stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
+        cell.setLastVersionUpdate(sheetVersion);
 
         List<Coordinate> res = graph.topologicalSort();
         for(Coordinate coord : res){
             Cell currCell = activeCells.get(coord);
+
+            if (currCell.getEffectiveValue() instanceof Reference) {
+                Reference ref = (Reference) currCell.getEffectiveValue();
+                ref.setCell(findUpdateCell(ref.getCell()));
+                currCell.setExpression(ref);
+            }
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
         }
     }
+
+    private Cell findUpdateCell(Cell prevCell){
+        Coordinate coord = new CoordinateImpl(prevCell.getId());
+        return activeCells.get(coord);
+    }
+
 
     @Override
     public void updateListsOfDependencies(Coordinate coord) {

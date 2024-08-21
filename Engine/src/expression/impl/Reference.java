@@ -30,9 +30,16 @@ public class Reference implements Expression, EffectiveValue {
     public CellType getCellType() {
         return CellType.STRING;
     }
-
     @Override
     public Object getValue() {
         return cell.getEffectiveValue().getValue();
+    }
+
+    public Cell getCell() {
+            return cell;
+    }
+
+    public void setCell(Cell value) {
+        this.cell = value;
     }
 }
