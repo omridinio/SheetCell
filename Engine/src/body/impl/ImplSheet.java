@@ -11,6 +11,7 @@ import expression.impl.string.Concat;
 import expression.impl.string.Sub;
 import expression.impl.system.REF;
 import java.lang.ref.Reference;
+import java.security.PublicKey;
 import java.util.*;
 
 public class ImplSheet implements Sheet {
@@ -35,6 +36,25 @@ public class ImplSheet implements Sheet {
         this.graph = new Graph();
     }
 
+    public ImplSheet(ImplSheet other) {
+        this.sheetName = other.sheetName; // Strings are immutable, so this is safe
+        this.thickness = other.thickness;
+        this.width = other.width;
+        this.row = other.row;
+        this.col = other.col;
+        this.sheetVersion = other.sheetVersion;
+
+        // Deep copy of activeCells
+        this.activeCells = new HashMap<>();
+        for (Map.Entry<Coordinate, Cell> entry : other.activeCells.entrySet()) {
+            this.activeCells.put(entry.getKey(), new ImplCell((ImplCell) entry.getValue()));
+        }
+
+        // Deep copy of graph
+        this.graph = new Graph(other.graph); // Assuming Graph has a copy constructor
+    }
+
+
     @Override
     public String getSheetName() {
         return sheetName;
@@ -47,13 +67,15 @@ public class ImplSheet implements Sheet {
             throw new IllegalArgumentException("Cell is out of bounds");
         }
         if(!activeCells.containsKey(coordinate)){
-            activeCells.put(coordinate, new ImplCell(cellID));
-            graph.addVertex(coordinate);
+            return new ImplCell(cellID);
+//            activeCells.put(coordinate, new ImplCell(cellID));
+//            graph.addVertex(coordinate);
         }
-        updateListsOfDependencies(coordinate);
-        return activeCells.get(coordinate);
+        else {
+            updateListsOfDependencies(coordinate);
+            return activeCells.get(coordinate);
+        }
     }
-
 
     @Override
     public Cell getCell(Coordinate coordinate) {
@@ -93,12 +115,15 @@ public class ImplSheet implements Sheet {
         this.sheetVersion = version;
     }
 
-    //TODO check if it work
     @Override
     public void updateCell(String cellId, String value) {
         Coordinate currCoord = new CoordinateImpl(cellId);
         if(currCoord.getRow() > row || currCoord.getColumn() > col){
             throw new IllegalArgumentException("Cell is out of bounds");
+        }
+        if(!activeCells.containsKey(currCoord)){
+            activeCells.put(currCoord, new ImplCell(cellId));
+            graph.addVertex(currCoord);
         }
         graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
@@ -119,7 +144,6 @@ public class ImplSheet implements Sheet {
             cell.setDependsOnHim(graph.getNeighbors(coord));
             cell.setDependsOnThem(graph.getSources(coord));
     }
-
 
     private void validInputBracket(String input){
         if(input.charAt(0) == '{') {
@@ -244,9 +268,7 @@ public class ImplSheet implements Sheet {
             case "ABS" -> new AbsoluteValue(args.get(0));
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
-            case "REF" -> {//graph.addEdge(refHelper(args.get(0), coordinate),coordinate);
-                yield new REF(args.get(0), activeCells.get(refHelper(args.get(0), coordinate)));
-            }
+            case "REF" -> new REF(args.get(0), activeCells.get(refHelper(args.get(0), coordinate)));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
@@ -271,7 +293,7 @@ public class ImplSheet implements Sheet {
                 if(!activeCells.containsKey(coordinate)){
                     throw new IllegalArgumentException("Cell is not exist");
                 }
-                //TODO: check if have a circle
+                //check if create a circle
                 graph.addEdge(coordinate, toCoordinate);
                 if(graph.hasCycle()){
                     graph.removeEdge(coordinate, toCoordinate);
@@ -289,15 +311,11 @@ public class ImplSheet implements Sheet {
         return true;
     }
 
-
     private boolean isValidOperator(String operator){
         return switch (operator) {
             case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF" -> true;
             default -> false;
         };
     }
-
-
-
 
 }

@@ -31,14 +31,21 @@ public class ImplCell implements Cell {
         effectiveValue = number;
     }
 
-    public ImplCell(Cell cell) {
-        Id = cell.getId();
-        lastVersionUpdate = cell.getLastVersionUpdate();
-        originalValue = cell.getOriginalValue();
-        expression = cell.getExpression();
-        effectiveValue = cell.getEffectiveValue();
-        cellsDependsOnThem = cell.getCellsDependsOnThem();
-        coor = cell.getCoordinate();
+    public ImplCell(ImplCell other) {
+        this.Id = other.Id;
+        this.lastVersionUpdate = other.lastVersionUpdate;
+        this.originalValue = other.originalValue;
+
+        // Assuming Expression and EffectiveValue are immutable or have copy constructors
+        this.expression = other.expression != null ? other.expression : null;
+        this.effectiveValue = other.effectiveValue != null ? other.effectiveValue : null;
+
+        // Deep copy of the coordinate
+        this.coor = other.getCoordinate() != null ? new CoordinateImpl(other.getCoordinate()) : null;
+
+        // Deep copy of the lists
+        this.cellsDependsOnThem = new ArrayList<>(other.cellsDependsOnThem);
+        this.cellsDependsOnHim = new ArrayList<>(other.cellsDependsOnHim);
     }
 
     @Override

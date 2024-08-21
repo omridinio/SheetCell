@@ -8,22 +8,31 @@ import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
 
-public class ImplLogic implements Logic {
-    private Sheet mainSheet = new ImplSheet("stam",6,6,10,4);
+import java.util.ArrayList;
+import java.util.List;
 
+public class ImplLogic implements Logic {
+    //private Sheet mainSheet = new ImplSheet("stam",6,6,10,4);
+    private List<Sheet> mainSheet = new ArrayList<Sheet>();
+
+    public ImplLogic() {
+        mainSheet.add(new ImplSheet("stam",6,6,10,4));
+    }
     public CellDTO getCell(String cellID) {
-        Cell temp = mainSheet.getCell(cellID);
+        Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(cellID);
         return new CellDTO(temp);
     }
 
 
     public void updateCell(String cellId, String value){
-        mainSheet.updateCell(cellId, value);
+        Sheet newVersion = new ImplSheet((ImplSheet) mainSheet.get(mainSheet.size() - 1));
+        newVersion.updateCell(cellId, value);
+        mainSheet.add(newVersion);
     }
 
     @Override
     public SheetDTO getSheet() {
-        return new ImplSheetDTO(mainSheet);
+        return new ImplSheetDTO(mainSheet.get(mainSheet.size() - 1));
     }
 }
 

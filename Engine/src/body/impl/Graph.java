@@ -13,6 +13,20 @@ public class Graph {
         this.graph = new HashMap<>();
         this.graph_T = new HashMap<>();
     }
+    //COPY C-TOR
+    public Graph(Graph other) {
+        // Deep copy of the original graph
+        this.graph = new HashMap<>();
+        for (Map.Entry<Coordinate, List<Coordinate>> entry : other.graph.entrySet()) {
+            this.graph.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+
+        // Deep copy of the transpose graph
+        this.graph_T = new HashMap<>();
+        for (Map.Entry<Coordinate, List<Coordinate>> entry : other.graph_T.entrySet()) {
+            this.graph_T.put(entry.getKey(), new ArrayList<>(entry.getValue()));
+        }
+    }
 
     //return you list of cells that depend on you
     public List<Coordinate> getNeighbors(Coordinate coordinate) {
