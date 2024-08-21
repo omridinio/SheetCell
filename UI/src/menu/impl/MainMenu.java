@@ -6,6 +6,7 @@ import body.impl.CoordinateImpl;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import expression.api.EffectiveValue;
+import jaxb.generated.STLSheet;
 import menu.Menu;
 
 import java.util.Scanner;
@@ -17,6 +18,12 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             display();
+            Scanner scanner = new Scanner(System.in);
+            String enterdPath = scanner.next();
+            try{logic.creatNewSheet(enterdPath);}
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
         }
         void display(){
             System.out.println("Please enter the full path to the XML file you want to load: ");

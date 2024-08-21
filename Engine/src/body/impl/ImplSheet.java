@@ -115,9 +115,8 @@ public class ImplSheet implements Sheet {
     public void setVersion(int version) {
         this.sheetVersion = version;
     }
-
     @Override
-    public void updateCell(String cellId, String value) {
+    public void updateCellDitels(String cellId, String value){
         Coordinate currCoord = new CoordinateImpl(cellId);
         if(currCoord.getRow() > row || currCoord.getColumn() > col){
             throw new IllegalArgumentException("Cell is out of bounds");
@@ -129,14 +128,18 @@ public class ImplSheet implements Sheet {
         graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
-        Expression currExpression= stringToExpression(value,currCoord);
+        Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
         cell.setLastVersionUpdate(sheetVersion);
-
+    }
+    @Override
+    public void updateCellEffectiveValue(){
         List<Coordinate> res = graph.topologicalSort();
         for(Coordinate coord : res){
             Cell currCell = activeCells.get(coord);
-
+            String value = currCell.getOriginalValue();
+            Expression currExpression = stringToExpression(value,coord);
+            currCell.setExpression(currExpression);
             if (currCell.getEffectiveValue() instanceof Reference) {
                 Reference ref = (Reference) currCell.getEffectiveValue();
                 ref.setCell(findUpdateCell(ref.getCell()));
@@ -144,6 +147,38 @@ public class ImplSheet implements Sheet {
             }
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
         }
+    }
+
+    @Override
+    public void updateCell(String cellId, String value) {
+//        Coordinate currCoord = new CoordinateImpl(cellId);
+//        if(currCoord.getRow() > row || currCoord.getColumn() > col){
+//            throw new IllegalArgumentException("Cell is out of bounds");
+//        }
+//        if(!activeCells.containsKey(currCoord)){
+//            activeCells.put(currCoord, new ImplCell(cellId));
+//            graph.addVertex(currCoord);
+//        }
+//        graph.removeEntryEdges(currCoord);
+//        Cell cell = activeCells.get(currCoord);
+//        cell.setOriginalValue(value);
+//        Expression currExpression= stringToExpression(value,currCoord);
+//        cell.setExpression(currExpression);
+//        cell.setLastVersionUpdate(sheetVersion);
+
+        updateCellDitels(cellId, value);
+        updateCellEffectiveValue();
+        List<Coordinate> res = graph.topologicalSort();
+//        for(Coordinate coord : res){
+//            Cell currCell = activeCells.get(coord);
+//
+//            if (currCell.getEffectiveValue() instanceof Reference) {
+//                Reference ref = (Reference) currCell.getEffectiveValue();
+//                ref.setCell(findUpdateCell(ref.getCell()));
+//                currCell.setExpression(ref);
+//            }
+//            currCell.setEffectiveValue(currCell.getExpression().evaluate());
+//        }
     }
 
     private Cell findUpdateCell(Cell prevCell){
@@ -331,5 +366,7 @@ public class ImplSheet implements Sheet {
             default -> false;
         };
     }
+
+
 
 }

@@ -14,4 +14,6 @@ public interface Sheet {
     void setVersion(int version);
     void updateCell(String cellId, String value);
     void updateListsOfDependencies(Coordinate coord);
+    void updateCellDitels(String cellId, String value);
+    void updateCellEffectiveValue();
 }
