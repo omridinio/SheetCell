@@ -27,6 +27,7 @@ public class ImplSheet implements Sheet {
     final private int col;
     private Map<Coordinate, Cell> activeCells = new HashMap<>();
     private Graph graph;
+    private int countUpdateCell = 0;
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
         if (row > 50 || col > 20) {
@@ -164,6 +165,10 @@ public class ImplSheet implements Sheet {
             if(activeCells.get(coord).getLastVersionUpdate() > maxVersion){
                 maxVersion = activeCells.get(coord).getLastVersionUpdate();
             }
+        }
+        if (maxVersion > activeCells.get(coordinate).getLastVersionUpdate()){
+            activeCells.get(coordinate).setEffectiveValue(null);
+            countUpdateCell++;
         }
         activeCells.get(coordinate).setLastVersionUpdate(maxVersion);
     }
@@ -351,6 +356,10 @@ public class ImplSheet implements Sheet {
             return coordinate;
         }
         return null;
+    }
+
+    public int getCountUpdateCell() {
+        return countUpdateCell;
     }
 
     private boolean validInputCell(String input, Coordinate toCoordinate){
