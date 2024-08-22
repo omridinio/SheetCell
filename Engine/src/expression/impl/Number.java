@@ -28,11 +28,11 @@ public class Number implements Expression, EffectiveValue {
 
     @Override
     public String toString() {
-        return num < 0 ?
-                "(" + num + ")" :
-                Double.toString(num);
+        if (num % 1 == 0) {
+            return Integer.toString((int) num);
+        }
+        return String.format("%.2f", num);
     }
-
 
     @Override
     public CellType getCellType() {

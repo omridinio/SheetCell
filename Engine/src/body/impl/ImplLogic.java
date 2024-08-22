@@ -15,10 +15,10 @@ import jakarta.xml.bind.Unmarshaller;
 import jaxb.generated.STLCell;
 import jaxb.generated.STLSheet;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +38,6 @@ public class ImplLogic implements Logic {
     public void updateCell(String cellId, String value){
         Sheet newVersion = new ImplSheet((ImplSheet) mainSheet.get(mainSheet.size() - 1));
         newVersion.updateCell(cellId, value);
-        newVersion.setVersion(newVersion.getVersion() + 1);
         mainSheet.add(newVersion);
 
     }
@@ -47,8 +46,6 @@ public class ImplLogic implements Logic {
         InputStream inputStream = new FileInputStream(new File(path));
         STLSheet res = creatGeneratedObject(inputStream);
         mainSheet.add(STLSheet2Sheet(res));
-
-        return;
     }
 
 

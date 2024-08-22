@@ -19,8 +19,11 @@ public enum MainMenu implements Menu {
         public void invoke(Logic logic) {
             display();
             Scanner scanner = new Scanner(System.in);
-            String enterdPath = scanner.next();
+            String enterdPath = scanner.nextLine();;
             try{logic.creatNewSheet(enterdPath);}
+            catch (ClassCastException  e) {
+                System.out.println("ERROR! in the file, one of the cells has a value that does not match the function");
+                }
             catch(Exception e){
                 System.out.println(e.getMessage());
             }
@@ -33,7 +36,7 @@ public enum MainMenu implements Menu {
     DISPLAYSPREADSHEET{
         @Override
         public void invoke(Logic logic) {
-            display();
+            //display();
             printSheet(logic.getSheet());
         }
         //TODO A3 prints in B3 check why!!
@@ -54,9 +57,9 @@ public enum MainMenu implements Menu {
                     Coordinate currCoord = new CoordinateImpl(i,j);
                     EffectiveValue currCell = currSheet.getEfectivevalueCell(currCoord);
                     if(currCell != null){
-                        int cellWidth = currCell.getValue().toString().length();
+                        int cellWidth = currCell.toString().length();
                         String tempWhiteSpace = makeWidth(currSheet.getWidth() - cellWidth);
-                        System.out.print(currCell.getValue() + tempWhiteSpace + "|");
+                        System.out.print(currCell.toString() + tempWhiteSpace + "|");
                     }
                     else {
                         System.out.print(whiteSpace + "|"); // Placeholder for cell content
@@ -81,7 +84,6 @@ public enum MainMenu implements Menu {
             return (int) Math.log10(Math.abs(number)) + 1;
         }
 
-
         private String makeWidth(int width){
             String res = "";
             for (int i = 0; i < width; i++) {
@@ -99,9 +101,9 @@ public enum MainMenu implements Menu {
         public void invoke(Logic logic) {
             display();
             Scanner scanner = new Scanner(System.in);
-            String enterdCell = scanner.next();
+            String enterdCell = scanner.nextLine();
 
-            printCell(logic.getCell(enterdCell),false);
+            printCell(logic.getCell(enterdCell.toUpperCase()),false);
         }
 
         void display(){
@@ -115,8 +117,8 @@ public enum MainMenu implements Menu {
             Scanner scanner = new Scanner(System.in);
             String enterdCell = null;
             while(true) {
-                enterdCell = scanner.next();
-                enterdCell = validInputCell(enterdCell);
+                enterdCell = scanner.nextLine();
+                enterdCell = validInputCell(enterdCell.toUpperCase());
                 try{
                     printCell(logic.getCell(enterdCell),true);
                     break;
@@ -127,7 +129,6 @@ public enum MainMenu implements Menu {
                 System.out.println("Please enter the cell identifier (e.g., A4):");
             }
             System.out.println("Please enter the new Value:");
-            scanner.nextLine();
             while(true){
                 String enterdValue = scanner.nextLine();
                 try {
@@ -141,12 +142,12 @@ public enum MainMenu implements Menu {
                 }
                 System.out.println("Please enter the new Value:");
             }
+            DISPLAYSPREADSHEET.invoke(logic);
         }
 
         void display(){
             System.out.println("Please enter the cell identifier (e.g. A4):");
         }
-
 
     },
     DISPLAYVERSION{
@@ -191,7 +192,7 @@ public enum MainMenu implements Menu {
         System.out.println("Name: " + cell.getId());
         System.out.println("Original value: " + cell.getOriginalValue());
         try{
-            System.out.println("Effective value: " + cell.getEffectiveValue());
+            System.out.println("Effective value: " + cell.getOriginalEffectiveValue().toString());
         }catch(NullPointerException e){
             System.out.println("Empty effective value");
         }
@@ -215,7 +216,8 @@ public enum MainMenu implements Menu {
             }
             System.out.println("Invalid input, please enter a valid cell identifier (e.g., A4):");
             Scanner scanner = new Scanner(System.in);
-            input = scanner.next();
+            input = scanner.nextLine();
+            input = input.toUpperCase();
         }
         return input;
     }

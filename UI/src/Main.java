@@ -8,6 +8,8 @@ import body.Cell;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import static menu.impl.MainMenu.READFILE;
+
 public class Main {
 
 
@@ -18,32 +20,30 @@ public class Main {
         Logic logic = new ImplLogic();
 
         while (true) {
-            boolean success = false;
             MainMenu.printMenu();
             Scanner scanner = new Scanner(System.in);
             int option;
             while (true){
-                try {
-                    option = scanner.nextInt();
-                    break;
-                }
-                catch (InputMismatchException e) {
-                    System.out.println("Invalid option, try again");
-                    scanner.next();
-                }
+                    try {
+                        String input = scanner.nextLine();
+                        option = Integer.parseInt(input.trim());
+                        MainMenu choose = MainMenu.parser(option);
+                        choose.invoke(logic);
+                        break;
+                    }
+                    catch (NumberFormatException e) {
+                        System.out.println("ERROR! Please enter a number:");
+                    }
+                    catch(IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
+                    catch (ClassCastException e) {
+                        System.out.println("ERROR! Please enter Values that match to the function:");
+                    }
+                    catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
             }
-            MainMenu choose = MainMenu.parser(option);
-            while (!success) {
-                try {
-                    choose.invoke(logic);
-                    success = true;
-               } catch (ClassCastException e) {
-                    System.out.println("ERROR! Please enter Values that match to the function:");
-               }catch (NumberFormatException e){
-                    System.out.println(e.getMessage());
-                }
-            }
-
         }
 
     }

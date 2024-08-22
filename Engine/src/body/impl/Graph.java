@@ -46,11 +46,11 @@ public class Graph {
     public void addEdge(Coordinate from, Coordinate to) {
         graph.putIfAbsent(from, new LinkedList<>());
         graph.putIfAbsent(to, new LinkedList<>());
-
-        graph.get(from).add(to);
-
-        graph_T.putIfAbsent(to, new LinkedList<>());
-        graph_T.get(to).add(from);  // Add reverse edge in the transpose graph
+        if(!graph.get(from).contains(to)){
+            graph.get(from).add(to);
+            graph_T.putIfAbsent(to, new LinkedList<>());
+            graph_T.get(to).add(from);  // Add reverse edge in the transpose graph
+        }
     }
 
     public void removeEdge(Coordinate from, Coordinate to) {

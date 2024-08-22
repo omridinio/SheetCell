@@ -23,7 +23,7 @@ public class Reference implements Expression, EffectiveValue {
 
     @Override
     public String toString() {
-        return "";
+        return cell.getEffectiveValue().toString();
     }
 
     @Override

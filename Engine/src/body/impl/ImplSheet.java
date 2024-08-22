@@ -29,6 +29,9 @@ public class ImplSheet implements Sheet {
     private Graph graph;
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
+        if (row > 50 || col > 20) {
+            throw new IllegalArgumentException("the row or the column is out of bounds");
+        }
         this.sheetName = sheetName;
         this.thickness = thickness;
         this.width = width;
@@ -128,6 +131,7 @@ public class ImplSheet implements Sheet {
         graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
+        cell.setEffectiveValue(null);
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
         cell.setLastVersionUpdate(sheetVersion);
@@ -144,9 +148,22 @@ public class ImplSheet implements Sheet {
                 Reference ref = (Reference) currCell.getEffectiveValue();
                 ref.setCell(findUpdateCell(ref.getCell()));
                 currCell.setExpression(ref);
+                currCell.setLastVersionUpdate(ref.getCell().getLastVersionUpdate());
             }
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
+            updateVersion(coord);
         }
+    }
+
+    private void updateVersion(Coordinate coordinate){
+        List <Coordinate> dependsOnThem = graph.getSources(coordinate);
+        int maxVersion = activeCells.get(coordinate).getLastVersionUpdate();
+        for(Coordinate coord : dependsOnThem){
+            if(activeCells.get(coord).getLastVersionUpdate() > maxVersion){
+                maxVersion = activeCells.get(coord).getLastVersionUpdate();
+            }
+        }
+        activeCells.get(coordinate).setLastVersionUpdate(maxVersion);
     }
 
     @Override
@@ -165,7 +182,7 @@ public class ImplSheet implements Sheet {
 //        Expression currExpression= stringToExpression(value,currCoord);
 //        cell.setExpression(currExpression);
 //        cell.setLastVersionUpdate(sheetVersion);
-
+        sheetVersion = sheetVersion + 1;
         updateCellDitels(cellId, value);
         updateCellEffectiveValue();
         List<Coordinate> res = graph.topologicalSort();
@@ -185,7 +202,6 @@ public class ImplSheet implements Sheet {
         Coordinate coord = new CoordinateImpl(prevCell.getId());
         return activeCells.get(coord);
     }
-
 
     @Override
     public void updateListsOfDependencies(Coordinate coord) {
@@ -259,7 +275,7 @@ public class ImplSheet implements Sheet {
                 }
             }
             result.add(currentElement.toString().trim()); // Add the last element
-            if(!isValidOperator(result.get(0))){
+            if(!isValidOperator(result.get(0).toUpperCase())){
                 throw new NumberFormatException("Invalid Operator" + System.lineSeparator() + "The valid Operator are: PLUS, MINUS, TIMES, DIVIDE, MOD, POW, CONCAT, ABS, SUB, REF");
             }
             isValidNumOfArgs(result);
@@ -273,7 +289,7 @@ public class ImplSheet implements Sheet {
 
     private Boolean isValidNumOfArgs(List<String> args){
         Boolean res = true;
-        switch (args.get(0)) {
+        switch (args.get(0).toUpperCase()) {
             case "PLUS":
             case "MINUS":
             case "TIMES":
@@ -287,6 +303,10 @@ public class ImplSheet implements Sheet {
                 }
                 break;
             case "REF":
+                if (args.size() == 2){
+                    args.set(0, "REF");
+                    args.set(1, args.get(1).toUpperCase());
+                }
             case "ABS":
                 if (args.size() != 2){
                     res = false;
@@ -306,8 +326,8 @@ public class ImplSheet implements Sheet {
         return res;
     }
 
-    private Expression createExpression(String operator, List<Expression> args,Coordinate coordinate) {
-        return switch (operator.trim()) {
+    private Expression createExpression(String operator, List<Expression> args, Coordinate coordinate) {
+        return switch (operator.trim().toUpperCase()) {
             case "PLUS" -> new Plus(args.get(0), args.get(1));
             case "MINUS" -> new Minus(args.get(0), args.get(1));
             case "TIMES" -> new Times(args.get(0), args.get(1));
@@ -324,7 +344,7 @@ public class ImplSheet implements Sheet {
 
     private Coordinate refHelper(Expression input, Coordinate toCoordinate){
         String cellID = (String) input.evaluate().getValue();
-        if(validInputCell(cellID, toCoordinate)){
+        if(validInputCell(cellID.toUpperCase(), toCoordinate)){
             Coordinate coordinate = new CoordinateImpl(cellID);
             return coordinate;
         }
@@ -335,7 +355,7 @@ public class ImplSheet implements Sheet {
         if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
             String temp = input.substring(1);
             try {
-                Coordinate coordinate = new CoordinateImpl(input);
+                Coordinate coordinate = new CoordinateImpl(input.toUpperCase());
                 if(coordinate.getRow() > row || coordinate.getColumn() > col){
                     throw new IllegalArgumentException("Cell is out of bounds");
                 }
