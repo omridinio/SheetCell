@@ -3,9 +3,10 @@ package body.impl;
 import body.Cell;
 import body.Coordinate;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Graph {
+public class Graph implements Serializable {
     private Map<Coordinate, List<Coordinate>> graph;  // Original graph
     private Map<Coordinate, List<Coordinate>> graph_T;  // Transpose of the graph
 

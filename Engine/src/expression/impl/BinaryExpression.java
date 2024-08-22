@@ -3,7 +3,9 @@ package expression.impl;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public abstract class BinaryExpression implements Expression {
+import java.io.Serializable;
+
+public abstract class BinaryExpression implements Expression, Serializable {
 
     private Expression expression1;
     private Expression expression2;

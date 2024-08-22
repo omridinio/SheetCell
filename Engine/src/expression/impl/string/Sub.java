@@ -5,7 +5,9 @@ import expression.api.Expression;
 import expression.impl.Str;
 import expression.impl.TrinaryExpression;
 
-public class Sub  extends TrinaryExpression {
+import java.io.Serializable;
+
+public class Sub  extends TrinaryExpression implements Serializable {
 
     public Sub(Expression expression1, Expression expression2, Expression expression3) {
         super(expression1, expression2, expression3);

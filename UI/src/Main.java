@@ -15,13 +15,13 @@ public class Main {
 
 
     public static void main(String[] args) {
-        Cell implCell = new ImplCell("A3");
-        implCell.setLastVersionUpdate(3);
+
         Logic logic = new ImplLogic();
 
         while (true) {
             MainMenu.printMenu();
             Scanner scanner = new Scanner(System.in);
+
             int option;
             while (true){
                     try {

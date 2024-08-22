@@ -5,7 +5,9 @@ import expression.api.Expression;
 import expression.impl.BinaryExpression;
 import expression.impl.Number;
 
-public class Plus extends BinaryExpression {
+import java.io.Serializable;
+
+public class Plus extends BinaryExpression implements Serializable {
 
     public Plus(Expression expression1, Expression expression2) {
         super(expression1, expression2);

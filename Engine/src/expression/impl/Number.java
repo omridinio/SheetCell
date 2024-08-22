@@ -4,7 +4,9 @@ import expression.CellType;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public class Number implements Expression, EffectiveValue {
+import java.io.Serializable;
+
+public class Number implements Expression, EffectiveValue, Serializable{
 
     private double num;
     boolean isNun = false;

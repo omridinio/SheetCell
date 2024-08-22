@@ -2,7 +2,9 @@ package expression.impl;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public abstract class UnaryExpression implements Expression {
+import java.io.Serializable;
+
+public abstract class UnaryExpression implements Expression, Serializable {
 
     private Expression expression1;
 

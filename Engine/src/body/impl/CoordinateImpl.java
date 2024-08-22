@@ -2,7 +2,9 @@ package body.impl;
 
 import body.Coordinate;
 
-public class CoordinateImpl implements Coordinate {
+import java.io.Serializable;
+
+public class CoordinateImpl implements Coordinate,Serializable  {
     private final int row;
     private final int column;
 

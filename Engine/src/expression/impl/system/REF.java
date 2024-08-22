@@ -6,8 +6,9 @@ import expression.api.Expression;
 import expression.impl.Reference;
 import expression.impl.UnaryExpression;
 
-//TODO fill reference function
-public class REF extends UnaryExpression {
+import java.io.Serializable;
+
+public class REF extends UnaryExpression implements Serializable {
     private Cell cell;
     public REF(Expression expression1,Cell cell) {
         super(expression1);

@@ -17,13 +17,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImplLogic implements Logic {
-    //private Sheet mainSheet = new ImplSheet("stam",6,6,10,4);
-    private List<Sheet> mainSheet = new ArrayList<Sheet>();
+public class ImplLogic implements Logic  {
 
-    //public ImplLogic() {
-    //    mainSheet.add(new ImplSheet("stam",3,10,5,4));
-    // }
+    private List<Sheet> mainSheet = new ArrayList<>();
 
     public ImplLogic() { }
 
@@ -34,9 +30,28 @@ public class ImplLogic implements Logic {
 
 
     public void updateCell(String cellId, String value){
-        Sheet newVersion = new ImplSheet((ImplSheet) mainSheet.get(mainSheet.size() - 1));
-        newVersion.updateCell(cellId, value);
-        mainSheet.add(newVersion);
+        Sheet newVersion = null;
+        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
+
+        try {
+            // Step 1: Serialize the object to a byte array
+            ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+            ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
+            outStream.writeObject(currentVersion);
+            outStream.flush();
+
+            // Step 2: Deserialize the byte array into a new object
+            ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
+            ObjectInputStream inStream = new ObjectInputStream(byteInStream);
+
+            newVersion = (Sheet) inStream.readObject();
+            newVersion.updateCell(cellId, value);
+
+            mainSheet.add(newVersion);
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
     @Override
@@ -46,7 +61,7 @@ public class ImplLogic implements Logic {
         mainSheet.add(STLSheet2Sheet(res));
     }
 
-
+    //TODO: add get version!
     private Sheet STLSheet2Sheet(STLSheet stlSheet) {
         String name = stlSheet.getName();
         int thickness = stlSheet.getSTLLayout().getSTLSize().getRowsHeightUnits();
@@ -55,18 +70,10 @@ public class ImplLogic implements Logic {
         int col = stlSheet.getSTLLayout().getColumns();
         Sheet res = new ImplSheet(name,thickness,width,row,col);
         List<STLCell> listofSTLCells = stlSheet.getSTLCells().getSTLCell();
-        //Graph graph = new Graph();
         for (STLCell stlCell : listofSTLCells) {
             String cellId = stlCell.getColumn() + String.valueOf(stlCell.getRow());
             Coordinate coordinate = new CoordinateImpl(cellId);
             res.updateCellDitels(cellId,stlCell.getSTLOriginalValue());
-
-//
-//            if(coordinate.getRow() > row || coordinate.getColumn() > col){
-//                throw new IllegalArgumentException("Cell is out of bounds");
-//            }
-//
-//            graph.addVertex(coordinate);
         }
         res.updateCellEffectiveValue();
 
@@ -95,5 +102,6 @@ public class ImplLogic implements Logic {
     public SheetDTO getSheetbyVersion(int version) {
         return new ImplSheetDTO(mainSheet.get(version));
     }
+
 }
 

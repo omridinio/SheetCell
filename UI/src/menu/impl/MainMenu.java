@@ -31,7 +31,7 @@ public enum MainMenu implements Menu {
         }
         void display(){
             System.out.println("Please enter the full path to the XML file you want to load: ");
-            System.out.println("(Example for Windows: C:\\path\\to\\your\\file.xml)\n");
+            System.out.println("(Example for Windows: C:\\path\\to\\your\\file.xml)");
         }
     },
     DISPLAYSPREADSHEET{
@@ -40,7 +40,7 @@ public enum MainMenu implements Menu {
             //display();
             printSheet(logic.getSheet());
         }
-        //TODO A3 prints in B3 check why!!
+
         public void printSheet(SheetDTO currSheet) {
             String whiteSpace = makeWidth(currSheet.getWidth());
             System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
@@ -163,6 +163,7 @@ public enum MainMenu implements Menu {
             while(true){
                 try {
                     Scanner scanner = new Scanner(System.in);
+                    display();
                     String input = scanner.nextLine();
                     option = Integer.parseInt(input.trim());
                     if(option > 0 && option <= CellsPerVersion.size()){
@@ -175,10 +176,6 @@ public enum MainMenu implements Menu {
             }
             SheetDTO sheet = logic.getSheetbyVersion(option - 1);
             printSheet(sheet);
-
-
-            //display();
-
         }
         private void display(){
             System.out.print("Please enter the version number to preview:");
@@ -280,7 +277,7 @@ public enum MainMenu implements Menu {
         }
     }
 
-    //TODO: maybe fowrod to logic
+    //TODO: maybe forward to logic
     String validInputCell(String input){
         while(true) {
             if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {

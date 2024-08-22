@@ -2,7 +2,9 @@ package expression.impl;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public abstract class TrinaryExpression implements Expression {
+import java.io.Serializable;
+
+public abstract class TrinaryExpression implements Expression, Serializable {
 
     private Expression expression1;
     private Expression expression2;
@@ -19,7 +21,7 @@ public abstract class TrinaryExpression implements Expression {
         return evaluate(expression1.evaluate(), expression2.evaluate(), expression3.evaluate());
     }
 
-    //TODO understand how will this will look
+//not being used
     @Override
     public String toString() {return "(" + expression1 + getOperationSign() + expression2 + ")";}
 

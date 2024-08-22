@@ -52,6 +52,5 @@ public class ImplSheetDTO implements SheetDTO {
             return null;
         }
         return cell.getEffectiveValue();
-        //return currSheet.getCell(coordinate).getEffectiveValue();
     }
 }

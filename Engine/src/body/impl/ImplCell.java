@@ -6,10 +6,11 @@ import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.Number;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImplCell implements Cell {
+public class ImplCell implements Cell,Serializable  {
 
     private Coordinate coor;
     private String Id;

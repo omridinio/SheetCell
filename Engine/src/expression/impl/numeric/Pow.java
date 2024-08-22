@@ -5,7 +5,9 @@ import expression.api.Expression;
 import expression.impl.BinaryExpression;
 import expression.impl.Number;
 
-public class Pow extends BinaryExpression {
+import java.io.Serializable;
+
+public class Pow extends BinaryExpression implements Serializable {
 
     public Pow(Expression expression1, Expression expression2)
     {

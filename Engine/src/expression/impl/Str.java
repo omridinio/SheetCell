@@ -4,7 +4,9 @@ import expression.CellType;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public class Str implements Expression, EffectiveValue {
+import java.io.Serializable;
+
+public class Str implements Expression, EffectiveValue,Serializable {
 
     private String string;
 

@@ -11,10 +11,12 @@ public interface Sheet {
     int getThickness();
     int getWidth();
     int getVersion();
+    int getCountUpdateCell();
+
     void setVersion(int version);
+
     void updateCell(String cellId, String value);
     void updateListsOfDependencies(Coordinate coord);
     void updateCellDitels(String cellId, String value);
     void updateCellEffectiveValue();
-    int getCountUpdateCell();
 }

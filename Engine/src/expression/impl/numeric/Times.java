@@ -5,7 +5,9 @@ import expression.api.Expression;
 import expression.impl.BinaryExpression;
 import expression.impl.Number;
 
-public class Times extends BinaryExpression {
+import java.io.Serializable;
+
+public class Times extends BinaryExpression implements Serializable {
 
     public Times(Expression expression1, Expression expression2) {
         super(expression1, expression2);

@@ -6,7 +6,9 @@ import expression.impl.BinaryExpression;
 import expression.impl.Number;
 import expression.impl.Reference;
 
-public class Divide extends BinaryExpression {
+import java.io.Serializable;
+
+public class Divide extends BinaryExpression implements Serializable {
 
     public Divide(Expression expression1, Expression expression2) {
         super(expression1, expression2);

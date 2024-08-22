@@ -5,7 +5,9 @@ import expression.CellType;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
-public class Reference implements Expression, EffectiveValue {
+import java.io.Serializable;
+
+public class Reference implements Expression, EffectiveValue,Serializable {
 
     private Cell cell;
 

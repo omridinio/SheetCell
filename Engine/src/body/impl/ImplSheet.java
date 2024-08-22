@@ -11,11 +11,13 @@ import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
 import expression.impl.system.REF;
+
+import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.*;
 import expression.impl.Reference;
 
-public class ImplSheet implements Sheet {
+public class ImplSheet implements Sheet,Serializable  {
 
 
 
@@ -30,8 +32,8 @@ public class ImplSheet implements Sheet {
     private int countUpdateCell = 0;
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
-        if (row > 50 || col > 20) {
-            throw new IllegalArgumentException("the row or the column is out of bounds");
+        if (row > 50 || col > 20 || row < 1 || col < 1) {
+            throw new IllegalArgumentException("The row or the column is out of bounds, Please try again.");
         }
         this.sheetName = sheetName;
         this.thickness = thickness;
@@ -68,9 +70,10 @@ public class ImplSheet implements Sheet {
     @Override
     public Cell getCell(String cellID) {
         Coordinate coordinate = new CoordinateImpl(cellID);
-        if(coordinate.getRow() > row || coordinate.getColumn() > col){
-            throw new IllegalArgumentException("Cell is out of bounds");
-        }
+        checkValidBounds(coordinate);
+//        if(coordinate.getRow() > row || coordinate.getColumn() > col){
+//            throw new IllegalArgumentException("Cell is out of bounds");
+//        }
         if(!activeCells.containsKey(coordinate)){
             return new ImplCell(cellID);
 //            activeCells.put(coordinate, new ImplCell(cellID));
@@ -120,19 +123,30 @@ public class ImplSheet implements Sheet {
         this.sheetVersion = version;
     }
 
+    private void checkValidBounds(Coordinate coordinate) {
+        if(coordinate.getRow() > row || coordinate.getColumn() > col){
+            throw new IllegalArgumentException("Cell is out of bounds");
+        }
+    }
+
     @Override
     public void updateCellDitels(String cellId, String value){
         Coordinate currCoord = new CoordinateImpl(cellId);
-        if(currCoord.getRow() > row || currCoord.getColumn() > col){
-            throw new IllegalArgumentException("Cell is out of bounds");
-        }
-        if(!activeCells.containsKey(currCoord)){
-            activeCells.put(currCoord, new ImplCell(cellId));
-            graph.addVertex(currCoord);
-        }
+        checkValidBounds(currCoord);
+//        if(currCoord.getRow() > row || currCoord.getColumn() > col){
+//            throw new IllegalArgumentException("Cell is out of bounds");
+//        }
+
+//        if(!activeCells.containsKey(currCoord)){
+        activeCells.putIfAbsent(currCoord, new ImplCell(cellId));
+        graph.addVertex(currCoord);
+//        }
+
+        sheetVersion = sheetVersion + 1;
         graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
+        //why we need it?
         cell.setEffectiveValue(null);
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
@@ -140,23 +154,24 @@ public class ImplSheet implements Sheet {
         countUpdateCell++;
     }
 
+    //TODO: omri need to explain to me the REF loop.
     @Override
     public void updateCellEffectiveValue(){
-        List<Coordinate> res = graph.topologicalSort();
-        for(Coordinate coord : res){
+        List<Coordinate> topologicalSorted = graph.topologicalSort();
+        for(Coordinate coord : topologicalSorted){
             Cell currCell = activeCells.get(coord);
             String value = currCell.getOriginalValue();
             Expression currExpression = stringToExpression(value,coord);
             currCell.setExpression(currExpression);
-            if (currCell.getEffectiveValue() instanceof Reference) {
-                Reference ref = (Reference) currCell.getEffectiveValue();
-                ref.setCell(findUpdateCell(ref.getCell()));
-                currCell.setExpression(ref);
-                if(ref.getCell().getLastVersionUpdate() > currCell.getLastVersionUpdate()){
-                    countUpdateCell++;
-                }
-                currCell.setLastVersionUpdate(ref.getCell().getLastVersionUpdate());
-            }
+//            if (currCell.getEffectiveValue() instanceof Reference) {
+//                Reference ref = (Reference) currCell.getEffectiveValue();
+//                ref.setCell(findUpdateCell(ref.getCell()));
+//                currCell.setExpression(ref);
+//                if(ref.getCell().getLastVersionUpdate() > currCell.getLastVersionUpdate()){
+//                    countUpdateCell++;
+//                }
+//                currCell.setLastVersionUpdate(ref.getCell().getLastVersionUpdate());
+//            }
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
         }
     }
@@ -177,10 +192,9 @@ public class ImplSheet implements Sheet {
 //        Expression currExpression= stringToExpression(value,currCoord);
 //        cell.setExpression(currExpression);
 //        cell.setLastVersionUpdate(sheetVersion);
-        sheetVersion = sheetVersion + 1;
         updateCellDitels(cellId, value);
         updateCellEffectiveValue();
-        List<Coordinate> res = graph.topologicalSort();
+//      List<Coordinate> res = graph.topologicalSort();
 //        for(Coordinate coord : res){
 //            Cell currCell = activeCells.get(coord);
 //
@@ -223,7 +237,7 @@ public class ImplSheet implements Sheet {
                 if (stack.isEmpty()) {
                     return false;
                 }
-                char openBracket = stack.pop();
+                stack.pop();
             }
         }
         return stack.isEmpty();

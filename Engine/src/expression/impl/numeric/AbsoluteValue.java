@@ -5,7 +5,9 @@ import expression.api.Expression;
 import expression.impl.Number;
 import expression.impl.UnaryExpression;
 
-public class AbsoluteValue  extends UnaryExpression {
+import java.io.Serializable;
+
+public class AbsoluteValue  extends UnaryExpression implements Serializable {
 
     public AbsoluteValue(Expression expression1) {
         super(expression1);

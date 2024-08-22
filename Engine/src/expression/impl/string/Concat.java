@@ -5,7 +5,9 @@ import expression.api.Expression;
 import expression.impl.BinaryExpression;
 import expression.impl.Str;
 
-public class Concat extends BinaryExpression {
+import java.io.Serializable;
+
+public class Concat extends BinaryExpression implements Serializable {
 
 
     public Concat(Expression expression1, Expression expression2) {
