@@ -118,6 +118,7 @@ public class ImplSheet implements Sheet {
     public void setVersion(int version) {
         this.sheetVersion = version;
     }
+
     @Override
     public void updateCellDitels(String cellId, String value){
         Coordinate currCoord = new CoordinateImpl(cellId);
@@ -136,6 +137,7 @@ public class ImplSheet implements Sheet {
         cell.setExpression(currExpression);
         cell.setLastVersionUpdate(sheetVersion);
     }
+
     @Override
     public void updateCellEffectiveValue(){
         List<Coordinate> res = graph.topologicalSort();

@@ -42,4 +42,8 @@ public class Reference implements Expression, EffectiveValue {
     public void setCell(Cell value) {
         this.cell = value;
     }
+
+    public EffectiveValue getEffectiveValue() {
+        return cell.getEffectiveValue();
+    }
 }

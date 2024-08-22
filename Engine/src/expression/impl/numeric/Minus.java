@@ -18,6 +18,9 @@ public class Minus extends BinaryExpression {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue e1, EffectiveValue e2)throws NumberFormatException{
+        if(Number.CheckIsNun(e1, e2)){
+            return new Number(true);
+        }
         Double res = (Double)e1.getValue() - (Double)e2.getValue();
         return new Number(res);
     }

@@ -4,6 +4,7 @@ import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.BinaryExpression;
 import expression.impl.Number;
+import expression.impl.Reference;
 
 public class Divide extends BinaryExpression {
 
@@ -13,6 +14,12 @@ public class Divide extends BinaryExpression {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2) throws NumberFormatException {
+        if((Double)evaluate2.getValue() == 0){
+            return new Number(true);
+        }
+        if(Number.CheckIsNun(evaluate, evaluate2)){
+            return new Number(true);
+        }
         Double res = (Double)evaluate.getValue() / (Double)evaluate2.getValue();
         return new Number(res);
     }

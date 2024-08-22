@@ -13,6 +13,9 @@ public class Modulo  extends BinaryExpression {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate1) throws NumberFormatException {
+        if(Number.CheckIsNun(evaluate, evaluate1)){
+            return new Number(true);
+        }
         Double res = (Double)evaluate.getValue() % (Double)evaluate1.getValue();
         return new Number(res);
     }
