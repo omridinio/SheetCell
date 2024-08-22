@@ -7,8 +7,6 @@ import body.Sheet;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
-import expression.impl.Reference;
-import jakarta.xml.bind.JAXB;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -16,9 +14,6 @@ import jaxb.generated.STLCell;
 import jaxb.generated.STLSheet;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +21,12 @@ public class ImplLogic implements Logic {
     //private Sheet mainSheet = new ImplSheet("stam",6,6,10,4);
     private List<Sheet> mainSheet = new ArrayList<Sheet>();
 
-    public ImplLogic() {
-        mainSheet.add(new ImplSheet("stam",3,10,5,4));
-    }
+    //public ImplLogic() {
+    //    mainSheet.add(new ImplSheet("stam",3,10,5,4));
+    // }
+
+    public ImplLogic() { }
+
     public CellDTO getCell(String cellID) {
         Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(cellID);
         return new CellDTO(temp);
@@ -83,6 +81,19 @@ public class ImplLogic implements Logic {
     @Override
     public SheetDTO getSheet() {
         return new ImplSheetDTO(mainSheet.get(mainSheet.size() - 1));
+    }
+
+    public List<Integer> getNumberOfUpdatePerVersion(){
+        List<Integer> res = new ArrayList<Integer>();
+        for (Sheet sheet : mainSheet) {
+            res.add(sheet.getCountUpdateCell());
+        }
+        return res;
+    }
+
+    @Override
+    public SheetDTO getSheetbyVersion(int version) {
+        return new ImplSheetDTO(mainSheet.get(version));
     }
 }
 

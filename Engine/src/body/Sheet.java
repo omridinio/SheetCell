@@ -16,4 +16,5 @@ public interface Sheet {
     void updateListsOfDependencies(Coordinate coord);
     void updateCellDitels(String cellId, String value);
     void updateCellEffectiveValue();
+    int getCountUpdateCell();
 }

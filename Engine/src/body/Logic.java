@@ -6,10 +6,13 @@ import jakarta.xml.bind.JAXBException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 public interface Logic {
     CellDTO getCell(String cellID);
     void updateCell(String cellId, String value);
     SheetDTO getSheet();
     void creatNewSheet(String path)throws JAXBException, FileNotFoundException, IOException;
+    List<Integer> getNumberOfUpdatePerVersion();
+    SheetDTO getSheetbyVersion(int version);
 }

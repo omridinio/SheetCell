@@ -137,6 +137,7 @@ public class ImplSheet implements Sheet {
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
         cell.setLastVersionUpdate(sheetVersion);
+        countUpdateCell++;
     }
 
     @Override
@@ -151,26 +152,13 @@ public class ImplSheet implements Sheet {
                 Reference ref = (Reference) currCell.getEffectiveValue();
                 ref.setCell(findUpdateCell(ref.getCell()));
                 currCell.setExpression(ref);
+                if(ref.getCell().getLastVersionUpdate() > currCell.getLastVersionUpdate()){
+                    countUpdateCell++;
+                }
                 currCell.setLastVersionUpdate(ref.getCell().getLastVersionUpdate());
             }
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
-            updateVersion(coord);
         }
-    }
-
-    private void updateVersion(Coordinate coordinate){
-        List <Coordinate> dependsOnThem = graph.getSources(coordinate);
-        int maxVersion = activeCells.get(coordinate).getLastVersionUpdate();
-        for(Coordinate coord : dependsOnThem){
-            if(activeCells.get(coord).getLastVersionUpdate() > maxVersion){
-                maxVersion = activeCells.get(coord).getLastVersionUpdate();
-            }
-        }
-        if (maxVersion > activeCells.get(coordinate).getLastVersionUpdate()){
-            activeCells.get(coordinate).setEffectiveValue(null);
-            countUpdateCell++;
-        }
-        activeCells.get(coordinate).setLastVersionUpdate(maxVersion);
     }
 
     @Override
@@ -358,6 +346,7 @@ public class ImplSheet implements Sheet {
         return null;
     }
 
+    @Override
     public int getCountUpdateCell() {
         return countUpdateCell;
     }
