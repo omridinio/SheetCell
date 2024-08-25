@@ -123,6 +123,11 @@ public class ImplSheet implements Sheet,Serializable  {
         this.sheetVersion = version;
     }
 
+    @Override
+    public void setUpdateCellCount(int countUpdateCell) {
+        this.countUpdateCell = countUpdateCell;
+    }
+
     private void checkValidBounds(Coordinate coordinate) {
         if(coordinate.getRow() > row || coordinate.getColumn() > col){
             throw new IllegalArgumentException("Cell is out of bounds");
@@ -156,10 +161,16 @@ public class ImplSheet implements Sheet,Serializable  {
 
     //TODO: omri need to explain to me the REF loop.
     @Override
-    public void updateCellEffectiveValue(){
+    public void updateCellEffectiveValue(String cellId){
+        Set<Coordinate> neighbors = graph.listOfAccessibleVertex(new CoordinateImpl(cellId));
         List<Coordinate> topologicalSorted = graph.topologicalSort();
+
         for(Coordinate coord : topologicalSorted){
             Cell currCell = activeCells.get(coord);
+            if(neighbors.contains(coord) && !coord.equals(new CoordinateImpl(cellId))){
+                currCell.setLastVersionUpdate(sheetVersion);
+                countUpdateCell++;
+            }
             String value = currCell.getOriginalValue();
             Expression currExpression = stringToExpression(value,coord);
             currCell.setExpression(currExpression);
@@ -175,6 +186,7 @@ public class ImplSheet implements Sheet,Serializable  {
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
         }
     }
+
 
     @Override
     public void updateCell(String cellId, String value) {
@@ -193,7 +205,7 @@ public class ImplSheet implements Sheet,Serializable  {
 //        cell.setExpression(currExpression);
 //        cell.setLastVersionUpdate(sheetVersion);
         updateCellDitels(cellId, value);
-        updateCellEffectiveValue();
+        updateCellEffectiveValue(cellId);
 //      List<Coordinate> res = graph.topologicalSort();
 //        for(Coordinate coord : res){
 //            Cell currCell = activeCells.get(coord);

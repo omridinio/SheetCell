@@ -29,6 +29,11 @@ public class Reference implements Expression, EffectiveValue,Serializable {
     }
 
     @Override
+    public boolean isNaN() {
+        return cell.getEffectiveValue().isNaN();
+    }
+
+    @Override
     public CellType getCellType() {
         return CellType.STRING;
     }

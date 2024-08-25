@@ -15,7 +15,7 @@ public class AbsoluteValue  extends UnaryExpression implements Serializable {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue evaluate) throws NumberFormatException {
-        if(Number.CheckIsNun(evaluate)){
+        if(Number.CheckIsNan(evaluate)){
             return new Number(true);
         }
         Double res = Math.abs((Double)evaluate.getValue());

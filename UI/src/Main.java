@@ -18,18 +18,24 @@ public class Main {
 
         Logic logic = new ImplLogic();
 
+        boolean first = true;
         while (true) {
             MainMenu.printMenu();
             Scanner scanner = new Scanner(System.in);
-
             int option;
             while (true){
                     try {
                         String input = scanner.nextLine();
                         option = Integer.parseInt(input.trim());
                         MainMenu choose = MainMenu.parser(option);
-                        choose.invoke(logic);
-                        break;
+                        if (option != 1 && first){
+                           System.out.println("Please upload Sheet first.(Press (1))");
+                        }
+                        else{
+                            choose.invoke(logic);
+                            first = false;
+                            break;
+                        }
                     }
                     catch (NumberFormatException e) {
                         System.out.println("ERROR! Please enter a number:");

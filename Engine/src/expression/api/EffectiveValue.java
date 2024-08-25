@@ -5,4 +5,5 @@ public interface EffectiveValue {
     CellType getCellType();
     Object getValue();
     String toString();
+    boolean isNaN();
 }

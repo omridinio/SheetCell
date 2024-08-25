@@ -21,6 +21,7 @@ public class ImplLogic implements Logic  {
 
     private List<Sheet> mainSheet = new ArrayList<>();
 
+
     public ImplLogic() { }
 
     public CellDTO getCell(String cellID) {
@@ -45,6 +46,7 @@ public class ImplLogic implements Logic  {
             ObjectInputStream inStream = new ObjectInputStream(byteInStream);
 
             newVersion = (Sheet) inStream.readObject();
+            newVersion.setUpdateCellCount(0);
             newVersion.updateCell(cellId, value);
 
             mainSheet.add(newVersion);
@@ -71,11 +73,12 @@ public class ImplLogic implements Logic  {
         Sheet res = new ImplSheet(name,thickness,width,row,col);
         List<STLCell> listofSTLCells = stlSheet.getSTLCells().getSTLCell();
         for (STLCell stlCell : listofSTLCells) {
+            res.setVersion(0);
             String cellId = stlCell.getColumn() + String.valueOf(stlCell.getRow());
             Coordinate coordinate = new CoordinateImpl(cellId);
             res.updateCellDitels(cellId,stlCell.getSTLOriginalValue());
         }
-        res.updateCellEffectiveValue();
+        res.updateCellEffectiveValue("A3");
 
         return res;
     }

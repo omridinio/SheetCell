@@ -28,6 +28,11 @@ public class Str implements Expression, EffectiveValue,Serializable {
     }
 
     @Override
+    public boolean isNaN() {
+        throw new NumberFormatException("ERROR!, cant get a string to numeric function.");
+    }
+
+    @Override
     public CellType getCellType() {
         return CellType.STRING;
     }

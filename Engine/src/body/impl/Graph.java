@@ -143,4 +143,22 @@ public class Graph implements Serializable {
         recursionStack.remove(vertex);
         return false;
     }
+
+
+    public Set<Coordinate> listOfAccessibleVertex(Coordinate coordinate) {
+        Set<Coordinate> list = new HashSet<>();
+        if(!graph.containsKey(coordinate)){
+            return list;
+        }
+        Queue<Coordinate> queue = new LinkedList<>();
+        queue.add(coordinate);
+        while(!queue.isEmpty()){
+            Coordinate current = queue.remove();
+            list.add(current);
+            for(Coordinate coord : getNeighbors(current)){
+                queue.add(coord);
+            }
+        }
+        return list;
+    }
 }

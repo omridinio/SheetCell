@@ -21,7 +21,7 @@ public class Pow extends BinaryExpression implements Serializable {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue e1, EffectiveValue e2) {
-        if (Number.CheckIsNun(e1, e2)) {
+        if (Number.CheckIsNan(e1, e2)) {
             return new Number(true);
         }
         Double res = Math.pow((Double) e1.getValue(), (Double) e2.getValue());

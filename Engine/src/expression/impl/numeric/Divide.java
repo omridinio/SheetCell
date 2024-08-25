@@ -4,7 +4,6 @@ import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.BinaryExpression;
 import expression.impl.Number;
-import expression.impl.Reference;
 
 import java.io.Serializable;
 
@@ -19,7 +18,7 @@ public class Divide extends BinaryExpression implements Serializable {
         if((Double)evaluate2.getValue() == 0){
             return new Number(true);
         }
-        if(Number.CheckIsNun(evaluate, evaluate2)){
+        if(Number.CheckIsNan(evaluate, evaluate2)){
             return new Number(true);
         }
         Double res = (Double)evaluate.getValue() / (Double)evaluate2.getValue();

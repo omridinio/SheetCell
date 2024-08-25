@@ -15,7 +15,7 @@ public class Modulo  extends BinaryExpression implements Serializable {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate1) throws NumberFormatException {
-        if(Number.CheckIsNun(evaluate, evaluate1)){
+        if(Number.CheckIsNan(evaluate, evaluate1)){
             return new Number(true);
         }
         Double res = (Double)evaluate.getValue() % (Double)evaluate1.getValue();
