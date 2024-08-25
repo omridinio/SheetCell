@@ -24,4 +24,15 @@ public class Modulo  extends BinaryExpression implements Serializable {
 
     @Override
     public String getOperationSign() {return "mod";}
+
+    @Override
+    public String expressionTOtoString() {
+        return "{MOD, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+    }
+
+    @Override
+    public String toString() {
+        return "{MOD, " + getExpression1().toString() + ", " + getExpression2().toString() + "}";
+    }
+
 }

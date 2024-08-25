@@ -24,6 +24,11 @@ public class Empty implements Expression, EffectiveValue, Serializable {
     }
 
     @Override
+    public boolean isUndefined() {
+        return false;
+    }
+
+    @Override
     public EffectiveValue evaluate() {
         return new Empty();
     }
@@ -32,6 +37,12 @@ public class Empty implements Expression, EffectiveValue, Serializable {
     public String getOperationSign() {
         return "";
     }
+
+    @Override
+    public String expressionTOtoString() {
+        return "";
+    }
+
     @Override
     public String toString(){
         return "";

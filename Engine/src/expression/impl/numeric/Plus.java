@@ -19,6 +19,11 @@ public class Plus extends BinaryExpression implements Serializable {
     }
 
     @Override
+    public String expressionTOtoString() {
+        return "{PLUS, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+    }
+
+    @Override
     protected EffectiveValue evaluate(EffectiveValue e1, EffectiveValue e2) {
         if(Number.CheckIsNan(e1, e2)){
             return new Number(true);
@@ -26,5 +31,12 @@ public class Plus extends BinaryExpression implements Serializable {
         Double res = (Double)e1.getValue() + (Double)e2.getValue();
         return new Number(res);
     }
+
+    @Override
+    public String toString() {
+        return "{PLUS, " + getExpression1().toString() + ", " + getExpression2().toString() + "}";
+    }
+
+
 
 }

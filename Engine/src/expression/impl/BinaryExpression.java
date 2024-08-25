@@ -21,8 +21,22 @@ public abstract class BinaryExpression implements Expression, Serializable {
     }
 
     @Override
-    public String toString() {return "(" + expression1 + getOperationSign() + expression2 + ")";}
+    public String toString() {
+        return "(" + expression1 + getOperationSign() + expression2 + ")";
+    }
 
     abstract protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2) throws NumberFormatException;
+
+    public Expression getExpression1() {
+        return expression1;
+    }
+
+    public Expression getExpression2() {
+        return expression2;
+    }
+
+    public String expressionTOtoString(){
+        return "{" + expression1.expressionTOtoString() + ", " + expression2.expressionTOtoString() + "}";
+    }
 
 }

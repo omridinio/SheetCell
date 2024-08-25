@@ -6,4 +6,5 @@ public interface EffectiveValue {
     Object getValue();
     String toString();
     boolean isNaN();
+    boolean isUndefined();
 }

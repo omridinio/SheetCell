@@ -19,9 +19,20 @@ public abstract class UnaryExpression implements Expression, Serializable {
 
 
     @Override
-    public String toString() {return "(" + getOperationSign() + expression1 + ")";}
+    public String toString() {
+        //return "(" + getOperationSign() + expression1 + ")";
+        return "{" + expression1.toString() + "}";
+    }
+
+    public String expressionTOtoString(){
+        return "{" + expression1.expressionTOtoString() + "}";
+    }
 
     abstract protected EffectiveValue evaluate(EffectiveValue evaluate) throws NumberFormatException;
+
+    public Expression getExpression() {
+        return expression1;
+    }
 
 }
 

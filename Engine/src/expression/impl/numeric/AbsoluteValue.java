@@ -26,4 +26,14 @@ public class AbsoluteValue  extends UnaryExpression implements Serializable {
     public String getOperationSign() {
         return "abs of";
     }
+
+    @Override
+    public String expressionTOtoString() {
+        return "{ABS, " + getExpression().expressionTOtoString() + "}";
+    }
+
+    @Override
+    public String toString() {
+        return "{ABS, " + getExpression().toString() + "}";
+    }
 }

@@ -10,4 +10,6 @@ public interface Expression {
     EffectiveValue evaluate();
 
     String getOperationSign();
+
+    String expressionTOtoString();
 }

@@ -150,7 +150,6 @@ public class ImplSheet implements Sheet,Serializable  {
         cell.setEffectiveValue(null);
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
-
         cell.setLastVersionUpdate(sheetVersion);
         countUpdateCell++;
     }
@@ -170,6 +169,7 @@ public class ImplSheet implements Sheet,Serializable  {
             Expression currExpression = stringToExpression(value,coord);
             currCell.setExpression(currExpression);
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
+            currCell.setOriginalValue(currExpression.expressionTOtoString());
         }
     }
 
@@ -236,7 +236,6 @@ public class ImplSheet implements Sheet,Serializable  {
     private Expression stringToExpression(String input,Coordinate coordinate) {
         Expression currExpression = helperStringToExpression(input,coordinate);
         if(currExpression instanceof Str ){
-
             return new Str(((Str) currExpression).getValue().toString().trim());
         }
         return currExpression;

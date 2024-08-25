@@ -35,6 +35,11 @@ public class Number implements Expression, EffectiveValue, Serializable{
     }
 
     @Override
+    public String expressionTOtoString() {
+        return Integer.toString((int) num);
+    }
+
+    @Override
     public String toString() {
         if(isNan)
             return "NaN";
@@ -47,6 +52,11 @@ public class Number implements Expression, EffectiveValue, Serializable{
     @Override
     public boolean isNaN() {
         return isNan;
+    }
+
+    @Override
+    public boolean isUndefined() {
+        throw new NumberFormatException("ERROR!, cant get a number to string function.");
     }
 
     @Override

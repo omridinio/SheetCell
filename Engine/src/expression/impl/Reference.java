@@ -24,6 +24,11 @@ public class Reference implements Expression, EffectiveValue,Serializable {
     }
 
     @Override
+    public String expressionTOtoString() {
+        return "{REF, " + cell.getId() + "}";
+    }
+
+    @Override
     public String toString() {
         return cell.getEffectiveValue().toString();
     }
@@ -31,6 +36,11 @@ public class Reference implements Expression, EffectiveValue,Serializable {
     @Override
     public boolean isNaN() {
         return cell.getEffectiveValue().isNaN();
+    }
+
+    @Override
+    public boolean isUndefined() {
+        return cell.getEffectiveValue().isUndefined();
     }
 
     @Override

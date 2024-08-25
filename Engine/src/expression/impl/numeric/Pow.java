@@ -20,6 +20,11 @@ public class Pow extends BinaryExpression implements Serializable {
     }
 
     @Override
+    public String expressionTOtoString() {
+        return "{POW, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+    }
+
+    @Override
     protected EffectiveValue evaluate(EffectiveValue e1, EffectiveValue e2) {
         if (Number.CheckIsNan(e1, e2)) {
             return new Number(true);
@@ -27,5 +32,11 @@ public class Pow extends BinaryExpression implements Serializable {
         Double res = Math.pow((Double) e1.getValue(), (Double) e2.getValue());
         return new Number(res);
     }
+
+    @Override
+    public String toString() {
+        return "{POW, " + getExpression1().toString() + ", " + getExpression2().toString() + "}";
+    }
+
 
 }
