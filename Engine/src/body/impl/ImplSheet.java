@@ -5,6 +5,7 @@ import body.Coordinate;
 import body.Sheet;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
+import expression.impl.Empty;
 import expression.impl.Number;
 import expression.impl.Str;
 import expression.impl.numeric.*;
@@ -138,28 +139,22 @@ public class ImplSheet implements Sheet,Serializable  {
     public void updateCellDitels(String cellId, String value){
         Coordinate currCoord = new CoordinateImpl(cellId);
         checkValidBounds(currCoord);
-//        if(currCoord.getRow() > row || currCoord.getColumn() > col){
-//            throw new IllegalArgumentException("Cell is out of bounds");
-//        }
-
-//        if(!activeCells.containsKey(currCoord)){
         activeCells.putIfAbsent(currCoord, new ImplCell(cellId));
         graph.addVertex(currCoord);
-//        }
-
         sheetVersion = sheetVersion + 1;
         graph.removeEntryEdges(currCoord);
         Cell cell = activeCells.get(currCoord);
         cell.setOriginalValue(value);
+
         //why we need it?
         cell.setEffectiveValue(null);
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
+
         cell.setLastVersionUpdate(sheetVersion);
         countUpdateCell++;
     }
 
-    //TODO: omri need to explain to me the REF loop.
     @Override
     public void updateCellEffectiveValue(String cellId){
         Set<Coordinate> neighbors = graph.listOfAccessibleVertex(new CoordinateImpl(cellId));
@@ -174,49 +169,14 @@ public class ImplSheet implements Sheet,Serializable  {
             String value = currCell.getOriginalValue();
             Expression currExpression = stringToExpression(value,coord);
             currCell.setExpression(currExpression);
-//            if (currCell.getEffectiveValue() instanceof Reference) {
-//                Reference ref = (Reference) currCell.getEffectiveValue();
-//                ref.setCell(findUpdateCell(ref.getCell()));
-//                currCell.setExpression(ref);
-//                if(ref.getCell().getLastVersionUpdate() > currCell.getLastVersionUpdate()){
-//                    countUpdateCell++;
-//                }
-//                currCell.setLastVersionUpdate(ref.getCell().getLastVersionUpdate());
-//            }
             currCell.setEffectiveValue(currCell.getExpression().evaluate());
         }
     }
 
-
     @Override
     public void updateCell(String cellId, String value) {
-//        Coordinate currCoord = new CoordinateImpl(cellId);
-//        if(currCoord.getRow() > row || currCoord.getColumn() > col){
-//            throw new IllegalArgumentException("Cell is out of bounds");
-//        }
-//        if(!activeCells.containsKey(currCoord)){
-//            activeCells.put(currCoord, new ImplCell(cellId));
-//            graph.addVertex(currCoord);
-//        }
-//        graph.removeEntryEdges(currCoord);
-//        Cell cell = activeCells.get(currCoord);
-//        cell.setOriginalValue(value);
-//        Expression currExpression= stringToExpression(value,currCoord);
-//        cell.setExpression(currExpression);
-//        cell.setLastVersionUpdate(sheetVersion);
         updateCellDitels(cellId, value);
         updateCellEffectiveValue(cellId);
-//      List<Coordinate> res = graph.topologicalSort();
-//        for(Coordinate coord : res){
-//            Cell currCell = activeCells.get(coord);
-//
-//            if (currCell.getEffectiveValue() instanceof Reference) {
-//                Reference ref = (Reference) currCell.getEffectiveValue();
-//                ref.setCell(findUpdateCell(ref.getCell()));
-//                currCell.setExpression(ref);
-//            }
-//            currCell.setEffectiveValue(currCell.getExpression().evaluate());
-//        }
     }
 
     private Cell findUpdateCell(Cell prevCell){
@@ -256,9 +216,19 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     private Expression stringToExpression(String input,Coordinate coordinate) {
+        Expression currExpression = helperStringToExpression(input,coordinate);
+        if(currExpression instanceof Str ){
+            return new Str(((Str) currExpression).getValue().toString().trim());
+
+        }
+        return currExpression;
+    }
+
+
+    private Expression helperStringToExpression(String input,Coordinate coordinate) {
 
         if(input.isEmpty()){
-            return null;
+            return new Empty();
         }
         validInputBracket(input);
         if(!input.contains(",")){
@@ -288,20 +258,24 @@ public class ImplSheet implements Sheet,Serializable  {
                     }
                 }
                 if (c == ',' && !insideBraces) {
-                    result.add(currentElement.toString().trim());
+                    if(!currentElement.toString().isEmpty()){
+                        result.add(currentElement.toString());
+                    }
 
                     currentElement.setLength(0); // Clear the current element
                 } else {
                     currentElement.append(c);
                 }
             }
-            result.add(currentElement.toString().trim()); // Add the last element
+            if(!currentElement.toString().isEmpty()){
+                result.add(currentElement.toString()); // Add the last element
+            }
             if(!isValidOperator(result.get(0).toUpperCase())){
                 throw new NumberFormatException("Invalid Operator" + System.lineSeparator() + "The valid Operator are: PLUS, MINUS, TIMES, DIVIDE, MOD, POW, CONCAT, ABS, SUB, REF");
             }
             isValidNumOfArgs(result);
             for(int i = 1; i < result.size(); i++) {
-                e.add(stringToExpression(result.get(i),coordinate));
+                e.add(helperStringToExpression(result.get(i),coordinate));
             }
 
             return createExpression(result.get(0),e, coordinate);
@@ -310,7 +284,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private Boolean isValidNumOfArgs(List<String> args){
         Boolean res = true;
-        switch (args.get(0).toUpperCase()) {
+        switch (args.get(0).toUpperCase().trim()) {
             case "PLUS":
             case "MINUS":
             case "TIMES":

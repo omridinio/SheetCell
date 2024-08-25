@@ -61,10 +61,10 @@ public class Number implements Expression, EffectiveValue, Serializable{
 
 
     public static boolean CheckIsNan(EffectiveValue e1, EffectiveValue e2){
-        return (e1.isNaN() || e2.isNaN());
+        return (e1.isNaN() || e2.isNaN() || e1.getCellType() == CellType.EMPTY ||  e2.getCellType() == CellType.EMPTY);
     }
 
     public static boolean CheckIsNan(EffectiveValue e1){
-        return e1.isNaN();
+        return e1.isNaN() || e1.getCellType() == CellType.EMPTY;
     }
 }

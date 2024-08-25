@@ -46,59 +46,6 @@ public enum MainMenu implements Menu {
         public void invoke(Logic logic) {
             printSheet(logic.getSheet());
         }
-
-//        public void printSheet(SheetDTO currSheet) {
-//            String whiteSpace = makeWidth(currSheet.getWidth());
-//            System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
-//            System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + " "); // Leading space for row numbers
-//            for (int i = 0; i < currSheet.getColumnCount(); i++) {
-//                System.out.print((char) ('A' + i) + whiteSpace);
-//            }
-//            System.out.println();
-//
-//            // Print the rows with numbers and placeholders
-//            for (int i = 1; i <= currSheet.getRowCount(); i++) {
-//                String whiteSpaceBeforeRow = makeWidth(howManyDigits(currSheet.getRowCount()) - howManyDigits(i));
-//                System.out.print(i+ whiteSpaceBeforeRow + "|"); // Print the row number
-//                for (int j = 1; j <= currSheet.getColumnCount(); j++) {
-//                    Coordinate currCoord = new CoordinateImpl(i,j);
-//                    EffectiveValue currCell = currSheet.getEfectivevalueCell(currCoord);
-//                    if(currCell != null){
-//                        int cellWidth = currCell.toString().length();
-//                        String tempWhiteSpace = makeWidth(currSheet.getWidth() - cellWidth);
-//                        System.out.print(currCell.toString() + tempWhiteSpace + "|");
-//                    }
-//                    else {
-//                        System.out.print(whiteSpace + "|"); // Placeholder for cell content
-//                    }
-//                }
-//                System.out.println();
-//                for(int j = 0; j < currSheet.getThickness() - 1; j++){
-//                    System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + "|");
-//                    for (int K = 0; K < currSheet.getColumnCount(); K++) {
-//                        System.out.print(whiteSpace + "|");
-//                    }
-//                    System.out.println();
-//                }
-//
-//            }
-//        }
-
-//        private int howManyDigits(int number){
-//            if (number == 0) {
-//                return 1;
-//            }
-//            return (int) Math.log10(Math.abs(number)) + 1;
-//        }
-//
-//        private String makeWidth(int width){
-//            String res = "";
-//            for (int i = 0; i < width; i++) {
-//                res += " ";
-//            }
-//            return res;
-//        }
-
     },
     DISPLAYCELL{
         @Override
@@ -257,7 +204,7 @@ public enum MainMenu implements Menu {
                 if(currCell != null){
                     int cellWidth = currCell.toString().length();
                     String tempWhiteSpace = makeWidth(currSheet.getWidth() - cellWidth);
-                    System.out.print(currCell.toString() + tempWhiteSpace + "|");
+                    System.out.print(currCell.toString().substring(0, Math.min(currSheet.getWidth(), currCell.toString().length())) + tempWhiteSpace + "|");
                 }
                 else {
                     System.out.print(whiteSpace + "|"); // Placeholder for cell content

@@ -35,7 +35,7 @@ public class Reference implements Expression, EffectiveValue,Serializable {
 
     @Override
     public CellType getCellType() {
-        return CellType.STRING;
+        return cell.getEffectiveValue().getCellType();
     }
     @Override
     public Object getValue() {

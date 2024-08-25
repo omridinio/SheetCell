@@ -58,6 +58,9 @@ public class ImplLogic implements Logic  {
     }
     @Override
     public void creatNewSheet(String path)throws JAXBException, FileNotFoundException {
+        if(!checkPostFix(path)){
+            throw new FileNotFoundException("Please enter a '.xml' file only.");
+        }
         InputStream inputStream = new FileInputStream(new File(path));
         STLSheet res = creatGeneratedObject(inputStream);
         mainSheet.add(STLSheet2Sheet(res));
@@ -106,5 +109,8 @@ public class ImplLogic implements Logic  {
         return new ImplSheetDTO(mainSheet.get(version));
     }
 
+    private boolean checkPostFix(String fullPath) {
+        return fullPath.endsWith(".xml");
+    }
 }
 
