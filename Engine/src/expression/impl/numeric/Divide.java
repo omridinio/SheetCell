@@ -15,10 +15,10 @@ public class Divide extends BinaryExpression implements Serializable {
 
     @Override
     protected EffectiveValue evaluate(EffectiveValue evaluate, EffectiveValue evaluate2) throws NumberFormatException {
-        if((Double)evaluate2.getValue() == 0){
+        if(Number.CheckIsNan(evaluate, evaluate2)){
             return new Number(true);
         }
-        if(Number.CheckIsNan(evaluate, evaluate2)){
+        if((Double)evaluate2.getValue() == 0){
             return new Number(true);
         }
         Double res = (Double)evaluate.getValue() / (Double)evaluate2.getValue();

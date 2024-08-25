@@ -173,6 +173,24 @@ public class ImplSheet implements Sheet,Serializable  {
         }
     }
 
+//    private String expressionToOriginalValue(String expression){
+//        String originalValue = "";
+//        Stack stack = new Stack();
+//        for (int i=0; i<expression.length(); i++){
+//            if(expression.charAt(i) == '(') {
+//                originalValue += '{';
+//            }
+//            else if(expression.charAt(i) == ')') {
+//                originalValue += '}';
+//            }
+//
+//        }
+//
+//
+//
+//
+//    }
+
     @Override
     public void updateCell(String cellId, String value) {
         updateCellDitels(cellId, value);
@@ -218,12 +236,11 @@ public class ImplSheet implements Sheet,Serializable  {
     private Expression stringToExpression(String input,Coordinate coordinate) {
         Expression currExpression = helperStringToExpression(input,coordinate);
         if(currExpression instanceof Str ){
-            return new Str(((Str) currExpression).getValue().toString().trim());
 
+            return new Str(((Str) currExpression).getValue().toString().trim());
         }
         return currExpression;
     }
-
 
     private Expression helperStringToExpression(String input,Coordinate coordinate) {
 
@@ -231,7 +248,8 @@ public class ImplSheet implements Sheet,Serializable  {
             return new Empty();
         }
         validInputBracket(input);
-        if(!input.contains(",")){
+        //if(!input.contains(",")){
+        if(!(input.trim().charAt(0) == '{' && input.trim().charAt(input.trim().length()-1) == '}')){
             try{
                 Double.parseDouble(input);
                 return (new Number(input));
@@ -241,6 +259,7 @@ public class ImplSheet implements Sheet,Serializable  {
         }
 
         else {
+            input = input.trim();
             input = input.substring(1, input.length() - 1);
             List<String> result = new ArrayList<>();
             List<Expression> e = new ArrayList<>();
@@ -270,7 +289,7 @@ public class ImplSheet implements Sheet,Serializable  {
             if(!currentElement.toString().isEmpty()){
                 result.add(currentElement.toString()); // Add the last element
             }
-            if(!isValidOperator(result.get(0).toUpperCase())){
+            if(!isValidOperator(result.get(0).toUpperCase().trim())){
                 throw new NumberFormatException("Invalid Operator" + System.lineSeparator() + "The valid Operator are: PLUS, MINUS, TIMES, DIVIDE, MOD, POW, CONCAT, ABS, SUB, REF");
             }
             isValidNumOfArgs(result);
@@ -278,7 +297,7 @@ public class ImplSheet implements Sheet,Serializable  {
                 e.add(helperStringToExpression(result.get(i),coordinate));
             }
 
-            return createExpression(result.get(0),e, coordinate);
+            return createExpression(result.get(0), e, coordinate);
         }
     }
 
@@ -339,6 +358,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private Coordinate refHelper(Expression input, Coordinate toCoordinate){
         String cellID = (String) input.evaluate().getValue();
+        cellID = cellID.trim();
         if(validInputCell(cellID.toUpperCase(), toCoordinate)){
             Coordinate coordinate = new CoordinateImpl(cellID);
             return coordinate;
