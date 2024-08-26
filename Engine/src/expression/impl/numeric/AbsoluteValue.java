@@ -29,7 +29,7 @@ public class AbsoluteValue  extends UnaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{ABS, " + getExpression().expressionTOtoString() + "}";
+        return "{ABS," + getExpression().expressionTOtoString() + "}";
     }
 
     @Override

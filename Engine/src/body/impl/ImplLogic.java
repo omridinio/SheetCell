@@ -16,8 +16,9 @@ import jaxb.generated.STLSheet;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class ImplLogic implements Logic  {
+public class ImplLogic implements Logic,Serializable  {
 
     private List<Sheet> mainSheet = new ArrayList<>();
 
@@ -66,7 +67,6 @@ public class ImplLogic implements Logic  {
         mainSheet.add(STLSheet2Sheet(res));
     }
 
-    //TODO: add get version!
     private Sheet STLSheet2Sheet(STLSheet stlSheet) {
         String name = stlSheet.getName();
         int thickness = stlSheet.getSTLLayout().getSTLSize().getRowsHeightUnits();
@@ -112,5 +112,51 @@ public class ImplLogic implements Logic  {
     private boolean checkPostFix(String fullPath) {
         return fullPath.endsWith(".xml");
     }
+
+    @Override
+    public String validInputCell(String input){
+        while(true) {
+            if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
+                String temp = input.substring(1);
+                try {
+                    if(Integer.parseInt(temp) > 0) {
+                        break;
+                    }
+                } catch (NumberFormatException e) { }
+            }
+            System.out.println("Invalid input, please enter a valid cell identifier (e.g., A4):");
+            Scanner scanner = new Scanner(System.in);
+            input = scanner.nextLine();
+            input = input.toUpperCase();
+        }
+        return input;
+    }
+    @Override
+    public void saveToFile()throws IOException{
+        List<Sheet> currentVersion = this.mainSheet;
+        // Step 1: Serialize the object to a file
+        FileOutputStream fileOutStream = new FileOutputStream("currentVersion.ser");
+        ObjectOutputStream outStream = new ObjectOutputStream(fileOutStream);
+        outStream.writeObject(currentVersion);
+        outStream.flush();
+        outStream.close();
+        fileOutStream.close();
+
+    }
+
+    public List<Sheet> getMainSheet() {
+        return mainSheet;
+    }
+
+    @Override
+    public void loadFromFile(String path) throws IOException,  ClassNotFoundException{
+        // Step 2: Deserialize the object from the file
+        FileInputStream fileInStream = new FileInputStream(path);
+        ObjectInputStream inStream = new ObjectInputStream(fileInStream);
+        mainSheet = (List<Sheet>) inStream.readObject();
+        inStream.close();
+        fileInStream.close();
+    }
+
 }
 

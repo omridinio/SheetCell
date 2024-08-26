@@ -3,12 +3,15 @@ package menu.impl;
 import body.Coordinate;
 import body.Logic;
 import body.impl.CoordinateImpl;
+import body.impl.ImplLogic;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import expression.api.EffectiveValue;
+import expression.impl.Str;
 import jaxb.generated.STLSheet;
 import menu.Menu;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -29,17 +32,20 @@ public enum MainMenu implements Menu {
                 try {
                     logic.creatNewSheet(enterdPath);
                     success = true;
-                } catch (ClassCastException e) {
+                }catch (FileNotFoundException e) {
+                    System.out.println("ERROR file not found! Please enter a valid path to the file you want to load:");
+                }catch (ClassCastException e) {
                     System.out.println("ERROR! in the file, one of the cells has a value that does not match the function");
-                } catch (Exception e) {
+                }catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             }
         }
         void display(){
+            System.out.println("To exit to main menu please enter '0' ");
             System.out.println("Please enter the full path to the XML file you want to load: ");
             System.out.println("(Example for Windows: C:\\path\\to\\your\\file.xml)");
-            System.out.println("To exit to main menu please enter '0' ");        }
+        }
     },
     DISPLAYSPREADSHEET{
         @Override
@@ -67,8 +73,8 @@ public enum MainMenu implements Menu {
         }
 
         void display(){
-            System.out.println("Please enter the cell identifier (e.g., A4):");
             System.out.println("To exit to main menu please enter '0' ");
+            System.out.println("Please enter the cell identifier (e.g., A4):");
         }
     },
     UPDATECELL{
@@ -83,7 +89,7 @@ public enum MainMenu implements Menu {
                 if (enterdCell.equals("0")) {
                     break;
                 }
-                enterdCell = validInputCell(enterdCell.toUpperCase());
+                enterdCell = logic.validInputCell(enterdCell.toUpperCase());
                 try{
                     printCell(logic.getCell(enterdCell),true);
                     success = true;
@@ -114,18 +120,20 @@ public enum MainMenu implements Menu {
         }
 
         void display(){
-            System.out.println("Please enter the cell identifier (e.g. A4):");
             System.out.println("To exit to main menu please enter '0' ");
+            System.out.println("Please enter the cell identifier (e.g. A4):");
         }
 
     },
     DISPLAYVERSION{
         @Override
         public void invoke(Logic logic) {
+
             List<Integer> CellsPerVersion = logic.getNumberOfUpdatePerVersion();
-            System.out.println("version  |  Number of cells updated");
+            System.out.println("version |  Number of cells updated");
             for (int i = 0; i < CellsPerVersion.size(); i++) {
-                System.out.println(i + 1 + "        |  " + CellsPerVersion.get(i));
+                String prefix = (i+1) + "        ";
+                System.out.println(prefix.substring(0,8) + "|  " + CellsPerVersion.get(i));
             }
             System.out.println("To exit to main menu please enter '0' ");
             int option = 0;
@@ -153,17 +161,53 @@ public enum MainMenu implements Menu {
 
         }
         private void display(){
-            System.out.print("Please enter the version number to preview:");
+            System.out.println("Please enter the version number to preview:");
+        }
+    },
+    SAVECURRENTFILE{
+        @Override
+        public void invoke(Logic logic) {
+            try {
+                logic.saveToFile();
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    },
+    LOADFROMSAVEDFILE{
+        @Override
+        public void invoke(Logic logic) {
+            Logic res = null;
+            while(true) {
+                System.out.println("Please enter the full path to the file you want to load: ");
+                System.out.println("To exit to main menu please enter '0' ");
+                Scanner scanner = new Scanner(System.in);
+                String enterdPath = scanner.nextLine();
+                if (enterdPath.equals("0")) {
+                    break;
+                }
+                try {
+                    logic.loadFromFile(enterdPath);
+                    break;
+                }catch (FileNotFoundException e) {
+                    System.out.println("ERROR file not found! Please enter a valid path to the file you want to load:");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         }
     };
 
     public static void printMenu(){
-        System.out.println("1) Read File");
+        System.out.println();
+        System.out.println("1) Read File from .XML");
         System.out.println("2) Display Spreadsheet");
         System.out.println("3) Display Single Cell");
         System.out.println("4) Update Single Cell");
         System.out.println("5) Display Versions");
-        System.out.println("6) Exit");
+        System.out.println("6) Save your Sheet to file");
+        System.out.println("7) Upload an existing Sheet");
+        System.out.println("8) Exit");
     }
 
     public static MainMenu parser (int option){
@@ -179,14 +223,20 @@ public enum MainMenu implements Menu {
             case 5:
                 return DISPLAYVERSION;
             case 6:
+                return SAVECURRENTFILE;
+            case 7:
+                return LOADFROMSAVEDFILE;
+            case 8:
                 exit(0);
+
             default:
-                throw new IllegalArgumentException("Invalid option was pressed, only 1-6 numbers. Please try again.");
+                throw new IllegalArgumentException("Invalid option was pressed, only 1-8 numbers. Please try again.");
         }
     }
 
     public void printSheet(SheetDTO currSheet) {
         String whiteSpace = makeWidth(currSheet.getWidth());
+        System.out.println();
         System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
         System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + " "); // Leading space for row numbers
         for (int i = 0; i < currSheet.getColumnCount(); i++) {
@@ -238,6 +288,7 @@ public enum MainMenu implements Menu {
     }
 
     public static void printCell (CellDTO cell,boolean inUpdate){
+        System.out.println();
         System.out.println("Name: " + cell.getId());
         System.out.println("Original value: " + cell.getOriginalValue());
         try{
@@ -250,24 +301,5 @@ public enum MainMenu implements Menu {
             System.out.println("List of cells that Depend on " + cell.getId() + ": " + cell.getCellsDependsOnHim() );
             System.out.println("List of cells that " + cell.getId() + " depend on: " + cell.getCellsDependsOnThem() );
         }
-    }
-
-    //TODO: maybe forward to logic
-    String validInputCell(String input){
-        while(true) {
-            if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
-                String temp = input.substring(1);
-                try {
-                    if(Integer.parseInt(temp) > 0) {
-                        break;
-                    }
-                } catch (NumberFormatException e) { }
-            }
-            System.out.println("Invalid input, please enter a valid cell identifier (e.g., A4):");
-            Scanner scanner = new Scanner(System.in);
-            input = scanner.nextLine();
-            input = input.toUpperCase();
-        }
-        return input;
     }
 }

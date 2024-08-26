@@ -27,7 +27,7 @@ public class Times extends BinaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{TIMES, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+        return "{TIMES," + getExpression1().expressionTOtoString() + "," + getExpression2().expressionTOtoString() + "}";
     }
 
     @Override

@@ -21,7 +21,7 @@ public class Pow extends BinaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{POW, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+        return "{POW," + getExpression1().expressionTOtoString() + "," + getExpression2().expressionTOtoString() + "}";
     }
 
     @Override

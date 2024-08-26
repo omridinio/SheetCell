@@ -27,6 +27,6 @@ public class REF extends UnaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{REF, " + cell.getId() + "}";
+        return "{REF," + cell.getId() + "}";
     }
 }

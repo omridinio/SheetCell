@@ -30,7 +30,7 @@ public class Divide extends BinaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{DIVIDE, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+        return "{DIVIDE, " + getExpression1().expressionTOtoString() + "," + getExpression2().expressionTOtoString() + "}";
     }
 
     @Override

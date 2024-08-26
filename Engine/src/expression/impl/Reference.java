@@ -25,7 +25,7 @@ public class Reference implements Expression, EffectiveValue,Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{REF, " + cell.getId() + "}";
+        return "{REF," + cell.getId() + "}";
     }
 
     @Override

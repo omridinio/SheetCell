@@ -3,6 +3,7 @@ package dto.impl;
 import body.Cell;
 import body.Coordinate;
 import expression.api.EffectiveValue;
+import expression.api.Expression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,4 +44,5 @@ public class CellDTO {
     public Object getOriginalEffectiveValue() {return effectiveValue;}
     public List<Coordinate> getCellsDependsOnThem() {return cellsDependsOnThem;}
     public List<Coordinate> getCellsDependsOnHim() {return cellsDependsOnHim;}
+
 }

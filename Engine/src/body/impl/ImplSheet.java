@@ -34,7 +34,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
         if (row > 50 || col > 20 || row < 1 || col < 1) {
-            throw new IllegalArgumentException("The row or the column is out of bounds, Please try again.");
+            throw new IllegalArgumentException("ERROR! Can't load the file. The file has a row or column that is out of range.");
         }
         this.sheetName = sheetName;
         this.thickness = thickness;
@@ -43,25 +43,6 @@ public class ImplSheet implements Sheet,Serializable  {
         this.col = col;
         this.graph = new Graph();
     }
-
-    public ImplSheet(ImplSheet other) {
-        this.sheetName = other.sheetName; // Strings are immutable, so this is safe
-        this.thickness = other.thickness;
-        this.width = other.width;
-        this.row = other.row;
-        this.col = other.col;
-        this.sheetVersion = other.sheetVersion;
-
-        // Deep copy of activeCells
-        this.activeCells = new HashMap<>();
-        for (Map.Entry<Coordinate, Cell> entry : other.activeCells.entrySet()) {
-            this.activeCells.put(entry.getKey(), new ImplCell((ImplCell) entry.getValue()));
-        }
-
-        // Deep copy of graph
-        this.graph = new Graph(other.graph); // Assuming Graph has a copy constructor
-    }
-
 
     @Override
     public String getSheetName() {
@@ -72,13 +53,8 @@ public class ImplSheet implements Sheet,Serializable  {
     public Cell getCell(String cellID) {
         Coordinate coordinate = new CoordinateImpl(cellID);
         checkValidBounds(coordinate);
-//        if(coordinate.getRow() > row || coordinate.getColumn() > col){
-//            throw new IllegalArgumentException("Cell is out of bounds");
-//        }
         if(!activeCells.containsKey(coordinate)){
             return new ImplCell(cellID);
-//            activeCells.put(coordinate, new ImplCell(cellID));
-//            graph.addVertex(coordinate);
         }
         else {
             updateListsOfDependencies(coordinate);
@@ -172,24 +148,6 @@ public class ImplSheet implements Sheet,Serializable  {
             currCell.setOriginalValue(currExpression.expressionTOtoString());
         }
     }
-
-//    private String expressionToOriginalValue(String expression){
-//        String originalValue = "";
-//        Stack stack = new Stack();
-//        for (int i=0; i<expression.length(); i++){
-//            if(expression.charAt(i) == '(') {
-//                originalValue += '{';
-//            }
-//            else if(expression.charAt(i) == ')') {
-//                originalValue += '}';
-//            }
-//
-//        }
-//
-//
-//
-//
-//    }
 
     @Override
     public void updateCell(String cellId, String value) {
@@ -385,7 +343,7 @@ public class ImplSheet implements Sheet,Serializable  {
                 graph.addEdge(coordinate, toCoordinate);
                 if(graph.hasCycle()){
                     graph.removeEdge(coordinate, toCoordinate);
-                    throw new IllegalArgumentException("Error: the cell: " + input + "create a circle");
+                    throw new IllegalArgumentException("Error! the cell: " + input + " create a circle");
                 }
 
 

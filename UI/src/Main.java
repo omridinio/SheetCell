@@ -18,7 +18,7 @@ public class Main {
 
         Logic logic = new ImplLogic();
 
-        boolean first = true;
+        boolean loaded = false;
         while (true) {
             MainMenu.printMenu();
             Scanner scanner = new Scanner(System.in);
@@ -28,12 +28,12 @@ public class Main {
                         String input = scanner.nextLine();
                         option = Integer.parseInt(input.trim());
                         MainMenu choose = MainMenu.parser(option);
-                        if (option != 1 && first){
-                           System.out.println("Please upload Sheet first.(Press (1))");
+                        if (option != 1 && option !=8 && option != 7 && !loaded){
+                           System.out.println("Please upload Sheet first.(Press (1 or 7))");
                         }
                         else{
                             choose.invoke(logic);
-                            first = false;
+                            loaded = !logic.getMainSheet().isEmpty();
                             break;
                         }
                     }

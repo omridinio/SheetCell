@@ -30,12 +30,12 @@ public class Concat extends BinaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{CONCAT, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+        return "{CONCAT," + getExpression1().expressionTOtoString() + "," + getExpression2().expressionTOtoString() + "}";
     }
 
     @Override
     public String toString() {
-        return "{CONCAT, " + getExpression1().toString() + ", " + getExpression2().toString() + "}";
+        return "{CONCAT," + getExpression1().toString() + "," + getExpression2().toString() + "}";
     }
 
 }

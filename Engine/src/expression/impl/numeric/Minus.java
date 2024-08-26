@@ -20,7 +20,7 @@ public class Minus extends BinaryExpression implements Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return "{MINUS, " + getExpression1().expressionTOtoString() + ", " + getExpression2().expressionTOtoString() + "}";
+        return "{MINUS," + getExpression1().expressionTOtoString() + "," + getExpression2().expressionTOtoString() + "}";
     }
 
     @Override
