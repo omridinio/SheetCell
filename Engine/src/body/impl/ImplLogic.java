@@ -115,17 +115,17 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
-    public void saveToFile()throws IOException{
+    public String saveToFile(String name)throws IOException{
         List<Sheet> currentVersion = this.mainSheet;
         // Step 1: Serialize the object to a file
-        FileOutputStream fileOutStream = new FileOutputStream("mySheet");
+        File file = new File(name);
+        FileOutputStream fileOutStream = new FileOutputStream(file);
         ObjectOutputStream outStream = new ObjectOutputStream(fileOutStream);
         outStream.writeObject(currentVersion);
         outStream.flush();
         outStream.close();
         fileOutStream.close();
-
-
+        return file.getAbsolutePath();
     }
 
     public List<Sheet> getMainSheet() {

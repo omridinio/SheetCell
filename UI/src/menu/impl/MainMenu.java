@@ -11,6 +11,7 @@ import expression.impl.Str;
 import jaxb.generated.STLSheet;
 import menu.Menu;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
@@ -58,21 +59,22 @@ public enum MainMenu implements Menu {
     DISPLAYCELL{
         @Override
         public void invoke(Logic logic) {
+            display();
             while (true) {
-                display();
                 Scanner scanner = new Scanner(System.in);
                 String enterdCell = scanner.nextLine();
                 if (enterdCell.equals("0")) {
                     break;
                 }
-
                 try{
-                    printCell(logic.getCell(enterdCell), false);
-                    break;
+                    if(validInputCell(enterdCell.toUpperCase())){
+                        printCell(logic.getCell(enterdCell.toUpperCase()), false);
+                        break;
+                    }
                 } catch (Exception e){
                     System.out.println(e.getMessage());
                 }
-
+                System.out.println("ERROR! Cell ID not as the format(e.g. A4), Please enter a valid cell ID:");
             }
         }
 
@@ -96,6 +98,7 @@ public enum MainMenu implements Menu {
                 }
 
                 if(!validInputCell(enterdCell)){
+                    System.out.println("ERROR! Cell ID not as the format(e.g. A4), Please enter a valid cell ID: ");
                     continue;
                 }
                 try{
@@ -106,7 +109,7 @@ public enum MainMenu implements Menu {
                 catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                System.out.println("Please enter the cell identifier with Capital Letter(e.g., A4):");
+                System.out.println("Please enter the cell identifier (e.g., A4):");
             }
 
             while(success){
@@ -143,7 +146,7 @@ public enum MainMenu implements Menu {
                 String prefix = (i+1) + "        ";
                 System.out.println(prefix.substring(0,8) + "|  " + CellsPerVersion.get(i));
             }
-            System.out.println("To exit to main menu please enter '0' ");
+
             int option = 0;
             while(true){
                 try {
@@ -169,6 +172,8 @@ public enum MainMenu implements Menu {
 
         }
         private void display(){
+            System.out.println();
+            System.out.println("To exit to main menu please enter '0' ");
             System.out.println("Please enter the version number to preview:");
         }
     },
@@ -176,9 +181,13 @@ public enum MainMenu implements Menu {
         @Override
         public void invoke(Logic logic) {
             try {
-                logic.saveToFile();
+                System.out.println();
+                System.out.println("Please enter name for your file: ");
+                Scanner scanner = new Scanner(System.in);
+                String input = scanner.nextLine();
+                String path = logic.saveToFile(input);
                 System.out.println(System.lineSeparator() + "===== File saved successfully =====");
-                System.out.println("file named : 'mySheet' created successfully");
+                System.out.println("file named : '" + input + "' created successfully in " + path);
             }catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -315,7 +324,7 @@ public enum MainMenu implements Menu {
         try{
             System.out.println("Effective value: " + cell.getOriginalEffectiveValue().toString());
         }catch(NullPointerException e){
-            System.out.println("Effective value: Empty");
+            System.out.println("Effective value: ");
         }
         if(!inUpdate){
             System.out.println("Last changed version: " + cell.getLastVersionUpdate());

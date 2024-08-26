@@ -15,7 +15,7 @@ public interface Logic {
     void creatNewSheet(String path)throws JAXBException, FileNotFoundException, IOException;
     List<Integer> getNumberOfUpdatePerVersion();
     SheetDTO getSheetbyVersion(int version);
-    void saveToFile() throws IOException;
+    String saveToFile(String name) throws IOException;
     void loadFromFile(String path) throws IOException, ClassNotFoundException;
     List<Sheet> getMainSheet();
 }
