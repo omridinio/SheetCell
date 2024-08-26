@@ -64,6 +64,7 @@ public class ImplLogic implements Logic,Serializable  {
         }
         InputStream inputStream = new FileInputStream(new File(path));
         STLSheet res = creatGeneratedObject(inputStream);
+        mainSheet.clear();
         mainSheet.add(STLSheet2Sheet(res));
     }
 
@@ -114,33 +115,16 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
-    public String validInputCell(String input){
-        while(true) {
-            if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
-                String temp = input.substring(1);
-                try {
-                    if(Integer.parseInt(temp) > 0) {
-                        break;
-                    }
-                } catch (NumberFormatException e) { }
-            }
-            System.out.println("Invalid input, please enter a valid cell identifier (e.g., A4):");
-            Scanner scanner = new Scanner(System.in);
-            input = scanner.nextLine();
-            input = input.toUpperCase();
-        }
-        return input;
-    }
-    @Override
     public void saveToFile()throws IOException{
         List<Sheet> currentVersion = this.mainSheet;
         // Step 1: Serialize the object to a file
-        FileOutputStream fileOutStream = new FileOutputStream("currentVersion.ser");
+        FileOutputStream fileOutStream = new FileOutputStream("mySheet");
         ObjectOutputStream outStream = new ObjectOutputStream(fileOutStream);
         outStream.writeObject(currentVersion);
         outStream.flush();
         outStream.close();
         fileOutStream.close();
+
 
     }
 
@@ -150,6 +134,7 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public void loadFromFile(String path) throws IOException,  ClassNotFoundException{
+
         // Step 2: Deserialize the object from the file
         FileInputStream fileInStream = new FileInputStream(path);
         ObjectInputStream inStream = new ObjectInputStream(fileInStream);

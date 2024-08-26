@@ -31,6 +31,8 @@ public enum MainMenu implements Menu {
                 }
                 try {
                     logic.creatNewSheet(enterdPath);
+                    System.out.println();
+                    System.out.println("=====File loaded successfully=====");
                     success = true;
                 }catch (FileNotFoundException e) {
                     System.out.println("ERROR file not found! Please enter a valid path to the file you want to load:");
@@ -63,7 +65,9 @@ public enum MainMenu implements Menu {
                 if (enterdCell.equals("0")) {
                     break;
                 }
-                try{ printCell(logic.getCell(enterdCell.toUpperCase()), false);
+
+                try{
+                    printCell(logic.getCell(enterdCell), false);
                     break;
                 } catch (Exception e){
                     System.out.println(e.getMessage());
@@ -86,10 +90,14 @@ public enum MainMenu implements Menu {
             boolean success = false;
             while(true) {
                 enterdCell = scanner.nextLine();
+                enterdCell = enterdCell.toUpperCase();
                 if (enterdCell.equals("0")) {
                     break;
                 }
-                enterdCell = logic.validInputCell(enterdCell.toUpperCase());
+
+                if(!validInputCell(enterdCell)){
+                    continue;
+                }
                 try{
                     printCell(logic.getCell(enterdCell),true);
                     success = true;
@@ -98,7 +106,7 @@ public enum MainMenu implements Menu {
                 catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                System.out.println("Please enter the cell identifier (e.g., A4):");
+                System.out.println("Please enter the cell identifier with Capital Letter(e.g., A4):");
             }
 
             while(success){
@@ -169,6 +177,8 @@ public enum MainMenu implements Menu {
         public void invoke(Logic logic) {
             try {
                 logic.saveToFile();
+                System.out.println(System.lineSeparator() + "===== File saved successfully =====");
+                System.out.println("file named : 'mySheet' created successfully");
             }catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -179,6 +189,7 @@ public enum MainMenu implements Menu {
         public void invoke(Logic logic) {
             Logic res = null;
             while(true) {
+                System.out.println();
                 System.out.println("Please enter the full path to the file you want to load: ");
                 System.out.println("To exit to main menu please enter '0' ");
                 Scanner scanner = new Scanner(System.in);
@@ -188,10 +199,14 @@ public enum MainMenu implements Menu {
                 }
                 try {
                     logic.loadFromFile(enterdPath);
+                    System.out.println();
+                    System.out.println("=====File loaded successfully=====");
                     break;
                 }catch (FileNotFoundException e) {
+                    System.out.println();
                     System.out.println("ERROR file not found! Please enter a valid path to the file you want to load:");
                 } catch (Exception e) {
+                    System.out.println();
                     System.out.println(e.getMessage());
                 }
             }
@@ -238,7 +253,7 @@ public enum MainMenu implements Menu {
         String whiteSpace = makeWidth(currSheet.getWidth());
         System.out.println();
         System.out.println("Sheet version: " + currSheet.getVersion() + System.lineSeparator() + "Sheet name: " + currSheet.getSheetName());
-        System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + " "); // Leading space for row numbers
+        System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + "  "); // Leading space for row numbers
         for (int i = 0; i < currSheet.getColumnCount(); i++) {
             System.out.print((char) ('A' + i) + whiteSpace);
         }
@@ -246,8 +261,13 @@ public enum MainMenu implements Menu {
 
         // Print the rows with numbers and placeholders
         for (int i = 1; i <= currSheet.getRowCount(); i++) {
-            String whiteSpaceBeforeRow = makeWidth(howManyDigits(currSheet.getRowCount()) - howManyDigits(i));
-            System.out.print(i+ whiteSpaceBeforeRow + "|"); // Print the row number
+            String whiteSpaceBeforeRow = "";
+            if(i<10){
+                System.out.print("0" + i+ whiteSpaceBeforeRow + "|");
+            }
+            else{
+                System.out.print(i+ whiteSpaceBeforeRow + "|"); // Print the row number
+            }
             for (int j = 1; j <= currSheet.getColumnCount(); j++) {
                 Coordinate currCoord = new CoordinateImpl(i,j);
                 EffectiveValue currCell = currSheet.getEfectivevalueCell(currCoord);
@@ -262,7 +282,8 @@ public enum MainMenu implements Menu {
             }
             System.out.println();
             for(int j = 0; j < currSheet.getThickness() - 1; j++){
-                System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + "|");
+                System.out.print("  |");
+                //System.out.print(makeWidth(howManyDigits(currSheet.getRowCount())) + "|");
                 for (int K = 0; K < currSheet.getColumnCount(); K++) {
                     System.out.print(whiteSpace + "|");
                 }
@@ -294,7 +315,7 @@ public enum MainMenu implements Menu {
         try{
             System.out.println("Effective value: " + cell.getOriginalEffectiveValue().toString());
         }catch(NullPointerException e){
-            System.out.println("Empty effective value");
+            System.out.println("Effective value: Empty");
         }
         if(!inUpdate){
             System.out.println("Last changed version: " + cell.getLastVersionUpdate());
@@ -302,4 +323,19 @@ public enum MainMenu implements Menu {
             System.out.println("List of cells that " + cell.getId() + " depend on: " + cell.getCellsDependsOnThem() );
         }
     }
+    public boolean validInputCell(String input){
+        if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
+            String temp = input.substring(1);
+            try {
+                if(Integer.parseInt(temp) > 0) {
+                    return true;
+                }
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
 }

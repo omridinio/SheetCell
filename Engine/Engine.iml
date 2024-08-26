@@ -7,6 +7,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="mod" level="project" />
+    <orderEntry type="library" name="mod" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/Downloads/jaxb-ri-4.0.5/jaxb-ri-4.0.5/mod" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Downloads/jaxb-ri-4.0.5/jaxb-ri-4.0.5/mod" />
+        </SOURCES>
+        <jarDirectory url="file://$USER_HOME$/Downloads/jaxb-ri-4.0.5/jaxb-ri-4.0.5/mod" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/Downloads/jaxb-ri-4.0.5/jaxb-ri-4.0.5/mod" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>
