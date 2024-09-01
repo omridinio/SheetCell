@@ -23,11 +23,7 @@ import java.util.Map;
 
 public class ShitsellController {
     @FXML
-    private HBox charHbox;
-    @FXML
-    private VBox digitVbox;
-    @FXML
-    private GridPane tableGridPane;
+    private VBox tableVbox;
     Map<Coordinate,Button> sheets = new HashMap<>();
     private Logic logic = new ImplLogic();
 
@@ -40,6 +36,8 @@ public class ShitsellController {
 
     @FXML
     private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
+        tableVbox.getChildren().clear();
+        sheets.clear();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -67,37 +65,41 @@ public class ShitsellController {
 
     // Method to dynamically add buttons
     private void addDynamicButtons(int col, int row) {
-        for (int i = 0; i < col; i++) {
-            char ch = (char) ('A' + i);
-            Button button = new Button(String.valueOf(ch));
-            button.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(button, Priority.ALWAYS);
-            charHbox.getChildren().add(button);
-        }
-        for (int i = 1; i <= row; i++) {
-            String s = i < 10 ? "0" + i : String.valueOf(i);
-            Button button = new Button(s);
-            button.setMaxHeight(Double.MAX_VALUE);
-            VBox.setVgrow(button, Priority.ALWAYS);
-            digitVbox.getChildren().add(button);
-        }
-        GridPane innerGridPane = new GridPane();
-        innerGridPane.setId("innerGridPane");
-        innerGridPane.setPrefSize(500, 500); // Set preferred size for innerGridPane
-        GridPane.setConstraints(innerGridPane, 1, 1);
-        tableGridPane.getChildren().add(innerGridPane);
-
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                String s = String.valueOf((char) ('A' + i)) + (j + 1);
+        for(int i = 0; i <= row; i++){
+            HBox currVbox = new HBox();
+            VBox.setVgrow(currVbox, Priority.ALWAYS);
+            for(int j = 0; j <= col; j++){
+                String s = "";
                 Button button = new Button();
-                sheets.put(new CoordinateImpl(s), button);
-                button.setId(s);
-                button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                GridPane.setHgrow(button, Priority.ALWAYS);
-                GridPane.setVgrow(button, Priority.ALWAYS);
-                innerGridPane.add(button, i, j);
+                button.setPrefHeight(50);
+                button.setPrefWidth(50);
+                button.setMaxWidth(Double.MAX_VALUE); // Make button fill available space
+                button.setMaxHeight(Double.MAX_VALUE);
+                HBox.setHgrow(button, Priority.ALWAYS); // Make the button grow within the HBox
+                currVbox.getChildren().add(button); // Add button to the HBox
+                button.getStyleClass().add(("row" + i));
+                button.getStyleClass().add(("col" + j));
+                if(i == 0 && j == 0){
+                    button.getStyleClass().add("empty");
+                    button.setId("empty");
+                }
+                else if(i == 0){
+                    s = String.valueOf((char)('A' + j - 1));
+                    button.setText(s);
+                    button.getStyleClass().add("ABC");
+                }
+                else if(j == 0){
+                    button.getStyleClass().add("digitVbox");
+                    s = i < 10 ? "0" + i : String.valueOf(i);
+                    button.setText(s);
+                }
+                else{
+                    button.getStyleClass().add("cell");
+                    Coordinate coordinate = new CoordinateImpl(i, j);
+                    sheets.put(coordinate, button);
+                }
             }
+            tableVbox.getChildren().add(currVbox);
         }
 
     }

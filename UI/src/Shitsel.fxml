@@ -9,10 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 
@@ -84,23 +81,6 @@
       </VBox>
    </left>
    <center>
-      <AnchorPane BorderPane.alignment="CENTER">
-         <children>
-            <GridPane fx:id="tableGridPane" layoutX="7.0" prefHeight="738.0" prefWidth="1063.0" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="528.0" minWidth="10.0" prefWidth="30.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1053.0" minWidth="10.0" prefWidth="973.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints maxHeight="369.0" minHeight="0.0" prefHeight="32.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="752.0" minHeight="10.0" prefHeight="706.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <HBox id="charHbox" fx:id="charHbox" alignment="CENTER" prefHeight="12.0" prefWidth="1018.0" GridPane.columnIndex="1" />
-                  <VBox id="digitVbox" fx:id="digitVbox" alignment="CENTER" prefHeight="706.0" prefWidth="28.0" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-         </children>
-      </AnchorPane>
+      <VBox fx:id="tableVbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>
