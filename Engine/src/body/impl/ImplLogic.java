@@ -134,8 +134,6 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public void loadFromFile(String path) throws IOException,  ClassNotFoundException{
-
-        // Step 2: Deserialize the object from the file
         FileInputStream fileInStream = new FileInputStream(path);
         ObjectInputStream inStream = new ObjectInputStream(fileInStream);
         mainSheet = (List<Sheet>) inStream.readObject();

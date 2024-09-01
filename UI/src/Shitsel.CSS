@@ -1,0 +1,169 @@
+/* Minimalist and refined style for the Load File button */
+#LoadFileButton {
+    -fx-background-color: #4CAF50; /* Solid green background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 12px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-background-radius: 8; /* Rounded corners */
+    -fx-border-radius: 8; /* Rounded corners */
+    -fx-padding: 5 10; /* Padding */
+    -fx-border-color: transparent; /* Transparent border for a clean look */
+    -fx-border-width: 2; /* Border width */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 3, 0.5, 0, 2); /* Subtle shadow effect */
+    -fx-transition: all 0.2s ease; /* Smooth transition for hover and pressed states */
+}
+
+#LoadFileButton:hover {
+    -fx-background-color: #45A049; /* Slightly lighter green on hover */
+}
+
+#LoadFileButton:pressed {
+    -fx-background-color: #388E3C; /* Darker green when pressed */
+}
+
+#HboxUp1{
+    -fx-background-color: #d2e5f6;
+}
+
+#HboxUp2{
+    -fx-background-color: #cbe1f3;
+}
+
+/* Style for the SplitPane divider */
+.split-pane .split-pane-divider {
+    -fx-background-color: #d2e5f6; /* Change the background color */
+    -fx-border-color: #d2e5f6; /* Add a border to the divider */
+    -fx-border-width: 1; /* Set border width */
+    -fx-pref-width: 5; /* Set preferred width of the divider */
+    -fx-pref-height: 5; /* Set preferred height of the divider */
+    -fx-background-insets: 0; /* Adjust background insets if needed */
+}
+
+/* Basic style for TextField with a light blue background */
+.text-field {
+    -fx-background-color: #e7edf1; /* Very light blue background */
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-font-size: 12px; /* Font size */
+    -fx-padding: 5 10; /* Padding inside the TextField */
+    -fx-background-radius: 10; /* Rounded corners */
+    -fx-border-radius: 10; /* Rounded corners for the border */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
+    -fx-prompt-text-fill: #999999; /* Lighter color for prompt text */
+    -fx-cursor: text; /* Text cursor */
+}
+
+/* Style when the TextField is focused */
+.text-field:focused {
+    -fx-border-color: #131313; /* Green border when focused */
+    -fx-effect: dropshadow(gaussian, rgba(10, 11, 10, 0.3), 3, 0.5, 0, 2); /* Green shadow effect when focused */
+}
+
+.label {
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-font-size: 11px; /* Font size */
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Font family */
+}
+
+#UpdateValue{
+    -fx-background-color: #4CAF50; /* Solid green background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 12px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+}
+
+#UpdateValue:hover {
+    -fx-background-color: #45A049; /* Slightly lighter green on hover */
+}
+
+/* Basic style for the Spinner */
+.spinner {
+    -fx-background-color: #F0F0F0; /* Light gray background */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-border-radius: 8; /* Rounded corners for the border */
+    -fx-background-radius: 8; /* Rounded corners for the background */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
+}
+
+/* Style for the Spinner's text field */
+.spinner .text-field {
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-font-size: 14px; /* Font size */
+    -fx-padding: 5; /* Padding inside the text field */
+    -fx-background-insets: 0; /* No additional insets */
+}
+
+/* Style for the Spinner arrows (up and down) */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: #E0E0E0; /* Light gray background for buttons */
+    -fx-border-color: #CCCCCC; /* Border color for buttons */
+    -fx-border-width: 0 0 0 1; /* Left border for separation */
+    -fx-padding: 1; /* No extra padding */
+    -fx-background-radius: 0 8 8 0; /* Rounded corners only on the outer side */
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-background-color: #D0D0D0; /* Darker gray on hover */
+}
+
+/* Style for the increment (up) arrow */
+.spinner .increment-arrow {
+    -fx-background-color: #131313; /* Green color for increment arrow */
+    -fx-shape: "M 0 4 L 8 4 L 4 0 Z"; /* Shape pointing up */
+}
+
+/* Style for the decrement (down) arrow */
+.spinner .decrement-arrow {
+    -fx-background-color: #131313; /* Green color for decrement arrow */
+    -fx-shape: "M 0 0 L 8 0 L 4 4 Z"; /* Shape pointing down */
+}
+
+.spinner .increment-arrow:hover,
+.spinner .decrement-arrow:hover {
+    -fx-background-color: #070707; /* Darker green on hover */
+}
+
+#charHbox .button{
+    -fx-alignment: center; /* Center the text within each header label */
+    -fx-font-size: 12px; /* Font size for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-background-color: #737370; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #131313; /* Border color */
+    -fx-border-width: 0 1px 0 1px; /* Vertical borders to separate columns */
+    -fx-border-radius: 0; /* No rounded corners */
+}
+
+#digitVbox .button{
+    -fx-alignment: center; /* Center the text within each header label */
+    -fx-font-size: 12px; /* Font size for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-background-color: #737370; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #131313 #131313 #131313 #131313; /* Border colors: top, right, bottom, left */
+    -fx-border-width: 1px 1px 1px 1px; /* Set the border width */
+    -fx-border-radius: 0; /* No rounded corners */
+}
+
+#innerGridPane .button{
+    -fx-alignment: center; /* Center the text within each header label */
+    -fx-font-size: 12px; /* Font size for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-background-color: #fbfbfb; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #a6a4a4 #a6a4a4 #a6a4a4 #a6a4a4
+
+; /* Border colors: top, right, bottom, left */
+
+    -fx-border-width: 1px 1px 1px 1px; /* Set the border width */
+    -fx-border-radius: 0; /* No rounded corners */
+
+}
