@@ -21,7 +21,7 @@
             <HBox id="HboxUp1" alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="1206.0" spacing="16.0" styleClass="upFrame">
                <children>
                   <Button id="LoadFileButton" mnemonicParsing="false" onAction="#loadFile" prefHeight="0.0" prefWidth="178.0" text="Load File Button" />
-                  <TextField id="filePath" alignment="TOP_LEFT" editable="false" prefHeight="28.0" prefWidth="886.0">
+                  <TextField id="filePath" fx:id="filePath" alignment="TOP_LEFT" editable="false" prefHeight="28.0" prefWidth="886.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -36,7 +36,7 @@
                   <VBox alignment="CENTER" spacing="3.0">
                      <children>
                         <Label id="cellID" text="Cell ID:" />
-                        <TextField id="cellId" fx:id="cellId" editable="false" prefHeight="24.0" prefWidth="50.0" />
+                        <TextField id="cellId" fx:id="cellId" disable="true" editable="false" onAction="#cellIdEnter" prefHeight="24.0" prefWidth="50.0" />
                      </children>
                   </VBox>
                   <VBox id="originalValue" alignment="CENTER" spacing="3.0">
@@ -46,13 +46,13 @@
                               <Insets left="5.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="originalValue" editable="false" prefHeight="29.0" prefWidth="231.0" />
+                        <TextField fx:id="originalValue" disable="true" editable="false" prefHeight="29.0" prefWidth="231.0" />
                      </children>
                   </VBox>
                   <VBox id="actionLine" alignment="CENTER" prefHeight="54.0" prefWidth="435.0" spacing="3.0">
                      <children>
                         <Label text="Action line:" />
-                        <TextField fx:id="actionLine" editable="false" prefHeight="29.0" prefWidth="413.0" />
+                        <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
                      </children>
                   </VBox>
                   <Button id="UpdateValue" mnemonicParsing="false" text="Update Value" />
@@ -63,7 +63,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="lastVersion" editable="false" prefHeight="29.0" prefWidth="36.0" />
+                        <TextField fx:id="lastVersion" disable="true" editable="false" prefHeight="29.0" prefWidth="36.0" />
                      </children>
                   </VBox>
                   <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">

@@ -24,7 +24,7 @@ public class CellContoller {
 
     @FXML
     void clicked(ActionEvent event) {
-        shitsellController.cellClicked(cellDTO);
+        shitsellController.cellClicked(cellDTO, cell);
     }
 
     public void setShitsellController(ShitsellController shitsellController){
@@ -34,6 +34,10 @@ public class CellContoller {
     public void setCellDTO(CellDTO cellDTO){
         this.cellDTO = cellDTO;
         setText(cellDTO.getOriginalEffectiveValue().toString());
+    }
+
+    public Button getCell() {
+        return cell;
     }
 
     public String getText() {

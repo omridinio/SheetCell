@@ -45,3 +45,7 @@
     -fx-border-width: 0 1px 0 1px; /* Vertical borders to separate columns */
     -fx-border-radius: 0; /* No rounded corners */
 }
+
+.clicked {
+    -fx-border-color: #f10404; /* Border color */
+}
