@@ -7,24 +7,44 @@ import expression.api.EffectiveValue;
 import jakarta.xml.bind.JAXBException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import body.Logic;
 import javafx.stage.FileChooser;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import Components.Cell.CellContoller;
 
 public class ShitsellController {
+
+    //fmxl id
     @FXML
-    private VBox tableVbox;
-    Map<Coordinate,Button> sheets = new HashMap<>();
+    private TextField actionLine;
+
+    @FXML
+    private TextField cellId;
+
+    @FXML
+    private TextField lastVersion;
+
+    @FXML
+    private TextField originalValue;
+
+    @FXML
+    private GridPane sheet;
+
+    @FXML
+    private ComboBox<?> versionSelctor;
+
+    //my dataMember
+    //Map<Coordinate,Button> sheets = new HashMap<>();
     private Logic logic = new ImplLogic();
 
 
@@ -36,8 +56,9 @@ public class ShitsellController {
 
     @FXML
     private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
-        tableVbox.getChildren().clear();
-        sheets.clear();
+        if(sheet != null)
+            sheet.getChildren().clear();
+        //sheets.clear();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open XML File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -46,7 +67,7 @@ public class ShitsellController {
         int row = logic.getSheet().getRowCount();
         int col = logic.getSheet().getColumnCount();
         addDynamicButtons(col, row);
-        showSheet(logic.getSheet());
+        //(logic.getSheet());
     }
 
     private void showSheet(SheetDTO sheet){
@@ -55,7 +76,7 @@ public class ShitsellController {
                 Coordinate coordinate = new CoordinateImpl(i, j);
                 EffectiveValue effectiveValue = sheet.getEfectivevalueCell(coordinate);
                 if(effectiveValue != null) {
-                    sheets.get(coordinate).setText(effectiveValue.toString());
+                    //sheets.get(coordinate).setText(effectiveValue.toString());
                 }
             }
         }
@@ -64,44 +85,69 @@ public class ShitsellController {
 
 
     // Method to dynamically add buttons
-    private void addDynamicButtons(int col, int row) {
+    private void addDynamicButtons(int col, int row) throws IOException {
+        sheet.getRowConstraints().clear();
+        sheet.getColumnConstraints().clear();
+        RowConstraints rowConstraints = new RowConstraints();
+        ColumnConstraints columnConstraints = new ColumnConstraints();
         for(int i = 0; i <= row; i++){
-            HBox currVbox = new HBox();
-            VBox.setVgrow(currVbox, Priority.ALWAYS);
             for(int j = 0; j <= col; j++){
-                String s = "";
-                Button button = new Button();
-                button.setPrefHeight(50);
-                button.setPrefWidth(50);
-                button.setMaxWidth(Double.MAX_VALUE); // Make button fill available space
-                button.setMaxHeight(Double.MAX_VALUE);
-                HBox.setHgrow(button, Priority.ALWAYS); // Make the button grow within the HBox
-                currVbox.getChildren().add(button); // Add button to the HBox
-                button.getStyleClass().add(("row" + i));
-                button.getStyleClass().add(("col" + j));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Cell/Cell.fxml"));
+                Node cell = loader.load();
+                CellContoller cellContoller = loader.getController();
+                GridPane.setRowIndex(cell, i);
+                GridPane.setColumnIndex(cell, j);
                 if(i == 0 && j == 0){
-                    button.getStyleClass().add("empty");
-                    button.setId("empty");
+                    rowConstraints.setPrefHeight(cellContoller.getHeight());
+                    columnConstraints.setPrefWidth(cellContoller.getWidth());
+                    cell.getStyleClass().add("empty");
                 }
                 else if(i == 0){
-                    s = String.valueOf((char)('A' + j - 1));
-                    button.setText(s);
-                    button.getStyleClass().add("ABC");
+                    columnConstraints.setPrefWidth(cellContoller.getWidth());
+                    cellContoller.setText(String.valueOf((char)('A' + j - 1)));
+                    cell.getStyleClass().add("ABC");
                 }
                 else if(j == 0){
-                    button.getStyleClass().add("digitVbox");
-                    s = i < 10 ? "0" + i : String.valueOf(i);
-                    button.setText(s);
+                    rowConstraints.setPrefHeight(cellContoller.getHeight());
+                    cell.getStyleClass().add("number");
+                    String s = i < 10 ? "0" + i : String.valueOf(i);
+                    cellContoller.setText(s);
                 }
                 else{
-                    button.getStyleClass().add("cell");
+                    cell.getStyleClass().add("cell");
                     Coordinate coordinate = new CoordinateImpl(i, j);
-                    sheets.put(coordinate, button);
                 }
+                sheet.add(cell, j, i);
+                //sheet.getChildren().add(cell);
             }
-            tableVbox.getChildren().add(currVbox);
         }
 
     }
+
+    private void setupGridPane(int rows, int columns) {
+        // Clear existing rows and columns
+
+
+        // Add row constraints
+        for (int i = 0; i < rows; i++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setMinHeight(30); // Set min height for row
+            rowConstraints.setPrefHeight(30); // Set preferred height for row
+            rowConstraints.setVgrow(Priority.ALWAYS); // Allow row to grow
+            sheet.getRowConstraints().add(rowConstraints);
+        }
+
+        // Add column constraints
+        for (int i = 0; i < columns; i++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setMinWidth(50); // Set min width for column
+            columnConstraints.setPrefWidth(50); // Set preferred width for column
+            columnConstraints.setHgrow(Priority.ALWAYS); // Allow column to grow
+            sheet.getColumnConstraints().add(columnConstraints);
+        }
+    }
+
+
+
 }
 

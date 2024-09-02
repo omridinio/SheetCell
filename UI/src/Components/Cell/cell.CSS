@@ -1,0 +1,47 @@
+.button {
+    -fx-alignment: center; /* Center the text within each header label */
+    -fx-font-size: 12px; /* Font size for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-background-color: #e7edf1; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #a6a4a4 #a6a4a4 #a6a4a4 #a6a4a4
+
+; /* Border colors: top, right, bottom, left */
+
+    -fx-border-width: 1px 1px 1px 1px; /* Set the border width */
+    -fx-border-radius: 0; /* No rounded corners */
+}
+
+.ABC .button {
+    -fx-alignment: center; /* Center the text within each header label */
+    -fx-font-size: 12px; /* Font size for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-background-color: #737370; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #131313; /* Border color */
+    -fx-border-width: 0 1px 0 1px; /* Vertical borders to separate columns */
+    -fx-border-radius: 0; /* No rounded corners */
+}
+
+.number .button {
+    -fx-alignment: center; /* Center the text within each header label */
+    -fx-font-size: 12px; /* Font size for headers */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-background-color: #737370; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #131313 #131313 #131313 #131313; /* Border colors: top, right, bottom, left */
+    -fx-border-width: 1px 1px 1px 1px; /* Set the border width */
+    -fx-border-radius: 0; /* No rounded corners */
+}
+
+.empty .button {
+    -fx-background-color: #737370; /* Background color for headers */
+    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-padding: 6; /* Padding around text */
+    -fx-border-color: #131313; /* Border color */
+    -fx-border-width: 0 1px 0 1px; /* Vertical borders to separate columns */
+    -fx-border-radius: 0; /* No rounded corners */
+}
