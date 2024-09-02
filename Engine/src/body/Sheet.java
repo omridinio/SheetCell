@@ -1,5 +1,7 @@
 package body;
 
+import dto.impl.CellDTO;
+
 import java.util.List;
 
 public interface Sheet {
@@ -15,7 +17,6 @@ public interface Sheet {
 
     void setVersion(int version);
     void setUpdateCellCount(int countUpdateCell);
-
     void updateCell(String cellId, String value);
     void updateListsOfDependencies(Coordinate coord);
     void updateCellDitels(String cellId, String value);

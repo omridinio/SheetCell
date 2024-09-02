@@ -64,6 +64,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public Cell getCell(Coordinate coordinate) {
+        checkValidBounds(coordinate);
         if(!activeCells.containsKey(coordinate)){
            return null;
         }

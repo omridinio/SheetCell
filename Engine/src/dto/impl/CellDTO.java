@@ -24,6 +24,8 @@ public class CellDTO {
         this.cellsDependsOnThem = cellsDependsOnThem;
         this.cellsDependsOnHim = cellsDependsOnHim;
     }
+
+
     public CellDTO(Cell cell) {
         this.Id = cell.getId();
         this.lastVersionUpdate = cell.getLastVersionUpdate();

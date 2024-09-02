@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface Logic {
     CellDTO getCell(String cellID);
+    CellDTO getCell(Coordinate coordinate);
     void updateCell(String cellId, String value);
     SheetDTO getSheet();
     void creatNewSheet(String path)throws JAXBException, FileNotFoundException, IOException;

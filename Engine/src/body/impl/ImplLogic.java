@@ -30,6 +30,11 @@ public class ImplLogic implements Logic,Serializable  {
         return new CellDTO(temp);
     }
 
+    @Override
+    public CellDTO getCell(Coordinate coordinate) {
+        Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(coordinate.toString());
+        return new CellDTO(temp);
+    }
 
     public void updateCell(String cellId, String value){
         Sheet newVersion = null;

@@ -51,4 +51,6 @@ public class CoordinateImpl implements Coordinate,Serializable  {
         res += Integer.toString(row);
         return res;
     }
+
+
 }

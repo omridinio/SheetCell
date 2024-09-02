@@ -2,6 +2,7 @@ package dto;
 
 import body.Cell;
 import body.Coordinate;
+import dto.impl.CellDTO;
 import expression.api.EffectiveValue;
 
 public interface SheetDTO {
@@ -16,6 +17,8 @@ public interface SheetDTO {
     public int getRowCount();
 
     public int getColumnCount();
+
+    //public CellDTO getCell(String cellID);
 
     EffectiveValue getEfectivevalueCell(Coordinate coordinate);
 }

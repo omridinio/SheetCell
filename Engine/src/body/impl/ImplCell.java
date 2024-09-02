@@ -4,6 +4,7 @@ import body.Cell;
 import body.Coordinate;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
+import expression.impl.Empty;
 import expression.impl.Number;
 
 import java.io.Serializable;
@@ -12,7 +13,6 @@ import java.util.List;
 
 public class ImplCell implements Cell,Serializable  {
 
-    private Coordinate coor;
     private String Id;
     private int lastVersionUpdate;
     private String originalValue;
@@ -25,6 +25,7 @@ public class ImplCell implements Cell,Serializable  {
         Id = id;
         lastVersionUpdate = 1;
         originalValue = "";
+        effectiveValue = new Empty();
     }
 
     public ImplCell(double num){
@@ -95,7 +96,7 @@ public class ImplCell implements Cell,Serializable  {
 
     @Override
     public Coordinate getCoordinate() {
-        return coor;
+        return null;
     }
 
     @Override
