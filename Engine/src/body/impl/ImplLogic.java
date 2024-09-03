@@ -7,6 +7,7 @@ import body.Sheet;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
+import expression.Range;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -149,6 +150,11 @@ public class ImplLogic implements Logic,Serializable  {
         mainSheet = (List<Sheet>) inStream.readObject();
         inStream.close();
         fileInStream.close();
+    }
+
+    @Override
+    public Range getRange(String rangeId) {
+        return mainSheet.get(mainSheet.size() - 1).getRange(rangeId);
     }
 
 

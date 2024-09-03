@@ -19,6 +19,7 @@ public class RangeController {
 
     public void setRangeDTO(Range rangeDTO){
         this.rangeDTO = rangeDTO;
+        setText(rangeDTO.getRangeId());
     }
 
     public Button getRange() {
@@ -38,7 +39,7 @@ public class RangeController {
     }
 
 //    public void clicked(ActionEvent event) {
-//        shitsellController.rangeClicked(rangeDTO, range);
+//       shitsellController.rangeClicked(rangeDTO, range);
 //    }
 
 

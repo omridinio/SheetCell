@@ -1,5 +1,7 @@
 package Components.Shitcell;
 
+import Components.Range.RangeController;
+import Components.Range.setRange.setRangeController;
 import Properties.CellUI;
 import body.Coordinate;
 import body.Logic;
@@ -7,6 +9,7 @@ import body.impl.CoordinateImpl;
 import body.impl.ImplLogic;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
+import expression.Range;
 import expression.api.EffectiveValue;
 import jakarta.xml.bind.JAXBException;
 import javafx.beans.property.BooleanProperty;
@@ -15,6 +18,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -25,6 +30,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import Components.Cell.CellContoller;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.naming.Binding;
 
@@ -55,13 +62,16 @@ public class ShitsellController {
     @FXML
     private Button updateValue;
 
+    @FXML
+    private FlowPane rangeArea;
+
+
     private CellUI currCell;
 
     //my dataMember
     Map<Coordinate,CellContoller> coordToController = new HashMap<>();
-
+    Map<String, RangeController> rangeToController = new HashMap<>();
     private Logic logic = new ImplLogic();
-
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
 
     public ShitsellController() {
@@ -220,5 +230,41 @@ public class ShitsellController {
 
         }
     }
+
+    @FXML
+    void addRangeClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/setRange/setRange.fxml"));
+        Parent newWindowRoot = loader.load();
+        setRangeController rangeController = loader.getController();
+        rangeController.setShitsellController(this);
+        Scene newScene = new Scene(newWindowRoot);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Add new Range");
+        newWindow.setScene(newScene);
+        newWindow.initModality(Modality.APPLICATION_MODAL);
+        newWindow.show();
+    }
+
+    public void setRange(String rangeId, String theRange) throws IOException {
+        logic.createNewRange(rangeId, theRange);
+        try{
+            addRange(rangeId, theRange);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void addRange(String rangeId, String therange) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/Range.fxml"));
+        Node range = loader.load();
+        RangeController rangeContoller = loader.getController();
+        rangeContoller.setRangeDTO(logic.getRange(rangeId));
+        rangeContoller.setShitsellController(this);
+        rangeToController.put(rangeId, rangeContoller);
+        rangeArea.getChildren().add(range);
+    }
+
 }
 

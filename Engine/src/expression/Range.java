@@ -8,12 +8,16 @@ import java.util.List;
 
 public class Range implements EffectiveValue {
     private List<Cell> rangeCells = new ArrayList<>();
+    private String rangeId;
 
-    public Range(List<Cell> rangeCells) {
+    public Range(List<Cell> rangeCells, String rangeId) {
         this.rangeCells = rangeCells;
+        this.rangeId = rangeId;
     }
 
-
+    public String getRangeId() {
+        return rangeId;
+    }
 
     @Override
     public CellType getCellType() {

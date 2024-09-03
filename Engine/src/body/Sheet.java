@@ -1,6 +1,7 @@
 package body;
 
 import dto.impl.CellDTO;
+import expression.Range;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface Sheet {
     void updateListsOfDependencies(Coordinate coord);
     void updateCellDitels(String cellId, String value);
     void updateCellEffectiveValue(String cellId);
+    Range getRange(String rangeId);
 }

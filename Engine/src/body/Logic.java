@@ -2,6 +2,7 @@ package body;
 
 import dto.SheetDTO;
 import dto.impl. CellDTO;
+import expression.Range;
 import jakarta.xml.bind.JAXBException;
 
 import java.io.File;
@@ -21,4 +22,5 @@ public interface Logic {
     void loadFromFile(String path) throws IOException, ClassNotFoundException;
     List<Sheet> getMainSheet();
     void createNewRange(String rangeId, String range) throws IOException;
+    Range getRange(String rangeId);
 }

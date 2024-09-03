@@ -397,7 +397,7 @@ public class ImplSheet implements Sheet,Serializable  {
                 cellInRange.add(new ImplCell(coord.toString()));
             }
         }
-        Range range = new Range(cellInRange);
+        Range range = new Range(cellInRange, rangeId);
         activeRanges.put(rangeId, range);
     }
 
@@ -428,6 +428,11 @@ public class ImplSheet implements Sheet,Serializable  {
             throw new IllegalArgumentException("Cell is out of bounds");
         }
         return coord;
+    }
+
+    @Override
+    public Range getRange(String rangeId){
+        return activeRanges.get(rangeId);
     }
 
 

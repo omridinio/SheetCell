@@ -1,0 +1,53 @@
+ {
+    -fx-background-color: #353A56;
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 12px; /* Font size */
+}
+
+.button {
+    -fx-background-color: #748CF1;
+    -fx-font-size: 12px; /* Font size */
+    -fx-padding: 5 10; /* Padding inside the TextField */
+    -fx-background-radius: 10; /* Rounded corners */
+    -fx-border-radius: 10; /* Rounded corners for the border */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-text-fill: #fbfafa; /* Dark gray text color */
+    -fx-font-weight: bold;
+    -fx-pref-width: 60
+;
+}
+
+.button:hover {
+    -fx-background-color: #5E6DFF;
+}
+
+ .button:pressed {
+    -fx-background-color: #4F5BFF;
+}
+
+ .label {
+    -fx-text-fill: #e7edf1; /* Dark gray text color */
+    -fx-font-size: 11px; /* Font size */
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Font family */
+     -fx-font-weight: bold;
+ }
+
+ .text-field {
+    -fx-background-color: #353A56; /* Very light blue background */
+    -fx-text-fill: #e7edf1; /* Dark gray text color */
+    -fx-font-size: 12px; /* Font size */
+    -fx-padding: 5 10; /* Padding inside the TextField */
+    -fx-background-radius: 10; /* Rounded corners */
+    -fx-border-radius: 10; /* Rounded corners for the border */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
+    -fx-prompt-text-fill: #999999; /* Lighter color for prompt text */
+    -fx-cursor: text; /* Text cursor */
+ }
+
+    .text-field:focused {
+        -fx-border-color: #131313; /* Green border when focused */
+        -fx-effect: dropshadow(gaussian, rgba(10, 11, 10, 0.3), 3, 0.5, 0, 2); /* Green shadow effect when focused */
+    }
