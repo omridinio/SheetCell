@@ -25,10 +25,10 @@ public class Sum extends UnaryExpression implements Serializable {
             List<Cell> cells = (List<Cell>) evaluate.getValue();
             double sum = 0;
             for (Cell cell : cells) {
-                if(cell.getEffectiveValue().isNaN() || (cell.getEffectiveValue().getCellType() != CellType.NUMERIC || cell.getEffectiveValue().getCellType() != CellType.EMPTY)){
+                if(cell.getEffectiveValue().isNaN()){
                     return new Number(true);
                 }
-                if (cell.getEffectiveValue().getCellType() == CellType.EMPTY) {
+                if (cell.getEffectiveValue().getCellType() != CellType.NUMERIC) {
                     continue;
                 }
                 sum += (Double) cell.getEffectiveValue().getValue();

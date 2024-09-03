@@ -215,9 +215,6 @@ public class ImplSheet implements Sheet,Serializable  {
                 Double.parseDouble(input);
                 return (new Number(input));
             }catch (NumberFormatException error){
-                if (activeRanges.containsKey(input)){
-                    return activeRanges.get(input);
-                }
                 return (new Str(input));
             }
         }
@@ -334,8 +331,22 @@ public class ImplSheet implements Sheet,Serializable  {
             case "AND" -> new And(args.get(0), args.get(1));
             case "NOT" -> new Not(args.get(0));
             case "IF" -> new If(args.get(0), args.get(1), args.get(2));
-            case "SUM" -> new Sum(args.get(0));
-            case "AVERAGE" -> new Average(args.get(0));
+            case "SUM" -> {
+                if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString())) {
+                    yield new Sum(activeRanges.get(args.get(0).evaluate().getValue().toString()));
+                }
+                else{
+                    throw new IllegalArgumentException("Range is not exist");
+                }
+            }
+            case "AVERAGE" -> {
+                if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString())) {
+                    yield new Average(activeRanges.get(args.get(0).evaluate().getValue().toString()));
+                }
+                else{
+                    throw new IllegalArgumentException("Range is not exist");
+                }
+            }
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
@@ -397,12 +408,8 @@ public class ImplSheet implements Sheet,Serializable  {
         List<Coordinate> coordinateRange = getCoordinateInRange(cellRange);
         List<Cell> cellInRange = new ArrayList<>();
         for(Coordinate coord : coordinateRange){
-            if(activeCells.containsKey(coord)){
-                cellInRange.add(activeCells.get(coord));
-            }
-            else{
-                cellInRange.add(new ImplCell(coord.toString()));
-            }
+            activeCells.putIfAbsent(coord, new ImplCell(coord.toString()));
+            cellInRange.add(activeCells.get(coord));
         }
         Range range = new Range(cellInRange, rangeId);
         activeRanges.put(rangeId, range);

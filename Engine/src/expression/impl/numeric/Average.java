@@ -24,16 +24,20 @@ public class Average extends UnaryExpression implements Serializable {
         }
         List<Cell> cells = (List<Cell>) evaluate.getValue();
         double sum = 0;
+        int len = 0;
         for (Cell cell : cells) {
-            if(cell.getEffectiveValue().isNaN() || (cell.getEffectiveValue().getCellType() != CellType.NUMERIC || cell.getEffectiveValue().getCellType() != CellType.EMPTY)){
+            if(cell.getEffectiveValue().isNaN()){
                 return new Number(true);
             }
-            if (cell.getEffectiveValue().getCellType() == CellType.EMPTY) {
+            if (cell.getEffectiveValue().getCellType() != CellType.NUMERIC) {
                 continue;
             }
-            sum += (Double) (cell.getEffectiveValue().getValue())/cells.size();
+            sum += (Double) (cell.getEffectiveValue().getValue());
+            len++;
         }
-        return new Number(sum);
+        if(len == 0)
+            throw new NumberFormatException("All the cells are not numeric");
+        return new Number(sum/len);
     }
 
     @Override
