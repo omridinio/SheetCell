@@ -8,7 +8,7 @@ import expression.api.Expression;
 import expression.impl.Empty;
 import expression.impl.Number;
 import expression.impl.Str;
-import expression.impl.bool.Equal;
+import expression.impl.bool.*;
 import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
@@ -271,6 +271,10 @@ public class ImplSheet implements Sheet,Serializable  {
             case "POW":
             case "PERCENT":
             case "EQUAL":
+            case "BIGGER":
+            case "LESS":
+            case "OR":
+            case "AND":
             case "CONCAT":
                 if (args.size() != 3){
                     res = false;
@@ -283,12 +287,14 @@ public class ImplSheet implements Sheet,Serializable  {
                     args.set(1, args.get(1).toUpperCase());
                 }
             case "ABS":
+            case "NOT":
                 if (args.size() != 2){
                     res = false;
                     throw new NumberFormatException("Error: Incorrect number of arguments. Expected 1 arguments.");
                 }
                 break;
             case "SUB":
+            case "IF":
                 if (args.size() != 4){
                     res = false;
                     throw new NumberFormatException("Error: Incorrect number of arguments. Expected 3 arguments.");
@@ -315,6 +321,12 @@ public class ImplSheet implements Sheet,Serializable  {
             case "REF" -> new REF(args.get(0), activeCells.get(refHelper(args.get(0), coordinate)));
             case "PERCENT" -> new Percent(args.get(0), args.get(1));
             case "EQUAL" -> new Equal(args.get(0), args.get(1));
+            case "BIGGER" -> new Bigger(args.get(0), args.get(1));
+            case "LESS" -> new Less(args.get(0), args.get(1));
+            case "OR" -> new Or(args.get(0), args.get(1));
+            case "AND" -> new And(args.get(0), args.get(1));
+            case "NOT" -> new Not(args.get(0));
+            case "IF" -> new If(args.get(0), args.get(1), args.get(2));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
@@ -366,7 +378,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private boolean isValidOperator(String operator){
         return switch (operator) {
-            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF", "PERCENT", "EQUAL" -> true;
+            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF", "PERCENT", "EQUAL", "BIGGER", "LESS", "OR", "AND", "NOT", "IF" -> true;
             default -> false;
         };
     }

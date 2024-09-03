@@ -21,7 +21,8 @@ public class Sub  extends TrinaryExpression implements Serializable {
         double e1 = (Double) evaluate2.getValue();
         double e2 = (Double) evaluate3.getValue() + 1;
         if (e1 % 1 != 0 || e2 % 1 != 0)
-            throw new NumberFormatException("ERROR! Index must be an integer");
+            return new Str(true);
+            //throw new NumberFormatException("ERROR! Index must be an integer");
         boolean error = false;
         if (e1 < 0 || e1 > e2 || e2 > ((String) evaluate.getValue()).length()) {
            return new Str(true);
