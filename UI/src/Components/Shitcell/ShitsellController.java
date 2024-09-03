@@ -65,8 +65,6 @@ public class ShitsellController {
         currCell = new CellUI();
     }
 
-
-
     // Initialize method will be called automatically after FXML is loaded
     @FXML
     public void initialize() {
@@ -78,6 +76,7 @@ public class ShitsellController {
         cellId.editableProperty().bind(isLoaded);
         lastVersion.disableProperty().bind(isLoaded.not());
         originalValue.disableProperty().bind(isLoaded.not());
+        cellId.textProperty().bind(currCell.cellid);
         cellId.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                cellId.textProperty().bind(currCell.cellid);
@@ -103,8 +102,6 @@ public class ShitsellController {
         updateSheet(logic.getSheet());
         filePath.setText(file.getAbsolutePath());
     }
-
-
 
     private void updateSheet(SheetDTO sheet){
         for (int i = 1; i <= sheet.getRowCount(); i++) {
@@ -178,12 +175,13 @@ public class ShitsellController {
 
     @FXML
     void cellIdEnter(ActionEvent event) {
-        String id = cellId.getText();
+        String id = cellId.getText().toUpperCase();
         if(validInputCell(id)){
             Coordinate coordinate = new CoordinateImpl(id);
             try {
                 CellDTO cell = logic.getCell(coordinate);
                 cellClicked(cell, coordToController.get(coordinate).getCell());
+                cellId.setText(id);
             } catch (Exception e) { }
         }
         else { }
@@ -201,6 +199,21 @@ public class ShitsellController {
             }
         }
         return false;
+    }
+
+    @FXML
+    void updateCellClicked(ActionEvent event) {
+        try {
+            logic.updateCell(currCell.cellid.getValue(), actionLine.getText());
+            updateSheet(logic.getSheet());
+            CellDTO currCell = logic.getCell(new CoordinateImpl(cellId.getText()));
+            cellClicked(currCell, coordToController.get(new CoordinateImpl(cellId.getText())).getCell());
+            actionLine.setText("");
+        } catch (NumberFormatException e) {
+
+        } catch (Exception e) {
+
+        }
     }
 }
 

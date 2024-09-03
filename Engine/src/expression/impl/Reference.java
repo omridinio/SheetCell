@@ -44,6 +44,11 @@ public class Reference implements Expression, EffectiveValue,Serializable {
     }
 
     @Override
+    public boolean isUnknown() {
+        return cell.getEffectiveValue().isUnknown();
+    }
+
+    @Override
     public CellType getCellType() {
         return cell.getEffectiveValue().getCellType();
     }

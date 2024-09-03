@@ -41,12 +41,18 @@ public class Str implements Expression, EffectiveValue,Serializable {
 
     @Override
     public boolean isNaN() {
-        throw new NumberFormatException("ERROR!, cant get a string to numeric function.");
+        return false;
+        //throw new NumberFormatException("ERROR!, cant get a string to numeric function.");
     }
 
     @Override
     public boolean isUndefined() {
         return isUndifined;
+    }
+
+    @Override
+    public boolean isUnknown() {
+        return false;
     }
 
     @Override
@@ -60,11 +66,11 @@ public class Str implements Expression, EffectiveValue,Serializable {
     }
 
     public static boolean CheckIsUndifined(EffectiveValue e1){
-        return e1.isUndefined() || e1.getCellType() == CellType.EMPTY;
+        return e1.getCellType() != CellType.STRING || e1.isUndefined();
     }
 
     public static boolean CheckIsUndifined(EffectiveValue e1, EffectiveValue e2){
-        return e1.isUndefined() || e1.getCellType() == CellType.EMPTY || e2.isUndefined() || e2.getCellType() == CellType.EMPTY;
+        return e1.getCellType() != CellType.STRING || e2.getCellType() != CellType.STRING || e1.isUndefined() ||  e2.isUndefined();
     }
 
 

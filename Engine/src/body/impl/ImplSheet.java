@@ -8,6 +8,7 @@ import expression.api.Expression;
 import expression.impl.Empty;
 import expression.impl.Number;
 import expression.impl.Str;
+import expression.impl.bool.Equal;
 import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
@@ -268,6 +269,8 @@ public class ImplSheet implements Sheet,Serializable  {
             case "DIVIDE":
             case "MOD":
             case "POW":
+            case "PERCENT":
+            case "EQUAL":
             case "CONCAT":
                 if (args.size() != 3){
                     res = false;
@@ -310,6 +313,8 @@ public class ImplSheet implements Sheet,Serializable  {
             case "CONCAT" -> new Concat(args.get(0), args.get(1));
             case "SUB" -> new Sub(args.get(0), args.get(1),args.get(2));
             case "REF" -> new REF(args.get(0), activeCells.get(refHelper(args.get(0), coordinate)));
+            case "PERCENT" -> new Percent(args.get(0), args.get(1));
+            case "EQUAL" -> new Equal(args.get(0), args.get(1));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
@@ -338,7 +343,8 @@ public class ImplSheet implements Sheet,Serializable  {
                     throw new IllegalArgumentException("Cell is out of bounds");
                 }
                 if(!activeCells.containsKey(coordinate)){
-                    throw new IllegalArgumentException("Cell is not exist");
+                    activeCells.put(coordinate, new ImplCell(input));
+                    //throw new IllegalArgumentException("Cell is not exist");
                 }
                 //check if create a circle
                 graph.addEdge(coordinate, toCoordinate);
@@ -360,7 +366,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private boolean isValidOperator(String operator){
         return switch (operator) {
-            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF" -> true;
+            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF", "PERCENT", "EQUAL" -> true;
             default -> false;
         };
     }

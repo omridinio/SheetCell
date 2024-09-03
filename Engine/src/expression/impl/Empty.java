@@ -29,6 +29,11 @@ public class Empty implements Expression, EffectiveValue, Serializable {
     }
 
     @Override
+    public boolean isUnknown() {
+        return false;
+    }
+
+    @Override
     public EffectiveValue evaluate() {
         return new Empty();
     }

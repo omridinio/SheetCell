@@ -55,7 +55,7 @@
                         <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
                      </children>
                   </VBox>
-                  <Button id="UpdateValue" mnemonicParsing="false" text="Update Value" />
+                  <Button id="UpdateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
                   <VBox alignment="CENTER" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
                      <children>
                         <Label id="lastUpdateCell" prefHeight="14.0" prefWidth="134.0" text="Last update cell version:">
