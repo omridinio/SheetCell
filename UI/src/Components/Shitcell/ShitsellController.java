@@ -9,6 +9,7 @@ import body.impl.CoordinateImpl;
 import body.impl.ImplLogic;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
+import dto.impl.RangeDTO;
 import expression.Range;
 import expression.api.EffectiveValue;
 import jakarta.xml.bind.JAXBException;
@@ -27,7 +28,9 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import Components.Cell.CellContoller;
 import javafx.stage.Modality;
@@ -65,6 +68,9 @@ public class ShitsellController {
     @FXML
     private FlowPane rangeArea;
 
+    @FXML
+    private VBox rangeAreaController;
+
 
     private CellUI currCell;
 
@@ -73,6 +79,8 @@ public class ShitsellController {
     Map<String, RangeController> rangeToController = new HashMap<>();
     private Logic logic = new ImplLogic();
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
+    private Button currRange;
+    private List<CellContoller> selectedCells = new ArrayList<>();
 
     public ShitsellController() {
         currCell = new CellUI();
@@ -81,6 +89,7 @@ public class ShitsellController {
     // Initialize method will be called automatically after FXML is loaded
     @FXML
     public void initialize() {
+        rangeArea.setFocusTraversable(true);
         originalValue.textProperty().bind(currCell.originalValue);
         lastVersion.textProperty().bind(currCell.lastVersion);
         actionLine.disableProperty().bind(currCell.isClicked.not());
@@ -90,6 +99,7 @@ public class ShitsellController {
         lastVersion.disableProperty().bind(isLoaded.not());
         originalValue.disableProperty().bind(isLoaded.not());
         cellId.textProperty().bind(currCell.cellid);
+        rangeAreaController.visibleProperty().bind(isLoaded);
         cellId.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
                cellId.textProperty().bind(currCell.cellid);
@@ -99,6 +109,13 @@ public class ShitsellController {
             }
         });
         updateValue.disableProperty().bind(currCell.isClicked.not());
+        rangeArea.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if(!newValue){
+                if (currRange != null)
+                    currRange.getStyleClass().remove("clicked");
+                clearCellsMark();
+            }
+        });
 
     }
 
@@ -266,5 +283,23 @@ public class ShitsellController {
         rangeArea.getChildren().add(range);
     }
 
+    public void rangeClicked(RangeDTO rangeDTO, Button range) {
+        clearCellsMark();
+        rangeArea.requestFocus();
+        List<CellDTO> cells = rangeDTO.getRangeCells();
+        for (CellDTO cell : cells) {
+            coordToController.get(new CoordinateImpl(cell.getId())).getCell().getStyleClass().add("range");
+            selectedCells.add(coordToController.get(new CoordinateImpl(cell.getId())));
+        }
+        currRange = range;
+        currRange.getStyleClass().add("clicked");
+    }
+
+    private void clearCellsMark(){
+        for (CellContoller cell : selectedCells) {
+            cell.getCell().getStyleClass().remove("range");
+        }
+        selectedCells.clear();
+    }
 }
 

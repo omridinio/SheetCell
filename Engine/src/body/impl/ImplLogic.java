@@ -7,6 +7,7 @@ import body.Sheet;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
+import dto.impl.RangeDTO;
 import expression.Range;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -153,8 +154,8 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
-    public Range getRange(String rangeId) {
-        return mainSheet.get(mainSheet.size() - 1).getRange(rangeId);
+    public RangeDTO getRange(String rangeId) {
+        return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId));
     }
 
 

@@ -1,5 +1,6 @@
 package Components.Range;
 
+import dto.impl.RangeDTO;
 import expression.Range;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,13 +12,13 @@ public class RangeController {
     @FXML
     private Button range;
     ShitsellController shitsellController;
-    private Range rangeDTO;
+    private RangeDTO rangeDTO;
 
     public void setShitsellController(ShitsellController shitsellController){
         this.shitsellController = shitsellController;
     }
 
-    public void setRangeDTO(Range rangeDTO){
+    public void setRangeDTO(RangeDTO rangeDTO){
         this.rangeDTO = rangeDTO;
         setText(rangeDTO.getRangeId());
     }
@@ -38,9 +39,9 @@ public class RangeController {
         return range.getHeight();
     }
 
-//    public void clicked(ActionEvent event) {
-//       shitsellController.rangeClicked(rangeDTO, range);
-//    }
+    public void clicked(ActionEvent event) {
+       shitsellController.rangeClicked(rangeDTO, range);
+    }
 
 
 

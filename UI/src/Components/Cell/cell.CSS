@@ -2,7 +2,7 @@
     -fx-alignment: center; /* Center the text within each header label */
     -fx-font-size: 12px; /* Font size for headers */
     -fx-font-weight: bold; /* Bold text for headers */
-    -fx-background-color: #e7edf1; /* Background color for headers */
+    -fx-background-color: white; /* Background color for headers */
     -fx-text-fill: #131313; /* Text color for headers */
     -fx-padding: 6; /* Padding around text */
     -fx-border-color: #a6a4a4 #a6a4a4 #a6a4a4 #a6a4a4;
@@ -45,4 +45,8 @@
 
 .clicked {
     -fx-border-color: #f10404; /* Border color */
+}
+
+.range {
+    -fx-background-color: rgba(135, 206, 250, 0.2);
 }

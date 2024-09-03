@@ -1,5 +1,22 @@
 .button {
-    -fx-background-color: rgba(234, 158, 97, 0.79); /* Green background */
+    -fx-background-color: #66CDAA; /* Green background */
+    //add a shadow and circle the button
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-border-width: 1;
+    -fx-padding: 15px 32px; /* Padding */
+    -fx-text-align: center; /* Center text */
+    -fx-text-decoration: none; /* No underline */
+    -fx-display: inline-block; /* Display as inline block */
+    -fx-font-size: 12px; /* Font size */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+
+
+
+}
+
+.clicked {
+    -fx-background-color: rgba(7, 255, 12, 0.79); /* Green background */
     -fx-border: none; /* No border */
     -fx-color: white; /* White text */
     -fx-padding: 15px 32px; /* Padding */
@@ -7,5 +24,4 @@
     -fx-text-decoration: none; /* No underline */
     -fx-display: inline-block; /* Display as inline block */
     -fx-font-size: 12px; /* Font size */
-
 }

@@ -215,6 +215,9 @@ public class ImplSheet implements Sheet,Serializable  {
                 Double.parseDouble(input);
                 return (new Number(input));
             }catch (NumberFormatException error){
+                if (activeRanges.containsKey(input)){
+                    return activeRanges.get(input);
+                }
                 return (new Str(input));
             }
         }
@@ -289,6 +292,8 @@ public class ImplSheet implements Sheet,Serializable  {
                     args.set(1, args.get(1).toUpperCase());
                 }
             case "ABS":
+            case "SUM":
+            case "AVERAGE":
             case "NOT":
                 if (args.size() != 2){
                     res = false;
@@ -329,6 +334,8 @@ public class ImplSheet implements Sheet,Serializable  {
             case "AND" -> new And(args.get(0), args.get(1));
             case "NOT" -> new Not(args.get(0));
             case "IF" -> new If(args.get(0), args.get(1), args.get(2));
+            case "SUM" -> new Sum(args.get(0));
+            case "AVERAGE" -> new Average(args.get(0));
             default -> throw new IllegalArgumentException("Unknown operator: " + operator);
         };
     }
@@ -380,7 +387,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private boolean isValidOperator(String operator){
         return switch (operator) {
-            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF", "PERCENT", "EQUAL", "BIGGER", "LESS", "OR", "AND", "NOT", "IF" -> true;
+            case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF", "PERCENT", "EQUAL", "BIGGER", "LESS", "OR", "AND", "NOT", "IF", "SUM", "AVERAGE" -> true;
             default -> false;
         };
     }

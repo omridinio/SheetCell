@@ -154,3 +154,8 @@
 #buttomsRange .button:pressed {
     -fx-background-color: #4F5BFF;
 }
+
+#rangeArea {
+    -fx-background-color: #B0C4DE;
+
+}
