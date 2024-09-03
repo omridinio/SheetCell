@@ -20,4 +20,5 @@ public interface Logic {
     String saveToFile(String name) throws IOException;
     void loadFromFile(String path) throws IOException, ClassNotFoundException;
     List<Sheet> getMainSheet();
+    void createNewRange(String rangeId, String range) throws IOException;
 }

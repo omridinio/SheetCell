@@ -138,6 +138,11 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
+    public void createNewRange(String rangeId, String range) throws IOException {
+        mainSheet.get(mainSheet.size() - 1).addNewRange(rangeId, range);
+    }
+
+    @Override
     public void loadFromFile(String path) throws IOException,  ClassNotFoundException{
         FileInputStream fileInStream = new FileInputStream(path);
         ObjectInputStream inStream = new ObjectInputStream(fileInStream);
@@ -145,6 +150,7 @@ public class ImplLogic implements Logic,Serializable  {
         inStream.close();
         fileInStream.close();
     }
+
 
 }
 

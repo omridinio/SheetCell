@@ -1,0 +1,11 @@
+.button {
+    -fx-background-color: rgba(234, 158, 97, 0.79); /* Green background */
+    -fx-border: none; /* No border */
+    -fx-color: white; /* White text */
+    -fx-padding: 15px 32px; /* Padding */
+    -fx-text-align: center; /* Center text */
+    -fx-text-decoration: none; /* No underline */
+    -fx-display: inline-block; /* Display as inline block */
+    -fx-font-size: 12px; /* Font size */
+
+}

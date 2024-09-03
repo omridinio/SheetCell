@@ -55,15 +55,15 @@
                         <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
                      </children>
                   </VBox>
-                  <Button id="UpdateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
-                  <VBox alignment="CENTER" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
+                  <Button id="UpdateValue" fx:id="updateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
+                  <VBox alignment="CENTER" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
                      <children>
                         <Label id="lastUpdateCell" prefHeight="14.0" prefWidth="134.0" text="Last update cell version:">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="lastVersion" disable="true" editable="false" prefHeight="29.0" prefWidth="36.0" />
+                        <TextField fx:id="lastVersion" alignment="CENTER" disable="true" editable="false" prefHeight="29.0" prefWidth="47.0" />
                      </children>
                   </VBox>
                   <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">
@@ -73,7 +73,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <ComboBox fx:id="versionSelctor" disable="true" editable="true" prefWidth="150.0" />
+                        <ComboBox fx:id="versionSelctor" disable="true" editable="true" prefHeight="29.0" prefWidth="65.0" />
                      </children>
                   </VBox>
                </children>
@@ -85,15 +85,27 @@
       </VBox>
    </top>
    <left>
-      <VBox prefHeight="752.0" prefWidth="206.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="757.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane id="Commands" prefHeight="340.0" prefWidth="136.0" />
+            <AnchorPane id="Commands" prefHeight="340.0" prefWidth="136.0">
+               <children>
+                  <VBox layoutX="79.0" layoutY="76.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox id="buttomsRange" alignment="CENTER" prefHeight="95.0" prefWidth="206.0" spacing="30.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="Add Range" />
+                              <Button mnemonicParsing="false" text="Delete Range" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children></AnchorPane>
             <AnchorPane id="ranges" prefHeight="414.0" prefWidth="198.0" />
          </children>
       </VBox>
    </left>
    <center>
-      <GridPane fx:id="sheet" alignment="CENTER" BorderPane.alignment="CENTER">
+      <GridPane fx:id="sheet" alignment="CENTER" prefHeight="757.0" prefWidth="969.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>

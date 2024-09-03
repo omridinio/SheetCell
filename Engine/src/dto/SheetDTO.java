@@ -6,17 +6,17 @@ import dto.impl.CellDTO;
 import expression.api.EffectiveValue;
 
 public interface SheetDTO {
-    public String getSheetName();
+    String getSheetName();
 
-    public int getVersion();
+    int getVersion();
 
-    public int getThickness();
+    int getThickness();
 
-    public int getWidth();
+    int getWidth();
 
-    public int getRowCount();
+    int getRowCount();
 
-    public int getColumnCount();
+    int getColumnCount();
 
     //public CellDTO getCell(String cellID);
 

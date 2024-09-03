@@ -3,6 +3,7 @@ package body.impl;
 import body.Cell;
 import body.Coordinate;
 import body.Sheet;
+import expression.Range;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.Empty;
@@ -32,6 +33,7 @@ public class ImplSheet implements Sheet,Serializable  {
     private Map<Coordinate, Cell> activeCells = new HashMap<>();
     private Graph graph;
     private int countUpdateCell = 0;
+    private Map<String, Range> activeRanges = new HashMap<>();
 
     public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
         if (row > 50 || col > 20 || row < 1 || col < 1) {
@@ -381,6 +383,51 @@ public class ImplSheet implements Sheet,Serializable  {
             case "PLUS", "MINUS", "TIMES", "DIVIDE", "MOD", "POW", "CONCAT", "ABS", "SUB", "REF", "PERCENT", "EQUAL", "BIGGER", "LESS", "OR", "AND", "NOT", "IF" -> true;
             default -> false;
         };
+    }
+
+    @Override
+    public void addNewRange(String rangeId, String cellRange) {
+        List<Coordinate> coordinateRange = getCoordinateInRange(cellRange);
+        List<Cell> cellInRange = new ArrayList<>();
+        for(Coordinate coord : coordinateRange){
+            if(activeCells.containsKey(coord)){
+                cellInRange.add(activeCells.get(coord));
+            }
+            else{
+                cellInRange.add(new ImplCell(coord.toString()));
+            }
+        }
+        Range range = new Range(cellInRange);
+        activeRanges.put(rangeId, range);
+    }
+
+    private List<Coordinate> getCoordinateInRange(String cellRange) {
+        String [] range = cellRange.split("\\.\\.");
+        Coordinate firstCell = createCoordinate(range[0]);
+        Coordinate lastCell = createCoordinate(range[1]);
+        List<Coordinate> cellsRange = new ArrayList<>();
+        int firstRow = firstCell.getRow();
+        int lasrRow = lastCell.getRow();
+        int firstCol = firstCell.getColumn();
+        int lastCol = lastCell.getColumn();
+        if(firstRow > lasrRow || firstCol > lastCol){
+            throw new IllegalArgumentException("Invalid range");
+        }
+        for(int i = firstRow; i <= lasrRow; i++){
+            for(int j = firstCol; j <= lastCol; j++){
+                Coordinate coord = new CoordinateImpl(i,j);
+                cellsRange.add(coord);
+            }
+        }
+        return cellsRange;
+    }
+
+    private Coordinate createCoordinate(String cellID){
+        Coordinate coord = new CoordinateImpl(cellID);
+        if(coord.getRow() > row || coord.getColumn() > col){
+            throw new IllegalArgumentException("Cell is out of bounds");
+        }
+        return coord;
     }
 
 

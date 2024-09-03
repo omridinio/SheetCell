@@ -52,6 +52,9 @@ public class ShitsellController {
     @FXML
     private TextField filePath;
 
+    @FXML
+    private Button updateValue;
+
     private CellUI currCell;
 
     //my dataMember
@@ -85,6 +88,8 @@ public class ShitsellController {
                 cellId.textProperty().unbind();
             }
         });
+        updateValue.disableProperty().bind(currCell.isClicked.not());
+
     }
 
     @FXML
