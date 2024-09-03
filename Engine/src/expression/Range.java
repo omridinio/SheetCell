@@ -21,6 +21,10 @@ public class Range implements Expression, EffectiveValue, Serializable {
         return rangeId;
     }
 
+    public List<Cell> getRangeCells() {
+        return rangeCells;
+    }
+
     @Override
     public CellType getCellType() {
         return CellType.RANGE;

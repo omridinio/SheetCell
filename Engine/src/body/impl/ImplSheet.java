@@ -130,6 +130,7 @@ public class ImplSheet implements Sheet,Serializable  {
         cell.setEffectiveValue(null);
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
+        cell.setOriginalValue(currExpression.expressionTOtoString());
         cell.setLastVersionUpdate(sheetVersion);
         countUpdateCell++;
     }
@@ -333,6 +334,7 @@ public class ImplSheet implements Sheet,Serializable  {
             case "IF" -> new If(args.get(0), args.get(1), args.get(2));
             case "SUM" -> {
                 if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString())) {
+                    rangeHelper(coordinate, activeRanges.get(args.get(0).evaluate().getValue().toString()));
                     yield new Sum(activeRanges.get(args.get(0).evaluate().getValue().toString()));
                 }
                 else{
@@ -341,6 +343,7 @@ public class ImplSheet implements Sheet,Serializable  {
             }
             case "AVERAGE" -> {
                 if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString())) {
+                    rangeHelper(coordinate, activeRanges.get(args.get(0).evaluate().getValue().toString()));
                     yield new Average(activeRanges.get(args.get(0).evaluate().getValue().toString()));
                 }
                 else{
@@ -409,6 +412,7 @@ public class ImplSheet implements Sheet,Serializable  {
         List<Cell> cellInRange = new ArrayList<>();
         for(Coordinate coord : coordinateRange){
             activeCells.putIfAbsent(coord, new ImplCell(coord.toString()));
+            graph.addVertex(coord);
             cellInRange.add(activeCells.get(coord));
         }
         Range range = new Range(cellInRange, rangeId);
@@ -448,6 +452,16 @@ public class ImplSheet implements Sheet,Serializable  {
     public Range getRange(String rangeId){
         return activeRanges.get(rangeId);
     }
+
+    private void rangeHelper(Coordinate currCoord, Range currRange){
+        List<Cell> rangeCells = currRange.getRangeCells();
+        for(Cell cell : rangeCells){
+            Coordinate coord = new CoordinateImpl(cell.getId());
+            graph.addVertex(coord);
+            graph.addEdge(coord, currCoord);
+        }
+    }
+
 
 
 
