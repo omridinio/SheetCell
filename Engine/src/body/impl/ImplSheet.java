@@ -408,6 +408,9 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public void addNewRange(String rangeId, String cellRange) {
+        if(activeRanges.containsKey(rangeId)){
+            throw new IllegalArgumentException("Range is already exist");
+        }
         List<Coordinate> coordinateRange = getCoordinateInRange(cellRange);
         List<Cell> cellInRange = new ArrayList<>();
         for(Coordinate coord : coordinateRange){
@@ -462,6 +465,10 @@ public class ImplSheet implements Sheet,Serializable  {
         }
     }
 
+    @Override
+    public List<String> getRangeName() {
+        return new ArrayList<>(activeRanges.keySet());
+    }
 
 
 

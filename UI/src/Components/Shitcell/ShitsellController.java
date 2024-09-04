@@ -10,8 +10,7 @@ import body.impl.ImplLogic;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.RangeDTO;
-import expression.Range;
-import expression.api.EffectiveValue;
+
 import jakarta.xml.bind.JAXBException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -35,8 +34,6 @@ import java.util.Map;
 import Components.Cell.CellContoller;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import javax.naming.Binding;
 
 public class ShitsellController {
 
@@ -72,15 +69,17 @@ public class ShitsellController {
     private VBox rangeAreaController;
 
 
-    private CellUI currCell;
 
     //my dataMember
+    private CellUI currCell;
     Map<Coordinate,CellContoller> coordToController = new HashMap<>();
     Map<String, RangeController> rangeToController = new HashMap<>();
     private Logic logic = new ImplLogic();
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
     private Button currRange;
-    private List<CellContoller> selectedCells = new ArrayList<>();
+    private List<CellContoller> cellsDependOnThem = new ArrayList<>();
+    private List<CellContoller> getCellsDependOnhim = new ArrayList<>();
+
 
     public ShitsellController() {
         currCell = new CellUI();
@@ -130,9 +129,23 @@ public class ShitsellController {
         isLoaded.setValue(true);
         int row = logic.getSheet().getRowCount();
         int col = logic.getSheet().getColumnCount();
-        createEmptySheet(col, row);
+        int width = logic.getSheet().getThickness();
+        int height = logic.getSheet().getRowCount();
+        createEmptySheet(col, row, width, height);
         updateSheet(logic.getSheet());
+        createRanges();
         filePath.setText(file.getAbsolutePath());
+    }
+
+    private void createRanges(){
+        List<String> ranges = logic.getRangesName();
+        for (String range : ranges) {
+            try {
+                addRange(range);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void updateSheet(SheetDTO sheet){
@@ -145,13 +158,13 @@ public class ShitsellController {
     }
 
     // Method to dynamically add buttons
-    private void createEmptySheet(int col, int row) throws IOException {
+    private void createEmptySheet(int col, int row, int widthCell, int heightCell) throws IOException {
         sheet.getRowConstraints().clear();
         sheet.getColumnConstraints().clear();
-        RowConstraints rowConstraints = new RowConstraints();
-        ColumnConstraints columnConstraints = new ColumnConstraints();
         for(int i = 0; i <= row; i++){
             for(int j = 0; j <= col; j++){
+                RowConstraints rowConstraints = new RowConstraints();
+                ColumnConstraints columnConstraints = new ColumnConstraints();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Cell/cell.fxml"));
                 Node cell = loader.load();
                 CellContoller cellContoller = loader.getController();
@@ -159,17 +172,20 @@ public class ShitsellController {
                 GridPane.setRowIndex(cell, i);
                 GridPane.setColumnIndex(cell, j);
                 if(i == 0 && j == 0){
-                    rowConstraints.setPrefHeight(cellContoller.getHeight());
-                    columnConstraints.setPrefWidth(cellContoller.getWidth());
+                    cellContoller.getCell().setDisable(true);
+                    rowConstraints.setPrefHeight(20);
+                    columnConstraints.setPrefWidth(45);
                     cell.getStyleClass().add("empty");
                 }
                 else if(i == 0){
-                    columnConstraints.setPrefWidth(cellContoller.getWidth());
+                    cellContoller.getCell().setDisable(true);
+                    //columnConstraints.setPrefWidth(widthCell);
                     cellContoller.setText(String.valueOf((char)('A' + j - 1)));
                     cell.getStyleClass().add("ABC");
                 }
                 else if(j == 0){
-                    rowConstraints.setPrefHeight(cellContoller.getHeight());
+                    cellContoller.getCell().setDisable(true);
+                    //rowConstraints.setPrefHeight(heightCell);
                     cell.getStyleClass().add("number");
                     String s = i < 10 ? "0" + i : String.valueOf(i);
                     cellContoller.setText(s);
@@ -180,9 +196,12 @@ public class ShitsellController {
                     Coordinate coordinate = new CoordinateImpl(i, j);
                     coordToController.put(coordinate, cellContoller);
                 }
+                sheet.getRowConstraints().add(rowConstraints);
+                sheet.getColumnConstraints().add(columnConstraints);
                 sheet.add(cell, j, i);
             }
         }
+
 
     }
 
@@ -196,6 +215,7 @@ public class ShitsellController {
     }
 
     public void cellClicked(CellDTO cell, Button button) {
+        clearCellsMark();
         currCell.clickedCell.getStyleClass().remove("clicked");
         currCell.cellid.setValue(cell.getId());
         currCell.originalValue.setValue(cell.getOriginalValue());
@@ -203,6 +223,16 @@ public class ShitsellController {
         currCell.clickedCell = button;
         currCell.isClicked.setValue(true);
         currCell.clickedCell.getStyleClass().add("clicked");
+        List<Coordinate> coordCellDependOfThem = cell.getCellsDependsOnThem();
+        for (Coordinate coordinate : coordCellDependOfThem) {
+            coordToController.get(coordinate).getCell().getStyleClass().add("dependThem");
+            cellsDependOnThem.add(coordToController.get(coordinate));
+        }
+        List<Coordinate> coordCellDependOfHim = cell.getCellsDependsOnHim();
+        for (Coordinate coordinate : coordCellDependOfHim) {
+            coordToController.get(coordinate).getCell().getStyleClass().add("dependHim");
+            getCellsDependOnhim.add(coordToController.get(coordinate));
+        }
     }
 
     @FXML
@@ -263,9 +293,9 @@ public class ShitsellController {
     }
 
     public void setRange(String rangeId, String theRange) throws IOException {
-        logic.createNewRange(rangeId, theRange);
         try{
-            addRange(rangeId, theRange);
+            logic.createNewRange(rangeId, theRange);
+            addRange(rangeId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -273,7 +303,7 @@ public class ShitsellController {
 
     }
 
-    private void addRange(String rangeId, String therange) throws IOException {
+    private void addRange(String rangeId) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/Range.fxml"));
         Node range = loader.load();
         RangeController rangeContoller = loader.getController();
@@ -288,18 +318,23 @@ public class ShitsellController {
         rangeArea.requestFocus();
         List<CellDTO> cells = rangeDTO.getRangeCells();
         for (CellDTO cell : cells) {
-            coordToController.get(new CoordinateImpl(cell.getId())).getCell().getStyleClass().add("range");
-            selectedCells.add(coordToController.get(new CoordinateImpl(cell.getId())));
+            coordToController.get(new CoordinateImpl(cell.getId())).getCell().getStyleClass().add("dependThem");
+            cellsDependOnThem.add(coordToController.get(new CoordinateImpl(cell.getId())));
         }
         currRange = range;
         currRange.getStyleClass().add("clicked");
     }
 
     private void clearCellsMark(){
-        for (CellContoller cell : selectedCells) {
-            cell.getCell().getStyleClass().remove("range");
+        for (CellContoller cell : cellsDependOnThem) {
+            cell.getCell().getStyleClass().clear();
+            cell.getCell().getStyleClass().add("button");
         }
-        selectedCells.clear();
+        cellsDependOnThem.clear();
+        for (CellContoller cell : getCellsDependOnhim) {
+            cell.getCell().getStyleClass().clear();
+            cell.getCell().getStyleClass().add("button");
+        }
     }
 }
 

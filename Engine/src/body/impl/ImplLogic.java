@@ -12,8 +12,9 @@ import expression.Range;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
-import jaxb.generated.STLCell;
-import jaxb.generated.STLSheet;
+import jaxb2.generated.STLCell;
+import jaxb2.generated.STLRange;
+import jaxb2.generated.STLSheet;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -83,6 +84,7 @@ public class ImplLogic implements Logic,Serializable  {
         int col = stlSheet.getSTLLayout().getColumns();
         Sheet res = new ImplSheet(name,thickness,width,row,col);
         List<STLCell> listofSTLCells = stlSheet.getSTLCells().getSTLCell();
+        createRangeList(stlSheet, res);
         for (STLCell stlCell : listofSTLCells) {
             res.setVersion(0);
             String cellId = stlCell.getColumn() + String.valueOf(stlCell.getRow());
@@ -94,8 +96,17 @@ public class ImplLogic implements Logic,Serializable  {
         return res;
     }
 
+    private void createRangeList(STLSheet stlSheet, Sheet currShit) {
+        List<STLRange> listofSTLRanges = stlSheet.getSTLRanges().getSTLRange();
+        for (STLRange stlRange : listofSTLRanges) {
+            String rangeId = stlRange.getName();
+            String range = stlRange.getSTLBoundaries().getFrom() + ".." + stlRange.getSTLBoundaries().getTo();
+            currShit.addNewRange(rangeId, range);
+        }
+    }
+
     private STLSheet creatGeneratedObject(InputStream path)throws JAXBException {
-        JAXBContext jc = JAXBContext.newInstance("jaxb.generated");
+        JAXBContext jc = JAXBContext.newInstance("jaxb2.generated");
         Unmarshaller u = jc.createUnmarshaller();
         return (STLSheet) u.unmarshal(path);
     }
@@ -156,6 +167,11 @@ public class ImplLogic implements Logic,Serializable  {
     @Override
     public RangeDTO getRange(String rangeId) {
         return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId));
+    }
+
+    @Override
+    public List<String> getRangesName() {
+        return mainSheet.get(mainSheet.size() - 1).getRangeName();
     }
 
 

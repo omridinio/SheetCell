@@ -26,6 +26,7 @@
     -fx-alignment: center; /* Center the text within each header label */
     -fx-font-size: 12px; /* Font size for headers */
     -fx-font-weight: bold; /* Bold text for headers */
+    -fx-alignment: center; /* Align text to the left */
     -fx-background-color: #737370; /* Background color for headers */
     -fx-text-fill: #131313; /* Text color for headers */
     -fx-padding: 6; /* Padding around text */
@@ -47,6 +48,14 @@
     -fx-border-color: #f10404; /* Border color */
 }
 
-.range {
+.dependThem {
     -fx-background-color: rgba(135, 206, 250, 0.2);
+}
+
+.dependHim {
+    -fx-background-color: rgb(0, 255, 0, 0.2);
+}
+
+.button:disabled {
+    -fx-opacity: 1.0;
 }

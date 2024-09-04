@@ -24,4 +24,5 @@ public interface Logic {
     List<Sheet> getMainSheet();
     void createNewRange(String rangeId, String range) throws IOException;
     RangeDTO getRange(String rangeId);
+    List<String> getRangesName();
 }

@@ -55,4 +55,12 @@ public class CellContoller {
     public double getHeight() {
         return cell.getHeight();
     }
+
+    public void setWidth(double width) {
+        cell.setPrefWidth(width);
+    }
+
+    public void setHeight(double height) {
+        cell.setPrefHeight(height);
+    }
 }

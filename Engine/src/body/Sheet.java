@@ -23,4 +23,5 @@ public interface Sheet {
     void updateCellDitels(String cellId, String value);
     void updateCellEffectiveValue(String cellId);
     Range getRange(String rangeId);
+    List<String> getRangeName();
 }
