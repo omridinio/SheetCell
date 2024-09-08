@@ -1,0 +1,94 @@
+.text-field {
+    -fx-background-color: #e7edf1; /* Very light blue background */
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-font-size: 12px; /* Font size */
+    -fx-padding: 5 10; /* Padding inside the TextField */
+    -fx-background-radius: 10; /* Rounded corners */
+    -fx-border-radius: 10; /* Rounded corners for the border */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
+    -fx-prompt-text-fill: #999999; /* Lighter color for prompt text */
+    -fx-cursor: text; /* Text cursor */
+}
+
+/* Style when the TextField is focused */
+.text-field:focused {
+    -fx-border-color: #131313; /* Green border when focused */
+    -fx-effect: dropshadow(gaussian, rgba(10, 11, 10, 0.3), 3, 0.5, 0, 2); /* Green shadow effect when focused */
+}
+
+.label {
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-font-size: 11px; /* Font size */
+    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Font family */
+}
+
+#UpdateValue{
+    -fx-background-color: #4CAF50; /* Solid green background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 12px; /* Font size */
+    -fx-font-weight: bold; /* Bold text */
+}
+
+#UpdateValue:hover {
+    -fx-background-color: #45A049; /* Slightly lighter green on hover */
+}
+
+/* Basic style for the Spinner */
+.spinner {
+    -fx-background-color: #F0F0F0; /* Light gray background */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-border-radius: 8; /* Rounded corners for the border */
+    -fx-background-radius: 8; /* Rounded corners for the background */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
+}
+
+/* Style for the Spinner's text field */
+.spinner .text-field {
+    -fx-text-fill: #333333; /* Dark gray text color */
+    -fx-font-size: 14px; /* Font size */
+    -fx-padding: 5; /* Padding inside the text field */
+    -fx-background-insets: 0; /* No additional insets */
+}
+
+/* Style for the Spinner arrows (up and down) */
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: #E0E0E0; /* Light gray background for buttons */
+    -fx-border-color: #CCCCCC; /* Border color for buttons */
+    -fx-border-width: 0 0 0 1; /* Left border for separation */
+    -fx-padding: 1; /* No extra padding */
+    -fx-background-radius: 0 8 8 0; /* Rounded corners only on the outer side */
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-background-color: #D0D0D0; /* Darker gray on hover */
+}
+
+/* Style for the increment (up) arrow */
+.spinner .increment-arrow {
+    -fx-background-color: #131313; /* Green color for increment arrow */
+    -fx-shape: "M 0 4 L 8 4 L 4 0 Z"; /* Shape pointing up */
+}
+
+/* Style for the decrement (down) arrow */
+.spinner .decrement-arrow {
+    -fx-background-color: #131313; /* Green color for decrement arrow */
+    -fx-shape: "M 0 0 L 8 0 L 4 4 Z"; /* Shape pointing down */
+}
+
+.spinner .increment-arrow:hover,
+.spinner .decrement-arrow:hover {
+    -fx-background-color: #070707; /* Darker green on hover */
+}
+
+#actionLine .error {
+    -fx-border-color: rgba(255, 0, 0, 0.2)
+}
+
+#HboxUp2{
+    -fx-background-color: #cbe1f3;
+}

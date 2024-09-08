@@ -2,13 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -16,9 +13,9 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="865.0" prefWidth="1206.0" stylesheets="@Shitsel.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
    <top>
-      <VBox>
+      <VBox id="upVbox" prefHeight="129.0" prefWidth="1206.0">
          <children>
-            <HBox id="HboxUp1" alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="1206.0" spacing="16.0" styleClass="upFrame">
+            <HBox id="HboxUp1" alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="1206.0" spacing="16.0" styleClass="upFrame">
                <children>
                   <Button id="LoadFileButton" mnemonicParsing="false" onAction="#loadFile" prefHeight="0.0" prefWidth="178.0" text="Load File Button" />
                   <TextField id="filePath" fx:id="filePath" alignment="TOP_LEFT" editable="false" prefHeight="28.0" prefWidth="886.0">
@@ -31,56 +28,7 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <HBox id="HboxUp2" alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="1213.0" spacing="15.0">
-               <children>
-                  <VBox alignment="CENTER" spacing="3.0">
-                     <children>
-                        <Label id="cellID" text="Cell ID:" />
-                        <TextField id="cellId" fx:id="cellId" disable="true" editable="false" onAction="#cellIdEnter" prefHeight="24.0" prefWidth="50.0" />
-                     </children>
-                  </VBox>
-                  <VBox id="originalValue" alignment="CENTER" spacing="3.0">
-                     <children>
-                        <Label id="OriginaValue" text="Original value:">
-                           <padding>
-                              <Insets left="5.0" />
-                           </padding>
-                        </Label>
-                        <TextField fx:id="originalValue" disable="true" editable="false" prefHeight="29.0" prefWidth="231.0" />
-                     </children>
-                  </VBox>
-                  <VBox id="actionLine" alignment="CENTER" prefHeight="54.0" prefWidth="435.0" spacing="3.0">
-                     <children>
-                        <Label text="Action line:" />
-                        <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
-                     </children>
-                  </VBox>
-                  <Button id="UpdateValue" fx:id="updateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
-                  <VBox alignment="CENTER" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
-                     <children>
-                        <Label id="lastUpdateCell" prefHeight="14.0" prefWidth="134.0" text="Last update cell version:">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <TextField fx:id="lastVersion" alignment="CENTER" disable="true" editable="false" prefHeight="29.0" prefWidth="47.0" />
-                     </children>
-                  </VBox>
-                  <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">
-                     <children>
-                        <Label text="Version selctor:">
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
-                        </Label>
-                        <ComboBox fx:id="versionSelctor" disable="true" editable="true" prefHeight="29.0" prefWidth="65.0" />
-                     </children>
-                  </VBox>
-               </children>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </HBox>
+            <fx:include fx:id="actionLine" source="../ActionLine/actionLine.fxml" />
          </children>
       </VBox>
    </top>
@@ -88,35 +36,33 @@
       <VBox prefHeight="757.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane id="Commands" prefHeight="340.0" prefWidth="136.0" />
-            <AnchorPane id="ranges" prefHeight="414.0" prefWidth="198.0">
-               <children>
-                  <VBox fx:id="rangeAreaController" prefHeight="200.0" prefWidth="100.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <HBox id="buttomsRange" alignment="CENTER" prefHeight="95.0" prefWidth="206.0" spacing="30.0">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#addRangeClicked" text="Add Range" />
-                              <Button mnemonicParsing="false" text="Delete Range" />
-                           </children>
-                        </HBox>
-                        <FlowPane id="rangeArea" fx:id="rangeArea" focusTraversable="true" hgap="15.0" prefHeight="334.0" prefWidth="295.0" vgap="10.0">
-                           <padding>
-                              <Insets left="5.0" top="5.0" />
-                           </padding>
-                        </FlowPane>
-                     </children>
-                  </VBox>
-               </children></AnchorPane>
+            <fx:include fx:id="rangeArea" source="../RangeArea/RangeArea.fxml" />
          </children>
       </VBox>
    </left>
    <center>
-      <GridPane fx:id="sheet" prefHeight="757.0" prefWidth="969.0" BorderPane.alignment="TOP_LEFT">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
+      <VBox fx:id="sheetArea" BorderPane.alignment="TOP_LEFT">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <fx:include fx:id="styleSheet" source="../StyleSheet/styleSheet.fxml" />
+               </children>
+            </HBox>
+            <GridPane fx:id="sheet" maxHeight="1.0E8" prefHeight="770.0" prefWidth="911.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets>
+               <padding>
+                  <Insets top="3.0" />
+               </padding>
+            </GridPane>
+         </children>
+      </VBox>
    </center>
 </BorderPane>

@@ -1,9 +1,6 @@
 .button {
-    -fx-alignment: center; /* Center the text within each header label */
-    -fx-font-size: 12px; /* Font size for headers */
     -fx-font-weight: bold; /* Bold text for headers */
-    -fx-background-color: white; /* Background color for headers */
-    -fx-text-fill: #131313; /* Text color for headers */
+    -fx-background-color: #fffefe;
     -fx-padding: 6; /* Padding around text */
     -fx-border-color: #a6a4a4 #a6a4a4 #a6a4a4 #a6a4a4;
     -fx-border-width: 1px 1px 1px 1px; /* Set the border width */
@@ -20,6 +17,7 @@
     -fx-border-color: #131313; /* Border color */
     -fx-border-width: 0 1px 0 1px; /* Vertical borders to separate columns */
     -fx-border-radius: 0; /* No rounded corners */
+
 }
 
 .number .button {
@@ -37,7 +35,6 @@
 
 .empty .button {
     -fx-background-color: #737370; /* Background color for headers */
-    -fx-text-fill: #131313; /* Text color for headers */
     -fx-padding: 6; /* Padding around text */
     -fx-border-color: #131313; /* Border color */
     -fx-border-width: 0 1px 0 1px; /* Vertical borders to separate columns */
@@ -46,6 +43,13 @@
 
 .clicked {
     -fx-border-color: #f10404; /* Border color */
+    -fx-border-width: 2px; /* Border width */
+}
+
+#cell .clicked {
+    -fx-background-color: #f10404; /* Background color */
+    -fx-border-width: 2px;
+
 }
 
 .dependThem {
@@ -53,9 +57,39 @@
 }
 
 .dependHim {
-    -fx-background-color: rgb(0, 255, 0, 0.2);
+    -fx-background-color: rgba(0, 255, 0, 0.2);
 }
 
 .button:disabled {
     -fx-opacity: 1.0;
 }
+
+.colSelect {
+    -fx-background-color: rgba(255, 228, 225, 0.86); /* Background color */
+    -fx-border-color: rgb(255, 228, 225), #a6a4a4, rgb(255, 228, 225), #a6a4a4;
+    -fx-border-width: 1px;
+
+}
+
+
+#leftSperator {
+    -fx-background-color: transparent; /* Makes the background transparent */
+    -fx-border-color: transparent; /* Hides the border */
+    -fx-border-width: 0; /* No border width */
+    -fx-padding: 0; /* No padding */
+    -fx-cursor: e-resize; /* Cursor for resizing */
+    -fx-opacity: 0;
+}
+
+#botomSperator {
+    -fx-background-color: transparent; /* Makes the background transparent */
+    -fx-border-color: transparent; /* Hides the border */
+    -fx-border-width: 0; /* No border width */
+    -fx-padding: 0; /* No padding */
+    -fx-cursor: s-resize; /* Cursor for resizing */
+    -fx-opacity: 0;
+}
+
+
+
+
