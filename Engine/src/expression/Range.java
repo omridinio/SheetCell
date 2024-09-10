@@ -1,6 +1,7 @@
 package expression;
 
 import body.Cell;
+import body.Coordinate;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
@@ -11,6 +12,8 @@ import java.util.List;
 public class Range implements Expression, EffectiveValue, Serializable {
     private List<Cell> rangeCells = new ArrayList<>();
     private String rangeId;
+    private Coordinate from;
+    private Coordinate to;
 
     public Range(List<Cell> rangeCells, String rangeId) {
         this.rangeCells = rangeCells;
@@ -23,6 +26,22 @@ public class Range implements Expression, EffectiveValue, Serializable {
 
     public List<Cell> getRangeCells() {
         return rangeCells;
+    }
+
+    public Coordinate getFrom() {
+        return from;
+    }
+
+    public Coordinate getTo() {
+        return to;
+    }
+
+    public void setFrom(Coordinate from) {
+        this.from = from;
+    }
+
+    public void setTo(Coordinate to) {
+        this.to = to;
     }
 
     @Override

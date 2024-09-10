@@ -13,6 +13,14 @@ public class RangeDTO {
         this.range = range;
     }
 
+    public String getRangeFrom() {
+        return range.getFrom().toString();
+    }
+
+    public String getRangeTo() {
+        return range.getTo().toString();
+    }
+
     public List<CellDTO> getRangeCells() {
         List<Cell> cells = (List<Cell>) range.getValue();
         List<CellDTO> cellDTOs = new ArrayList<>();

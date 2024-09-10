@@ -33,8 +33,17 @@ public class CellDTO {
         this.effectiveValue = cell.getEffectiveValue();
         this.cellsDependsOnThem = cell.getCellsDependsOnThem();
         this.cellsDependsOnHim = cell.getCellsDependsOnHim();
-
     }
+
+    public CellDTO(CellDTO cell, String id){
+        this.Id = id;
+        this.lastVersionUpdate = cell.getLastVersionUpdate();
+        this.originalValue = cell.getOriginalValue();
+        this.effectiveValue = (EffectiveValue) cell.getOriginalEffectiveValue();
+        this.cellsDependsOnThem = cell.getCellsDependsOnThem();
+        this.cellsDependsOnHim = cell.getCellsDependsOnHim();
+    }
+
     public String getId() {
         return Id;
     }

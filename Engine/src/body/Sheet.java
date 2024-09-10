@@ -3,7 +3,9 @@ package body;
 import dto.impl.CellDTO;
 import expression.Range;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface Sheet {
     String getSheetName();
@@ -24,4 +26,6 @@ public interface Sheet {
     void updateCellEffectiveValue(String cellId);
     Range getRange(String rangeId);
     List<String> getRangeName();
+    List<Integer> getTheRangeOfTheRange(String cellRange);
+    Map<Coordinate, Cell> sortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 }

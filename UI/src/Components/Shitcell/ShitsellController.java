@@ -1,8 +1,8 @@
 package Components.Shitcell;
 
 import Components.ActionLine.ActionLineController;
+import Components.Commands.CommandsController;
 import Components.Error.ErrorController;
-import Components.Range.RangeController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
 import Properties.CellUI;
@@ -27,10 +27,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import Components.Cell.CellContoller;
 
 public class ShitsellController {
@@ -62,12 +60,22 @@ public class ShitsellController {
     @FXML
     VBox sheetArea;
 
+    @FXML
+    AnchorPane commandArea;
+
+    @FXML
+    private CommandsController commandAreaController;
+
+    @FXML
+    private Button readOnlyMode;
+
+
 
     //my dataMember
     private CellUI currCell;
+    private BooleanProperty isReadOnlyMode = new SimpleBooleanProperty(false);
     Map<Coordinate,CellContoller> coordToController = new HashMap<>();
     Map<Coordinate,CellContoller> backupCoordToController = new HashMap<>();
-    Map<String, RangeController> rangeToController = new HashMap<>();
     private Logic logic = new ImplLogic();
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
     private Button currRange;
@@ -75,6 +83,7 @@ public class ShitsellController {
     private List<CellContoller> getCellsDependOnhim = new ArrayList<>();
     Tooltip actionMessege = new Tooltip();
     private List<CellContoller> cellChoosed = new ArrayList<>();
+    private Map<Coordinate, CellDTO> sortRange;
 
 
     public ShitsellController() {
@@ -94,8 +103,15 @@ public class ShitsellController {
         }
         if (styleSheetController != null) {
             styleSheetController.setShitsellController(this);
-            //styleSheetController.initializeStyleSheet();
+            styleSheetController.initializeStyleSheet();
         }
+
+        if (commandAreaController != null) {
+            commandAreaController.setShitsellController(this);
+            commandAreaController.initializeCommands();
+        }
+        readOnlyMode.disableProperty().bind(isReadOnlyMode.not());
+        readOnlyMode.visibleProperty().bind(isReadOnlyMode);
     }
 
     public GridPane getSheet() {
@@ -130,6 +146,17 @@ public class ShitsellController {
         }
     }
 
+    @FXML
+    private void closeReadOnlyCllicked() throws IOException, ClassNotFoundException {
+        for (Coordinate coordinate : sortRange.keySet()){
+            switchCells(coordToController.get(coordinate), backupCoordToController.get(coordinate));
+        }
+        updateCells();
+        backupCoordToController.clear();
+        sortRange.clear();
+        isReadOnlyMode.setValue(false);
+    }
+
     private void createRanges() throws IOException {
         List<String> ranges = logic.getRangesName();
         for (String range : ranges) {
@@ -151,7 +178,6 @@ public class ShitsellController {
         }
     }
 
-    // Method to dynamically add buttons
     private void createEmptySheet(int col, int row, int widthCell, int heightCell) throws IOException {
         sheet.getRowConstraints().clear();
         sheet.getColumnConstraints().clear();
@@ -358,12 +384,13 @@ public class ShitsellController {
     public void intitializeActionLine(ActionLineController actionLineController) {
         actionLineController.getOriginalValue().textProperty().bind(currCell.originalValue);
         actionLineController.getLastVersion().textProperty().bind(currCell.lastVersion);
-        actionLineController.getActionLine().disableProperty().bind(currCell.isClicked.not());
+        actionLineController.getActionLine().disableProperty().bind(currCell.isClicked.not().and(isReadOnlyMode));
         actionLineController.getActionLine().editableProperty().bind(currCell.isClicked);
         actionLineController.getCellId().disableProperty().bind(isLoaded.not());
         actionLineController.getCellId().editableProperty().bind(isLoaded);
         actionLineController.getLastVersion().disableProperty().bind(isLoaded.not());
         actionLineController.getOriginalValue().disableProperty().bind(isLoaded.not());
+        actionLineController.getUpdateValue().disableProperty().bind(isReadOnlyMode);
         actionLineController.getCellId().textProperty().bind(currCell.cellid);
         actionLineController.getCellId().focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
@@ -385,6 +412,8 @@ public class ShitsellController {
                 clearCellsMark();
             }
         });
+        rangeAreaController.getAddRange().disableProperty().bind(isReadOnlyMode);
+        rangeAreaController.getDeleteRange().disableProperty().bind(isReadOnlyMode);
     }
 
     private void clearCellChoosed(){
@@ -499,7 +528,8 @@ public class ShitsellController {
         for (CellContoller cell : cellChoosed) {
             cell.setBackgroundColor(value.toString().substring(2));
         }
-        currCell.cellContoller.setBackgroundColor(value.toString().substring(2));
+        if (currCell.cellContoller != null)
+            currCell.cellContoller.setBackgroundColor(value.toString().substring(2));
     }
 
     public void changeFontType(String value) {
@@ -513,106 +543,58 @@ public class ShitsellController {
     }
 
     public void intitializeStyleSheet(StyleSheetController styleSheetController) {
+        styleSheetController.getStyleSheet().visibleProperty().bind(isLoaded);
+        styleSheetController.getStyleSheet().disableProperty().bind(isReadOnlyMode);
     }
 
-    public void sortSheet(RangeDTO range, List<Integer> dominantCol) throws IOException, ClassNotFoundException {
-        List<CellDTO> rangeCells = range.getRangeCells();
-        Map<Integer,List<String>> cols = makeCols(range);
-        for (int i= 0; i < logic.getSheet().getRowCount(); i++) {
-            for (int j = i + 1; j < logic.getSheet().getRowCount(); j++) {
-                if (compareUntilTheEnd(cols, dominantCol, i, j) > 0) {
-                    switchRows(rangeCells, i, j);
-                }
-            }
-        }
-        copyCellsController();
-        for (CellDTO cellDTO : rangeCells) {
-            Coordinate coordinate = new CoordinateImpl(cellDTO.getId());
-            coordToController.get(coordinate).setCellDTO(cellDTO);
-        }
+    public void initializeCommands(CommandsController commandsController) {
+        //commandsController.getCommandArea().visibleProperty().bind(isLoaded);
+        //commandsController.getCommandArea().disableProperty().bind(isReadOnlyMode);
     }
 
-    private void copyCellsController() throws IOException, ClassNotFoundException {
-        for (Coordinate coord : coordToController.keySet()) {
-            CellContoller cell = coordToController.get(coord).copyCell();
-            backupCoordToController.put(coord, cell);
-        }
+    public void sortRangeClicked(String range, List<Integer> dominantCols) throws IOException, ClassNotFoundException {
+       sortRange = logic.getSortRange(range, dominantCols);
+       createReadOnlySheet();
+       updateCells();
+       modeReadOnly();
     }
 
-    private Map<Integer,List<String>> makeCols(RangeDTO range) {
-        Map<Integer,List<String>> cols = new HashMap<>();
-        String firstCol = range.getRangeFrom().toUpperCase();
-        String lastCol = range.getRangeTo().toUpperCase();
-        int first = firstCol.charAt(0) - 'A' + 1;
-        int last = lastCol.charAt(0) - 'A' + 1;
-        for (int i = first; i <= last; i++) {
-            cols.put(i, new ArrayList<>());
-            for (int j = 1; j <= logic.getSheet().getRowCount(); j++) {
-                Coordinate coordinate = new CoordinateImpl(j, i);
-                CellDTO cell = logic.getCell(coordinate);
-                cols.get(i).add(cell.getOriginalEffectiveValue().toString());
-            }
-        }
-        return cols;
+    private void modeReadOnly() {
+        isReadOnlyMode.setValue(true);
     }
 
-    private void switchRows(List<CellDTO> cells, int first, int last) {
-        for (int i = 0; i < cells.size(); i++) {
-            for (int j = i + 1; j < cells.size(); j++) {
-                if (cells.get(i).getId().charAt(0) == cells.get(j).getId().charAt(0) && (cells.get(i).getId().charAt(1) == first && cells.get(j).getId().charAt(1) == last)) {
-                    CellDTO temp = cells.get(i);
-                    Coordinate tempCoord = new CoordinateImpl(temp.getId());
-                    cells.set(i, new CellDTO(cells.get(i), cells.get(j).getId()));
-                    cells.set(j, new CellDTO(cells.get(j), tempCoord.toString()));
-                }
-            }
-        }
-
-    }
-
-    public int compare(String a, String b) {
-        if (tryParseInt(a) && tryParseInt(b)) {
-            return Integer.parseInt(a) - Integer.parseInt(b);
-        }
-        else if (tryParseInt(a)) {
-            return 1;
-        }
-        else if (tryParseInt(b)) {
-            return -1;
-        }
-        return a.compareTo(b);
-    }
-
-    public int compareUntilTheEnd(Map<Integer,List<String>> cols, List<Integer> dominantCol, int line1, int line2){
-        int res = 0;
-        int index = 0;
-        List<String> col = cols.get(dominantCol.get(index));
-        while(res != 0) {
-            res = compare(col.get(line1), col.get(line2));
-            if (res == 0) {
-                index++;
-                if (index == dominantCol.size()) {
-                    break;
-                }
-                col = cols.get(dominantCol.get(index));
-            }
-        }
-        return res;
-    }
-
-    private boolean tryParseInt(String value) {
-        try {
-            Integer.parseInt(value);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+    private void updateCells(){
+        for (Coordinate coordinate : coordToController.keySet()){
+            coordToController.get(coordinate).updateCellDeatils();
+            coordToController.get(coordinate).calculatecoord();
         }
     }
 
-
-    public void sortRangeClicked(String range) throws IOException, ClassNotFoundException {
-        List<Integer> dominanrCol = new ArrayList<>();
-        Map<Coordinate, CellDTO> sortRange = logic.getSortRange(range, dominanrCol);
+    public List<Integer> getColsInRange(String range){
+        return logic.getTheRangeOfTheRange(range);
     }
+
+    private void createReadOnlySheet() throws IOException, ClassNotFoundException {
+        for (Coordinate coordinate : coordToController.keySet()){
+            backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
+        }
+        for (Coordinate coordinate : sortRange.keySet()){
+            switchCells(coordToController.get(coordinate), backupCoordToController.get((new CoordinateImpl(sortRange.get(coordinate).getId()))));
+        }
+    }
+
+    private CellContoller createNewCell(Coordinate coordinate) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Cell/Cell.fxml"));
+        Node cell = loader.load();
+        CellContoller cellContoller = loader.getController();
+        cellContoller.setShitsellController(this);
+        cellContoller.copyCell(coordToController.get(coordinate));
+        return cellContoller;
+    }
+
+    private void switchCells(CellContoller cell1, CellContoller cell2) throws IOException, ClassNotFoundException {
+        cell1.copyCell(cell2);
+    }
+
 }
 

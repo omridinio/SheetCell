@@ -31,9 +31,23 @@
                   <Insets left="5.0" />
                </padding>
             </HBox>
+            <VBox fx:id="errorMessege" visible="false">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="271.0" text="Invalid range format">
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="25.0" prefWidth="317.0" text="Enter the range in this format: &lt;From&gt;..&lt;To&gt;">
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="-2.0" layoutY="109.0" prefHeight="49.0" prefWidth="259.0" spacing="20.0">
+      <HBox alignment="CENTER_RIGHT" layoutX="-2.0" layoutY="171.0" prefHeight="55.0" prefWidth="322.0" spacing="20.0">
          <children>
             <Button fx:id="okButtom" mnemonicParsing="false" onAction="#okClicked" text="OK" />
             <Button mnemonicParsing="false" onAction="#cancelClicked" text="Cancel" />

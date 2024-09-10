@@ -7,7 +7,7 @@ import expression.api.Expression;
 import expression.impl.Empty;
 import expression.impl.Number;
 
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +31,22 @@ public class ImplCell implements Cell,Serializable  {
     public ImplCell(double num){
         Number number = new Number(num);
         effectiveValue = number;
+    }
+
+    @Override
+    public Cell copyCell() throws IOException, ClassNotFoundException {
+        // Step 1: Serialize the object to a byte array
+        ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+        ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
+        outStream.writeObject(this);
+        outStream.flush();
+
+        // Step 2: Deserialize the byte array into a new object
+        ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
+        ObjectInputStream inStream = new ObjectInputStream(byteInStream);
+
+        Cell newContoller = (Cell) inStream.readObject();
+        return  newContoller;
     }
 
     @Override

@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -35,7 +34,7 @@
    <left>
       <VBox prefHeight="757.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane id="Commands" prefHeight="340.0" prefWidth="136.0" />
+            <fx:include fx:id="commandArea" source="../Commands/commands.fxml" />
             <fx:include fx:id="rangeArea" source="../RangeArea/RangeArea.fxml" />
          </children>
       </VBox>
@@ -46,6 +45,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <fx:include fx:id="styleSheet" source="../StyleSheet/styleSheet.fxml" />
+                  <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
                </children>
             </HBox>
             <GridPane fx:id="sheet" maxHeight="1.0E8" prefHeight="770.0" prefWidth="911.0">

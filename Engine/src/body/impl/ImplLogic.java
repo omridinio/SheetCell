@@ -19,6 +19,7 @@ import jaxb2.generated.STLSheet;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class ImplLogic implements Logic,Serializable  {
@@ -31,6 +32,21 @@ public class ImplLogic implements Logic,Serializable  {
     public CellDTO getCell(String cellID) {
         Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(cellID);
         return new CellDTO(temp);
+    }
+
+    @Override
+    public Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException {
+        Map<Coordinate,Cell> sortRange = mainSheet.get(mainSheet.size() - 1).sortRange(rangeCells, dominantCol);
+        Map<Coordinate, CellDTO> res = new java.util.HashMap<>();
+        for (Coordinate coordinate : sortRange.keySet()) {
+            res.put(coordinate, new CellDTO(sortRange.get(coordinate)));
+        }
+        return res;
+    }
+
+    @Override
+    public List<Integer> getTheRangeOfTheRange(String cellRange){
+        return mainSheet.get(mainSheet.size() - 1).getTheRangeOfTheRange(cellRange);
     }
 
     @Override

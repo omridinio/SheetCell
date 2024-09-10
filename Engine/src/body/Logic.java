@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface Logic {
     CellDTO getCell(String cellID);
@@ -25,4 +26,6 @@ public interface Logic {
     void createNewRange(String rangeId, String range) throws IOException;
     RangeDTO getRange(String rangeId);
     List<String> getRangesName();
+    List<Integer> getTheRangeOfTheRange(String cellRange);
+    Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 }

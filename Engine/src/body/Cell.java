@@ -3,6 +3,7 @@ package body;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface Cell {
@@ -21,4 +22,5 @@ public interface Cell {
     void setEffectiveValue(EffectiveValue value);
     void setDependsOnThem(List<Coordinate> dependsOnThem);
     void setDependsOnHim(List<Coordinate> dependsOnHim);
+    Cell copyCell() throws IOException, ClassNotFoundException;
 }
