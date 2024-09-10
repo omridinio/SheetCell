@@ -48,7 +48,9 @@ public class setRangeController {
     void okClicked(ActionEvent event) throws IOException {
         if(isRangeValid()){
             try {
+                errorMessege.visibleProperty().setValue(false);
                 rangeAreaController.okClicked(rangeName.getText(), theRange.getText().toUpperCase());
+
                 Stage stage = (Stage) okButtom.getScene().getWindow();
                 stage.close();
             } catch (IllegalArgumentException e) {
@@ -58,7 +60,8 @@ public class setRangeController {
                 e.printStackTrace();
             }
         }
-        errorMessege.visibleProperty().setValue(true);
+        else
+            errorMessege.visibleProperty().setValue(true);
     }
 
     private boolean isRangeValid(){

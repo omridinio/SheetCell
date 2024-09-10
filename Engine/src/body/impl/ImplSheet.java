@@ -3,22 +3,23 @@ package body.impl;
 import body.Cell;
 import body.Coordinate;
 import body.Sheet;
+import dto.impl.CellDTO;
+import dto.impl.RangeDTO;
 import expression.Range;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
-import expression.impl.Empty;
+import expression.impl.*;
 import expression.impl.Number;
-import expression.impl.Str;
 import expression.impl.bool.*;
 import expression.impl.numeric.*;
 import expression.impl.string.Concat;
 import expression.impl.string.Sub;
 import expression.impl.system.REF;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.*;
-import expression.impl.Reference;
 
 public class ImplSheet implements Sheet,Serializable  {
 
@@ -156,8 +157,15 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public void updateCell(String cellId, String value) {
+        resrRanges();
         updateCellDitels(cellId, value);
         updateCellEffectiveValue(cellId);
+    }
+
+    private void resrRanges() {
+        for (Range range : activeRanges.values()) {
+            range.restUse();
+        }
     }
 
     private Cell findUpdateCell(Cell prevCell){
@@ -216,6 +224,12 @@ public class ImplSheet implements Sheet,Serializable  {
                 Double.parseDouble(input);
                 return (new Number(input));
             }catch (NumberFormatException error){
+                if(input.toUpperCase().equals("TRUE")) {
+                    return (new Bool(true));
+                }
+                else if(input.toUpperCase().equals("FALSE")) {
+                    return (new Bool(false));
+                }
                 return (new Str(input));
             }
         }
@@ -411,6 +425,10 @@ public class ImplSheet implements Sheet,Serializable  {
         if(activeRanges.containsKey(rangeId)){
             throw new IllegalArgumentException("Range is already exist");
         }
+        activeRanges.put(rangeId, CreateRange(rangeId, cellRange));
+    }
+
+    private Range CreateRange(String rangeId, String cellRange){
         List<Coordinate> coordinateRange = getCoordinateInRange(cellRange);
         List<Cell> cellInRange = new ArrayList<>();
         for(Coordinate coord : coordinateRange){
@@ -419,7 +437,11 @@ public class ImplSheet implements Sheet,Serializable  {
             cellInRange.add(activeCells.get(coord));
         }
         Range range = new Range(cellInRange, rangeId);
-        activeRanges.put(rangeId, range);
+        Coordinate from = coordinateRange.get(0);
+        Coordinate to = coordinateRange.get(coordinateRange.size()-1);
+        range.setFrom(from);
+        range.setTo(to);
+        return range;
     }
 
     private List<Coordinate> getCoordinateInRange(String cellRange) {
@@ -443,6 +465,25 @@ public class ImplSheet implements Sheet,Serializable  {
         return cellsRange;
     }
 
+    @Override
+    public List<Integer> getTheRangeOfTheRange(String cellRange) {
+        String [] range = cellRange.split("\\.\\.");
+        Coordinate firstCell = createCoordinate(range[0]);
+        Coordinate lastCell = createCoordinate(range[1]);
+        List<Coordinate> cellsRange = new ArrayList<>();
+        int firstRow = firstCell.getRow();
+        int lasrRow = lastCell.getRow();
+        int firstCol = firstCell.getColumn();
+        int lastCol = lastCell.getColumn();
+        if(firstRow > lasrRow || firstCol > lastCol){
+            throw new IllegalArgumentException("Invalid range");
+        }
+        List<Integer> res = new ArrayList<>();
+        res.add(firstCol);
+        res.add(lastCol);
+        return res;
+    }
+
     private Coordinate createCoordinate(String cellID){
         Coordinate coord = new CoordinateImpl(cellID);
         if(coord.getRow() > row || coord.getColumn() > col){
@@ -463,11 +504,145 @@ public class ImplSheet implements Sheet,Serializable  {
             graph.addVertex(coord);
             graph.addEdge(coord, currCoord);
         }
+        if (graph.hasCycle()) {
+            for (Cell cell : rangeCells) {
+                Coordinate coord = new CoordinateImpl(cell.getId());
+                graph.removeEdge(coord, currCoord);
+            }
+            throw new IllegalArgumentException("Error! the range: " + currRange.getRangeId() + " create a circle");
+        }
+        currRange.addUse();
+    }
+
+    @Override
+    public void removeRange(String rangeId){
+        if(!activeRanges.containsKey(rangeId)){
+            throw new IllegalArgumentException("Range is not exist");
+        }
+        Range currRange = activeRanges.get(rangeId);
+        if(currRange.isUse()){
+            throw new IllegalArgumentException("Range is in use");
+        }
+        activeRanges.remove(rangeId);
     }
 
     @Override
     public List<String> getRangeName() {
         return new ArrayList<>(activeRanges.keySet());
+    }
+
+    @Override
+    public Map<Coordinate, Cell> sortRange(String cellRange, List<Integer> dominantCol) throws IOException, ClassNotFoundException {
+        Range range = CreateRange("Sort Range", cellRange);
+        List<Cell> rangeCells = range.getRangeCells();
+        Map<Integer,List<Cell>> cols = makeCols(range);
+        Map<Coordinate, Cell> sortCells = createSortedCells(rangeCells);
+        int colLength = cols.get(dominantCol.get(0)).size();
+        int startCol = range.getFrom().getColumn();
+        int endCol = range.getTo().getColumn();
+        int startRow = range.getFrom().getRow();
+        int endRow = range.getTo().getRow();
+        for (int i = 0; i < colLength; i++){
+            for (int j = 0; j < colLength - i - 1 ; j++){
+                if (compareUntilTheEnd(cols, dominantCol, j, j + 1) > 0){
+                    switchRows(j + startRow, j + 1 + startRow, sortCells, startCol, endCol);
+                    switchCols(cols, j, j + 1);
+                }
+            }
+        }
+        return sortCells;
+    }
+
+    private void switchCols(Map<Integer, List<Cell>> cols, int firstRow, int lastRow) {
+        for (int col : cols.keySet()) {
+            List<Cell> currCol = cols.get(col);
+            Cell temp = currCol.get(firstRow);
+            currCol.set(firstRow, currCol.get(lastRow));
+            currCol.set(lastRow, temp);
+        }
+    }
+
+    private Map<Coordinate, Cell> createSortedCells(List<Cell> rangeCells) throws IOException, ClassNotFoundException {
+        Map<Coordinate, Cell> sortCells = new HashMap<>();
+        for (Cell cell : rangeCells){
+            Coordinate coordinate = new CoordinateImpl(cell.getId());
+            sortCells.put(coordinate, cell.copyCell());
+        }
+        return sortCells;
+    }
+
+    private void switchRows(int firstRow, int lastRow, Map<Coordinate, Cell> sortCells, int stratRow, int endRow) throws IOException, ClassNotFoundException {
+        for (int i = stratRow; i <= endRow; i++){
+            Coordinate firstCoord = new CoordinateImpl(firstRow, i);
+            Coordinate lastCoord = new CoordinateImpl(lastRow, i);
+            Cell firstCell = sortCells.get(firstCoord).copyCell();
+            Cell lastCell = sortCells.get(lastCoord).copyCell();
+            sortCells.put(firstCoord, lastCell);
+            sortCells.put(lastCoord, firstCell);
+        }
+    }
+
+    private Map<Integer,List<Cell>> makeCols(Range range) {
+        Map<Integer,List<Cell>> cols = new HashMap<>();
+        String firstCol = range.getFrom().toString();
+        String lastCol = range.getTo().toString();
+        int firstcol = firstCol.charAt(0) - 'A' + 1;
+        int lastcol = lastCol.charAt(0) - 'A' + 1;
+        int firstrow = Integer.parseInt(firstCol.substring(1));
+        int lastrow = Integer.parseInt(lastCol.substring(1));
+        for (int i = firstcol; i <= lastcol; i++) {
+            cols.put(i, new ArrayList<>());
+            for (int j = firstrow; j <= lastrow; j++) {
+                Coordinate coordinate = new CoordinateImpl(j, i);
+                activeCells.putIfAbsent(coordinate, new ImplCell(coordinate.toString()));
+                Cell cell = activeCells.get(coordinate);
+                cols.get(i).add(cell);
+            }
+        }
+        return cols;
+    }
+
+    public double compare(String a, String b) {
+        if (tryParseDouble(a) && tryParseDouble(b)) {
+            return Double.parseDouble(a) - Double.parseDouble(b);
+        }
+        else if (!tryParseDouble(a) && !tryParseDouble(b)) {
+            return a.compareTo(b);
+        }
+        else if (tryParseDouble(a)) {
+            return 1;
+        }
+        else {
+            return -1;
+        }
+
+    }
+
+    public double compareUntilTheEnd(Map<Integer,List<Cell>> cols, List<Integer> dominantCol, int line1, int line2){
+        double res = 0;
+        int index = 0;
+        List<Cell> col = cols.get(dominantCol.get(index));
+        while(res == 0) {
+            res = compare(col.get(line1).getEffectiveValue().toString(), col.get(line2).getEffectiveValue().toString());
+            if (res == 0) {
+                index++;
+                if (index == dominantCol.size()) {
+                    break;
+                }
+                col = cols.get(dominantCol.get(index));
+            }
+        }
+
+        return res;
+    }
+
+    private boolean tryParseDouble(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
 

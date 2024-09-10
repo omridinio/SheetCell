@@ -27,5 +27,6 @@ public interface Logic {
     RangeDTO getRange(String rangeId);
     List<String> getRangesName();
     List<Integer> getTheRangeOfTheRange(String cellRange);
+    void removeRange(String rangeId);
     Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 }

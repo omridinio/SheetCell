@@ -9,32 +9,53 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane prefHeight="410.0" prefWidth="296.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.SetCommand.SetCommandController">
    <children>
-      <VBox layoutX="6.0" layoutY="2.0" prefHeight="369.0" prefWidth="271.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="6.0" layoutY="2.0" prefHeight="369.0" prefWidth="271.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="63.0" prefWidth="296.0" spacing="10.0">
                <children>
                   <Label text="Range: " />
-                  <TextField fx:id="theRange" />
-                  <Button mnemonicParsing="false" onAction="#VClicked" prefHeight="19.0" prefWidth="35.0" text="V" />
+                  <TextField fx:id="theRange" prefHeight="25.0" prefWidth="123.0" />
+                  <Button id="V" fx:id="vButton" mnemonicParsing="false" onAction="#VClicked" prefHeight="19.0" prefWidth="35.0" text="V" />
+                  <Button id="X" mnemonicParsing="false" onAction="#XClicked" prefHeight="19.0" prefWidth="35.0" text="X" fx:id="xButton" />
                </children>
                <padding>
                   <Insets left="15.0" top="15.0" />
                </padding>
             </HBox>
+            <VBox fx:id="errorMessege" prefHeight="55.0" prefWidth="296.0" visible="false">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="271.0" text="Invalid range format">
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="25.0" prefWidth="317.0" text="Enter the range in this format: &lt;From&gt;..&lt;To&gt;">
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </VBox>
             <VBox>
                <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="326.0">
+                  <VBox prefHeight="44.0" prefWidth="296.0" spacing="10.0">
                      <children>
-                        <Button fx:id="addLevelButtom" mnemonicParsing="false" onAction="#addLevelClicked" text="Add level" />
+                        <Button fx:id="addLevelButtom" mnemonicParsing="false" onAction="#addLevelClicked" text="Add another sort column" />
+                        <Button fx:id="deleteLevel" mnemonicParsing="false" onAction="#deleteLevelClicked" prefHeight="25.0" prefWidth="150.0" text="Delete last sort column" />
                      </children>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="10.0" top="10.0" />
                      </padding>
-                  </HBox>
-                  <FlowPane fx:id="colsChoose" prefHeight="200.0" prefWidth="200.0" />
+                  </VBox>
+                  <FlowPane fx:id="colsChoose" hgap="15.0" prefHeight="200.0" prefWidth="200.0" vgap="15.0">
+                     <padding>
+                        <Insets top="15.0" />
+                     </padding></FlowPane>
                </children>
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="60.0" prefWidth="274.0">

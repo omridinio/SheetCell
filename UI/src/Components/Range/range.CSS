@@ -25,3 +25,17 @@
     -fx-display: inline-block; /* Display as inline block */
     -fx-font-size: 12px; /* Font size */
 }
+
+/* Style for circular CheckBox */
+#checkBox {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-width: 1; /* Border width */
+    -fx-border-radius: 50; /* Rounded corners */
+    -fx-background-radius: 50; /* Rounded corners */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
+}
+
+#checkBox.selected {
+    -fx-background-color:#00FFFF; /* Light blue background when selected */
+}

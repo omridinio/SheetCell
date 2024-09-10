@@ -14,10 +14,26 @@ public class Range implements Expression, EffectiveValue, Serializable {
     private String rangeId;
     private Coordinate from;
     private Coordinate to;
+    private int countUse = 0;
 
     public Range(List<Cell> rangeCells, String rangeId) {
         this.rangeCells = rangeCells;
         this.rangeId = rangeId;
+    }
+
+    public void addUse(){
+        countUse++;
+    }
+
+    public void restUse(){
+        countUse = 0;
+    }
+
+    public boolean isUse(){
+        if (countUse > 0){
+            return true;
+        }
+        return false;
     }
 
     public String getRangeId() {

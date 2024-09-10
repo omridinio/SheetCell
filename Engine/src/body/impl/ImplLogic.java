@@ -190,6 +190,10 @@ public class ImplLogic implements Logic,Serializable  {
         return mainSheet.get(mainSheet.size() - 1).getRangeName();
     }
 
+    @Override
+    public void removeRange(String rangeId) {
+        mainSheet.get(mainSheet.size() - 1).removeRange(rangeId);
+    }
 
 }
 

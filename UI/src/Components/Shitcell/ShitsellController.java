@@ -74,6 +74,7 @@ public class ShitsellController {
     //my dataMember
     private CellUI currCell;
     private BooleanProperty isReadOnlyMode = new SimpleBooleanProperty(false);
+    private BooleanProperty isdeleteRangeMode = new SimpleBooleanProperty(false);
     Map<Coordinate,CellContoller> coordToController = new HashMap<>();
     Map<Coordinate,CellContoller> backupCoordToController = new HashMap<>();
     private Logic logic = new ImplLogic();
@@ -112,6 +113,7 @@ public class ShitsellController {
         }
         readOnlyMode.disableProperty().bind(isReadOnlyMode.not());
         readOnlyMode.visibleProperty().bind(isReadOnlyMode);
+        sheet.disableProperty().bind(isdeleteRangeMode);
     }
 
     public GridPane getSheet() {
@@ -412,8 +414,9 @@ public class ShitsellController {
                 clearCellsMark();
             }
         });
-        rangeAreaController.getAddRange().disableProperty().bind(isReadOnlyMode);
-        rangeAreaController.getDeleteRange().disableProperty().bind(isReadOnlyMode);
+        rangeAreaController.getAddRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
+        rangeAreaController.getDeleteRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
+        rangeAreaController.getSumbitDelete().disableProperty().bind(isdeleteRangeMode.not());
     }
 
     private void clearCellChoosed(){
@@ -544,7 +547,7 @@ public class ShitsellController {
 
     public void intitializeStyleSheet(StyleSheetController styleSheetController) {
         styleSheetController.getStyleSheet().visibleProperty().bind(isLoaded);
-        styleSheetController.getStyleSheet().disableProperty().bind(isReadOnlyMode);
+        styleSheetController.getStyleSheet().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
     }
 
     public void initializeCommands(CommandsController commandsController) {
@@ -596,5 +599,16 @@ public class ShitsellController {
         cell1.copyCell(cell2);
     }
 
+    public void deleteRangeModeOn() {
+        isdeleteRangeMode.setValue(true);
+    }
+
+    public void deleteRange(String rangeId) {
+        logic.removeRange(rangeId);
+    }
+
+    public void deleteRangeModeOff() {
+        isdeleteRangeMode.setValue(false);
+    }
 }
 
