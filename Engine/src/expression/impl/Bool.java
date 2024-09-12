@@ -31,7 +31,7 @@ public class Bool implements Expression, EffectiveValue, Serializable {
 
     @Override
     public String expressionTOtoString() {
-        return Boolean.toString(value);
+        return value?"TRUE":"FALSE";
     }
 
     @Override

@@ -195,5 +195,10 @@ public class ImplLogic implements Logic,Serializable  {
         mainSheet.get(mainSheet.size() - 1).removeRange(rangeId);
     }
 
+    @Override
+    public List<Coordinate> getCoordinateInRange(String cellRange) {
+        return mainSheet.get(mainSheet.size() - 1).getCoordinateInRange(cellRange);
+    }
+
 }
 

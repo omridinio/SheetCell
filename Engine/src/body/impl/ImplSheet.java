@@ -444,7 +444,7 @@ public class ImplSheet implements Sheet,Serializable  {
         return range;
     }
 
-    private List<Coordinate> getCoordinateInRange(String cellRange) {
+    public List<Coordinate> getCoordinateInRange(String cellRange) {
         String [] range = cellRange.split("\\.\\.");
         Coordinate firstCell = createCoordinate(range[0]);
         Coordinate lastCell = createCoordinate(range[1]);

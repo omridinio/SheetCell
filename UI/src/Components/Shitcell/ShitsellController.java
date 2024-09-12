@@ -416,7 +416,8 @@ public class ShitsellController {
         });
         rangeAreaController.getAddRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
         rangeAreaController.getDeleteRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
-        rangeAreaController.getSumbitDelete().disableProperty().bind(isdeleteRangeMode.not());
+        rangeAreaController.getSumbitDelete().visibleProperty().bind(isdeleteRangeMode);
+        rangeAreaController.getCancel().visibleProperty().bind(isdeleteRangeMode);
     }
 
     private void clearCellChoosed(){
@@ -609,6 +610,28 @@ public class ShitsellController {
 
     public void deleteRangeModeOff() {
         isdeleteRangeMode.setValue(false);
+    }
+
+    public Map<Integer, String> getColumsItem(int col, String theRange){
+        Map<Integer, String> itemsInRow = new HashMap<>();
+        List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
+        for (Coordinate coordinate : coordinatesOfRange) {
+            if (coordinate.getColumn() == col) {
+                itemsInRow.put(coordinate.getRow(), coordToController.get(coordinate).getCell().getText());
+            }
+        }
+        return itemsInRow;
+    }
+
+    public Map<Integer, String> getColumsItem(int i, String theRange, List<Integer> rowSelected) {
+        Map<Integer, String> itemsInRow = new HashMap<>();
+        List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
+        for (Coordinate coordinate : coordinatesOfRange) {
+            if (coordinate.getColumn() == i && rowSelected.contains(coordinate.getRow())) {
+                itemsInRow.put(coordinate.getRow(), coordToController.get(coordinate).getCell().getText());
+            }
+        }
+        return itemsInRow;
     }
 }
 

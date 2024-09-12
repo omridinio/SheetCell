@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="865.0" prefWidth="1206.0" stylesheets="@Shitsel.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="726.0" prefWidth="1142.0" stylesheets="@Shitsel.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
    <top>
       <VBox id="upVbox" prefHeight="129.0" prefWidth="1206.0">
          <children>
@@ -32,7 +33,7 @@
       </VBox>
    </top>
    <left>
-      <VBox prefHeight="757.0" prefWidth="295.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="575.0" prefWidth="283.0" BorderPane.alignment="CENTER">
          <children>
             <fx:include fx:id="commandArea" source="../Commands/commands.fxml" />
             <fx:include fx:id="rangeArea" source="../RangeArea/RangeArea.fxml" />
@@ -48,7 +49,7 @@
                   <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
                </children>
             </HBox>
-            <GridPane fx:id="sheet" maxHeight="1.0E8" prefHeight="770.0" prefWidth="911.0">
+            <GridPane id="sheet" fx:id="sheet" maxHeight="1.0E8" prefHeight="770.0" prefWidth="911.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>

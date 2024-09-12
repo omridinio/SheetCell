@@ -12,6 +12,7 @@
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="sort" mnemonicParsing="false" onAction="#clickeSort" prefHeight="25.0" prefWidth="60.0" text="Sort" />
+                  <Button fx:id="filter" mnemonicParsing="false" onAction="#filterClicked" prefHeight="25.0" prefWidth="54.0" text="Filter" />
                </children>
             </HBox>
          </children>

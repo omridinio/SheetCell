@@ -42,6 +42,9 @@ public class RangeAreaController {
     private Button deleteRange;
 
     @FXML
+    private Button cancel;
+
+    @FXML
     private Button sumbitDelete;
 
     private ShitsellController shitsellController;
@@ -86,11 +89,20 @@ public class RangeAreaController {
                 range.deleteModeOff();
             }
             selcetedDelete.clear();
+            shitsellController.deleteRangeModeOff();
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void cancelClicked(ActionEvent event) {
         shitsellController.deleteRangeModeOff();
+        for (RangeController range : ranges.values()) {
+            range.deleteModeOff();
+        }
+        selcetedDelete.clear();
     }
 
     public void initialize() { }
@@ -120,6 +132,10 @@ public class RangeAreaController {
 
     public VBox getRangeAreaController() {
         return rangeAreaController;
+    }
+
+    public Button getCancel() {
+        return cancel;
     }
 
     public void rangeClicked(RangeDTO rangeDTO, Button range) {

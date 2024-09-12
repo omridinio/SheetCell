@@ -65,6 +65,8 @@ public class RangeController {
 
     public void deleteModeOff() {
         deleteMode.setValue(false);
+        delete.setSelected(false);
+        labelCheckBox.getStyleClass().remove("selected");
     }
 
     public void setShitsellController(ShitsellController shitsellController){

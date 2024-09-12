@@ -7,22 +7,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="ranges" prefHeight="440.0" prefWidth="310.0" stylesheets="@RangeArea.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.RangeArea.RangeAreaController">
+<AnchorPane id="ranges" prefHeight="491.0" prefWidth="287.0" stylesheets="@RangeArea.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.RangeArea.RangeAreaController">
    <children>
       <VBox fx:id="rangeAreaController" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox id="buttomsRange" alignment="CENTER" prefHeight="95.0" prefWidth="206.0" spacing="30.0">
+            <HBox id="buttomsRange" alignment="CENTER" prefHeight="95.0" prefWidth="317.0" spacing="30.0">
                <children>
                   <Button fx:id="addRange" mnemonicParsing="false" onAction="#addRangeClicked" text="Add Range" />
                   <Button fx:id="deleteRange" disable="true" mnemonicParsing="false" onAction="#deleteRangeClicked" text="Delete Range" />
                </children>
             </HBox>
-            <FlowPane id="rangeArea" fx:id="rangeArea" focusTraversable="true" hgap="15.0" prefHeight="359.0" prefWidth="303.0" vgap="10.0">
+            <FlowPane id="rangeArea" fx:id="rangeArea" focusTraversable="true" hgap="15.0" prefHeight="359.0" prefWidth="376.0" vgap="10.0">
                <padding>
                   <Insets left="5.0" top="5.0" />
                </padding>
             </FlowPane>
-            <Button fx:id="sumbitDelete" mnemonicParsing="false" onAction="#deleteSelctedRange" prefHeight="56.0" prefWidth="128.0" text="Sumbit Delete Range" />
+            <HBox alignment="CENTER" spacing="15.0">
+               <children>
+                  <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelClicked" prefHeight="53.0" prefWidth="82.0" text="Cancel" />
+                  <Button fx:id="sumbitDelete" mnemonicParsing="false" onAction="#deleteSelctedRange" prefHeight="56.0" prefWidth="128.0" text="Sumbit Delete Range" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

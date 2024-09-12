@@ -28,5 +28,6 @@ public interface Sheet {
     List<String> getRangeName();
     List<Integer> getTheRangeOfTheRange(String cellRange);
     void removeRange(String rangeId);
+    List<Coordinate> getCoordinateInRange(String cellRange);
     Map<Coordinate, Cell> sortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 }
