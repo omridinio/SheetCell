@@ -84,7 +84,8 @@ public class ShitsellController {
     private List<CellContoller> getCellsDependOnhim = new ArrayList<>();
     Tooltip actionMessege = new Tooltip();
     private List<CellContoller> cellChoosed = new ArrayList<>();
-    private Map<Coordinate, CellDTO> sortRange;
+    private Set<Coordinate> readOnlyCoord;
+    //private Map<Coordinate, CellDTO> sortRange;
 
 
     public ShitsellController() {
@@ -150,12 +151,12 @@ public class ShitsellController {
 
     @FXML
     private void closeReadOnlyCllicked() throws IOException, ClassNotFoundException {
-        for (Coordinate coordinate : sortRange.keySet()){
+        for (Coordinate coordinate : readOnlyCoord){
             switchCells(coordToController.get(coordinate), backupCoordToController.get(coordinate));
         }
         updateCells();
         backupCoordToController.clear();
-        sortRange.clear();
+        readOnlyCoord.clear();
         isReadOnlyMode.setValue(false);
     }
 
@@ -557,10 +558,11 @@ public class ShitsellController {
     }
 
     public void sortRangeClicked(String range, List<Integer> dominantCols) throws IOException, ClassNotFoundException {
-       sortRange = logic.getSortRange(range, dominantCols);
-       createReadOnlySheet();
-       updateCells();
-       modeReadOnly();
+        Map<Coordinate, CellDTO> sortRange = logic.getSortRange(range, dominantCols);
+        createReadOnlySheet(sortRange);
+        updateCells();
+        readOnlyCoord = sortRange.keySet();
+        modeReadOnly();
     }
 
     private void modeReadOnly() {
@@ -578,7 +580,7 @@ public class ShitsellController {
         return logic.getTheRangeOfTheRange(range);
     }
 
-    private void createReadOnlySheet() throws IOException, ClassNotFoundException {
+    private void createReadOnlySheet(Map<Coordinate, CellDTO>sortRange) throws IOException, ClassNotFoundException {
         for (Coordinate coordinate : coordToController.keySet()){
             backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
         }
@@ -632,6 +634,34 @@ public class ShitsellController {
             }
         }
         return itemsInRow;
+    }
+
+    public void filterOkClicked(List<Integer> rowSelected, String theRange) throws IOException, ClassNotFoundException {
+        int firstRowInRange = Integer.parseInt(theRange.substring(1, theRange.indexOf('.')));
+        int firstColInRange = theRange.charAt(0) - 'A' + 1;
+        //int lastRowInRange = Integer.parseInt(theRange.substring(theRange.indexOf('.') + 1), theRange.length());
+        int lastColInRange = theRange.charAt(theRange.length() - 2) - 'A' + 1;
+        List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
+        readOnlyCoord = new HashSet<>(coordinatesOfRange);
+        rowSelected.sort(Comparator.naturalOrder());
+        for (Coordinate coordinate : coordToController.keySet()) {
+            backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
+        }
+        int currRow = firstRowInRange;
+        for (int row : rowSelected) {
+            for (int col = firstColInRange; col <= lastColInRange; col++) {
+                Coordinate prevCoordinate = new CoordinateImpl(row, col);
+                Coordinate newCoordinate = new CoordinateImpl(currRow, col);
+                switchCells(coordToController.get(newCoordinate), backupCoordToController.get(prevCoordinate));
+                coordinatesOfRange.remove(newCoordinate);
+            }
+            currRow++;
+        }
+        for (Coordinate coordinate : coordinatesOfRange) {
+           coordToController.get(coordinate).restCell();
+        }
+        updateCells();
+        modeReadOnly();
     }
 }
 

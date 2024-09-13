@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="99.0" prefWidth="118.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Filter.FilterColums.FilterColumsController">
+<AnchorPane prefHeight="98.0" prefWidth="96.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Filter.FilterColums.FilterColumsController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="-22.0" layoutY="-77.0" prefHeight="200.0" prefWidth="85.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" layoutX="21.0" layoutY="-77.0" prefHeight="99.0" prefWidth="97.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ChoiceBox fx:id="colums" prefHeight="25.0" prefWidth="88.0" />
-            <Button fx:id="item" mnemonicParsing="false" onAction="#itemClicked" prefHeight="25.0" prefWidth="86.0" />
+            <ChoiceBox fx:id="colums" prefHeight="25.0" prefWidth="49.0" />
+            <Button fx:id="item" mnemonicParsing="false" onAction="#itemClicked" prefHeight="25.0" prefWidth="75.0" text="Values" />
          </children>
          <padding>
             <Insets top="10.0" />

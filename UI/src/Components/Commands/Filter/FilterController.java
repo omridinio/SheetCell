@@ -16,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,18 +66,34 @@ public class FilterController implements Commands {
         filterColumsControllers.get(filterColumsControllers.size() - 1).turnOf();
         createNewFilterColumsController();
         addLevelButtom.setDisable(true);
+        OK.setDisable(true);
+        deleteLevel.setDisable(false);
 
     }
 
     @FXML
     void deleteLevelClicked(ActionEvent event) {
         filterColumsControllers.removeLast();
+        colsChoose.getChildren().remove(colsChoose.getChildren().size() - 1);
         filterColumsControllers.get(filterColumsControllers.size() - 1).turnOn();
-        addLevelButtom.setDisable(false);
+        if (filterColumsControllers.size() == 1){
+            deleteLevel.setDisable(true);
+        }
     }
 
     @FXML
-    void okClicked(ActionEvent event) {
+    void okClicked(ActionEvent event) throws IOException {
+        try {
+            List<Integer> rowSelected = allRowSelected();
+            String theRange = checkRangeController.getTheRange().getText().toUpperCase();
+            commandsController.filterOkClicked(rowSelected, theRange);
+            Stage stage = (Stage) OK.getScene().getWindow();
+            stage.close();
+
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 
@@ -103,6 +120,17 @@ public class FilterController implements Commands {
         List<Integer> rowsSelected = filterColumsControllers.get(0).getRowSelcted();
         for (FilterColumsController filterColumsController : filterColumsControllers) {
             if(filterColumsController != filterColumsControllers.get(0) && filterColumsController != filterColumsControllers.get(filterColumsControllers.size() - 1)){
+                List<Integer> rowSelcted = filterColumsController.getRowSelcted();
+                rowsSelected.retainAll(rowSelcted);
+            }
+        }
+        return rowsSelected;
+    }
+
+    private List<Integer> allRowSelected(){
+        List<Integer> rowsSelected = filterColumsControllers.get(0).getRowSelcted();
+        for (FilterColumsController filterColumsController : filterColumsControllers) {
+            if(filterColumsController != filterColumsControllers.get(0)){
                 List<Integer> rowSelcted = filterColumsController.getRowSelcted();
                 rowsSelected.retainAll(rowSelcted);
             }
@@ -158,7 +186,12 @@ public class FilterController implements Commands {
     }
 
     public void addLevelOn() {
-        addLevelButtom.setDisable(false);
+        if(!checkRangeController.isFull())
+            addLevelButtom.setDisable(false);
+    }
+
+    public void ableOk() {
+        OK.setDisable(false);
     }
 }
 

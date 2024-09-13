@@ -197,7 +197,9 @@ public class CheckRangeController {
         return Integer.parseInt(theRange.getText().substring(1, theRange.getText().indexOf('.')));
     }
 
-
+    public boolean isFull() {
+        return choiceBoxes.size() == colsInRange.size();
+    }
 
 
 

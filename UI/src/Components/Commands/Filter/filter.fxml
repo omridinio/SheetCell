@@ -24,7 +24,7 @@
                         <Insets left="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <FlowPane fx:id="colsChoose" hgap="15.0" prefHeight="200.0" prefWidth="200.0" vgap="15.0">
+                  <FlowPane fx:id="colsChoose" hgap="5.0" prefHeight="200.0" prefWidth="200.0" vgap="5.0">
                      <padding>
                         <Insets top="15.0" />
                      </padding>

@@ -77,6 +77,7 @@ public class FilterColumsController {
                 popup.getContent().clear();
                 popup.getContent().add(comboChoiceBox);
                 filterController.addLevelOn();
+                filterController.ableOk();
             }
         });
         columsSelectedProperty.bind(colums.getSelectionModel().selectedItemProperty().isNotNull());

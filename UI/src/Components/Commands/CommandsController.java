@@ -93,4 +93,8 @@ public class CommandsController {
     public Map<Integer, String> getItemInColum(Character value, String theRange, List<Integer> rowSelected) {
         return shitsellController.getColumsItem(value + 1 - 'A', theRange, rowSelected);
     }
+
+    public void filterOkClicked(List<Integer> rowSelected, String theRange) throws IOException, ClassNotFoundException {
+        shitsellController.filterOkClicked(rowSelected, theRange);
+    }
 }

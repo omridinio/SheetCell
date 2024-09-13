@@ -309,4 +309,16 @@ public class CellContoller implements Serializable {
         this.width = cellcopy.width;
 
     }
+
+    public void restCell() {
+        cell.setText("");
+        fontType = "Ariel";
+        fontColor = "000000";
+        sizeFont = 12;
+        backgroundColor = "fffefe";
+        high = "center";
+        width = "center";
+        updateCellDeatils();
+        calculatecoord();
+    }
 }
