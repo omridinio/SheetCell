@@ -47,6 +47,7 @@ public class FilterController implements Commands {
 
     private List<Integer> colsRange;
 
+
     private List<FilterColumsController> filterColumsControllers = new ArrayList<>();
 
 
@@ -64,11 +65,11 @@ public class FilterController implements Commands {
     @FXML
     void addLevelClicked(ActionEvent event) throws IOException {
         filterColumsControllers.get(filterColumsControllers.size() - 1).turnOf();
+       checkRangeController.addColSelected(filterColumsControllers.get(filterColumsControllers.size() - 1).getColumsValue());
         createNewFilterColumsController();
         addLevelButtom.setDisable(true);
         OK.setDisable(true);
         deleteLevel.setDisable(false);
-
     }
 
     @FXML
@@ -79,6 +80,8 @@ public class FilterController implements Commands {
         if (filterColumsControllers.size() == 1){
             deleteLevel.setDisable(true);
         }
+        addLevelButtom.setDisable(false);
+        OK.setDisable(false);
     }
 
     @FXML
@@ -113,7 +116,12 @@ public class FilterController implements Commands {
 
     @Override
     public void XClicked() {
-
+        addLevelButtom.setDisable(true);
+        deleteLevel.setDisable(true);
+        colsChoose.getChildren().clear();
+        filterColumsControllers.clear();
+        checkRangeController.getVButton().setDisable(false);
+        checkRangeController.getXButton().setDisable(true);
     }
 
     private List<Integer> rowSelected(){

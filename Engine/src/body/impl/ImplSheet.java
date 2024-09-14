@@ -645,6 +645,34 @@ public class ImplSheet implements Sheet,Serializable  {
         }
     }
 
+    @Override
+    public Map<Integer, String> getColumsItem(int col, String theRange){
+        Range range = CreateRange("Sort Range", theRange);
+        List<Cell> rangeCells = range.getRangeCells();
+        Map<Integer, String> res = new HashMap<>();
+        for (Cell cell : rangeCells){
+            Coordinate coordinate = new CoordinateImpl(cell.getId());
+            if(coordinate.getColumn() == col){
+                res.put(coordinate.getRow(), cell.getEffectiveValue().toString());
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected){
+        Range range = CreateRange("Sort Range", theRange);
+        List<Cell> rangeCells = range.getRangeCells();
+        Map<Integer, String> res = new HashMap<>();
+        for (Cell cell : rangeCells){
+            Coordinate coordinate = new CoordinateImpl(cell.getId());
+            if(coordinate.getColumn() == col && rowSelected.contains(coordinate.getRow())){
+                res.put(coordinate.getRow(), cell.getEffectiveValue().toString());
+            }
+        }
+        return res;
+    }
+
 
 
 }

@@ -31,13 +31,7 @@ public class StyleSheetController {
     @FXML
     private AnchorPane styleSheet;
 
-
-
-
-
     ShitsellController sheetsetController;
-
-
 
 
     public void initialize() {
@@ -47,8 +41,7 @@ public class StyleSheetController {
         fontsType.getItems().addAll(Font.getFamilies());
         fontsType.setValue("Arial");
 
-
-    }
+   }
 
     public void initializeStyleSheet() {
         sheetsetController.intitializeStyleSheet(this);
@@ -130,7 +123,7 @@ public class StyleSheetController {
         sizeFont.setValue(cellContoller.getSizeFont());
         fontColor.setValue(javafx.scene.paint.Color.valueOf(cellContoller.getFontColor()));
         backgroundColor.setValue(javafx.scene.paint.Color.valueOf(cellContoller.getBackgroundColor()));
-        if (cellContoller.getFontType() == "Arial") {
+        if (cellContoller.getFontType().equals("Arial")){
             fontsType.setValue("Arial");
         }
         else

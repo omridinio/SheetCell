@@ -54,6 +54,12 @@ public class ImplSheetDTO implements SheetDTO {
         return cell.getEffectiveValue();
     }
 
+    @Override
+    public CellDTO getCell(Coordinate coordinate) {
+        Cell cell = currSheet.getCell(coordinate.toString());
+        return new CellDTO(cell);
+    }
+
 
 
 

@@ -21,4 +21,6 @@ public interface SheetDTO {
     //public CellDTO getCell(String cellID);
 
     EffectiveValue getEfectivevalueCell(Coordinate coordinate);
+
+    CellDTO getCell(Coordinate coordinate);
 }

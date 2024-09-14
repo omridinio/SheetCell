@@ -39,7 +39,7 @@ public class CellContoller implements Serializable {
     private String width = "center";
     private int sizeFont = 12;
     private String fontColor = "000000";
-    private String fontType = "Ariel";
+    private String fontType = Font.getFamilies().get(3);
 
     public CellContoller() { }
 
@@ -312,6 +312,17 @@ public class CellContoller implements Serializable {
 
     public void restCell() {
         cell.setText("");
+        fontType = "Ariel";
+        fontColor = "000000";
+        sizeFont = 12;
+        backgroundColor = "fffefe";
+        high = "center";
+        width = "center";
+        updateCellDeatils();
+        calculatecoord();
+    }
+
+    public void restCellArtitube(){
         fontType = "Ariel";
         fontColor = "000000";
         sizeFont = 12;

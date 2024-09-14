@@ -1,6 +1,10 @@
 package Components.ActionLine;
 
+import Components.Error.ErrorController;
 import Components.Shitcell.ShitsellController;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,11 +35,31 @@ public class ActionLineController {
     private Button updateValue;
 
     @FXML
-    private ComboBox<?> versionSelctor;
+    private ComboBox<Integer> versionSelctor;
 
     private ShitsellController shitsellController;
 
-    public void initialize() {}
+    public void initialize() {
+        versionSelctor.setDisable(false);
+        versionSelctor.getItems().add(1);
+        versionSelctor.setValue(versionSelctor.getItems().getLast());
+        versionSelctor.setEditable(false);
+        versionSelctor.valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
+            if (newValue != null) {
+                if(newValue != versionSelctor.getItems().getLast()) {
+                    try {
+                        shitsellController.versionSelected(newValue);
+                    } catch (IOException e) {
+                        try {
+                            ErrorController.showError(e.getMessage());
+                        } catch (IOException ex) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     public void initializeActionLine() {
         shitsellController.intitializeActionLine(this);
@@ -69,7 +93,7 @@ public class ActionLineController {
         return updateValue;
     }
 
-    public ComboBox<?> getVersionSelctor() {
+    public ComboBox<Integer> getVersionSelctor() {
         return versionSelctor;
     }
 
@@ -83,4 +107,18 @@ public class ActionLineController {
         shitsellController.updateCellClicked(actionLine, cellId);
     }
 
+    public void addVersion(){
+        versionSelctor.getItems().add(versionSelctor.getItems().size() + 1);
+        versionSelctor.setValue(versionSelctor.getItems().getLast());
+    }
+
+    public void rest() {
+        actionLine.clear();
+        cellId.clear();
+        lastVersion.clear();
+        originalValue.clear();
+        versionSelctor.getItems().clear();
+        versionSelctor.getItems().add(1);
+        versionSelctor.setValue(versionSelctor.getItems().getLast());
+    }
 }

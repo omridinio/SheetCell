@@ -85,7 +85,6 @@ public class ShitsellController {
     Tooltip actionMessege = new Tooltip();
     private List<CellContoller> cellChoosed = new ArrayList<>();
     private Set<Coordinate> readOnlyCoord;
-    //private Map<Coordinate, CellDTO> sortRange;
 
 
     public ShitsellController() {
@@ -115,6 +114,7 @@ public class ShitsellController {
         readOnlyMode.disableProperty().bind(isReadOnlyMode.not());
         readOnlyMode.visibleProperty().bind(isReadOnlyMode);
         sheet.disableProperty().bind(isdeleteRangeMode);
+        actionLine.setDisable(true);
     }
 
     public GridPane getSheet() {
@@ -132,8 +132,8 @@ public class ShitsellController {
             fileChooser.setTitle("Open XML File");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
             File file = fileChooser.showOpenDialog(null);
-            restSheet();
             logic.creatNewSheet(file.getAbsolutePath());
+            restSheet();
             isLoaded.setValue(true);
             int row = logic.getSheet().getRowCount();
             int col = logic.getSheet().getColumnCount();
@@ -143,6 +143,7 @@ public class ShitsellController {
             updateSheet(logic.getSheet());
             createRanges();
             filePath.setText(file.getAbsolutePath());
+            actionLine.setDisable(false);
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
             System.out.println(e.getMessage());
@@ -158,6 +159,9 @@ public class ShitsellController {
         backupCoordToController.clear();
         readOnlyCoord.clear();
         isReadOnlyMode.setValue(false);
+        actionLine.setDisable(false);
+        actionLineController.getVersionSelctor().setValue(actionLineController.getVersionSelctor().getItems().getLast());
+
     }
 
     private void createRanges() throws IOException {
@@ -176,7 +180,7 @@ public class ShitsellController {
         for (int i = 1; i <= sheet.getRowCount(); i++) {
             for (int j = 1; j <= sheet.getColumnCount(); j++) {
                 Coordinate coordinate = new CoordinateImpl(i, j);
-                coordToController.get(coordinate).setCellDTO(logic.getCell(coordinate));
+                coordToController.get(coordinate).setCellDTO(sheet.getCell(coordinate));
             }
         }
     }
@@ -260,6 +264,12 @@ public class ShitsellController {
         currCell.originalValue.setValue("");
         currCell.lastVersion.setValue(String.valueOf(""));
         coordToController.clear();
+        backupCoordToController.clear();
+        isLoaded.setValue(false);
+        actionLine.setDisable(true);
+        rangeAreaController.rest();
+        actionLineController.rest();
+
     }
 
     public void titleClicked(CellContoller cellContoller) {
@@ -281,6 +291,7 @@ public class ShitsellController {
         clearCellsMark();
         clearCellChoosed();
         clearCurrCell();
+        actionLineController.getActionLine().setText("");
         currCell.clickedCell.getStyleClass().remove("clicked");
         currCell.cellid.setValue(cell.getId());
         currCell.originalValue.setValue(cell.getOriginalValue());
@@ -338,6 +349,7 @@ public class ShitsellController {
             CellDTO currCell = logic.getCell(new CoordinateImpl(cellId.getText()));
             cellClicked(currCell, coordToController.get(new CoordinateImpl(cellId.getText())).getCell());
             actionLine.setText("");
+            actionLineController.addVersion();
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
@@ -567,6 +579,7 @@ public class ShitsellController {
 
     private void modeReadOnly() {
         isReadOnlyMode.setValue(true);
+        actionLine.setDisable(true);
     }
 
     private void updateCells(){
@@ -615,25 +628,11 @@ public class ShitsellController {
     }
 
     public Map<Integer, String> getColumsItem(int col, String theRange){
-        Map<Integer, String> itemsInRow = new HashMap<>();
-        List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
-        for (Coordinate coordinate : coordinatesOfRange) {
-            if (coordinate.getColumn() == col) {
-                itemsInRow.put(coordinate.getRow(), coordToController.get(coordinate).getCell().getText());
-            }
-        }
-        return itemsInRow;
+        return logic.getColumsItem(col, theRange);
     }
 
-    public Map<Integer, String> getColumsItem(int i, String theRange, List<Integer> rowSelected) {
-        Map<Integer, String> itemsInRow = new HashMap<>();
-        List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
-        for (Coordinate coordinate : coordinatesOfRange) {
-            if (coordinate.getColumn() == i && rowSelected.contains(coordinate.getRow())) {
-                itemsInRow.put(coordinate.getRow(), coordToController.get(coordinate).getCell().getText());
-            }
-        }
-        return itemsInRow;
+    public Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected) {
+        return logic.getColumsItem(col, theRange, rowSelected);
     }
 
     public void filterOkClicked(List<Integer> rowSelected, String theRange) throws IOException, ClassNotFoundException {
@@ -661,6 +660,17 @@ public class ShitsellController {
            coordToController.get(coordinate).restCell();
         }
         updateCells();
+        modeReadOnly();
+    }
+
+    public void versionSelected(int version) throws IOException {
+        SheetDTO sheetbyVersion = logic.getSheetbyVersion(version - 1);
+        for (Coordinate coordinate : coordToController.keySet()) {
+            backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
+            coordToController.get(coordinate).restCellArtitube();
+        }
+        readOnlyCoord = new HashSet<>(coordToController.keySet());
+        updateSheet(sheetbyVersion);
         modeReadOnly();
     }
 }

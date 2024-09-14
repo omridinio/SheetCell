@@ -111,4 +111,12 @@ public class FilterColumsController {
         colums.setDisable(false);
         item.setDisable(false);
     }
+
+    public int getColsIndex(){
+        return (Integer) (colums.getValue() + 1 - 'A');
+    }
+
+    public char getColumsValue(){
+        return colums.getValue();
+    }
 }

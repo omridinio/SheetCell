@@ -43,11 +43,14 @@ public class CheckRangeController {
 
     private BooleanBinding anyEmptyOrUnselectedBinding;
 
+    private List<Character> colSelected = new ArrayList<>();
+
 
 
 
     @FXML
     void VClicked(ActionEvent event) throws IOException, ClassNotFoundException {
+        theRange.setDisable(true);
         commands.VClicked();
     }
 
@@ -55,16 +58,21 @@ public class CheckRangeController {
     void XClicked(ActionEvent event) {
         colsInRange.clear();
         choiceBoxes.clear();
+        colSelected.clear();
         commands.XClicked();
+        theRange.setDisable(false);
     }
 
     public ChoiceBox<Character> createFirstChoiceBox(List<Integer> colsRange) throws IOException {
         ChoiceBox<Character> choiceBox = new ChoiceBox<>();
+        colsInRange.clear();
         try {
             for (int i = colsRange.get(0); i <= colsRange.get(1); i++){
                 char col = (char) (i - 1 + 'A');
-                choiceBox.getItems().add(col);
-                colsInRange.add(col);
+                if(!colSelected.contains(col)){
+                    choiceBox.getItems().add(col);
+                    colsInRange.add(col);
+                }
             }
             choiceBoxes.add(choiceBox);
             vButton.setDisable(true);
@@ -78,19 +86,25 @@ public class CheckRangeController {
 
     public ChoiceBox<Character> addLevelClicked() {
         ChoiceBox<Character> newChoiceBox = new ChoiceBox<Character>();
+        colSelected.add(choiceBoxes.get(choiceBoxes.size() - 1).getSelectionModel().getSelectedItem());
+        choiceBoxes.get(choiceBoxes.size() - 1).setDisable(true);
         for (char col : colsInRange){
-            newChoiceBox.getItems().add(col);
+            if(!colSelected.contains(col))
+                newChoiceBox.getItems().add(col);
         }
         choiceBoxes.add(newChoiceBox);
         newChoiceBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             anyEmptyOrUnselectedBinding.invalidate();
         });
+
         return newChoiceBox;
     }
 
     public boolean deleteLevelClicked() {
         if (choiceBoxes.size() > 1){
             choiceBoxes.remove(choiceBoxes.size() - 1);
+            colSelected.remove(colSelected.size() - 1);
+            choiceBoxes.get(choiceBoxes.size() - 1).setDisable(false);
         }
         if (choiceBoxes.size() == 1){
             return true;
@@ -198,9 +212,12 @@ public class CheckRangeController {
     }
 
     public boolean isFull() {
-        return choiceBoxes.size() == colsInRange.size();
+        return colsInRange.size() <= 1;
     }
 
+    public void addColSelected(Character col) {
+        colSelected.add(col);
+    }
 
 
 }

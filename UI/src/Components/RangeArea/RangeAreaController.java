@@ -105,7 +105,9 @@ public class RangeAreaController {
         selcetedDelete.clear();
     }
 
-    public void initialize() { }
+    public void initialize() {
+
+    }
 
     public void addRange(String rangeId, RangeDTO rangeDTO) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/Range.fxml"));
@@ -165,4 +167,12 @@ public class RangeAreaController {
     public Button getSumbitDelete() {
         return sumbitDelete;
     }
+
+    public void rest() {
+        countRanges = 0;
+        ranges.clear();
+        rangeArea.getChildren().clear();
+    }
 }
+
+

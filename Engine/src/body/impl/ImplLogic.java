@@ -200,5 +200,16 @@ public class ImplLogic implements Logic,Serializable  {
         return mainSheet.get(mainSheet.size() - 1).getCoordinateInRange(cellRange);
     }
 
+    @Override
+    public Map<Integer, String> getColumsItem(int col, String theRange){
+        return mainSheet.get(mainSheet.size() - 1).getColumsItem(col, theRange);
+    }
+
+    @Override
+    public Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected){
+        return mainSheet.get(mainSheet.size() - 1).getColumsItem(col, theRange, rowSelected);
+    }
+
+
 }
 

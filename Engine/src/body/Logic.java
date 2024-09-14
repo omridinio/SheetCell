@@ -29,5 +29,7 @@ public interface Logic {
     List<Integer> getTheRangeOfTheRange(String cellRange);
     void removeRange(String rangeId);
     List<Coordinate> getCoordinateInRange(String cellRange);
+    Map<Integer, String> getColumsItem(int col, String theRange);
+    Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected);
     Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 }
