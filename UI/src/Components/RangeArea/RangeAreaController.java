@@ -173,6 +173,10 @@ public class RangeAreaController {
         ranges.clear();
         rangeArea.getChildren().clear();
     }
+
+    public List<String> getRanges() {
+        return ranges.keySet().stream().toList();
+    }
 }
 
 

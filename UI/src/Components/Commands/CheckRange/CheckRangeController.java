@@ -175,6 +175,13 @@ public class CheckRangeController {
         return matcher.matches();
     }
 
+    public static boolean isRangeValid(String range){
+        String regex = "^[A-Z]\\d+\\.\\.[A-Z]\\d+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(range.toUpperCase());
+        return matcher.matches();
+    }
+
     public void initPart2(Button OK, Button addLevelButtom) {
         // Binding to check if the list is empty
         BooleanBinding isEmptyBinding = Bindings.createBooleanBinding(

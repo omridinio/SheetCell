@@ -52,7 +52,7 @@ public class CellDTO {
     }
     public String getOriginalValue() {return originalValue;}
     public Object getEffectiveValue() {return effectiveValue.getValue();}
-    public Object getOriginalEffectiveValue() {return effectiveValue;}
+    public EffectiveValue getOriginalEffectiveValue() {return effectiveValue;}
     public List<Coordinate> getCellsDependsOnThem() {return cellsDependsOnThem;}
     public List<Coordinate> getCellsDependsOnHim() {return cellsDependsOnHim;}
 

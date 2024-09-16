@@ -3,10 +3,7 @@ package body.impl;
 import body.Cell;
 import body.Coordinate;
 import body.Sheet;
-import dto.impl.CellDTO;
-import dto.impl.RangeDTO;
 import expression.Range;
-import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.*;
 import expression.impl.Number;
@@ -18,7 +15,6 @@ import expression.impl.system.REF;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.security.PublicKey;
 import java.util.*;
 
 public class ImplSheet implements Sheet,Serializable  {
@@ -462,6 +458,11 @@ public class ImplSheet implements Sheet,Serializable  {
         range.setFrom(from);
         range.setTo(to);
         return range;
+    }
+
+    @Override
+    public Range createTempRange(String cellRange){
+        return CreateRange("Temp Range", cellRange);
     }
 
     public List<Coordinate> getCoordinateInRange(String cellRange) {

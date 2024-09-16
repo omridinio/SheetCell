@@ -1,9 +1,11 @@
 package Components.Commands;
 
 import Components.Commands.Filter.FilterController;
+import Components.Commands.Graph.GraphController;
 import Components.Commands.SetCommand.SetCommandController;
 import Components.Range.setRange.setRangeController;
 import Components.Shitcell.ShitsellController;
+import expression.api.EffectiveValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,6 +76,21 @@ public class CommandsController {
         shitsellController.dynmicAnlyzeForSheet();
     }
 
+    @FXML
+    void createGraphClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Commands/Graph/graph.fxml"));
+        Parent newWindowRoot = loader.load();
+        GraphController graphController = loader.getController();
+        graphController.setCommandsController(this);
+        graphController.init();
+        Scene newScene = new Scene(newWindowRoot);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Create Graph");
+        newWindow.setScene(newScene);
+        newWindow.initModality(Modality.APPLICATION_MODAL);
+        newWindow.show();
+    }
+
     public void  initialize(){
         dynmicAnlyzeForCell.setDisable(true);
     }
@@ -122,5 +139,17 @@ public class CommandsController {
 
     public void enableDynmicCell() {
         dynmicAnlyzeForCell.setDisable(false);
+    }
+
+    public List<String> getRanges() {
+        return shitsellController.getRanges();
+    }
+
+    public List<EffectiveValue> getRange(String text) {
+        return shitsellController.getRange(text);
+    }
+
+    public List<EffectiveValue> getCustomRange(String text) {
+        return shitsellController.getCustomRange(text);
     }
 }

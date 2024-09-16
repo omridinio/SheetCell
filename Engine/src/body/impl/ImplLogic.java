@@ -8,7 +8,6 @@ import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
 import dto.impl.RangeDTO;
-import expression.Range;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -20,7 +19,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class ImplLogic implements Logic,Serializable  {
 
@@ -219,6 +217,11 @@ public class ImplLogic implements Logic,Serializable  {
     @Override
     public RangeDTO getRange(String rangeId) {
         return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId));
+    }
+
+    @Override
+    public RangeDTO createTempRange(String cellRange) {
+        return new RangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
     }
 
     @Override

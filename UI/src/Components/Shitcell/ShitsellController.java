@@ -14,6 +14,7 @@ import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.RangeDTO;
 
+import expression.api.EffectiveValue;
 import jakarta.xml.bind.JAXBException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -734,6 +735,31 @@ public class ShitsellController {
                 daynmicCells.add(coordinate);
             }
         }
+    }
+
+    public List<String> getRanges() {
+        return rangeAreaController.getRanges();
+    }
+
+    public List<EffectiveValue> getCustomRange(String range){
+        RangeDTO tempRange = logic.createTempRange(range);
+        List<EffectiveValue> effectiveValues = new ArrayList<>();
+        List<CellDTO> cells = tempRange.getRangeCells();
+        for(CellDTO cell : cells){
+            effectiveValues.add(cell.getOriginalEffectiveValue());
+        }
+        return effectiveValues;
+    }
+
+
+    public List<EffectiveValue> getRange(String text) {
+        RangeDTO range = logic.getRange(text);
+        List<EffectiveValue> effectiveValues = new ArrayList<>();
+        List<CellDTO> cells = range.getRangeCells();
+        for(CellDTO cell : cells){
+            effectiveValues.add(cell.getOriginalEffectiveValue());
+        }
+        return effectiveValues;
     }
 }
 

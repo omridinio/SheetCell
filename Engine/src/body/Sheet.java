@@ -28,6 +28,9 @@ public interface Sheet {
     List<String> getRangeName();
     List<Integer> getTheRangeOfTheRange(String cellRange);
     void removeRange(String rangeId);
+
+    Range createTempRange(String cellRange);
+
     List<Coordinate> getCoordinateInRange(String cellRange);
     Map<Integer, String> getColumsItem(int col, String theRange);
     Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected);
