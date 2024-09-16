@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="23.0" prefWidth="97.0" stylesheets="@range.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Range.RangeController">
    <children>
       <Button fx:id="range" layoutX="12.0" layoutY="-1.0" mnemonicParsing="false" onAction="#clicked" prefHeight="47.0" prefWidth="88.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

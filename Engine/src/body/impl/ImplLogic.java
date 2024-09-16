@@ -113,6 +113,11 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
+    public void deleteSheet() {
+        mainSheet.remove(mainSheet.size() - 1);
+    }
+
+    @Override
     public void creatNewSheet(String path)throws JAXBException, FileNotFoundException {
         if(!checkPostFix(path)){
             throw new FileNotFoundException("Please enter a '.xml' file only.");

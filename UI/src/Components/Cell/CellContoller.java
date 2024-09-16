@@ -15,6 +15,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
+import expression.impl.Number;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.RowConstraints;
@@ -102,71 +103,57 @@ public class CellContoller implements Serializable {
     }
 
     private void initializeDynmicAnlayze() {
-//        minValue.textProperty().addListener((observable, oldValue, newValue) -> {
-//            if (!newValue.matches("\\d*")) {
-//                minValue.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-digit characters
-//            }
-//            if(Integer.parseInt(newValue) < 0){
-//                minValue.setText("0");
-//            }
-//            else if(Integer.parseInt(newValue) > Integer.parseInt(maxValue.getText())){
-//                minValue.setText(maxValue.getText());
-//            }
-//            int value = Integer.parseInt(minValue.getText());
-//            slider.setMin(value);
-//        });
-
         minValue.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 String  min = minValue.getText();
-                if (!min.matches("\\d*")) {
-                    minValue.setText(min.replaceAll("[^\\d]", "")); // Remove non-digit characters
+                if(!tryParseDouble(min)){
+                   minValue.setText("0");
                 }
-                if(Integer.parseInt(min) < 0){
-                    minValue.setText("0");
+                else {
+                    double minimum = Double.parseDouble(min);
+                    if (minimum < 0) {
+                        minValue.setText("0");
+                    } else if (minimum > Double.parseDouble(maxValue.getText())) {
+                        minValue.setText(maxValue.getText());
+                        minimum = Double.parseDouble(maxValue.getText());
+                    }
+                    slider.setMin(minimum);
                 }
-                else if(Integer.parseInt(min) > Integer.parseInt(maxValue.getText())){
-                    minValue.setText(maxValue.getText());
-                }
-                int value = Integer.parseInt(minValue.getText());
-                slider.setMin(value);
             }
         });
-
-//        maxValue.textProperty().addListener((observable, oldValue, newValue) -> {
-//            if (!newValue.matches("\\d*")) {
-//                maxValue.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-digit characters
-//            }
-//            if(Integer.parseInt(newValue) < Integer.parseInt(minValue.getText())){
-//                maxValue.setText(minValue.getText());
-//            }
-//            int value = Integer.parseInt(maxValue.getText());
-//            slider.setMax(value);
-//        });
 
         maxValue.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
                 String  max = maxValue.getText();
-                if (!max.matches("\\d*")) {
-                    maxValue.setText(max.replaceAll("[^\\d]", "")); // Remove non-digit characters
+                if(!tryParseDouble(max)){
+                    maxValue.setText((slider.getValue() + ""));
                 }
-                if(Integer.parseInt(max) < Integer.parseInt(minValue.getText())){
-                    maxValue.setText(minValue.getText());
+                else {
+                    double maximum = Double.parseDouble(max);
+                    if (maximum < Double.parseDouble(minValue.getText())) {
+                        maxValue.setText(minValue.getText());
+                        maximum = Double.parseDouble(minValue.getText());
+                    }
+                    slider.setMax(maximum);
                 }
-                int value = Integer.parseInt(maxValue.getText());
-                slider.setMax(value);
             }
         });
 
-        jump.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                jump.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-digit characters
+        jump.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                String  jumpValue = jump.getText();
+                if(!tryParseDouble(jumpValue)){
+                    jump.setText("5");
+                }
+                else {
+                    double jumpValueDouble = Double.parseDouble(jumpValue);
+                    if (jumpValueDouble < 1) {
+                        jump.setText("1");
+                    }
+                    slider.setBlockIncrement(jumpValueDouble);
+                    slider.setMajorTickUnit(jumpValueDouble);
+                }
             }
-            int value = Integer.parseInt(jump.getText());
-            slider.setBlockIncrement(value);
-            slider.setMajorTickUnit(value);
-            slider.setMinorTickCount(0);
-            slider.setSnapToTicks(true); 
         });
     }
 
@@ -256,6 +243,37 @@ public class CellContoller implements Serializable {
 
     public void setWidth(String width) {
         this.width = width;
+    }
+
+    private void calculatecoord(String tempHigh){
+        if (tempHigh == "center" && width == "center"){
+            cell.setAlignment(Pos.CENTER);
+        }
+        else if(tempHigh == "top" && width == "left") {
+            cell.setAlignment(Pos.TOP_LEFT);
+        }
+        else if(tempHigh == "top" && width == "center") {
+            cell.setAlignment(Pos.TOP_CENTER);
+        }
+        else if(tempHigh == "top" && width == "right") {
+            cell.setAlignment(Pos.TOP_RIGHT);
+        }
+        else if(tempHigh == "center" && width == "left") {
+            cell.setAlignment(Pos.CENTER_LEFT);
+        }
+        else if(tempHigh == "center" && width == "right") {
+            cell.setAlignment(Pos.CENTER_RIGHT);
+        }
+        else if(tempHigh == "bottom" && width == "left") {
+            cell.setAlignment(Pos.BOTTOM_LEFT);
+        }
+        else if(tempHigh == "bottom" && width == "center") {
+            cell.setAlignment(Pos.BOTTOM_CENTER);
+        }
+        else if(tempHigh == "bottom" && width == "right") {
+            cell.setAlignment(Pos.BOTTOM_RIGHT);
+        }
+
     }
 
     public void calculatecoord(){
@@ -427,14 +445,14 @@ public class CellContoller implements Serializable {
     }
 
 
-    private boolean isNaturalNumber(String str) {
+    public boolean isNaturalNumber() {
        return cellDTO.getOriginalEffectiveValue() instanceof Number;
     }
 
     public void turnOnDynmicAnlayze() {
         dynamicArea.setVisible(true);
         dynamicArea.setDisable(false);
-        int value = Integer.parseInt(cell.getText());
+        double value = Double.parseDouble(cell.getText());
         minValue.setText((value - 50) + "");
         maxValue.setText((value + 50) + "");
         jump.setText("5");
@@ -446,8 +464,7 @@ public class CellContoller implements Serializable {
         slider.setMinorTickCount(0);
         slider.setSnapToTicks(true);
         initializeDynmicAnlayze();
-        high = "top";
-        calculatecoord();
+        calculatecoord("top");
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             double currentValue = newValue.doubleValue();
             double move = Double.parseDouble(jump.getText());
@@ -455,5 +472,20 @@ public class CellContoller implements Serializable {
             slider.setValue(roundedValue);
             shitsellController.updateCellDynmicAnlyaze(slider.getValue(), cellDTO.getId());
         });
+    }
+
+    private boolean tryParseDouble(String value) {
+        try {
+            Double.parseDouble(value);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public void turnOffDynmicAnlayze() {
+        dynamicArea.setVisible(false);
+        dynamicArea.setDisable(true);
+        calculatecoord();
     }
 }

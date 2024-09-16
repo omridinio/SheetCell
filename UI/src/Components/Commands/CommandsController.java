@@ -69,6 +69,15 @@ public class CommandsController {
         shitsellController.dynmicAnlyzeForCell();
     }
 
+    @FXML
+    void dynmicSheetClicked(ActionEvent event) {
+        shitsellController.dynmicAnlyzeForSheet();
+    }
+
+    public void  initialize(){
+        dynmicAnlyzeForCell.setDisable(true);
+    }
+
     public void setShitsellController(ShitsellController shitsellController){
         this.shitsellController = shitsellController;
     }
@@ -105,5 +114,13 @@ public class CommandsController {
 
     public void filterOkClicked(List<Integer> rowSelected, String theRange) throws IOException, ClassNotFoundException {
         shitsellController.filterOkClicked(rowSelected, theRange);
+    }
+
+    public void disableDynmicCell() {
+        dynmicAnlyzeForCell.setDisable(true);
+    }
+
+    public void enableDynmicCell() {
+        dynmicAnlyzeForCell.setDisable(false);
     }
 }

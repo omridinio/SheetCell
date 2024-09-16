@@ -7,6 +7,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import Components.Shitcell.ShitsellController;
 import javafx.scene.control.CheckBox;
@@ -45,6 +46,7 @@ public class RangeController {
     public void initialize() {
         delete.disableProperty().bind(deleteMode.not());
         labelCheckBox.visibleProperty().bind(deleteMode);
+        range.setAlignment(Pos.CENTER_LEFT);
     }
 
     public String getRangeId() {
@@ -88,6 +90,7 @@ public class RangeController {
 
     public void setText(String text) {
         range.setText(text);
+        range.setAlignment(Pos.CENTER_LEFT);
     }
 
     public double getWidth() {

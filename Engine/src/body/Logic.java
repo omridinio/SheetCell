@@ -33,4 +33,5 @@ public interface Logic {
     Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected);
     void updateDaynmicAnlayze(String cellId, String value);
     Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
+    void deleteSheet();
 }

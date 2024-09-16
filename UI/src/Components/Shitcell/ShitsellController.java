@@ -70,11 +70,11 @@ public class ShitsellController {
     private Button readOnlyMode;
 
 
-
     //my dataMember
     private CellUI currCell;
     private BooleanProperty isReadOnlyMode = new SimpleBooleanProperty(false);
     private BooleanProperty isdeleteRangeMode = new SimpleBooleanProperty(false);
+    private BooleanProperty isDynmicMode = new SimpleBooleanProperty(false);
     Map<Coordinate,CellContoller> coordToController = new HashMap<>();
     Map<Coordinate,CellContoller> backupCoordToController = new HashMap<>();
     private Logic logic = new ImplLogic();
@@ -84,7 +84,11 @@ public class ShitsellController {
     private List<CellContoller> getCellsDependOnhim = new ArrayList<>();
     Tooltip actionMessege = new Tooltip();
     private List<CellContoller> cellChoosed = new ArrayList<>();
-    private Set<Coordinate> readOnlyCoord;
+    private Set<Coordinate> readOnlyCoord = new HashSet<>();
+    private String lastDynmicCell = "";
+    private int countDynmicAnlyze = 0;
+    private List<Coordinate> daynmicCells = new ArrayList<>();
+
 
 
     public ShitsellController() {
@@ -161,7 +165,23 @@ public class ShitsellController {
         isReadOnlyMode.setValue(false);
         actionLine.setDisable(false);
         actionLineController.getVersionSelctor().setValue(actionLineController.getVersionSelctor().getItems().getLast());
+        if(isDynmicMode.getValue()){
+            for (int i = 0; i< countDynmicAnlyze; i++){
+                logic.deleteSheet();
 
+            }
+            for(Coordinate coordinate : daynmicCells){
+                coordToController.get(coordinate).turnOffDynmicAnlayze();
+            }
+            daynmicCells.clear();
+            if(currCell.cellContoller != null){
+                currCell.cellContoller.turnOffDynmicAnlayze();
+            }
+            isDynmicMode.setValue(false);
+            updateSheet(logic.getSheet());
+            lastDynmicCell = "";
+            countDynmicAnlyze = 0;
+        }
     }
 
     private void createRanges() throws IOException {
@@ -274,45 +294,54 @@ public class ShitsellController {
     }
 
     public void titleClicked(CellContoller cellContoller) {
-        clearCurrCell();
-        clearCellsMark();
-        clearCellChoosed();
-        String col = cellContoller.getText();
-        for (int i = 1; i <= logic.getSheet().getRowCount(); i++) {
-            String cellId = col + i;
-            Coordinate coordinate = new CoordinateImpl(cellId);
-            CellContoller cell = coordToController.get(coordinate);
-            cell.getCell().getStyleClass().add("colSelect");
-            cell.setSelect();
-            cellChoosed.add(cell);
+        if(!isDynmicMode.getValue()) {
+            clearCurrCell();
+            clearCellsMark();
+            clearCellChoosed();
+            String col = cellContoller.getText();
+            for (int i = 1; i <= logic.getSheet().getRowCount(); i++) {
+                String cellId = col + i;
+                Coordinate coordinate = new CoordinateImpl(cellId);
+                CellContoller cell = coordToController.get(coordinate);
+                cell.getCell().getStyleClass().add("colSelect");
+                cell.setSelect();
+                cellChoosed.add(cell);
+            }
         }
     }
 
     public void cellClicked(CellDTO cell, Button button) {
-        clearCellsMark();
-        clearCellChoosed();
-        clearCurrCell();
-        actionLineController.getActionLine().setText("");
-        currCell.clickedCell.getStyleClass().remove("clicked");
-        currCell.cellid.setValue(cell.getId());
-        currCell.originalValue.setValue(cell.getOriginalValue());
-        currCell.lastVersion.setValue(String.valueOf(cell.getLastVersionUpdate()));
-        currCell.clickedCell = button;
-        currCell.isClicked.setValue(true);
-        currCell.clickedCell.getStyleClass().add("clicked");
-        currCell.cellContoller = coordToController.get(new CoordinateImpl(cell.getId()));
-        styleSheetController.updateStyleSheet(currCell.cellContoller);
-        List<Coordinate> coordCellDependOfThem = cell.getCellsDependsOnThem();
-        for (Coordinate coordinate : coordCellDependOfThem) {
-            coordToController.get(coordinate).getCell().getStyleClass().add("dependThem");
-            coordToController.get(coordinate).setDependOnThem();
-            cellsDependOnThem.add(coordToController.get(coordinate));
-        }
-        List<Coordinate> coordCellDependOfHim = cell.getCellsDependsOnHim();
-        for (Coordinate coordinate : coordCellDependOfHim) {
-            coordToController.get(coordinate).getCell().getStyleClass().add("dependHim");
-            coordToController.get(coordinate).setDependOnHim();
-            getCellsDependOnhim.add(coordToController.get(coordinate));
+        if(!isDynmicMode.getValue()) {
+            clearCellsMark();
+            clearCellChoosed();
+            clearCurrCell();
+            actionLineController.getActionLine().setText("");
+            currCell.clickedCell.getStyleClass().remove("clicked");
+            currCell.cellid.setValue(cell.getId());
+            currCell.originalValue.setValue(cell.getOriginalValue());
+            currCell.lastVersion.setValue(String.valueOf(cell.getLastVersionUpdate()));
+            currCell.clickedCell = button;
+            currCell.isClicked.setValue(true);
+            currCell.clickedCell.getStyleClass().add("clicked");
+            currCell.cellContoller = coordToController.get(new CoordinateImpl(cell.getId()));
+            styleSheetController.updateStyleSheet(currCell.cellContoller);
+            if (currCell.cellContoller.isNaturalNumber()) {
+                commandAreaController.enableDynmicCell();
+            } else {
+                commandAreaController.disableDynmicCell();
+            }
+            List<Coordinate> coordCellDependOfThem = cell.getCellsDependsOnThem();
+            for (Coordinate coordinate : coordCellDependOfThem) {
+                coordToController.get(coordinate).getCell().getStyleClass().add("dependThem");
+                coordToController.get(coordinate).setDependOnThem();
+                cellsDependOnThem.add(coordToController.get(coordinate));
+            }
+            List<Coordinate> coordCellDependOfHim = cell.getCellsDependsOnHim();
+            for (Coordinate coordinate : coordCellDependOfHim) {
+                coordToController.get(coordinate).getCell().getStyleClass().add("dependHim");
+                coordToController.get(coordinate).setDependOnHim();
+                getCellsDependOnhim.add(coordToController.get(coordinate));
+            }
         }
     }
 
@@ -428,8 +457,8 @@ public class ShitsellController {
                 clearCellsMark();
             }
         });
-        rangeAreaController.getAddRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
-        rangeAreaController.getDeleteRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
+        rangeAreaController.getAddRange().disableProperty().bind((isReadOnlyMode.or(isdeleteRangeMode)).and(isDynmicMode));
+        rangeAreaController.getDeleteRange().disableProperty().bind((isReadOnlyMode.or(isdeleteRangeMode)).and(isDynmicMode));
         rangeAreaController.getSumbitDelete().visibleProperty().bind(isdeleteRangeMode);
         rangeAreaController.getCancel().visibleProperty().bind(isdeleteRangeMode);
     }
@@ -562,7 +591,7 @@ public class ShitsellController {
 
     public void intitializeStyleSheet(StyleSheetController styleSheetController) {
         styleSheetController.getStyleSheet().visibleProperty().bind(isLoaded);
-        styleSheetController.getStyleSheet().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode));
+        styleSheetController.getStyleSheet().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode));
     }
 
     public void initializeCommands(CommandsController commandsController) {
@@ -676,12 +705,35 @@ public class ShitsellController {
     }
 
     public void dynmicAnlyzeForCell() {
+        turnOnDynmicAnlyzeMode();
         currCell.cellContoller.turnOnDynmicAnlayze();
+    }
+
+    private void turnOnDynmicAnlyzeMode() {
+        modeReadOnly();
+        isDynmicMode.setValue(true);
     }
 
     public void updateCellDynmicAnlyaze(double value, String cellId) {
         logic.updateDaynmicAnlayze(cellId, String.valueOf(value));
         updateSheet(logic.getSheet());
+        if(lastDynmicCell.equals(cellId)){
+            logic.deleteSheet();
+        }
+        else{
+            countDynmicAnlyze++;
+        }
+        lastDynmicCell = cellId;
+    }
+
+    public void dynmicAnlyzeForSheet() {
+        turnOnDynmicAnlyzeMode();
+        for(Coordinate coordinate : coordToController.keySet()){
+            if(coordToController.get(coordinate).isNaturalNumber()){
+                coordToController.get(coordinate).turnOnDynmicAnlayze();
+                daynmicCells.add(coordinate);
+            }
+        }
     }
 }
 
