@@ -33,6 +33,10 @@ public class CommandsController {
     private ShitsellController shitsellController;
 
     @FXML
+    private Button dynmicAnlyzeForCell;
+
+
+    @FXML
     void clickeSort(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Commands/SetCommand/SetCommand.fxml"));
         Parent newWindowRoot = loader.load();
@@ -58,6 +62,11 @@ public class CommandsController {
         newWindow.setScene(newScene);
         newWindow.initModality(Modality.APPLICATION_MODAL);
         newWindow.show();
+    }
+
+    @FXML
+    void dynmicCellClicked(ActionEvent event) {
+        shitsellController.dynmicAnlyzeForCell();
     }
 
     public void setShitsellController(ShitsellController shitsellController){

@@ -55,22 +55,25 @@ public class ImplLogic implements Logic,Serializable  {
         return new CellDTO(temp);
     }
 
+    @Override
     public void updateCell(String cellId, String value){
-        Sheet newVersion = null;
-        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
-
-        try {
-            // Step 1: Serialize the object to a byte array
-            ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
-            ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
-            outStream.writeObject(currentVersion);
-            outStream.flush();
-
-            // Step 2: Deserialize the byte array into a new object
-            ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
-            ObjectInputStream inStream = new ObjectInputStream(byteInStream);
-
-            newVersion = (Sheet) inStream.readObject();
+//        Sheet newVersion = null;
+//        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
+//
+//        try {
+//            // Step 1: Serialize the object to a byte array
+//            ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+//            ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
+//            outStream.writeObject(currentVersion);
+//            outStream.flush();
+//
+//            // Step 2: Deserialize the byte array into a new object
+//            ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
+//            ObjectInputStream inStream = new ObjectInputStream(byteInStream);
+//
+//            newVersion = (Sheet) inStream.readObject();
+        try{
+            Sheet newVersion = copySheet();
             newVersion.setUpdateCellCount(0);
             newVersion.updateCell(cellId, value);
 
@@ -81,6 +84,34 @@ public class ImplLogic implements Logic,Serializable  {
         }
 
     }
+
+    @Override
+    public void updateDaynmicAnlayze(String cellId, String value) {
+        try {
+            Sheet newVersion = copySheet();
+            newVersion.dynmicAnlayzeUpdate(cellId, value);
+            mainSheet.add(newVersion);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Sheet copySheet() throws IOException, ClassNotFoundException {
+        Sheet newVersion = null;
+        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
+        // Step 1: Serialize the object to a byte array
+        ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+        ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
+        outStream.writeObject(currentVersion);
+        outStream.flush();
+
+        // Step 2: Deserialize the byte array into a new object
+        ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
+        ObjectInputStream inStream = new ObjectInputStream(byteInStream);
+        newVersion = (Sheet) inStream.readObject();
+        return newVersion;
+    }
+
     @Override
     public void creatNewSheet(String path)throws JAXBException, FileNotFoundException {
         if(!checkPostFix(path)){

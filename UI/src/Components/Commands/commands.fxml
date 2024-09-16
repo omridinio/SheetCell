@@ -9,10 +9,15 @@
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="33.0" prefWidth="227.0">
                <children>
                   <Button fx:id="sort" mnemonicParsing="false" onAction="#clickeSort" prefHeight="25.0" prefWidth="60.0" text="Sort" />
                   <Button fx:id="filter" mnemonicParsing="false" onAction="#filterClicked" prefHeight="25.0" prefWidth="54.0" text="Filter" />
+               </children>
+            </HBox>
+            <HBox prefHeight="38.0" prefWidth="227.0">
+               <children>
+                  <Button fx:id="dynmicAnlyzeForCell" mnemonicParsing="false" onAction="#dynmicCellClicked" text="Dynmic Anlyze for Select Cell" />
                </children>
             </HBox>
          </children>

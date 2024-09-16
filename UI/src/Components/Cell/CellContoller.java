@@ -1,7 +1,9 @@
 package Components.Cell;
 
 import Components.Shitcell.ShitsellController;
+import body.Coordinate;
 import body.Sheet;
+import body.impl.CoordinateImpl;
 import dto.impl.CellDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,24 +12,45 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 import java.io.*;
 
 public class CellContoller implements Serializable {
 
+
+    @FXML
+    private Separator botomSperator;
+
     @FXML
     private Button cell;
+
+    @FXML
+    private VBox dynamicArea;
+
+    @FXML
+    private TextField jump;
 
     @FXML
     private Separator leftColSperate;
 
     @FXML
-    private Separator botomSperator;
+    private TextField maxValue;
+
+    @FXML
+    private TextField minValue;
+
+    @FXML
+    private Slider slider;
+
+
 
     private ShitsellController shitsellController;
     private CellDTO cellDTO;
@@ -77,6 +100,76 @@ public class CellContoller implements Serializable {
     public void initialize() {
         updateCellDeatils();
     }
+
+    private void initializeDynmicAnlayze() {
+//        minValue.textProperty().addListener((observable, oldValue, newValue) -> {
+//            if (!newValue.matches("\\d*")) {
+//                minValue.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-digit characters
+//            }
+//            if(Integer.parseInt(newValue) < 0){
+//                minValue.setText("0");
+//            }
+//            else if(Integer.parseInt(newValue) > Integer.parseInt(maxValue.getText())){
+//                minValue.setText(maxValue.getText());
+//            }
+//            int value = Integer.parseInt(minValue.getText());
+//            slider.setMin(value);
+//        });
+
+        minValue.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                String  min = minValue.getText();
+                if (!min.matches("\\d*")) {
+                    minValue.setText(min.replaceAll("[^\\d]", "")); // Remove non-digit characters
+                }
+                if(Integer.parseInt(min) < 0){
+                    minValue.setText("0");
+                }
+                else if(Integer.parseInt(min) > Integer.parseInt(maxValue.getText())){
+                    minValue.setText(maxValue.getText());
+                }
+                int value = Integer.parseInt(minValue.getText());
+                slider.setMin(value);
+            }
+        });
+
+//        maxValue.textProperty().addListener((observable, oldValue, newValue) -> {
+//            if (!newValue.matches("\\d*")) {
+//                maxValue.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-digit characters
+//            }
+//            if(Integer.parseInt(newValue) < Integer.parseInt(minValue.getText())){
+//                maxValue.setText(minValue.getText());
+//            }
+//            int value = Integer.parseInt(maxValue.getText());
+//            slider.setMax(value);
+//        });
+
+        maxValue.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                String  max = maxValue.getText();
+                if (!max.matches("\\d*")) {
+                    maxValue.setText(max.replaceAll("[^\\d]", "")); // Remove non-digit characters
+                }
+                if(Integer.parseInt(max) < Integer.parseInt(minValue.getText())){
+                    maxValue.setText(minValue.getText());
+                }
+                int value = Integer.parseInt(maxValue.getText());
+                slider.setMax(value);
+            }
+        });
+
+        jump.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                jump.setText(newValue.replaceAll("[^\\d]", "")); // Remove non-digit characters
+            }
+            int value = Integer.parseInt(jump.getText());
+            slider.setBlockIncrement(value);
+            slider.setMajorTickUnit(value);
+            slider.setMinorTickCount(0);
+            slider.setSnapToTicks(true); 
+        });
+    }
+
 
     @FXML
     void clicked(ActionEvent event) {
@@ -331,5 +424,36 @@ public class CellContoller implements Serializable {
         width = "center";
         updateCellDeatils();
         calculatecoord();
+    }
+
+
+    private boolean isNaturalNumber(String str) {
+       return cellDTO.getOriginalEffectiveValue() instanceof Number;
+    }
+
+    public void turnOnDynmicAnlayze() {
+        dynamicArea.setVisible(true);
+        dynamicArea.setDisable(false);
+        int value = Integer.parseInt(cell.getText());
+        minValue.setText((value - 50) + "");
+        maxValue.setText((value + 50) + "");
+        jump.setText("5");
+        slider.setValue(value);
+        slider.setMin(value - 50);
+        slider.setMax(value + 50);
+        slider.setBlockIncrement(5);
+        slider.setMajorTickUnit(5);
+        slider.setMinorTickCount(0);
+        slider.setSnapToTicks(true);
+        initializeDynmicAnlayze();
+        high = "top";
+        calculatecoord();
+        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            double currentValue = newValue.doubleValue();
+            double move = Double.parseDouble(jump.getText());
+            double roundedValue = Math.round(currentValue / move) * move;
+            slider.setValue(roundedValue);
+            shitsellController.updateCellDynmicAnlyaze(slider.getValue(), cellDTO.getId());
+        });
     }
 }

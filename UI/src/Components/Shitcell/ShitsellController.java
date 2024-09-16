@@ -238,6 +238,7 @@ public class ShitsellController {
                     String s = i < 10 ? "0" + i : String.valueOf(i);
                     cellContoller.setText(s);
                     cellContoller.ableRowSpearte();
+                    //cellContoller.turnOnBotoomSperator();
                     sheet.getRowConstraints().add(rowConstraints);
                     cellContoller.setBackgroundColor("737370");
                 }
@@ -672,6 +673,15 @@ public class ShitsellController {
         readOnlyCoord = new HashSet<>(coordToController.keySet());
         updateSheet(sheetbyVersion);
         modeReadOnly();
+    }
+
+    public void dynmicAnlyzeForCell() {
+        currCell.cellContoller.turnOnDynmicAnlayze();
+    }
+
+    public void updateCellDynmicAnlyaze(double value, String cellId) {
+        logic.updateDaynmicAnlayze(cellId, String.valueOf(value));
+        updateSheet(logic.getSheet());
     }
 }
 

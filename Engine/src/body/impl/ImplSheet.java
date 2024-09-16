@@ -116,8 +116,14 @@ public class ImplSheet implements Sheet,Serializable  {
         }
     }
 
+
+
     @Override
     public void updateCellDitels(String cellId, String value){
+        updateCellDitels(cellId, value, true);
+    }
+
+    private void updateCellDitels(String cellId, String value, boolean isUpdate){
         Coordinate currCoord = new CoordinateImpl(cellId);
         checkValidBounds(currCoord);
         activeCells.putIfAbsent(currCoord, new ImplCell(cellId));
@@ -132,18 +138,24 @@ public class ImplSheet implements Sheet,Serializable  {
         Expression currExpression = stringToExpression(value,currCoord);
         cell.setExpression(currExpression);
         cell.setOriginalValue(currExpression.expressionTOtoString());
-        cell.setLastVersionUpdate(sheetVersion);
-        countUpdateCell++;
+        if(isUpdate) {
+            cell.setLastVersionUpdate(sheetVersion);
+            countUpdateCell++;
+        }
     }
 
     @Override
     public void updateCellEffectiveValue(String cellId){
+        updateCellEffectiveValue(cellId, true);
+    }
+
+    private void updateCellEffectiveValue(String cellId, boolean isUpdate){
         Set<Coordinate> neighbors = graph.listOfAccessibleVertex(new CoordinateImpl(cellId));
         List<Coordinate> topologicalSorted = graph.topologicalSort();
 
         for(Coordinate coord : topologicalSorted){
             Cell currCell = activeCells.get(coord);
-            if(neighbors.contains(coord) && !coord.equals(new CoordinateImpl(cellId))){
+            if(neighbors.contains(coord) && !coord.equals(new CoordinateImpl(cellId)) && isUpdate){
                 currCell.setLastVersionUpdate(sheetVersion);
                 countUpdateCell++;
             }
@@ -161,6 +173,14 @@ public class ImplSheet implements Sheet,Serializable  {
         updateCellDitels(cellId, value);
         updateCellEffectiveValue(cellId);
     }
+
+    @Override
+    public void dynmicAnlayzeUpdate(String cellId, String value){
+        resrRanges();
+        updateCellDitels(cellId, value, false);
+        updateCellEffectiveValue(cellId, false);
+    }
+
 
     private void resrRanges() {
         for (Range range : activeRanges.values()) {

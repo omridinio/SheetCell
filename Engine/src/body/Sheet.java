@@ -31,5 +31,6 @@ public interface Sheet {
     List<Coordinate> getCoordinateInRange(String cellRange);
     Map<Integer, String> getColumsItem(int col, String theRange);
     Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected);
+    public void dynmicAnlayzeUpdate(String cellId, String value);
     Map<Coordinate, Cell> sortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 }

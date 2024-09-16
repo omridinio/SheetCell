@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane minHeight="0.0" prefHeight="46.0" prefWidth="145.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Cell.DynamicAnlyze.DynmicAnlayze">
+   <children>
+      <Slider prefHeight="0.0" prefWidth="213.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TextField layoutX="-45.0" layoutY="20.0" prefHeight="25.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="110.0" AnchorPane.topAnchor="21.0" />
+      <TextField layoutX="57.0" layoutY="20.0" prefHeight="25.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="57.0" AnchorPane.rightAnchor="53.0" AnchorPane.topAnchor="21.0" />
+      <TextField layoutX="51.0" layoutY="20.0" prefHeight="25.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="110.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="21.0" />
+   </children>
+</AnchorPane>
