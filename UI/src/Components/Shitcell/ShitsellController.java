@@ -761,5 +761,19 @@ public class ShitsellController {
         }
         return effectiveValues;
     }
+
+    public void onLeftColumnDragged(double newWidth) {
+        double newWithSheet = sheet.getPrefWidth() + newWidth;
+        sheet.setPrefWidth(newWithSheet);
+    }
+
+    public void onBotomDragged(double deltaY) {
+        double newHeightSheet = sheet.getPrefHeight() + deltaY;
+        sheet.setPrefHeight(newHeightSheet);
+    }
+
+    public String predictCalculate(String expression) {
+        return logic.predictCalculate(expression);
+    }
 }
 

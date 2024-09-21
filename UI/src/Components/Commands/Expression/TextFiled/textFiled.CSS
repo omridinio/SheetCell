@@ -1,0 +1,29 @@
+
+.text-field {
+    -fx-background-color: white;    /* Set the background color */
+    -fx-border-color: transparent;  /* Remove the border */
+    -fx-padding: 0;                 /* Remove padding inside the textfield */
+    -fx-background-radius: 0;       /* Remove rounded corners */
+    -fx-border-radius: 0;           /* Remove border radius to ensure sharp corners */
+    -fx-font-size: 14px;            /* Set a consistent font size */
+}
+
+.text-field:focused {
+    -fx-background-color: white;    /* Set the background color */
+    -fx-border-color: transparent;  /* Remove the border */
+    -fx-padding: 0;                 /* Remove padding inside the textfield */
+    -fx-background-radius: 0;       /* Remove rounded corners */
+    -fx-border-radius: 0;           /* Remove border radius to ensure sharp corners */
+    -fx-font-size: 14px;            /* Set a consistent font size */
+}
+
+.text-field:hover {
+    -fx-background-color: white;    /* Set the background color */
+    -fx-border-color: transparent;  /* Remove the border */
+    -fx-padding: 0;                 /* Remove padding inside the textfield */
+    -fx-background-radius: 0;       /* Remove rounded corners */
+    -fx-border-radius: 0;           /* Remove border radius to ensure sharp corners */
+    -fx-font-size: 14px;            /* Set a consistent font size */
+}
+
+

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -40,28 +41,35 @@
       </VBox>
    </left>
    <center>
-      <VBox fx:id="sheetArea" snapToPixel="false" BorderPane.alignment="TOP_LEFT">
+      <VBox fx:id="sheetArea" alignment="CENTER" maxWidth="100000.0" snapToPixel="false" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="549.0">
                <children>
                   <fx:include fx:id="styleSheet" source="../StyleSheet/styleSheet.fxml" />
                   <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
                </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </HBox>
-            <GridPane id="sheet" fx:id="sheet" maxHeight="1.0E8" prefHeight="770.0" prefWidth="911.0" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <opaqueInsets>
-                  <Insets top="10.0" />
-               </opaqueInsets>
-               <padding>
-                  <Insets top="3.0" />
-               </padding>
-            </GridPane>
+            <ScrollPane VBox.vgrow="NEVER">
+               <content>
+                  <GridPane id="sheet" fx:id="sheet" maxHeight="1.0E8" maxWidth="10000.0" prefHeight="660.0" prefWidth="911.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <opaqueInsets>
+                        <Insets top="10.0" />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding>
+                  </GridPane>
+               </content>
+            </ScrollPane>
          </children>
       </VBox>
    </center>

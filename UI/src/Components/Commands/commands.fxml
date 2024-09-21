@@ -18,6 +18,7 @@
             <Button fx:id="dynmicAnlyzeForCell" mnemonicParsing="false" onAction="#dynmicCellClicked" text="Dynmic Anlyze for Select Cell" />
             <Button mnemonicParsing="false" onAction="#dynmicSheetClicked" text="Dynmic Anlayze for Sheet" />
             <Button mnemonicParsing="false" onAction="#createGraphClicked" text="Create a Graph" />
+            <Button mnemonicParsing="false" onAction="#customFormulaClicked" text="Custom formula" />
          </children>
       </VBox>
    </children>

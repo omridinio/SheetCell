@@ -1,5 +1,6 @@
 package Components.Commands;
 
+import Components.Commands.Expression.ExpressionController;
 import Components.Commands.Filter.FilterController;
 import Components.Commands.Graph.GraphController;
 import Components.Commands.SetCommand.SetCommandController;
@@ -91,6 +92,20 @@ public class CommandsController {
         newWindow.show();
     }
 
+    @FXML
+    void customFormulaClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Commands/Expression/expression.fxml"));
+        Parent newWindowRoot = loader.load();
+        ExpressionController expressionController = loader.getController();
+        expressionController.setCommandsController(this);
+        Scene newScene = new Scene(newWindowRoot);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Custom Formula");
+        newWindow.setScene(newScene);
+        newWindow.initModality(Modality.APPLICATION_MODAL);
+        newWindow.show();
+    }
+
     public void  initialize(){
         dynmicAnlyzeForCell.setDisable(true);
     }
@@ -151,5 +166,9 @@ public class CommandsController {
 
     public List<EffectiveValue> getCustomRange(String text) {
         return shitsellController.getCustomRange(text);
+    }
+
+    public String predictCalculate(String expression) {
+        return shitsellController.predictCalculate(expression);
     }
 }

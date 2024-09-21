@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import expression.impl.Number;
 
@@ -26,6 +27,8 @@ import java.io.*;
 
 public class CellContoller implements Serializable {
 
+    @FXML
+    private AnchorPane cellSize;
 
     @FXML
     private Separator botomSperator;
@@ -361,7 +364,11 @@ public class CellContoller implements Serializable {
         double deltaX = event.getSceneX() - initialX;
         double newWidth = columnConstraints.getPrefWidth() + deltaX;
         newWidth = Math.max(newWidth, 10);
-        newWidth = Math.min(newWidth, 300);
+        newWidth = Math.min(newWidth, 800);
+        if(newWidth > 10){
+            shitsellController.onLeftColumnDragged(deltaX);
+        }
+        cellSize.setPrefWidth(newWidth);
         columnConstraints.setPrefWidth(newWidth);
         leftColSperate.setUserData(event.getSceneX());
     }
@@ -389,6 +396,10 @@ public class CellContoller implements Serializable {
         newHight = Math.max(newHight, 10);
         newHight = Math.min(newHight, 300);
         rowConstraints.setPrefHeight(newHight);
+        if(newHight > 10){
+            shitsellController.onBotomDragged(deltaY);
+        }
+        cellSize.setPrefHeight(newHight);
         botomSperator.setUserData(event.getSceneY());
     }
 
@@ -446,7 +457,8 @@ public class CellContoller implements Serializable {
 
 
     public boolean isNaturalNumber() {
-       return cellDTO.getOriginalEffectiveValue() instanceof Number;
+        boolean isDependOnThem = cellDTO.getCellsDependsOnThem().size() > 0;
+        return ((cellDTO.getOriginalEffectiveValue() instanceof Number) && !isDependOnThem);
     }
 
     public void turnOnDynmicAnlayze() {
