@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="commandArea" prefHeight="420.0" prefWidth="227.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.CommandsController">
+
+<VBox prefHeight="307.0" prefWidth="282.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.CommandsController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox prefHeight="33.0" prefWidth="227.0">
          <children>
-            <HBox prefHeight="33.0" prefWidth="227.0">
-               <children>
-                  <Button fx:id="sort" mnemonicParsing="false" onAction="#clickeSort" prefHeight="25.0" prefWidth="60.0" text="Sort" />
-                  <Button fx:id="filter" mnemonicParsing="false" onAction="#filterClicked" prefHeight="25.0" prefWidth="54.0" text="Filter" />
-               </children>
-            </HBox>
-            <Button fx:id="dynmicAnlyzeForCell" mnemonicParsing="false" onAction="#dynmicCellClicked" text="Dynmic Anlyze for Select Cell" />
-            <Button mnemonicParsing="false" onAction="#dynmicSheetClicked" text="Dynmic Anlayze for Sheet" />
-            <Button mnemonicParsing="false" onAction="#createGraphClicked" text="Create a Graph" />
-            <Button mnemonicParsing="false" onAction="#customFormulaClicked" text="Custom formula" />
+            <Button fx:id="sort" mnemonicParsing="false" onAction="#clickeSort" prefHeight="25.0" prefWidth="60.0" text="Sort" />
+            <Button fx:id="filter" mnemonicParsing="false" onAction="#filterClicked" prefHeight="25.0" prefWidth="54.0" text="Filter" />
          </children>
-      </VBox>
+      </HBox>
+      <Button fx:id="dynmicAnlyzeForCell" mnemonicParsing="false" onAction="#dynmicCellClicked" text="Dynmic Anlyze for Select Cell" />
+      <Button mnemonicParsing="false" onAction="#dynmicSheetClicked" text="Dynmic Anlayze for Sheet" />
+      <Button mnemonicParsing="false" onAction="#createGraphClicked" text="Create a Graph" />
+      <Button fx:id="customFormula" mnemonicParsing="false" onAction="#customFormulaClicked" text="Custom formula" />
    </children>
-</AnchorPane>
+</VBox>

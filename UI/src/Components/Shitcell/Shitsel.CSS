@@ -59,3 +59,16 @@
 #sheet{
     -fx-cursor: cell;
 }
+
+.scroll-pane{
+    -fx-alignment: center;
+    -fx-margin: 10px;  /* Optional margin */
+    -fx-background-color: transparent;  /* Makes the background transparent */
+    -fx-border-color: transparent;      /* Hides the border */
+    -fx-border-width: 0;                /* Ensures no border width */
+}
+
+.border-pane .bottom {
+    -fx-min-height: 0; /* Prevent it from occupying space */
+    -fx-pref-height: 0;
+}

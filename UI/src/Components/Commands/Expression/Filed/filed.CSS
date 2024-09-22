@@ -1,0 +1,9 @@
+.titled-pane.error > .title {
+    -fx-border-color: rgba(236, 13, 21, 0.87); /* Border color for the title */
+    -fx-border-width: 2px;     /* Border width for the title */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.3, 5, 5); /* Shadow only on the border */
+}
+
+.titled-pane > .title > .text {
+    -fx-effect: none; /* Ensure no shadow effect on the text itself */
+}

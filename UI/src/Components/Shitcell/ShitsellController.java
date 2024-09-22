@@ -36,12 +36,12 @@ public class ShitsellController {
 
     //fmxl id
     @FXML
-    private AnchorPane actionLine;
+    private HBox actionLine;
 
     @FXML private ActionLineController actionLineController;
 
     @FXML
-    private AnchorPane rangeArea;
+    private VBox rangeArea;
 
     @FXML
     private RangeAreaController rangeAreaController;
@@ -58,17 +58,22 @@ public class ShitsellController {
     @FXML
     StyleSheetController styleSheetController;
 
-    @FXML
-    VBox sheetArea;
 
     @FXML
-    AnchorPane commandArea;
+    VBox commandArea;
 
     @FXML
     private CommandsController commandAreaController;
 
     @FXML
     private Button readOnlyMode;
+
+    @FXML
+    private ScrollPane scrollPane;
+
+    @FXML
+    private AnchorPane allTheSheet;
+
 
 
     //my dataMember
@@ -77,6 +82,8 @@ public class ShitsellController {
     private BooleanProperty isdeleteRangeMode = new SimpleBooleanProperty(false);
     private BooleanProperty isDynmicMode = new SimpleBooleanProperty(false);
     Map<Coordinate,CellContoller> coordToController = new HashMap<>();
+    List<CellContoller> numberColCell = new ArrayList<>();
+    List<CellContoller> numberRowCell = new ArrayList<>();
     Map<Coordinate,CellContoller> backupCoordToController = new HashMap<>();
     private Logic logic = new ImplLogic();
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
@@ -120,15 +127,25 @@ public class ShitsellController {
         readOnlyMode.visibleProperty().bind(isReadOnlyMode);
         sheet.disableProperty().bind(isdeleteRangeMode);
         actionLine.setDisable(true);
+        double widthScrollPane = scrollPane.getWidth();
+        scrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.doubleValue() > widthScrollPane) {
+                allTheSheet.setPrefWidth(newVal.doubleValue() - 5);
+            }
+        });
+
+        double heightScrollPane = scrollPane.getHeight();
+        scrollPane.heightProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal.doubleValue() > heightScrollPane) {
+                allTheSheet.setPrefHeight(newVal.doubleValue() - 5);
+            }
+        });
     }
 
     public GridPane getSheet() {
         return sheet;
     }
 
-    public VBox getSheetArea() {
-        return sheetArea;
-    }
 
     @FXML
     private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
@@ -182,6 +199,7 @@ public class ShitsellController {
             updateSheet(logic.getSheet());
             lastDynmicCell = "";
             countDynmicAnlyze = 0;
+
         }
     }
 
@@ -249,6 +267,7 @@ public class ShitsellController {
                     cellContoller.ableColSpearte();
                     sheet.getColumnConstraints().add(columnConstraints);
                     cellContoller.setBackgroundColor("737370");
+                    numberColCell.add(cellContoller);
                 }
                 else if(j == 0){
                     RowConstraints rowConstraints = new RowConstraints();
@@ -262,6 +281,7 @@ public class ShitsellController {
                     //cellContoller.turnOnBotoomSperator();
                     sheet.getRowConstraints().add(rowConstraints);
                     cellContoller.setBackgroundColor("737370");
+                    numberRowCell.add(cellContoller);
                 }
                 else{
                     cell.getStyleClass().add("cell");
@@ -331,17 +351,21 @@ public class ShitsellController {
             } else {
                 commandAreaController.disableDynmicCell();
             }
-            List<Coordinate> coordCellDependOfThem = cell.getCellsDependsOnThem();
-            for (Coordinate coordinate : coordCellDependOfThem) {
-                coordToController.get(coordinate).getCell().getStyleClass().add("dependThem");
-                coordToController.get(coordinate).setDependOnThem();
-                cellsDependOnThem.add(coordToController.get(coordinate));
-            }
-            List<Coordinate> coordCellDependOfHim = cell.getCellsDependsOnHim();
-            for (Coordinate coordinate : coordCellDependOfHim) {
-                coordToController.get(coordinate).getCell().getStyleClass().add("dependHim");
-                coordToController.get(coordinate).setDependOnHim();
-                getCellsDependOnhim.add(coordToController.get(coordinate));
+            if(!isReadOnlyMode.getValue()) {
+
+
+                List<Coordinate> coordCellDependOfThem = cell.getCellsDependsOnThem();
+                for (Coordinate coordinate : coordCellDependOfThem) {
+                    coordToController.get(coordinate).getCell().getStyleClass().add("dependThem");
+                    coordToController.get(coordinate).setDependOnThem();
+                    cellsDependOnThem.add(coordToController.get(coordinate));
+                }
+                List<Coordinate> coordCellDependOfHim = cell.getCellsDependsOnHim();
+                for (Coordinate coordinate : coordCellDependOfHim) {
+                    coordToController.get(coordinate).getCell().getStyleClass().add("dependHim");
+                    coordToController.get(coordinate).setDependOnHim();
+                    getCellsDependOnhim.add(coordToController.get(coordinate));
+                }
             }
         }
     }
@@ -373,17 +397,21 @@ public class ShitsellController {
         return false;
     }
 
-    public void updateCellClicked(TextField actionLine, TextField cellId) throws IOException {
+    private void updateCell(String actionLine, String cellId) throws IOException {
         try {
-            logic.updateCell(currCell.cellid.getValue(), actionLine.getText());
+            logic.updateCell(cellId, actionLine);
             updateSheet(logic.getSheet());
-            CellDTO currCell = logic.getCell(new CoordinateImpl(cellId.getText()));
-            cellClicked(currCell, coordToController.get(new CoordinateImpl(cellId.getText())).getCell());
-            actionLine.setText("");
+            CellDTO currCell = logic.getCell(new CoordinateImpl(cellId));
+            cellClicked(currCell, coordToController.get(new CoordinateImpl(cellId)).getCell());
             actionLineController.addVersion();
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
+    }
+
+    public void updateCellClicked(TextField actionLine, TextField cellId) throws IOException {
+        updateCell(actionLine.getText(), cellId.getText());
+        actionLine.setText("");
     }
 
     public void setRange(String rangeId, String theRange) throws IOException {
@@ -596,8 +624,10 @@ public class ShitsellController {
     }
 
     public void initializeCommands(CommandsController commandsController) {
-        //commandsController.getCommandArea().visibleProperty().bind(isLoaded);
-        //commandsController.getCommandArea().disableProperty().bind(isReadOnlyMode);
+        commandArea.visibleProperty().bind(isLoaded);
+        commandArea.disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode));
+        commandsController.getCustomFormula().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode).or(currCell.isClicked.not()));
+
     }
 
     public void sortRangeClicked(String range, List<Integer> dominantCols) throws IOException, ClassNotFoundException {
@@ -751,7 +781,6 @@ public class ShitsellController {
         return effectiveValues;
     }
 
-
     public List<EffectiveValue> getRange(String text) {
         RangeDTO range = logic.getRange(text);
         List<EffectiveValue> effectiveValues = new ArrayList<>();
@@ -772,8 +801,22 @@ public class ShitsellController {
         sheet.setPrefHeight(newHeightSheet);
     }
 
-    public String predictCalculate(String expression) {
+    public String predictCalculate(String expression) throws IOException, ClassNotFoundException {
         return logic.predictCalculate(expression);
+    }
+
+    public void setCellDynmic(int row, int col) {
+        numberRowCell.get(row - 1).setSizeRowDynmic();
+        numberColCell.get(col - 1).setSizeColDynmic();
+    }
+
+    public void restCellDynmic(int row, int col) {
+        numberRowCell.get(row - 1).resetSizeRowDynmic();
+        numberColCell.get(col - 1).resetSizeColDynmic();
+    }
+
+    public void addExpression(String expressionUi) throws IOException {
+        updateCell(expressionUi, currCell.cellid.getValue());
     }
 }
 

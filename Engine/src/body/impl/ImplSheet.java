@@ -694,6 +694,10 @@ public class ImplSheet implements Sheet,Serializable  {
         return res;
     }
 
-
+    @Override
+    public String predictCalculate(String expression) {
+        Expression currExpression = stringToExpression(expression, new CoordinateImpl("A1"));
+        return currExpression.evaluate().getValue().toString();
+    }
 
 }

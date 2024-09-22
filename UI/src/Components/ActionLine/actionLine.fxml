@@ -5,71 +5,66 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="64.0" prefWidth="1132.0" stylesheets="@actionLine.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.ActionLine.ActionLineController">
+<HBox id="HboxUp2" alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="1142.0" spacing="15.0" stylesheets="@actionLine.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.ActionLine.ActionLineController">
    <children>
-      <HBox id="HboxUp2" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="64.0" prefWidth="1142.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" spacing="3.0">
          <children>
-            <VBox alignment="CENTER" spacing="3.0">
-               <children>
-                  <Label id="cellID" text="Cell ID:" />
-                  <TextField id="cellId" fx:id="cellId" disable="true" editable="false" onAction="#cellIdEnter" prefHeight="24.0" prefWidth="50.0" />
-               </children>
-            </VBox>
-            <VBox id="originalValue" alignment="CENTER" spacing="3.0">
-               <children>
-                  <Label id="OriginaValue" text="Original value:">
-                     <padding>
-                        <Insets left="5.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="originalValue" disable="true" editable="false" prefHeight="29.0" prefWidth="231.0" />
-               </children>
-            </VBox>
-            <VBox id="actionLine" alignment="CENTER" prefHeight="54.0" prefWidth="435.0" spacing="3.0">
-               <children>
-                  <Label text="Action line:" />
-                  <HBox id="actionLine" alignment="BOTTOM_LEFT">
-                     <children>
-                        <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
-                        <Label id="actionLabel" fx:id="actionError" prefHeight="14.0" prefWidth="17.0" visible="false" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <Button id="UpdateValue" fx:id="updateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
-            <VBox alignment="CENTER" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
-               <children>
-                  <Label id="lastUpdateCell" prefHeight="17.0" prefWidth="165.0" text="Last update cell version:">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <TextField fx:id="lastVersion" alignment="CENTER" disable="true" editable="false" prefHeight="29.0" prefWidth="65.0">
-                     <VBox.margin>
-                        <Insets left="50.0" right="50.0" />
-                     </VBox.margin>
-                  </TextField>
-               </children>
-            </VBox>
-            <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">
-               <children>
-                  <Label text="Version selctor:">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <ComboBox fx:id="versionSelctor" disable="true" editable="true" prefHeight="29.0" prefWidth="65.0" />
-               </children>
-            </VBox>
+            <Label id="cellID" text="Cell ID:" />
+            <TextField id="cellId" fx:id="cellId" disable="true" editable="false" onAction="#cellIdEnter" prefHeight="24.0" prefWidth="50.0" />
          </children>
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-      </HBox>
+      </VBox>
+      <VBox id="originalValue" alignment="CENTER" spacing="3.0">
+         <children>
+            <Label id="OriginaValue" text="Original value:">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="originalValue" disable="true" editable="false" prefHeight="29.0" prefWidth="231.0" />
+         </children>
+      </VBox>
+      <VBox id="actionLine" alignment="CENTER" prefHeight="54.0" prefWidth="435.0" spacing="3.0">
+         <children>
+            <Label text="Action line:" />
+            <HBox id="actionLine" alignment="BOTTOM_LEFT">
+               <children>
+                  <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
+                  <Label id="actionLabel" fx:id="actionError" prefHeight="14.0" prefWidth="17.0" visible="false" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button id="UpdateValue" fx:id="updateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
+      <VBox alignment="CENTER" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
+         <children>
+            <Label id="lastUpdateCell" prefHeight="17.0" prefWidth="165.0" text="Last update cell version:">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="lastVersion" alignment="CENTER" disable="true" editable="false" prefHeight="29.0" prefWidth="65.0">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+            </TextField>
+         </children>
+      </VBox>
+      <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">
+         <children>
+            <Label text="Version selctor:">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <ComboBox fx:id="versionSelctor" disable="true" editable="true" prefHeight="29.0" prefWidth="65.0" />
+         </children>
+      </VBox>
    </children>
-</AnchorPane>
+   <padding>
+      <Insets left="10.0" />
+   </padding>
+</HBox>
