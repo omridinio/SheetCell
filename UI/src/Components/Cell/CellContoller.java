@@ -67,6 +67,8 @@ public class CellContoller implements Serializable {
     private int sizeFont = 12;
     private String fontColor = "000000";
     private String fontType = Font.getFamilies().get(3);
+    private double backupWidth = -1;
+    private double backupHeight = -1;
 
     public CellContoller() { }
 
@@ -163,7 +165,7 @@ public class CellContoller implements Serializable {
 
     @FXML
     void clicked(ActionEvent event) {
-        shitsellController.getSheetArea().requestFocus();
+        //shitsellController.getSheetArea().requestFocus();
         if(isTitle){
             shitsellController.titleClicked(this);
         }
@@ -171,6 +173,53 @@ public class CellContoller implements Serializable {
             shitsellController.cellClicked(cellDTO, cell);
         }
     }
+
+    private void dynmicMode(){
+        int row = new CoordinateImpl(cellDTO.getId()).getRow();
+        int col = new CoordinateImpl(cellDTO.getId()).getColumn();
+        shitsellController.setCellDynmic(row, col);
+    }
+
+    public void setSizeRowDynmic(){
+        if(backupHeight == -1){
+            backupHeight = rowConstraints.getPrefHeight();
+        if(80 > backupHeight){
+            cellSize.setPrefHeight(80);
+            rowConstraints.setPrefHeight(80);
+            shitsellController.onBotomDragged(80 - backupHeight);
+        }
+        }
+    }
+
+    public void resetSizeRowDynmic(){
+        if (backupHeight != -1) {
+            shitsellController.onBotomDragged(backupHeight - 80);
+            cellSize.setPrefHeight(backupHeight);
+            rowConstraints.setPrefHeight(backupHeight);
+            backupHeight = -1;
+        }
+    }
+
+    public void setSizeColDynmic(){
+        if (backupWidth == -1) {
+            backupWidth = columnConstraints.getPrefWidth();
+            if (150 > backupWidth) {
+                cellSize.setPrefWidth(150);
+                columnConstraints.setPrefWidth(150);
+                shitsellController.onLeftColumnDragged(150 - backupWidth);
+            }
+        }
+    }
+
+    public void resetSizeColDynmic(){
+        if(backupWidth != -1) {
+            shitsellController.onLeftColumnDragged(backupWidth - 150);
+            cellSize.setPrefWidth(backupWidth);
+            columnConstraints.setPrefWidth(backupWidth);
+            backupWidth = -1;
+        }
+    }
+
 
     public CellContoller copyCell() throws IOException, ClassNotFoundException {
         // Step 1: Serialize the object to a byte array
@@ -364,7 +413,7 @@ public class CellContoller implements Serializable {
         double deltaX = event.getSceneX() - initialX;
         double newWidth = columnConstraints.getPrefWidth() + deltaX;
         newWidth = Math.max(newWidth, 10);
-        newWidth = Math.min(newWidth, 800);
+        newWidth = Math.min(newWidth, 3000);
         if(newWidth > 10){
             shitsellController.onLeftColumnDragged(deltaX);
         }
@@ -394,7 +443,7 @@ public class CellContoller implements Serializable {
         double deltaY = event.getSceneY() - initialY;
         double newHight = rowConstraints.getPrefHeight() + deltaY;
         newHight = Math.max(newHight, 10);
-        newHight = Math.min(newHight, 300);
+        newHight = Math.min(newHight, 30000);
         rowConstraints.setPrefHeight(newHight);
         if(newHight > 10){
             shitsellController.onBotomDragged(deltaY);
@@ -477,6 +526,7 @@ public class CellContoller implements Serializable {
         slider.setSnapToTicks(true);
         initializeDynmicAnlayze();
         calculatecoord("top");
+        dynmicMode();
         slider.valueProperty().addListener((observable, oldValue, newValue) -> {
             double currentValue = newValue.doubleValue();
             double move = Double.parseDouble(jump.getText());
@@ -499,5 +549,8 @@ public class CellContoller implements Serializable {
         dynamicArea.setVisible(false);
         dynamicArea.setDisable(true);
         calculatecoord();
+        int row = new CoordinateImpl(cellDTO.getId()).getRow();
+        int col = new CoordinateImpl(cellDTO.getId()).getColumn();
+        shitsellController.restCellDynmic(row, col);
     }
 }

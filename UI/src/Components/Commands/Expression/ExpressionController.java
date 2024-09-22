@@ -6,6 +6,8 @@ import Properties.ExpressionUi;
 import Properties.ExpressionUiImpl;
 import Properties.Operator;
 import Properties.TargetExpression;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +39,8 @@ public class ExpressionController {
 
     @FXML
     private Label predict;
+
+    private BooleanProperty error = new SimpleBooleanProperty(true);
 
     private CommandsController commandsController;
 
@@ -113,16 +118,21 @@ public class ExpressionController {
             else {
                 try {
                     predict.setText(commandsController.predictCalculate(newValue));
+                    error.setValue(false);
                 } catch (Exception e) {
+                    error.setValue(true);
                     predict.setText(e.getMessage());
                 }
             }
         });
+        ok.disableProperty().bind(error);
     }
 
     @FXML
-    void okClicked() {
-
+    void okClicked() throws IOException {
+        commandsController.addExpression(actionLine.getText());
+        Stage stage = (Stage) ok.getScene().getWindow();
+        stage.close();
 
     }
 

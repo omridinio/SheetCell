@@ -6,6 +6,7 @@ import Components.Commands.Graph.GraphController;
 import Components.Commands.SetCommand.SetCommandController;
 import Components.Range.setRange.setRangeController;
 import Components.Shitcell.ShitsellController;
+import Properties.ExpressionUi;
 import expression.api.EffectiveValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -30,13 +32,13 @@ public class CommandsController {
     @FXML
     private Button filter;
 
-    @FXML
-    private AnchorPane commandArea;
-
     private ShitsellController shitsellController;
 
     @FXML
     private Button dynmicAnlyzeForCell;
+
+    @FXML
+    private Button customFormula;
 
 
     @FXML
@@ -132,9 +134,10 @@ public class CommandsController {
         return sort;
     }
 
-    public AnchorPane getCommandArea() {
-        return commandArea;
+    public Button getCustomFormula() {
+        return customFormula;
     }
+
 
     public Map<Integer, String> getItemInColum(Character value, String theRange) {
         return shitsellController.getColumsItem(value + 1 - 'A', theRange);
@@ -168,7 +171,11 @@ public class CommandsController {
         return shitsellController.getCustomRange(text);
     }
 
-    public String predictCalculate(String expression) {
+    public String predictCalculate(String expression) throws IOException, ClassNotFoundException {
         return shitsellController.predictCalculate(expression);
+    }
+
+    public void addExpression(String expressionUi) throws IOException {
+        shitsellController.addExpression(expressionUi);
     }
 }
