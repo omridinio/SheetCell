@@ -1,1 +1,80 @@
+/* AnchorPane Background */
+AnchorPane {
+    -fx-background-color: #F8F9FA; /* Subtle off-white background */
+    -fx-padding: 10px; /* Reduced padding for compact design */
+}
 
+/* TitledPane Styling */
+TitledPane {
+    -fx-background-color: #F8F9FA; /* Subtle light background for pane */
+    -fx-border-color: #E0E0E0; /* Light gray border */
+    -fx-border-radius: 8px; /* Softer rounded corners */
+    -fx-padding: 0px; /* Minimal padding */
+    -fx-font-size: 12px; /* Smaller font size for compact look */
+    -fx-font-weight: lighter; /* Thinner, elegant font */
+    -fx-text-fill: #3A3A3A; /* Soft gray text for minimalist look */
+}
+
+.titled-pane > .title {
+    -fx-background-color: #F1F1F1; /* Light gray title background */
+    -fx-border-radius: 8px 8px 0 0; /* Rounded corners for the top */
+    -fx-padding: 8px 12px; /* Reduced padding for compact premium feel */
+    -fx-font-size: 12px; /* Smaller, modern font size */
+    -fx-text-fill: #333333; /* Darker gray for contrast */
+    -fx-font-weight: 200; /* Thinner font weight for minimalist elegance */
+}
+
+.titled-pane:expanded > .title {
+    -fx-background-color: #EDEDED; /* Slightly darker gray when expanded */
+}
+
+/* Content inside the TitledPane */
+.titled-pane > .content {
+    -fx-background-color: #FFFFFF; /* Pure white content area */
+    -fx-padding: 10px; /* Reduced padding for compact look */
+    -fx-border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+    -fx-border-color: #E0E0E0; /* Subtle border for a luxurious look */
+    -fx-border-width: 1px;
+}
+
+/* TextField and ChoiceBox Styling (Minimalist Look) */
+TextField, ChoiceBox {
+    -fx-background-color: #FAFAFA; /* Soft white background */
+    -fx-border-color: #D1D1D1; /* Very light gray border */
+    -fx-border-radius: 5px; /* Slight rounding for premium feel */
+    -fx-padding: 6px; /* Smaller padding */
+    -fx-font-size: 11px; /* Smaller, clean font size */
+    -fx-text-fill: #333333; /* Soft dark text */
+    -fx-pref-height: 22px; /* Reduced height for compact design */
+}
+
+TextField:focused, ChoiceBox:focused {
+    -fx-border-color: #A9A9A9; /* Slightly darker border on focus */
+}
+
+/* Redesigned Button (Luxury OK Button) */
+Button {
+    -fx-background-color: #E0E0E0; /* Subtle luxury light gray background */
+    -fx-text-fill: #333333; /* Dark gray text */
+    -fx-font-size: 11px; /* Smaller, clean font */
+    -fx-font-weight: normal; /* Minimalist font weight */
+    -fx-background-radius: 6px; /* Softer, rounded corners */
+    -fx-border-color: #C0C0C0; /* Light gray border for elegance */
+    -fx-pref-height: 22px; /* Reduced height for compact design */
+    -fx-pref-width: 55px; /* Smaller width */
+    -fx-padding: 4px 8px; /* Reduced padding for compact feel */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+/* Button Hover Effect (Subtle Interaction) */
+Button:hover {
+    -fx-background-color: #D6D6D6; /* Slightly darker gray on hover */
+    -fx-border-color: #A0A0A0; /* Subtle darker border on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 2, 0.5, 0, 1); /* Soft shadow on hover */
+}
+
+/* ScrollBar Styling */
+.scroll-bar .thumb {
+    -fx-background-color: #C0C0C0; /* Light gray scroll thumb */
+    -fx-background-radius: 4px; /* Slightly reduced rounded corners */
+}

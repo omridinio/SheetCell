@@ -106,11 +106,13 @@ public class ImplLogic implements Logic,Serializable  {
         }
         InputStream inputStream = new FileInputStream(new File(path));
         STLSheet res = creatGeneratedObject(inputStream);
+        Sheet newSheet = STLSheet2Sheet(res);
         mainSheet.clear();
-        mainSheet.add(STLSheet2Sheet(res));
+        mainSheet.add(newSheet);
     }
 
     private Sheet STLSheet2Sheet(STLSheet stlSheet) {
+
         String name = stlSheet.getName();
         int thickness = stlSheet.getSTLLayout().getSTLSize().getRowsHeightUnits();
         int width = stlSheet.getSTLLayout().getSTLSize().getColumnWidthUnits();

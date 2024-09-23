@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="305.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Graph.GraphController">
+<AnchorPane prefHeight="305.0" prefWidth="500.0" stylesheets="@graph.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Graph.GraphController">
    <children>
       <VBox layoutX="-8.0" prefHeight="200.0" prefWidth="433.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -21,26 +20,26 @@
                   <ChoiceBox fx:id="graphType" prefWidth="150.0" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="110.0" prefWidth="422.0" spacing="40.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="107.0" prefWidth="500.0" spacing="40.0">
                <children>
-                  <VBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="209.0" spacing="5.0">
+                  <VBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="211.0" spacing="5.0">
                      <children>
                         <Label alignment="TOP_LEFT" prefHeight="17.0" prefWidth="53.0" text="X axis:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
+                        <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="225.0" spacing="5.0">
                            <children>
-                              <Label prefHeight="17.0" prefWidth="53.0" text="Range: " />
-                              <TextField prefHeight="25.0" prefWidth="102.0" fx:id="xRangeText" />
-                              <ChoiceBox prefHeight="25.0" prefWidth="3.0" fx:id="xScrollRange" />
+                              <Label prefHeight="19.0" prefWidth="64.0" text="Range: " />
+                              <TextField prefHeight="26.0" prefWidth="101.0" fx:id="xRangeText" />
+                              <ChoiceBox prefHeight="27.0" prefWidth="18.0" fx:id="xScrollRange" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="53.0" text="Title:  " />
-                              <TextField prefHeight="25.0" prefWidth="103.0" fx:id="xTitle" />
+                              <TextField prefHeight="26.0" prefWidth="92.0" fx:id="xTitle" />
                            </children>
                         </HBox>
                      </children>
@@ -54,15 +53,15 @@
                         </Label>
                         <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
                            <children>
-                              <Label prefHeight="17.0" prefWidth="53.0" text="Range: " />
-                              <TextField fx:id="yRangeText" prefHeight="25.0" prefWidth="102.0" />
-                              <ChoiceBox fx:id="yScrollRange" prefHeight="25.0" prefWidth="3.0" />
+                              <Label prefHeight="17.0" prefWidth="65.0" text="Range: " />
+                              <TextField fx:id="yRangeText" prefHeight="26.0" prefWidth="100.0" />
+                              <ChoiceBox fx:id="yScrollRange" prefHeight="27.0" prefWidth="26.0" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
                            <children>
                               <Label prefHeight="17.0" prefWidth="53.0" text="Title:  " />
-                              <TextField fx:id="yTitle" prefHeight="25.0" prefWidth="102.0" />
+                              <TextField fx:id="yTitle" prefHeight="26.0" prefWidth="92.0" />
                            </children>
                         </HBox>
                      </children>

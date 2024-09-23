@@ -46,12 +46,23 @@ public class CheckRangeController {
     private List<Character> colSelected = new ArrayList<>();
 
 
-
+    public void initialize() {
+        xButton.setDisable(true);
+    }
 
     @FXML
     void VClicked(ActionEvent event) throws IOException, ClassNotFoundException {
-        theRange.setDisable(true);
-        commands.VClicked();
+        if(commands.VClicked()) {
+            theRange.setDisable(true);
+            errorMessege.setDisable(true);
+            errorMessege.setVisible(false);
+            vButton.setDisable(true);
+            xButton.setDisable(false);
+        }
+        else {
+            errorMessege.setDisable(false);
+            errorMessege.setVisible(true);
+        }
     }
 
     @FXML
@@ -61,6 +72,7 @@ public class CheckRangeController {
         colSelected.clear();
         commands.XClicked();
         theRange.setDisable(false);
+        vButton.setDisable(false);
     }
 
     public ChoiceBox<Character> createFirstChoiceBox(List<Integer> colsRange) throws IOException {
@@ -222,7 +234,8 @@ public class CheckRangeController {
         return colsInRange.size() <= 1;
     }
 
-    public void addColSelected(Character col) {
+    public void
+    addColSelected(Character col) {
         colSelected.add(col);
     }
 

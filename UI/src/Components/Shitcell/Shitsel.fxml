@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<ScrollPane fx:id="scrollPane" pannable="true" prefHeight="900.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
+<ScrollPane fx:id="scrollPane" pannable="true" prefHeight="865.0" prefWidth="1376.0" stylesheets="@Shitsel.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
    <content>
       <AnchorPane fx:id="allTheSheet" maxHeight="1.0E8" maxWidth="1.0E8" minHeight="825.0" minWidth="1328.0" prefHeight="825.0" prefWidth="1328.0" stylesheets="@Shitsel.CSS">
          <children>
@@ -30,14 +30,17 @@
                </padding>
             </HBox>
             <fx:include fx:id="actionLine" source="../ActionLine/actionLine.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
-            <VBox layoutY="123.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="699.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="123.0">
+            <VBox alignment="TOP_CENTER" layoutY="126.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="696.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="126.0">
                <children>
-                  <AnchorPane prefHeight="237.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
+                  <AnchorPane prefHeight="277.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
                      <children>
                         <fx:include fx:id="commandArea" source="../Commands/commands.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                   </AnchorPane>
-                  <AnchorPane maxHeight="1.0E16" maxWidth="1.0E17" prefHeight="403.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
+                  <AnchorPane maxHeight="1.0E16" maxWidth="1.0E17" prefHeight="413.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
                      <children>
                         <fx:include fx:id="rangeArea" source="../RangeArea/RangeArea.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
@@ -50,7 +53,7 @@
                   <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
                </children>
             </HBox>
-            <ScrollPane layoutX="284.0" layoutY="202.0" pannable="true" prefHeight="542.0" prefWidth="995.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="284.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0">
+            <ScrollPane id="sheetarea" layoutX="284.0" layoutY="202.0" pannable="true" prefHeight="542.0" prefWidth="995.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="284.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0">
                <content>
                   <GridPane id="sheet" fx:id="sheet" alignment="TOP_CENTER" maxHeight="1.0E8" maxWidth="10000.0" prefHeight="436.0" prefWidth="985.0">
                     <columnConstraints>

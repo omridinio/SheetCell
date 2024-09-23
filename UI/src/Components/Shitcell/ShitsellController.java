@@ -3,6 +3,7 @@ package Components.Shitcell;
 import Components.ActionLine.ActionLineController;
 import Components.Commands.CommandsController;
 import Components.Error.ErrorController;
+import Components.LoadFile.LoadFileController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
 import Properties.CellUI;
@@ -22,6 +23,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -29,8 +32,13 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 import Components.Cell.CellContoller;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import Properties.TaskLoadFile;
+
 
 public class ShitsellController {
 
@@ -76,6 +84,7 @@ public class ShitsellController {
 
 
 
+
     //my dataMember
     private CellUI currCell;
     private BooleanProperty isReadOnlyMode = new SimpleBooleanProperty(false);
@@ -96,6 +105,7 @@ public class ShitsellController {
     private String lastDynmicCell = "";
     private int countDynmicAnlyze = 0;
     private List<Coordinate> daynmicCells = new ArrayList<>();
+    private File file;
 
 
 
@@ -153,9 +163,19 @@ public class ShitsellController {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open XML File");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            File file = fileChooser.showOpenDialog(null);
+            file = fileChooser.showOpenDialog(null);
+            openLoadFile();
             logic.creatNewSheet(file.getAbsolutePath());
             restSheet();
+
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadFilePart2() throws IOException {
+        try {
             isLoaded.setValue(true);
             int row = logic.getSheet().getRowCount();
             int col = logic.getSheet().getColumnCount();
@@ -168,8 +188,34 @@ public class ShitsellController {
             actionLine.setDisable(false);
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+
+    private void openLoadFile() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/LoadFile/LoadFile.fxml"));
+        Parent newWindowRoot = loader.load();
+        LoadFileController loadFileController = loader.getController();
+        loadFileController.setShitsellController(this);
+        Scene newScene = new Scene(newWindowRoot);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("load file progress");
+        newWindow.setScene(newScene);
+        newWindow.initModality(Modality.APPLICATION_MODAL); // This makes the window modal
+        newWindow.initModality(Modality.APPLICATION_MODAL);
+        newWindow.show();
+        TaskLoadFile taskLoadFile = new TaskLoadFile();
+        loadFileController.bindProperty(taskLoadFile);
+        new Thread(taskLoadFile).start();
+        taskLoadFile.setOnSucceeded(workerStateEvent -> {
+            newWindow.close(); // Close the window when the task completes
+            try {
+                loadFilePart2();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @FXML
@@ -311,7 +357,16 @@ public class ShitsellController {
         actionLine.setDisable(true);
         rangeAreaController.rest();
         actionLineController.rest();
-
+        isReadOnlyMode.setValue(false);
+        isdeleteRangeMode.setValue(false);
+        isDynmicMode.setValue(false);
+        lastDynmicCell = "";
+        countDynmicAnlyze = 0;
+        daynmicCells.clear();
+        numberRowCell.clear();
+        numberColCell.clear();
+        readOnlyCoord.clear();
+        cellChoosed.clear();
     }
 
     public void titleClicked(CellContoller cellContoller) {

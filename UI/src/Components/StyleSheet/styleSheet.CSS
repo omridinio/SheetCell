@@ -1,4 +1,61 @@
+/* General button style with an extremely light color palette */
 .button {
+    -fx-background-color: #F5FFFA; /* Very light cyan gradient */
+    -fx-text-fill: #000000; /* Black text for contrast */
+    -fx-background-radius: 5; /* Circular shape */
+    -fx-padding: 8; /* Padding for a better look */
+    -fx-font-size: 12px; /* Font size */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 2); /* Subtle shadow */
+    -fx-cursor: hand; /* Hand cursor */
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    -fx-background-color: #F0F8FF; /* Slightly darker gradient on hover */
+}
+
+/* ComboBox style */
+.combo-box {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: transparent; /* No border */
+    -fx-border-radius: 5; /* Rounded corners */
+    -fx-padding: 3; /* Smaller padding */
+    -fx-font-size: 11px; /* Smaller font size */
+}
+
+/* Hover effect for ComboBox */
+.combo-box:hover {
+    -fx-background-color: #F5F5F5; /* Very light gray on hover */
+}
+
+/* ColorPicker style */
+.color-picker {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: transparent; /* No border */
+    -fx-border-radius: 5; /* Rounded corners */
+    -fx-padding: 3; /* Smaller padding */
+}
+
+/* Hover effect for ColorPicker */
+.color-picker:hover {
+    -fx-background-color: #F5F5F5; /* Very light gray on hover */
+}
+
+
+
+#styleSheet {
 
 }
+
+.vbox {
+    -fx-spacing: 10; /* Vertical spacing */
+    -fx-alignment: center;
+}
+
+/* General style for the AnchorPane */
+.anchor-pane {
+    -fx-background-color: #F0FFF0; /* White background */
+    -fx-padding: 20; /* Padding around content */
+}
+
 

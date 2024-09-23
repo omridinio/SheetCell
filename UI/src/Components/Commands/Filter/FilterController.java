@@ -65,7 +65,7 @@ public class FilterController implements Commands {
     @FXML
     void addLevelClicked(ActionEvent event) throws IOException {
         filterColumsControllers.get(filterColumsControllers.size() - 1).turnOf();
-       checkRangeController.addColSelected(filterColumsControllers.get(filterColumsControllers.size() - 1).getColumsValue());
+        checkRangeController.addColSelected(filterColumsControllers.get(filterColumsControllers.size() - 1).getColumsValue());
         createNewFilterColumsController();
         addLevelButtom.setDisable(true);
         OK.setDisable(true);
@@ -101,17 +101,19 @@ public class FilterController implements Commands {
     }
 
     @Override
-    public void VClicked() throws IOException {
+    public boolean VClicked() throws IOException {
         if(checkRangeController.isRangeValid()) {
             try {
                 colsRange = commandsController.Vclicked(checkRangeController.getTheRange().getText().toUpperCase());
                 createNewFilterColumsController();
+                return true;
             } catch (Exception e) {
                 ErrorController.showError(e.getMessage());
                 e.printStackTrace();
             }
         }
-        checkRangeController.getErrorMessege().setVisible(!checkRangeController.isRangeValid());
+
+        return false;
     }
 
     @Override

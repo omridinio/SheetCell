@@ -6,6 +6,6 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 
 public interface Commands {
-    void VClicked() throws IOException, ClassNotFoundException;
+    boolean VClicked() throws IOException, ClassNotFoundException;
     void XClicked();
 }

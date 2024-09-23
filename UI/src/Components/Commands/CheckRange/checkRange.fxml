@@ -8,17 +8,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="151.0" prefWidth="317.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.CheckRange.CheckRangeController">
+<AnchorPane prefHeight="151.0" prefWidth="317.0" stylesheets="@checkRange.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.CheckRange.CheckRangeController">
    <children>
       <VBox prefHeight="318.0" prefWidth="437.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="63.0" prefWidth="296.0" spacing="10.0">
                <children>
-                  <Label text="Range: " />
+                  <Label prefHeight="19.0" prefWidth="50.0" text="Range: " />
                   <TextField fx:id="theRange" prefHeight="25.0" prefWidth="123.0" />
-                  <Button id="V" fx:id="vButton" mnemonicParsing="false" onAction="#VClicked" prefHeight="19.0" prefWidth="35.0" text="V" />
-                  <Button id="X" mnemonicParsing="false" onAction="#XClicked" prefHeight="19.0" prefWidth="35.0" text="X" fx:id="xButton" />
+                  <Button id="vButton" fx:id="vButton" mnemonicParsing="false" onAction="#VClicked" prefHeight="19.0" prefWidth="35.0" text="V" />
+                  <Button id="xButton" mnemonicParsing="false" onAction="#XClicked" prefHeight="19.0" prefWidth="35.0" text="X" fx:id="xButton" />
                </children>
                <padding>
                   <Insets left="15.0" top="15.0" />

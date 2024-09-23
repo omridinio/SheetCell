@@ -7,23 +7,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="410.0" prefWidth="296.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.SetCommand.SetCommandController">
+<AnchorPane prefHeight="451.0" prefWidth="335.0" stylesheets="@sort.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.SetCommand.SetCommandController">
    <children>
-      <VBox layoutX="6.0" layoutY="2.0" prefHeight="369.0" prefWidth="271.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="20.0" layoutY="20.0" prefHeight="369.0" prefWidth="374.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <fx:include fx:id="checkRange" source="../CheckRange/checkRange.fxml" />
-            <VBox>
+            <VBox prefHeight="260.0" prefWidth="361.0">
                <children>
-                  <VBox prefHeight="44.0" prefWidth="296.0" spacing="10.0">
+                  <VBox prefHeight="76.0" prefWidth="256.0" spacing="10.0">
                      <children>
-                        <Button fx:id="addLevelButtom" mnemonicParsing="false" onAction="#addLevelClicked" text="Add another sort column" />
-                        <Button fx:id="deleteLevel" mnemonicParsing="false" onAction="#deleteLevelClicked" prefHeight="25.0" prefWidth="150.0" text="Delete last sort column" />
+                        <Button fx:id="addLevelButtom" mnemonicParsing="false" onAction="#addLevelClicked" prefHeight="28.0" prefWidth="144.0" text="Add another sort column" />
+                        <Button fx:id="deleteLevel" mnemonicParsing="false" onAction="#deleteLevelClicked" prefHeight="28.0" prefWidth="145.0" text="Delete last sort column" />
                      </children>
                      <padding>
                         <Insets left="10.0" top="10.0" />
                      </padding>
                   </VBox>
-                  <FlowPane fx:id="colsChoose" hgap="15.0" prefHeight="200.0" prefWidth="200.0" vgap="15.0">
+                  <FlowPane fx:id="colsChoose" hgap="15.0" prefHeight="126.0" prefWidth="311.0" vgap="15.0">
                      <padding>
                         <Insets top="15.0" />
                      </padding></FlowPane>
@@ -31,7 +31,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="60.0" prefWidth="274.0">
                <children>
-                  <Button fx:id="OK" mnemonicParsing="false" onAction="#okClicked" prefHeight="25.0" prefWidth="59.0" text="OK" />
+                  <Button fx:id="OK" mnemonicParsing="false" onAction="#okClicked" prefHeight="28.0" prefWidth="49.0" text="OK" />
                </children>
                <opaqueInsets>
                   <Insets />

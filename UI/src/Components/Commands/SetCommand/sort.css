@@ -1,0 +1,65 @@
+
+
+/* VBox (Main Container) */
+VBox {
+    -fx-background-color: #fcf7fc; /* Very light gray background */
+    -fx-padding: 10px; /* Padding around the section */
+    -fx-spacing: 8px; /* Reduced space between components */
+}
+
+/* Button General Styling */
+Button {
+    -fx-background-color: #E0E0E0; /* Light gray background */
+    -fx-text-fill: #333333; /* Dark gray text */
+    -fx-font-size: 11px; /* Smaller font for a compact look */
+    -fx-font-weight: bold; /* Bold text for visibility */
+    -fx-background-radius: 3px; /* Subtle rounding for modern design */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-pref-height: 25px; /* Smaller height for the button */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-padding: 5px; /* Padding inside the button */
+    -fx-alignment: CENTER; /* Center-align the button text */
+    -fx-transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-background-color: #D3D3D3; /* Slightly darker gray on hover */
+    -fx-border-color: #A0A0A0; /* Darker border on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow on hover */
+}
+
+/* OK Button (Now Styled Like Other Buttons) */
+#OK {
+    -fx-background-color: #E0E0E0; /* Regular light gray background */
+    -fx-text-fill: #333333; /* Dark gray text */
+    -fx-border-color: #B0BEC5; /* Same border style */
+    -fx-pref-width: 80px; /* Adjusted width for OK button */
+}
+
+/* ChoiceBox Styling */
+ChoiceBox {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #B0BEC5; /* Light gray border for consistency */
+    -fx-border-radius: 3px; /* Subtle rounding */
+    -fx-padding: 5px; /* Padding for inside the choice box */
+    -fx-font-size: 13px; /* Small, modern font */
+    -fx-text-fill: #333333; /* Dark gray text for readability */
+    -fx-pref-width: 50px; /* Consistent width for choice box */
+    -fx-alignment: CENTER; /* Align content to the center */
+}
+
+/* FlowPane Styling */
+FlowPane {
+    -fx-hgap: 10px; /* Horizontal gap between elements */
+    -fx-vgap: 10px; /* Vertical gap between elements */
+    -fx-padding: 10px; /* Padding around the FlowPane */
+}
+
+/* HBox Styling (Alignment for OK Button) */
+HBox {
+    -fx-alignment: TOP_RIGHT; /* Align OK button to the top-right */
+    -fx-spacing: 8px; /* Reduced space around the button */
+    -fx-padding: 10px; /* Padding for consistent spacing */
+}

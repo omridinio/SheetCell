@@ -1,0 +1,68 @@
+/*!* General button style with a light color palette *!*/
+/*.button {*/
+/*    -fx-background-color: #F5FFFA; !* Light cyan gradient *!*/
+/*    -fx-text-fill: #000000; !* Black text for contrast *!*/
+/*    -fx-background-radius: 3; !* Rounded corners *!*/
+/*    -fx-padding: 10; !* Padding for a better look *!*/
+/*    -fx-font-size: 12px; !* Font size *!*/
+/*    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 6, 0, 0, 3); !* Subtle shadow *!*/
+/*    -fx-cursor: hand; !* Hand cursor *!*/
+/*}*/
+
+/*!* Hover effect for buttons *!*/
+/*.button:hover {*/
+/*    -fx-background-color: #F0FFFF; !* Slightly darker gradient on hover *!*/
+/*}*/
+
+/* VBox Container Styling */
+/* VBox Container Styling */
+/* VBox Container Styling */
+/* VBox Container Styling */
+/* VBox Container Styling */
+/* VBox Container Styling */
+/* VBox Container Styling */
+/* General VBox and HBox Styling */
+/* General VBox and HBox Styling */
+/* VBox Container Styling */
+VBox {
+
+}
+
+/* Button General Styling */
+Button {
+    -fx-background-color: rgba(122, 161, 228, 0.29); /* Dark blue-grey for button background */
+    -fx-text-fill: #2C3E50; /* White text for contrast */
+    -fx-font-size: 11px; /* Smaller font for compact look */
+    -fx-font-weight: bold; /* Bold text for readability */
+    -fx-background-radius: 5px; /* Slightly rounded corners */
+    -fx-pref-height: 90px; /* Reduced height for buttons */
+    -fx-pref-width: 90px; /* Set consistent width */
+    -fx-wrap-text: true; /* Wrap text for long button labels */
+    -fx-text-alignment: CENTER; /* Center-align the text */
+    -fx-alignment: CENTER; /* Center the content in the button */
+    -fx-cursor: hand;
+}
+
+/* Hover Effect */
+Button:hover {
+    -fx-background-color: rgba(122, 161, 228, 0.6);; /* Darker blue-grey on hover */
+    -fx-text-fill: white; /* Switch to white text on hover for contrast */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0.5, 0, 1); /* Add a subtle shadow on hover */
+    -fx-scale-x: 1.03; /* Slightly enlarge the button on hover */
+    -fx-scale-y: 1.03; /* Slightly enlarge the button on hover */
+}
+
+/* Disabled Button Styling */
+Button:disabled {
+    -fx-background-color: #BDC3C7; /* Light gray for disabled buttons */
+    -fx-text-fill: #7F8C8D; /* Gray text for disabled state */
+}
+
+/* Button Specific Styling (Optional) */
+#dynmicAnlyzeForCell, #dynmicSheetClicked {
+    -fx-font-size: 10px; /* Slightly smaller font for longer labels */
+}
+
+#customFormula, #createGraphClicked {
+    -fx-font-size: 10px; /* Keep consistent sizing for smaller text */
+}

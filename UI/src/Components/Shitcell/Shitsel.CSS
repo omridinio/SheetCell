@@ -1,30 +1,89 @@
 /* Minimalist and refined style for the Load File button */
+/*#LoadFileButton {*/
+/*    -fx-background-color: #4CAF50; !* Solid green background *!*/
+/*    -fx-text-fill: white; !* White text *!*/
+/*    -fx-font-size: 12px; !* Font size *!*/
+/*    -fx-font-weight: bold; !* Bold text *!*/
+/*    -fx-background-radius: 8; !* Rounded corners *!*/
+/*    -fx-border-radius: 8; !* Rounded corners *!*/
+/*    -fx-padding: 5 10; !* Padding *!*/
+/*    -fx-border-color: transparent; !* Transparent border for a clean look *!*/
+/*    -fx-border-width: 2; !* Border width *!*/
+/*    -fx-cursor: hand; !* Hand cursor on hover *!*/
+/*    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 3, 0.5, 0, 2); !* Subtle shadow effect *!*/
+/*    -fx-transition: all 0.2s ease; !* Smooth transition for hover and pressed states *!*/
+/*}*/
+
+/*#LoadFileButton:hover {*/
+/*    -fx-background-color: #45A049; !* Slightly lighter green on hover *!*/
+/*}*/
+
+/*#LoadFileButton:pressed {*/
+/*    -fx-background-color: #388E3C; !* Darker green when pressed *!*/
+/*}*/
+
+/*#HboxUp1{*/
+/*    -fx-background-color: #d2e5f6;*/
+/*}*/
+
+/* HBox Container Styling */
+/* HBox Container Styling */
+/* HBox Container Styling */
+#HboxUp1 {
+    -fx-background-color: #F7F9F9; /* Very light gray background */
+    -fx-padding: 5px; /* Smaller padding */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Rounded corners reduced */
+    -fx-background-radius: 3px; /* Consistent background radius */
+    -fx-spacing: 8px; /* Less space between components */
+}
+
+/* Load File Button Styling */
 #LoadFileButton {
-    -fx-background-color: #4CAF50; /* Solid green background */
-    -fx-text-fill: white; /* White text */
-    -fx-font-size: 12px; /* Font size */
-    -fx-font-weight: bold; /* Bold text */
-    -fx-background-radius: 8; /* Rounded corners */
-    -fx-border-radius: 8; /* Rounded corners */
-    -fx-padding: 5 10; /* Padding */
-    -fx-border-color: transparent; /* Transparent border for a clean look */
-    -fx-border-width: 2; /* Border width */
-    -fx-cursor: hand; /* Hand cursor on hover */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 3, 0.5, 0, 2); /* Subtle shadow effect */
-    -fx-transition: all 0.2s ease; /* Smooth transition for hover and pressed states */
+    -fx-background-color: #34495E; /* Dark blue-grey for primary action */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-font-size: 11px; /* Smaller font size */
+    -fx-font-weight: bold; /* Bold text for visibility */
+    -fx-pref-height: 28px; /* Smaller button height */
+    -fx-pref-width: 100px; /* Smaller button width */
 }
 
 #LoadFileButton:hover {
-    -fx-background-color: #45A049; /* Slightly lighter green on hover */
+    -fx-background-color: #2C3E50; /* Slightly darker on hover */
 }
 
-#LoadFileButton:pressed {
-    -fx-background-color: #388E3C; /* Darker green when pressed */
+/* TextField Styling for File Path */
+#filePath {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Rounded corners */
+    -fx-padding: 4px; /* Smaller padding for text fields */
+    -fx-font-size: 11px; /* Smaller font size */
+    -fx-alignment: CENTER_LEFT; /* Align text to the left */
+    -fx-pref-height: 24px; /* Smaller text field height */
+    -fx-pref-width: 850px; /* Adjust width for compact design */
 }
 
-#HboxUp1{
-    -fx-background-color: #d2e5f6;
+/* General TextField Styling (if applicable to other TextFields) */
+TextField {
+    -fx-background-color: #FFFFFF; /* Clean white background */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Rounded corners */
+    -fx-padding: 4px; /* Smaller padding */
+    -fx-font-size: 11px; /* Smaller font size */
+    -fx-pref-height: 24px; /* Smaller height */
 }
+
+/* General ComboBox Styling */
+ComboBox {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Rounded corners */
+    -fx-font-size: 11px; /* Smaller font size */
+    -fx-pref-height: 24px; /* Smaller height */
+}
+
 
 /* Style for the SplitPane divider */
 .split-pane .split-pane-divider {
@@ -72,3 +131,4 @@
     -fx-min-height: 0; /* Prevent it from occupying space */
     -fx-pref-height: 0;
 }
+

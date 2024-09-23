@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<Accordion maxHeight="1000000.0" maxWidth="1000000.0" prefHeight="823.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Expression.Filed.FiledController">
+<Accordion maxHeight="1000000.0" maxWidth="1000000.0" prefHeight="633.0" prefWidth="646.0" stylesheets="@../expression.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Expression.Filed.FiledController">
   <panes>
     <TitledPane fx:id="title1" animated="false" text="untitled 1">
          <content>

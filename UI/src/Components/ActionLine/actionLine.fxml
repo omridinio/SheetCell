@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <HBox id="HboxUp2" alignment="CENTER_LEFT" prefHeight="64.0" prefWidth="1142.0" spacing="15.0" stylesheets="@actionLine.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.ActionLine.ActionLineController">
    <children>
       <VBox alignment="CENTER" spacing="3.0">

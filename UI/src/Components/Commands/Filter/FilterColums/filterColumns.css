@@ -1,0 +1,65 @@
+/* AnchorPane Background and Border */
+AnchorPane {
+    -fx-background-color: #F7F9FC; /* Slightly lighter background color for a more premium feel */
+    -fx-border-color: #F7F9FC; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-padding: 10px; /* Padding around the content */
+}
+
+/* VBox (Container for ChoiceBox and Button) */
+VBox {
+    -fx-padding: 8px; /* Smaller padding around the VBox */
+    -fx-spacing: 8px; /* Reduced space between ChoiceBox and Button */
+    -fx-alignment: CENTER; /* Center the elements inside VBox */
+}
+
+/* ChoiceBox Styling */
+ChoiceBox {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #A0A0A0; /* Softer gray border for premium look */
+    -fx-border-radius: 3px; /* Slight rounding of the corners */
+    -fx-padding: 4px; /* Padding for inside the choice box */
+    -fx-font-size: 11px; /* Slightly smaller modern font */
+    -fx-text-fill: #333333; /* Dark gray text for readability */
+    -fx-pref-height: 22px; /* Smaller fixed height for the choice box */
+    -fx-pref-width: 50px; /* Smaller fixed width */
+    -fx-alignment: CENTER; /* Align the selected text to the center */
+}
+
+/* Button Styling (Luxury Feel) */
+Button {
+    -fx-background-color: linear-gradient(to bottom, #F0F0F0, #D9D9D9); /* Subtle gradient for a luxurious feel */
+    -fx-text-fill: #2C3E50; /* Dark blue-gray text for a premium look */
+    -fx-font-size: 11px; /* Smaller, cleaner font size */
+    -fx-font-weight: bold; /* Bold text for emphasis */
+    -fx-background-radius: 5px; /* Slightly rounded corners */
+    -fx-border-color: #B0BEC5; /* Soft border to match the light luxury feel */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-pref-height: 23px; /* Reduced height for the button */
+    -fx-pref-width: 70px; /* Smaller width for the button */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-padding: 4px; /* Smaller padding inside the button */
+    -fx-alignment: CENTER; /* Center the text inside the button */
+    -fx-transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+/* Button Hover Effect (Luxury Hover) */
+Button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ECEFF1, #CFD8DC); /* Slightly lighter gradient on hover */
+    -fx-border-color: #A0B0B9; /* Softer border on hover for luxury effect */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0.5, 0, 1); /* Soft shadow on hover */
+}
+
+/* Dropdown (Popup Menu) Styling for ChoiceBox */
+.choice-box-popup {
+    -fx-background-color: #F4F6F8; /* Light background for dropdown */
+    -fx-border-color: #A0A0A0; /* Softer gray border for premium look */
+    -fx-border-radius: 3px; /* Rounded corners for dropdown */
+}
+
+/* ScrollBar Styling for Dropdown */
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for the thumb */
+}

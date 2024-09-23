@@ -1,0 +1,97 @@
+/* AnchorPane Background */
+AnchorPane {
+    -fx-background-color: #F4F6F8; /* Light background for clean look */
+    -fx-padding: 8px; /* Reduced padding for compactness */
+    -fx-border-color: #D1D9E0; /* Light gray border */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px; /* Rounded corners */
+}
+
+/* VBox (Main Container) */
+VBox {
+    -fx-spacing: 15px; /* Reduced space between sections */
+    -fx-padding: 8px; /* Reduced padding inside the VBox */
+}
+
+/* HBox (Container for Graph Type) */
+HBox {
+    -fx-spacing: 8px; /* Reduced space between label and choice box */
+    -fx-alignment: CENTER_LEFT; /* Align content to the left */
+}
+
+/* Graph Type Label */
+Label {
+    -fx-font-size: 12px; /* Smaller font size for compact look */
+    -fx-text-fill: #333333; /* Dark gray text */
+}
+
+/* ChoiceBox Styling */
+ChoiceBox {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 3px; /* Rounded corners */
+    -fx-font-size: 11px; /* Smaller, clean font size */
+    /* Reduced width for compactness */
+}
+
+/* VBox for X and Y Axis Sections */
+VBox {
+    -fx-spacing: 4px; /* Reduced space between labels and fields */
+}
+
+/* X and Y Axis Label Styling */
+Label {
+    -fx-font-size: 12px; /* Smaller, consistent font size */
+    -fx-text-fill: #333333; /* Dark gray text */
+    -fx-font-weight: bold; /* Bold text for axis labels */
+}
+
+/* TextField Styling */
+TextField {
+    -fx-background-color: #FFFFFF; /* White background */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 3px; /* Slight rounding */
+    -fx-padding: 4px; /* Reduced padding inside the text field */
+    -fx-font-size: 11px; /* Smaller, clean font size */
+    -fx-text-fill: #333333; /* Dark gray text */
+    -fx-pref-height: 22px; /* Reduced height for text fields */
+     /* Reduced width for text fields */
+}
+
+/* Redesigned Button (OK Button) Styling */
+Button {
+    -fx-background-color: #B0BEC5; /* Light gray background for OK button */
+    -fx-text-fill: #2C3E50; /* Dark blue-gray text for contrast */
+    -fx-font-size: 11px; /* Smaller font size for compact design */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-background-radius: 3px; /* Rounded corners */
+    -fx-border-color: #90A4AE; /* Softer gray border for subtle effect */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-pref-height: 24px; /* Reduced height for the button */
+    -fx-pref-width: 50px; /* Compact width for the OK button */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-padding: 3px; /* Reduced padding inside the button */
+    -fx-alignment: CENTER; /* Center the button text */
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-background-color: #CFD8DC; /* Slightly lighter gray on hover */
+    -fx-border-color: #B0BEC5; /* Softer border color on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 2, 0.5, 0, 1); /* Soft shadow on hover */
+}
+
+/* Error Message Styling */
+#errorMessege {
+    -fx-background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+    -fx-border-color: #E57373; /* Soft red border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-padding: 8px; /* Padding inside the error message */
+}
+
+/* ScrollBar Styling */
+.scroll-bar .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for scroll thumb */
+}

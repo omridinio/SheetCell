@@ -1,0 +1,87 @@
+/* VBox (Container for Range and Buttons) */
+VBox {
+    -fx-padding: 5px;
+    -fx-spacing: 5px; /* Space between components */
+}
+
+/* HBox (Alignment for Label, TextField, and Buttons) */
+HBox {
+    -fx-spacing: 8px; /* Reduced space between elements in the same row */
+    -fx-alignment: CENTER_LEFT; /* Align everything to the left and vertically center */
+}
+
+/* Label Styling (Range Label) */
+Label {
+    -fx-text-fill: #2C3E50; /* Dark gray for the label */
+    -fx-font-size: 12px; /* Smaller font size */
+    -fx-font-weight: bold; /* Bold to make it clear and readable */
+    -fx-padding: 0 5px 0 0; /* Padding on the right to ensure space between the label and the text field */
+}
+
+/* TextField Styling */
+TextField {
+    -fx-background-color: #FFFFFF; /* White background for the text field */
+    -fx-border-color: #B0BEC5; /* Light gray border for text field */
+    -fx-border-radius: 3px; /* Subtle rounding for text field */
+    -fx-padding: 5px; /* Padding inside the text field */
+    -fx-font-size: 11px; /* Smaller font for a compact look */
+    -fx-text-fill: #333333; /* Dark gray text for readability */
+    -fx-pref-width: 120px; /* Smaller fixed width for the text field */
+    -fx-pref-height: 25px; /* Smaller height for the text field */
+    -fx-alignment: CENTER_LEFT; /* Align text to the left */
+}
+
+/* Button Styling */
+Button {
+    -fx-font-size: 12px; /* Slightly smaller font size for buttons */
+    -fx-font-weight: bold; /* Bold text for readability */
+    -fx-pref-height: 30px; /* Reduced button height */
+    -fx-pref-width: 30px; /* Reduced button width */
+    -fx-border-radius: 3px; /* Slight rounding for buttons */
+    -fx-alignment: CENTER; /* Center-align the content */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+/* V Button (Green for Confirm) */
+#vButton {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-text-fill: white; /* White text */
+    -fx-border-color: #388E3C; /* Slightly darker border */
+}
+
+/* Hover Effect for V Button */
+#vButton:hover {
+    -fx-background-color: #45A049; /* Lighter green on hover */
+    -fx-border-color: #2E7D32; /* Darker border on hover */
+}
+
+/* X Button (Red for Cancel) */
+#xButton {
+    -fx-background-color: #F44336; /* Red background */
+    -fx-text-fill: white; /* White text */
+    -fx-border-color: #D32F2F; /* Slightly darker border */
+}
+
+/* Hover Effect for X Button */
+#xButton:hover {
+    -fx-background-color: #E53935; /* Lighter red on hover */
+    -fx-border-color: #C62828; /* Darker border on hover */
+}
+
+/* Error Message Styling */
+#errorMessege {
+    -fx-background-color: rgba(255, 0, 0, 0.1); /* Light red background for error */
+    -fx-border-color: #E57373; /* Soft red border */
+    -fx-border-width: 1px; /* Thin border around the error message */
+    -fx-border-radius: 5px; /* Rounded corners for the error box */
+    -fx-padding: 10px; /* Padding inside the error message container */
+    -fx-spacing: 5px; /* Spacing between the error message lines */
+    -fx-font-size: 11px; /* Smaller font for compact error message */
+}
+
+/* Label Inside Error Message */
+#errorMessege Label {
+    -fx-text-fill: #C62828; /* Darker red text for error message */
+    -fx-font-size: 11px; /* Small, clear font */
+    -fx-font-weight: bold; /* Bold text for emphasis */
+}

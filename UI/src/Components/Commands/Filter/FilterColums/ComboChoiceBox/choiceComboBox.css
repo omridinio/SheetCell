@@ -1,0 +1,75 @@
+/* AnchorPane Background and Border */
+AnchorPane {
+    -fx-background-color: #F4F6F8; /* Light background */
+    -fx-border-color: #D1D9E0; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-padding: 10px; /* Padding around the content */
+}
+
+/* ScrollPane Styling */
+ScrollPane {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: transparent; /* No visible border */
+    -fx-padding: 5px; /* Padding inside the ScrollPane */
+}
+
+/* VBox (Container for Items) */
+VBox {
+    -fx-padding: 10px; /* Padding inside the VBox */
+    -fx-spacing: 8px; /* Spacing between checkboxes and search box */
+}
+
+/* TextField (Search Box) Styling */
+TextField {
+    -fx-background-color: #FFFFFF; /* White background for text field */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 3px; /* Subtle rounded corners */
+    -fx-padding: 5px; /* Padding inside the text field */
+    -fx-font-size: 12px; /* Clean, readable font size */
+    -fx-text-fill: #333333; /* Dark gray text for readability */
+    -fx-pref-height: 25px; /* Fixed height for the search box */
+    -fx-pref-width: 120px; /* Consistent width for the search box */
+}
+
+/* CheckBox Styling */
+CheckBox {
+    -fx-text-fill: #2C3E50; /* Dark gray text */
+    -fx-font-size: 12px; /* Clean and readable font size */
+    -fx-font-weight: 500; /* Medium weight */
+    -fx-padding: 5px; /* Padding around the checkbox */
+}
+
+/* Hover Effect for CheckBox */
+CheckBox:hover {
+    -fx-background-color: #E8EAF6; /* Light blue background on hover */
+    -fx-border-color: #B0BEC5; /* Subtle border when hovered */
+}
+
+/* ScrollBar Styling */
+ScrollBar {
+    -fx-background-color: transparent; /* Transparent background */
+}
+
+/* Vertical ScrollBar Thumb Styling */
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray for vertical scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for thumb */
+}
+
+/* Horizontal ScrollBar Thumb Styling */
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray for horizontal scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for thumb */
+}
+
+/* ScrollBar Track Styling (Track is the background of the scroll bar) */
+.scroll-bar .track {
+    -fx-background-color: transparent; /* Transparent track to avoid visual clutter */
+}
+
+/* ScrollBar Increment/Decrement Button Styling */
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent; /* Transparent buttons to blend in */
+    -fx-padding: 2px; /* Small padding for a clean look */
+}

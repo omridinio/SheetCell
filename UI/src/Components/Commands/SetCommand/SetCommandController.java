@@ -69,7 +69,7 @@ public class SetCommandController implements Commands {
 
 
     @Override
-    public void VClicked() throws IOException, ClassNotFoundException {
+    public boolean VClicked() throws IOException, ClassNotFoundException {
 //        if(isRangeValid()){
 //            try {
 //                checkRangeController.getErrorMessege().setVisible(false);
@@ -97,17 +97,17 @@ public class SetCommandController implements Commands {
             try {
                 List<Integer> colsRange = commandsController.Vclicked(checkRangeController.getTheRange().getText().toUpperCase());
                 ChoiceBox<Character> firstChoiceBox = checkRangeController.createFirstChoiceBox(colsRange);
-
                 if (!firstChoiceBox.getItems().isEmpty()) {
                     colsChoose.getChildren().add(firstChoiceBox);
                     checkRangeController.initPart2(this.OK, this.addLevelButtom);
                 }
+                return true;
             } catch (Exception e) {
                 ErrorController.showError(e.getMessage());
                 e.printStackTrace();
             }
         }
-        checkRangeController.getErrorMessege().setVisible(!checkRangeController.isRangeValid());
+        return false;
     }
 
     @Override
