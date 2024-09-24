@@ -483,7 +483,7 @@ public class CellContoller implements Serializable {
 
     public void restCell() {
         cell.setText("");
-        fontType = "Ariel";
+        fontType = Font.getFamilies().get(3);;
         fontColor = "000000";
         sizeFont = 12;
         backgroundColor = "fffefe";
@@ -494,7 +494,7 @@ public class CellContoller implements Serializable {
     }
 
     public void restCellArtitube(){
-        fontType = "Ariel";
+        fontType = Font.getFamilies().get(3);;
         fontColor = "000000";
         sizeFont = 12;
         backgroundColor = "fffefe";

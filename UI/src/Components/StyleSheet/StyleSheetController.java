@@ -29,6 +29,12 @@ public class StyleSheetController {
     private ComboBox<String> fontsType;
 
     @FXML
+    private Button restCell;
+
+    @FXML
+    private Button restSheet;
+
+    @FXML
     private AnchorPane styleSheet;
 
     ShitsellController sheetsetController;
@@ -61,6 +67,10 @@ public class StyleSheetController {
 
     public String getFontsType() {
         return fontsType.getValue();
+    }
+
+    public Button getRestCell() {
+        return restCell;
     }
 
     public void setShitsellController(ShitsellController shitsellController){
@@ -116,6 +126,16 @@ public class StyleSheetController {
     @FXML
     void topClicked(ActionEvent event) {
         sheetsetController.topClicked();
+    }
+
+    @FXML
+    void restCellClicked(ActionEvent event) {
+        sheetsetController.restCellClicked();
+    }
+
+    @FXML
+    void restSheetClicked(ActionEvent event) {
+        sheetsetController.restSheetClicked();
     }
 
 

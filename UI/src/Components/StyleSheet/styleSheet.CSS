@@ -65,3 +65,8 @@ ColorPicker:hover {
     -fx-background-color: #CFD8DC; /* Light hover effect for all buttons */
     -fx-border-color: #90A4AE; /* Darker border on hover */
 }
+
+.rest {
+    -fx-pref-height: 50px; /* Reduced button height */
+    -fx-pref-width: 50px; /* Reduced button width */
+}

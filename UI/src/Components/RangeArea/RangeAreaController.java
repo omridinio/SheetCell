@@ -53,6 +53,8 @@ public class RangeAreaController {
 
     private List<RangeController> selcetedDelete = new ArrayList<>();
 
+    private RangeController rangeToDelete = null;
+
     private int countRanges = 0;
 
     @FXML
@@ -80,11 +82,20 @@ public class RangeAreaController {
     @FXML
     void deleteSelctedRange(ActionEvent event) throws IOException {
         try {
-            for (RangeController range : selcetedDelete) {
-                shitsellController.deleteRange(range.getRangeId());
-                rangeArea.getChildren().remove(range.getIndex());
-                ranges.remove(range);
+//            for (RangeController range : selcetedDelete) {
+//                shitsellController.deleteRange(range.getRangeId());
+//                rangeArea.getChildren().remove(range.getIndex());
+//                ranges.remove(range);
+//            }
+            shitsellController.deleteRange(rangeToDelete.getRangeId());
+            rangeArea.getChildren().remove(rangeToDelete.getIndex());
+            ranges.remove(rangeToDelete.getRangeId());
+            for (RangeController range : ranges.values()) {
+                if(range.getIndex() > rangeToDelete.getIndex()) {
+                    range.setIndex(range.getIndex() - 1);
+                }
             }
+            rangeToDelete = null;
             for (RangeController range : ranges.values()) {
                 range.deleteModeOff();
             }
@@ -157,11 +168,16 @@ public class RangeAreaController {
     }
 
     public void deleteSelcted(RangeController rangeController) {
-        selcetedDelete.add(rangeController);
+        if(rangeToDelete != null) {
+            rangeToDelete.unSelect();
+        }
+        rangeToDelete = rangeController;
+        //selcetedDelete.add(rangeController);
     }
 
     public void deleteUnSelcted(RangeController rangeController) {
-        selcetedDelete.remove(rangeController);
+        rangeToDelete = null;
+        //selcetedDelete.remove(rangeController);
     }
 
     public Button getSumbitDelete() {

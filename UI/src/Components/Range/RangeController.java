@@ -41,6 +41,11 @@ public class RangeController {
         }
     }
 
+    public void unSelect() {
+        delete.setSelected(false);
+        labelCheckBox.getStyleClass().remove("selected");
+    }
+
     private BooleanProperty deleteMode = new SimpleBooleanProperty(false);
 
     public void initialize() {

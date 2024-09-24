@@ -678,6 +678,7 @@ public class ShitsellController {
     public void intitializeStyleSheet(StyleSheetController styleSheetController) {
         styleSheetController.getStyleSheet().visibleProperty().bind(isLoaded);
         styleSheetController.getStyleSheet().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode));
+        styleSheetController.getRestCell().disableProperty().bind(currCell.isClicked.not());
     }
 
     public void initializeCommands(CommandsController commandsController) {
@@ -874,6 +875,16 @@ public class ShitsellController {
 
     public void addExpression(String expressionUi) throws IOException {
         updateCell(expressionUi, currCell.cellid.getValue());
+    }
+
+    public void restCellClicked() {
+        currCell.cellContoller.restCellArtitube();
+    }
+
+    public void restSheetClicked() {
+        for (Coordinate coordinate : coordToController.keySet()) {
+            coordToController.get(coordinate).restCellArtitube();
+        }
     }
 }
 
