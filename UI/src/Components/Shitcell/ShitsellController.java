@@ -273,6 +273,8 @@ public class ShitsellController {
     private void createEmptySheet(int col, int row, int widthCell, int heightCell) throws IOException {
         sheet.getRowConstraints().clear();
         sheet.getColumnConstraints().clear();
+        sheet.setPrefHeight((row+1) * heightCell);
+        sheet.setPrefWidth((col+1) * widthCell);
         for(int i = 0; i <= row; i++){
             for(int j = 0; j <= col; j++){
                 //RowConstraints rowConstraints = new RowConstraints();
@@ -298,7 +300,7 @@ public class ShitsellController {
                     cell.getStyleClass().add("empty");
                     sheet.getRowConstraints().add(rowConstraints);
                     sheet.getColumnConstraints().add(columnConstraints);
-                    cellContoller.setBackgroundColor("737370");
+                    cellContoller.setBackgroundColor("E0E0E0");
                     //cellContoller.ableColSpearte();
                     //cellContoller.ableRowSpearte();
                 }
@@ -312,7 +314,7 @@ public class ShitsellController {
                     cell.getStyleClass().add("ABC");
                     cellContoller.ableColSpearte();
                     sheet.getColumnConstraints().add(columnConstraints);
-                    cellContoller.setBackgroundColor("737370");
+                    cellContoller.setBackgroundColor("E0E0E0");
                     numberColCell.add(cellContoller);
                 }
                 else if(j == 0){
@@ -326,7 +328,7 @@ public class ShitsellController {
                     cellContoller.ableRowSpearte();
                     //cellContoller.turnOnBotoomSperator();
                     sheet.getRowConstraints().add(rowConstraints);
-                    cellContoller.setBackgroundColor("737370");
+                    cellContoller.setBackgroundColor("E0E0E0");
                     numberRowCell.add(cellContoller);
                 }
                 else{

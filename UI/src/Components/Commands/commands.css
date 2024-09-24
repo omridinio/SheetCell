@@ -25,7 +25,7 @@
 /* General VBox and HBox Styling */
 /* VBox Container Styling */
 VBox {
-
+    -fx-background-color: #F7F9FC;
 }
 
 /* Button General Styling */

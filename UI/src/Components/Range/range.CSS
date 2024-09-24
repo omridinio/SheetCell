@@ -1,35 +1,36 @@
+/* Button Styling */
 .button {
-    -fx-background-color: #66CDAA; /* Green background */
-    //add a shadow and circle the button
-    -fx-background-radius: 8;
-    -fx-border-radius: 8;
-    -fx-border-width: 1;
-    -fx-padding: 15px 32px; /* Padding */
-    -fx-text-align: left; /* Center text */
+    -fx-background-color: #D1C4E9; /* Light lavender background */
+    -fx-background-radius: 8; /* Rounded corners */
+    -fx-border-radius: 8; /* Rounded border */
+    -fx-border-width: 1; /* Border width */
+    -fx-border-color: #B39DDB; /* Slightly darker lavender border */
+    -fx-padding: 10px 15px; /* Reduced padding to give more space for text */
+    -fx-text-align: center; /* Centered text alignment */
     -fx-text-decoration: none; /* No underline */
-    -fx-display: inline-block; /* Display as inline block */
-    -fx-font-size: 12px; /* Font size */
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
-
-
-
+    -fx-font-size: 10px; /* Font size */
+    -fx-text-fill: #4A148C; /* Dark purple text for contrast */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0); /* Shadow effect */
+    -fx-wrap-text: true; /* Enable text wrapping */
+    -fx-pref-width: 120px; /* Increase width to fit text */
 }
 
+/* Clicked Button State */
 .clicked {
-    -fx-background-color: rgba(7, 255, 12, 0.79); /* Green background */
+    -fx-background-color: rgba(179, 157, 219, 0.79); /* Dark lavender when clicked */
     -fx-border: none; /* No border */
     -fx-color: white; /* White text */
-    -fx-padding: 15px 32px; /* Padding */
-    -fx-text-align: left; /* Center text */
+    -fx-padding: 10px 15px; /* Same padding as default state */
+    -fx-text-align: center; /* Centered text alignment */
     -fx-text-decoration: none; /* No underline */
-    -fx-display: inline-block; /* Display as inline block */
-    -fx-font-size: 12px; /* Font size */
+    -fx-font-size: 10px; /* Same font size */
+    -fx-wrap-text: true; /* Enable text wrapping */
 }
 
 /* Style for circular CheckBox */
 #checkBox {
     -fx-background-color: #FFFFFF; /* White background */
-    -fx-border-color: #CCCCCC; /* Light gray border */
+    -fx-border-color: #B39DDB; /* Light purple border */
     -fx-border-width: 1; /* Border width */
     -fx-border-radius: 50; /* Rounded corners */
     -fx-background-radius: 50; /* Rounded corners */
@@ -37,5 +38,5 @@
 }
 
 #checkBox.selected {
-    -fx-background-color:#00FFFF; /* Light blue background when selected */
+    -fx-background-color: #9575CD; /* Medium purple when selected */
 }

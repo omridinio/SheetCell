@@ -1,53 +1,70 @@
- {
-    -fx-background-color: #353A56;
-    -fx-text-fill: white; /* White text */
-    -fx-font-size: 12px; /* Font size */
+/* AnchorPane Background */
+AnchorPane {
+    -fx-background-color: #ECEFF1; /* Light gray background for a softer look */
 }
 
-.button {
-    -fx-background-color: #748CF1;
-    -fx-font-size: 12px; /* Font size */
-    -fx-padding: 5 10; /* Padding inside the TextField */
-    -fx-background-radius: 10; /* Rounded corners */
-    -fx-border-radius: 10; /* Rounded corners for the border */
-    -fx-border-color: #CCCCCC; /* Light gray border */
-    -fx-border-width: 1; /* Border width */
-    -fx-text-fill: #fbfafa; /* Dark gray text color */
-    -fx-font-weight: bold;
-    -fx-pref-width: 60
-;
+/* VBox Styling */
+VBox {
+    -fx-spacing: 10px; /* Space between elements */
 }
 
-.button:hover {
-    -fx-background-color: #5E6DFF;
+/* HBox Styling */
+HBox {
+    -fx-spacing: 15px; /* Space between the Label and TextField */
 }
 
- .button:pressed {
-    -fx-background-color: #4F5BFF;
+/* Label Styling */
+Label {
+    -fx-text-fill: #455A64; /* Darker blue-gray text for contrast */
+    -fx-font-size: 12px; /* Consistent text size */
+    -fx-font-weight: bold; /* Bold text */
 }
 
- .label {
-    -fx-text-fill: #e7edf1; /* Dark gray text color */
-    -fx-font-size: 11px; /* Font size */
-    -fx-font-family: "Segoe UI", Arial, sans-serif; /* Font family */
-     -fx-font-weight: bold;
- }
+/* TextField Styling */
+TextField {
+    -fx-background-color: #CFD8DC; /* Light blue-gray text field background */
+    -fx-text-fill: #37474F; /* Dark text color */
+    -fx-border-color: #B0BEC5; /* Soft gray border color */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-pref-height: 30px; /* Height of text fields */
+    -fx-padding: 0 10px; /* Padding inside the text field */
+}
 
- .text-field {
-    -fx-background-color: #353A56; /* Very light blue background */
-    -fx-text-fill: #e7edf1; /* Dark gray text color */
-    -fx-font-size: 12px; /* Font size */
-    -fx-padding: 5 10; /* Padding inside the TextField */
-    -fx-background-radius: 10; /* Rounded corners */
-    -fx-border-radius: 10; /* Rounded corners for the border */
-    -fx-border-color: #CCCCCC; /* Light gray border */
-    -fx-border-width: 1; /* Border width */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0.5, 0, 1); /* Subtle shadow effect */
-    -fx-prompt-text-fill: #999999; /* Lighter color for prompt text */
-    -fx-cursor: text; /* Text cursor */
- }
+/* Button Styling */
+Button {
+    -fx-background-color: #90A4AE; /* Medium blue-gray button background */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-border-radius: 5px; /* Rounded corners */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-pref-width: 80px; /* Adjusted width */
+    -fx-pref-height: 30px; /* Adjusted height */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
 
-    .text-field:focused {
-        -fx-border-color: #131313; /* Green border when focused */
-        -fx-effect: dropshadow(gaussian, rgba(10, 11, 10, 0.3), 3, 0.5, 0, 2); /* Green shadow effect when focused */
-    }
+/* OK Button (disabled state) */
+#okButtom:disabled {
+    -fx-background-color: #B0BEC5; /* Lighter gray for disabled state */
+    -fx-text-fill: #ECEFF1; /* Lighter text color for disabled state */
+}
+
+/* Cancel Button Hover Effect */
+Button:hover {
+    -fx-background-color: #B0BEC5; /* Lighter blue-gray on hover */
+}
+
+/* Error Message Styling */
+#errorMessege {
+    -fx-text-fill: #E57373; /* Light red for error message */
+    -fx-font-size: 11px; /* Slightly smaller text */
+}
+
+/* Hover and Focus Styling for TextFields */
+TextField:hover {
+    -fx-border-color: #90CAF9; /* Light blue border on hover */
+}
+
+TextField:focused {
+    -fx-border-color: #64B5F6; /* Stronger blue when focused */
+}

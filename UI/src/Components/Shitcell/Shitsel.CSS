@@ -132,3 +132,86 @@ ComboBox {
     -fx-pref-height: 0;
 }
 
+#back {
+    -fx-background-color: #F7F9FC; /* Light gray background */
+}
+
+#commandVbox {
+    -fx-background-color: #F7F9FC;
+}
+
+.scroll-pane {
+    -fx-background-color: #F7F9FC;
+}
+
+.grid-pane {
+    -fx-background-color: #F7F9FC;
+}
+
+
+ScrollBar {
+    -fx-background-color: transparent; /* Transparent background */
+}
+
+/* Vertical ScrollBar Thumb Styling */
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray for vertical scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for thumb */
+}
+
+/* Horizontal ScrollBar Thumb Styling */
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray for horizontal scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for thumb */
+}
+
+/* ScrollBar Track Styling (Track is the background of the scroll bar) */
+.scroll-bar .track {
+    -fx-background-color: transparent; /* Transparent track to avoid visual clutter */
+}
+
+/* ScrollBar Increment/Decrement Button Styling */
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent; /* Transparent buttons to blend in */
+    -fx-padding: 2px; /* Small padding for a clean look */
+}
+
+/* ScrollPane Background */
+.scroll-pane {
+    -fx-background-color: #F7F9FC; /* Light gray background for the ScrollPane */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+/* ScrollPane Viewport (the area where content is displayed) */
+.scroll-pane .viewport {
+    -fx-background-color: #F7F9FC; /* Match the viewport background to ScrollPane */
+}
+
+/* General Button Styling */
+#closeReadOnly {
+    -fx-background-color: linear-gradient(#E0E0E0, #F8F8F8); /* Soft gradient background */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-border-radius: 6px; /* Slightly rounded corners */
+    -fx-background-radius: 6px; /* Matching background radius */
+    -fx-padding: 8px 16px; /* Padding for button content */
+    -fx-text-fill: #2C3E50; /* Dark text for readability */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-font-size: 12px; /* Font size */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+/* Button Hover Effect */
+#closeReadOnly:hover {
+    -fx-background-color: linear-gradient(#D3D3D3, #EAEAEA); /* Darker gradient on hover */
+    -fx-border-color: #90A4AE; /* Darker border on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 2, 0.5, 0, 1); /* Subtle shadow on hover */
+}
+
+/* Button Pressed Effect */
+#closeReadOnly:pressed {
+    -fx-background-color: linear-gradient(#B0BEC5, #ECEFF1); /* Darker gradient on press */
+    -fx-border-color: #78909C; /* Darker border on press */
+}
+

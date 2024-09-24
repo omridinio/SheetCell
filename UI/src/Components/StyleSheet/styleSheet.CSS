@@ -1,61 +1,67 @@
-/* General button style with an extremely light color palette */
-.button {
-    -fx-background-color: #F5FFFA; /* Very light cyan gradient */
-    -fx-text-fill: #000000; /* Black text for contrast */
-    -fx-background-radius: 5; /* Circular shape */
-    -fx-padding: 8; /* Padding for a better look */
-    -fx-font-size: 12px; /* Font size */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 2); /* Subtle shadow */
-    -fx-cursor: hand; /* Hand cursor */
+/* AnchorPane Background */
+AnchorPane {
+    -fx-background-color: #F7F9FC; /* Subtle off-white background */
+    -fx-padding: 8px; /* Reduced padding for compactness */
 }
 
-/* Hover effect for buttons */
-.button:hover {
-    -fx-background-color: #F0F8FF; /* Slightly darker gradient on hover */
+/* General Styling for HBox and VBox */
+HBox, VBox {
+    -fx-spacing: 8px; /* Reduced space between elements */
+    -fx-alignment: CENTER; /* Center alignment for all content */
 }
 
-/* ComboBox style */
-.combo-box {
-    -fx-background-color: #FFFFFF; /* White background */
-    -fx-border-color: transparent; /* No border */
-    -fx-border-radius: 5; /* Rounded corners */
-    -fx-padding: 3; /* Smaller padding */
+/* Button Styling */
+Button {
+    -fx-background-color: #ECEFF1; /* Light gray button background */
+    -fx-text-fill: #333333; /* Dark gray text for readability */
+    -fx-font-size: 11px; /* Slightly smaller font size */
+    -fx-font-weight: bold; /* Bold text for emphasis */
+    -fx-background-radius: 6px; /* Slightly rounded corners */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-pref-height: 24px; /* Reduced button height */
+    -fx-pref-width: 70px; /* Reduced button width */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-padding: 3px 8px; /* Reduced padding for compactness */
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-background-color: #CFD8DC; /* Slightly darker gray on hover */
+    -fx-border-color: #90A4AE; /* Slightly darker border on hover */
+}
+
+/* ComboBox Styling */
+ComboBox {
+    -fx-background-color: #FFFFFF; /* White background for combo boxes */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 5px; /* Slightly rounded corners */
+    -fx-padding: 4px; /* Reduced padding inside combo boxes */
     -fx-font-size: 11px; /* Smaller font size */
+    -fx-text-fill: #333333; /* Dark gray text */
+    -fx-pref-height: 5px; /* Reduced height */
 }
 
-/* Hover effect for ComboBox */
-.combo-box:hover {
-    -fx-background-color: #F5F5F5; /* Very light gray on hover */
+/* ComboBox Focused State */
+ComboBox:focused {
+    -fx-border-color: #90A4AE; /* Slightly darker border when focused */
 }
 
-/* ColorPicker style */
-.color-picker {
-    -fx-background-color: #FFFFFF; /* White background */
-    -fx-border-color: transparent; /* No border */
-    -fx-border-radius: 5; /* Rounded corners */
-    -fx-padding: 3; /* Smaller padding */
+/* ColorPicker Styling */
+ColorPicker {
+    -fx-background-color: #FFFFFF; /* White background for color picker */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 5px; /* Slight rounding for color picker */
+    -fx-pref-height: 35px; /* Reduced height */
 }
 
-/* Hover effect for ColorPicker */
-.color-picker:hover {
-    -fx-background-color: #F5F5F5; /* Very light gray on hover */
+/* ColorPicker Hover Effect */
+ColorPicker:hover {
+    -fx-border-color: #90A4AE; /* Darker border on hover */
 }
 
-
-
-#styleSheet {
-
+/* Button Specific Hover Effects (for different directions) */
+#bottom:hover, #midelle:hover, #top:hover, #left:hover, #center:hover, #right:hover {
+    -fx-background-color: #CFD8DC; /* Light hover effect for all buttons */
+    -fx-border-color: #90A4AE; /* Darker border on hover */
 }
-
-.vbox {
-    -fx-spacing: 10; /* Vertical spacing */
-    -fx-alignment: center;
-}
-
-/* General style for the AnchorPane */
-.anchor-pane {
-    -fx-background-color: #F0FFF0; /* White background */
-    -fx-padding: 20; /* Padding around content */
-}
-
-

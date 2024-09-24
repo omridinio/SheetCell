@@ -67,7 +67,7 @@ public class setRangeController {
     private boolean isRangeValid(){
         String regex = "^[A-Z]\\d+\\.\\.[A-Z]\\d+$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(theRange.getText());
+        Matcher matcher = pattern.matcher(theRange.getText().toUpperCase());
         return matcher.matches();
     }
 

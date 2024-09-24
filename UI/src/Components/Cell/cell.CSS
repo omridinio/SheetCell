@@ -92,6 +92,61 @@
     -fx-opacity: 0;
 }
 
+/* VBox Background and Padding */
+#dynamicArea {
+    -fx-background-color: #F0F4F8; /* Light gray background for the dynamic area */
+    -fx-padding: 5px; /* Reduced padding for a more compact look */
+    -fx-border-color: #D1D5DB; /* Soft border color */
+    -fx-border-radius: 5px; /* Slightly rounded corners */
+    -fx-border-width: 1px;
+}
 
+/* Slider Styling */
+.slider {
+    -fx-padding: 2px; /* Smaller padding around the slider */
+}
 
+.slider .thumb {
+    -fx-background-color: #42A5F5; /* Blue thumb color */
+    -fx-pref-width: 8px; /* Smaller width for the thumb */
+    -fx-pref-height: 8px; /* Smaller height for the thumb */
+    -fx-background-radius: 50%; /* Rounded thumb for a sleek design */
+}
 
+.slider .track {
+    -fx-background-color: #BBDEFB; /* Light blue track */
+    -fx-pref-height: 4px; /* Smaller height for the track */
+}
+
+/* HBox Spacing and Alignment */
+.hbox {
+    -fx-spacing: 5px; /* Reduced spacing between elements */
+    -fx-alignment: center;
+}
+
+/* TextField Styling */
+.text-field {
+    -fx-background-color: #ECEFF1; /* Light gray background */
+    -fx-text-fill: #2C3E50; /* Dark text for contrast */
+    -fx-border-color: #B0BEC5; /* Soft border */
+    -fx-border-radius: 3px; /* Slightly rounded corners for text field */
+    -fx-padding: 3px; /* Reduced padding for compact design */
+    -fx-pref-height: 18px; /* Smaller height */
+    -fx-pref-width: 35px; /* Smaller width */
+}
+
+.text-field:focused {
+    -fx-border-color: #42A5F5; /* Blue border on focus */
+    -fx-background-color: #FFFFFF; /* White background on focus */
+}
+
+/* Font Styling for the Numbers */
+.font {
+    -fx-font-size: 10px; /* Smaller font size for compact look */
+    -fx-font-weight: bold; /* Bold text for better readability */
+}
+
+/* Padding adjustments for the bottom */
+.hbox .padding {
+    -fx-padding: 3px; /* Reduced padding */
+}

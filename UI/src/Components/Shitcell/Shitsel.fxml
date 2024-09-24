@@ -14,11 +14,11 @@
 
 <ScrollPane fx:id="scrollPane" pannable="true" prefHeight="865.0" prefWidth="1376.0" stylesheets="@Shitsel.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
    <content>
-      <AnchorPane fx:id="allTheSheet" maxHeight="1.0E8" maxWidth="1.0E8" minHeight="825.0" minWidth="1328.0" prefHeight="825.0" prefWidth="1328.0" stylesheets="@Shitsel.CSS">
+      <AnchorPane id="back" fx:id="allTheSheet" maxHeight="1.0E8" maxWidth="1.0E8" minHeight="825.0" minWidth="1328.0" prefHeight="825.0" prefWidth="1328.0" stylesheets="@Shitsel.CSS">
          <children>
             <HBox id="HboxUp1" alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="1206.0" spacing="16.0" styleClass="upFrame" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button id="LoadFileButton" mnemonicParsing="false" onAction="#loadFile" prefHeight="0.0" prefWidth="178.0" text="Load File Button" />
+                  <Button id="LoadFileButton" mnemonicParsing="false" onAction="#loadFile" prefHeight="0.0" prefWidth="178.0" text="Load File" />
                   <TextField id="filePath" fx:id="filePath" alignment="TOP_LEFT" editable="false" prefHeight="28.0" prefWidth="886.0">
                      <opaqueInsets>
                         <Insets />
@@ -30,16 +30,9 @@
                </padding>
             </HBox>
             <fx:include fx:id="actionLine" source="../ActionLine/actionLine.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
-            <VBox alignment="TOP_CENTER" layoutY="126.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="696.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="126.0">
+            <VBox id="commandVbox" alignment="TOP_CENTER" layoutY="126.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="696.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="126.0">
                <children>
-                  <AnchorPane prefHeight="277.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <fx:include fx:id="commandArea" source="../Commands/commands.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </AnchorPane>
+                  <fx:include fx:id="commandArea" source="../Commands/commands.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <AnchorPane maxHeight="1.0E16" maxWidth="1.0E17" prefHeight="413.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
                      <children>
                         <fx:include fx:id="rangeArea" source="../RangeArea/RangeArea.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -47,15 +40,15 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <HBox layoutX="294.0" layoutY="124.0" prefHeight="75.0" prefWidth="1006.0" AnchorPane.leftAnchor="294.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="124.0">
+            <HBox alignment="CENTER_LEFT" layoutX="294.0" layoutY="124.0" prefHeight="118.0" prefWidth="1034.0" spacing="40.0" AnchorPane.leftAnchor="294.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="124.0">
                <children>
                   <fx:include fx:id="styleSheet" source="../StyleSheet/styleSheet.fxml" />
-                  <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
+                  <Button id="closeReadOnly" fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
                </children>
             </HBox>
-            <ScrollPane id="sheetarea" layoutX="284.0" layoutY="202.0" pannable="true" prefHeight="542.0" prefWidth="995.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="284.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="202.0">
+            <ScrollPane id="sheetarea" layoutX="284.0" layoutY="235.0" pannable="true" prefHeight="587.0" prefWidth="1044.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="284.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="235.0">
                <content>
-                  <GridPane id="sheet" fx:id="sheet" alignment="TOP_CENTER" maxHeight="1.0E8" maxWidth="10000.0" prefHeight="436.0" prefWidth="985.0">
+                  <GridPane id="sheet" fx:id="sheet" alignment="TOP_CENTER" maxHeight="1.0E8" maxWidth="10000.0" prefHeight="256.0" prefWidth="494.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
