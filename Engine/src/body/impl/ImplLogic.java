@@ -202,7 +202,7 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public RangeDTO getRange(String rangeId) {
-        return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId));
+        return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId.toUpperCase()));
     }
 
     @Override
@@ -236,9 +236,9 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
-    public String predictCalculate(String expression) throws IOException, ClassNotFoundException {
+    public String predictCalculate(String expression, String cellID) throws IOException, ClassNotFoundException {
         Sheet newVersion = copySheet();
-        return newVersion.predictCalculate(expression);
+        return newVersion.predictCalculate(expression, cellID);
     }
 
 

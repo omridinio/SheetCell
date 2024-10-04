@@ -54,7 +54,7 @@
       </VBox>
       <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">
          <children>
-            <Label text="Version selctor:">
+            <Label text="Version selector:">
                <padding>
                   <Insets left="10.0" />
                </padding>

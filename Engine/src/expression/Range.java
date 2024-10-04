@@ -18,7 +18,7 @@ public class Range implements Expression, EffectiveValue, Serializable {
 
     public Range(List<Cell> rangeCells, String rangeId) {
         this.rangeCells = rangeCells;
-        this.rangeId = rangeId;
+        this.rangeId = rangeId.toUpperCase();
     }
 
     public void addUse(){

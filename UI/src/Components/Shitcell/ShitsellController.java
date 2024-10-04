@@ -106,6 +106,7 @@ public class ShitsellController {
     private int countDynmicAnlyze = 0;
     private List<Coordinate> daynmicCells = new ArrayList<>();
     private File file;
+    private boolean load = false;
 
 
 
@@ -160,35 +161,40 @@ public class ShitsellController {
     @FXML
     private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
         try {
+            load = false;
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open XML File");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
             file = fileChooser.showOpenDialog(null);
+            if(file == null){
+                return;
+            }
             openLoadFile();
             logic.creatNewSheet(file.getAbsolutePath());
             restSheet();
+            load = true;
 
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
-            e.printStackTrace();
         }
     }
 
     private void loadFilePart2() throws IOException {
         try {
-            isLoaded.setValue(true);
-            int row = logic.getSheet().getRowCount();
-            int col = logic.getSheet().getColumnCount();
-            int width = logic.getSheet().getWidth();
-            int height = logic.getSheet().getThickness();
-            createEmptySheet(col, row, width, height);
-            updateSheet(logic.getSheet());
-            createRanges();
-            filePath.setText(file.getAbsolutePath());
-            actionLine.setDisable(false);
+            if(load) {
+                isLoaded.setValue(true);
+                int row = logic.getSheet().getRowCount();
+                int col = logic.getSheet().getColumnCount();
+                int width = logic.getSheet().getWidth();
+                int height = logic.getSheet().getThickness();
+                createEmptySheet(col, row, width, height);
+                updateSheet(logic.getSheet());
+                createRanges();
+                filePath.setText(file.getAbsolutePath());
+                actionLine.setDisable(false);
+            }
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -277,14 +283,10 @@ public class ShitsellController {
         sheet.setPrefWidth((col+1) * widthCell);
         for(int i = 0; i <= row; i++){
             for(int j = 0; j <= col; j++){
-                //RowConstraints rowConstraints = new RowConstraints();
-                //ColumnConstraints columnConstraints = new ColumnConstraints();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Cell/cell.fxml"));
                 Node cell = loader.load();
                 CellContoller cellContoller = loader.getController();
                 cellContoller.setShitsellController(this);
-                //cellContoller.setColumnConstraints(columnConstraints);
-                //cellContoller.setRowConstraints(rowConstraints);
                 GridPane.setRowIndex(cell, i);
                 GridPane.setColumnIndex(cell, j);
                 if(i == 0 && j == 0){
@@ -301,14 +303,11 @@ public class ShitsellController {
                     sheet.getRowConstraints().add(rowConstraints);
                     sheet.getColumnConstraints().add(columnConstraints);
                     cellContoller.setBackgroundColor("E0E0E0");
-                    //cellContoller.ableColSpearte();
-                    //cellContoller.ableRowSpearte();
                 }
                 else if(i == 0){
                     cellContoller.setIsTitle(true);
                     ColumnConstraints columnConstraints = new ColumnConstraints();
                     cellContoller.setColumnConstraints(columnConstraints);
-                    //cellContoller.getCell().setDisable(true);
                     columnConstraints.setPrefWidth(widthCell);
                     cellContoller.setText(String.valueOf((char)('A' + j - 1)));
                     cell.getStyleClass().add("ABC");
@@ -326,7 +325,6 @@ public class ShitsellController {
                     String s = i < 10 ? "0" + i : String.valueOf(i);
                     cellContoller.setText(s);
                     cellContoller.ableRowSpearte();
-                    //cellContoller.turnOnBotoomSperator();
                     sheet.getRowConstraints().add(rowConstraints);
                     cellContoller.setBackgroundColor("E0E0E0");
                     numberRowCell.add(cellContoller);
@@ -336,12 +334,9 @@ public class ShitsellController {
                     cell.setId(String.valueOf((char)('A' + j - 1)) + i);
                     Coordinate coordinate = new CoordinateImpl(i, j);
                     coordToController.put(coordinate, cellContoller);
-                    //cellContoller.getCell().setStyle("-fx-background-color: white");
                 }
                 cell.prefWidth(widthCell);
                 cell.prefHeight(heightCell);
-//                sheet.getRowConstraints().add(rowConstraints);
-//                sheet.getColumnConstraints().add(columnConstraints);
                 sheet.add(cell, j, i);
             }
         }
@@ -350,6 +345,7 @@ public class ShitsellController {
     private void restSheet(){
         if(sheet != null)
             sheet.getChildren().clear();
+        currCell.isClicked.setValue(false);
         currCell.cellid.setValue("");
         currCell.originalValue.setValue("");
         currCell.lastVersion.setValue(String.valueOf(""));
@@ -409,8 +405,6 @@ public class ShitsellController {
                 commandAreaController.disableDynmicCell();
             }
             if(!isReadOnlyMode.getValue()) {
-
-
                 List<Coordinate> coordCellDependOfThem = cell.getCellsDependsOnThem();
                 for (Coordinate coordinate : coordCellDependOfThem) {
                     coordToController.get(coordinate).getCell().getStyleClass().add("dependThem");
@@ -477,7 +471,6 @@ public class ShitsellController {
             rangeAreaController.addRange(rangeId, logic.getRange(rangeId));
         } catch (IOException e) {
             ErrorController.showError(e.getMessage());
-            e.printStackTrace();
         }
 
 
@@ -647,12 +640,10 @@ public class ShitsellController {
     public void changeFontColor(Color value) {
         if (cellChoosed != null) {
             for (CellContoller cell : cellChoosed) {
-                //cell.getCell().setStyle("-fx-text-fill: #" + value.toString().substring(2));
                 cell.setFontColor(value.toString().substring(2));
 
             }
         }
-        //currCell.clickedCell.setStyle("-fx-text-fill: #" + value.toString().substring(2));
         if (currCell.cellContoller != null)
             currCell.cellContoller.setFontColor(value.toString().substring(2));
     }
@@ -757,7 +748,6 @@ public class ShitsellController {
     public void filterOkClicked(List<Integer> rowSelected, String theRange) throws IOException, ClassNotFoundException {
         int firstRowInRange = Integer.parseInt(theRange.substring(1, theRange.indexOf('.')));
         int firstColInRange = theRange.charAt(0) - 'A' + 1;
-        //int lastRowInRange = Integer.parseInt(theRange.substring(theRange.indexOf('.') + 1), theRange.length());
         int lastColInRange = theRange.charAt(theRange.length() - 2) - 'A' + 1;
         List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
         readOnlyCoord = new HashSet<>(coordinatesOfRange);
@@ -860,7 +850,7 @@ public class ShitsellController {
     }
 
     public String predictCalculate(String expression) throws IOException, ClassNotFoundException {
-        return logic.predictCalculate(expression);
+        return logic.predictCalculate(expression, currCell.cellid.getValue());
     }
 
     public void setCellDynmic(int row, int col) {

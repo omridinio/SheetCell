@@ -70,21 +70,21 @@ public class FiledController {
             try {
                 chooseOperator(function1, ex1, 0);
             } catch (IOException e) {
-                e.printStackTrace();
+
             }
         });
         function2.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 chooseOperator(function2, ex2, 1);
             } catch (IOException e) {
-                e.printStackTrace();
+
             }
         });
         function3.valueProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 chooseOperator(function3, ex3, 2);
             } catch (IOException e) {
-                e.printStackTrace();
+
             }
         });
 

@@ -7,6 +7,7 @@ import Components.Shitcell.ShitsellController;
 import body.impl.CoordinateImpl;
 import dto.impl.CellDTO;
 import dto.impl.RangeDTO;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.naming.Binding;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +59,9 @@ public class RangeAreaController {
 
     private int countRanges = 0;
 
+    private SimpleBooleanProperty deleteSelcet = new SimpleBooleanProperty(false);
+
+
     @FXML
     void addRangeClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/setRange/setRange.fxml"));
@@ -82,11 +87,6 @@ public class RangeAreaController {
     @FXML
     void deleteSelctedRange(ActionEvent event) throws IOException {
         try {
-//            for (RangeController range : selcetedDelete) {
-//                shitsellController.deleteRange(range.getRangeId());
-//                rangeArea.getChildren().remove(range.getIndex());
-//                ranges.remove(range);
-//            }
             shitsellController.deleteRange(rangeToDelete.getRangeId());
             rangeArea.getChildren().remove(rangeToDelete.getIndex());
             ranges.remove(rangeToDelete.getRangeId());
@@ -101,9 +101,9 @@ public class RangeAreaController {
             }
             selcetedDelete.clear();
             shitsellController.deleteRangeModeOff();
+            deleteSelcet.setValue(false);
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -113,15 +113,17 @@ public class RangeAreaController {
         for (RangeController range : ranges.values()) {
             range.deleteModeOff();
         }
+        rangeToDelete = null;
+        deleteSelcet.setValue(false);
         selcetedDelete.clear();
     }
 
     public void initialize() {
-
+        sumbitDelete.disableProperty().bind(deleteSelcet.not());
     }
 
     public void addRange(String rangeId, RangeDTO rangeDTO) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/Range.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Range/range.fxml"));
         Node range = loader.load();
         RangeController rangeContoller = loader.getController();
         rangeContoller.setRangeDTO(rangeDTO);
@@ -172,12 +174,12 @@ public class RangeAreaController {
             rangeToDelete.unSelect();
         }
         rangeToDelete = rangeController;
-        //selcetedDelete.add(rangeController);
+        deleteSelcet.setValue(true);
     }
 
     public void deleteUnSelcted(RangeController rangeController) {
         rangeToDelete = null;
-        //selcetedDelete.remove(rangeController);
+        deleteSelcet.setValue(false);
     }
 
     public Button getSumbitDelete() {

@@ -67,6 +67,7 @@ public class ExpressionController {
                     actionLine.textProperty().unbind();
                     actionLine.textProperty().bind(expressionUi.getExpression());
                 });
+
             }
             else{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Commands/Expression/Filed/filed.fxml"));
@@ -112,6 +113,8 @@ public class ExpressionController {
                 actionLine.textProperty().bind(expressionUi.getExpression());
             }
         });
+
+
 
         actionLine.textProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue.isEmpty())

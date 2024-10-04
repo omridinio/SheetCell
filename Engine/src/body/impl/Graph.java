@@ -32,12 +32,16 @@ public class Graph implements Serializable {
 
     //return you list of cells that depend on you
     public List<Coordinate> getNeighbors(Coordinate coordinate) {
-        return this.graph.get(coordinate);
+        List<Coordinate> neighbors = this.graph.get(coordinate);
+        return neighbors == null ? new ArrayList<>() : neighbors;
+        //return this.graph.get(coordinate);
     }
 
     //return you list of cells that you depend on them
     public List<Coordinate> getSources(Coordinate coordinate) {
-        return this.graph_T.get(coordinate);
+        List<Coordinate> neighbors = this.graph_T.get(coordinate);
+        return neighbors == null ? new ArrayList<>() : neighbors;
+        //return this.graph_T.get(coordinate);
     }
 
     public void addVertex(Coordinate coordinate) {

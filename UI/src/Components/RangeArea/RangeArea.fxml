@@ -12,7 +12,7 @@
       <HBox id="buttomsRange" alignment="CENTER" prefHeight="73.0" prefWidth="286.0" spacing="30.0">
          <children>
             <Button fx:id="addRange" mnemonicParsing="false" onAction="#addRangeClicked" text="Add Range" />
-            <Button fx:id="deleteRange" disable="true" mnemonicParsing="false" onAction="#deleteRangeClicked" text="Delete Range" />
+            <Button fx:id="deleteRange" disable="true" mnemonicParsing="false" onAction="#deleteRangeClicked" prefHeight="29.0" prefWidth="102.0" text="Delete Range" />
          </children>
       </HBox>
       <ScrollPane>
@@ -27,7 +27,7 @@
       <HBox alignment="CENTER" prefHeight="49.0" prefWidth="281.0" spacing="15.0">
          <children>
             <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelClicked" prefHeight="21.0" prefWidth="73.0" text="Cancel" />
-            <Button fx:id="sumbitDelete" mnemonicParsing="false" onAction="#deleteSelctedRange" prefHeight="27.0" prefWidth="138.0" text="Sumbit Delete Range" />
+            <Button fx:id="sumbitDelete" mnemonicParsing="false" onAction="#deleteSelctedRange" prefHeight="27.0" prefWidth="138.0" text="Sumbit Delete" />
          </children>
       </HBox>
    </children>

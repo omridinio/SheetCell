@@ -43,7 +43,7 @@
             <HBox alignment="CENTER_LEFT" layoutX="294.0" layoutY="124.0" prefHeight="118.0" prefWidth="1034.0" spacing="40.0" AnchorPane.leftAnchor="294.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="124.0">
                <children>
                   <fx:include fx:id="styleSheet" source="../StyleSheet/styleSheet.fxml" />
-                  <Button id="closeReadOnly" fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
+                  <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />
                </children>
             </HBox>
             <ScrollPane id="sheetarea" layoutX="284.0" layoutY="235.0" pannable="true" prefHeight="587.0" prefWidth="1044.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="284.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="235.0">

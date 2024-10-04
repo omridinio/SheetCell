@@ -57,7 +57,7 @@ public class setRangeController {
                 ErrorController.showError(e.getMessage());
             }
             catch (Exception e) {
-                e.printStackTrace();
+                ErrorController.showError(e.getMessage());
             }
         }
         else

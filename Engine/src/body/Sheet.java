@@ -37,5 +37,5 @@ public interface Sheet {
     public void dynmicAnlayzeUpdate(String cellId, String value);
     Map<Coordinate, Cell> sortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 
-    String predictCalculate(String expression);
+    String predictCalculate(String expression, String cellId) throws IOException, ClassNotFoundException;
 }

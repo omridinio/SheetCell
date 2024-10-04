@@ -4,6 +4,7 @@ import body.Cell;
 import body.Coordinate;
 import body.Sheet;
 import expression.Range;
+import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.*;
 import expression.impl.Number;
@@ -363,18 +364,18 @@ public class ImplSheet implements Sheet,Serializable  {
             case "NOT" -> new Not(args.get(0));
             case "IF" -> new If(args.get(0), args.get(1), args.get(2));
             case "SUM" -> {
-                if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString())) {
-                    rangeHelper(coordinate, activeRanges.get(args.get(0).evaluate().getValue().toString()));
-                    yield new Sum(activeRanges.get(args.get(0).evaluate().getValue().toString()));
+                if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString().toUpperCase())) {
+                    rangeHelper(coordinate, activeRanges.get(args.get(0).evaluate().getValue().toString().toUpperCase()));
+                    yield new Sum(activeRanges.get(args.get(0).evaluate().getValue().toString().toUpperCase()));
                 }
                 else{
                     throw new IllegalArgumentException("Range is not exist");
                 }
             }
             case "AVERAGE" -> {
-                if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString())) {
-                    rangeHelper(coordinate, activeRanges.get(args.get(0).evaluate().getValue().toString()));
-                    yield new Average(activeRanges.get(args.get(0).evaluate().getValue().toString()));
+                if(activeRanges.containsKey(args.get(0).evaluate().getValue().toString().toUpperCase())) {
+                    rangeHelper(coordinate, activeRanges.get(args.get(0).evaluate().getValue().toString().toUpperCase()));
+                    yield new Average(activeRanges.get(args.get(0).evaluate().getValue().toString().toUpperCase()));
                 }
                 else{
                     throw new IllegalArgumentException("Range is not exist");
@@ -438,10 +439,10 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public void addNewRange(String rangeId, String cellRange) {
-        if(activeRanges.containsKey(rangeId)){
+        if(activeRanges.containsKey(rangeId.toUpperCase())){
             throw new IllegalArgumentException("Range is already exist");
         }
-        activeRanges.put(rangeId, CreateRange(rangeId, cellRange));
+        activeRanges.put(rangeId.toUpperCase(), CreateRange(rangeId, cellRange));
     }
 
     private Range CreateRange(String rangeId, String cellRange){
@@ -515,7 +516,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public Range getRange(String rangeId){
-        return activeRanges.get(rangeId);
+        return activeRanges.get(rangeId.toUpperCase());
     }
 
     private void rangeHelper(Coordinate currCoord, Range currRange){
@@ -537,14 +538,14 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public void removeRange(String rangeId){
-        if(!activeRanges.containsKey(rangeId)){
+        if(!activeRanges.containsKey(rangeId.toUpperCase())){
             throw new IllegalArgumentException("Range is not exist");
         }
-        Range currRange = activeRanges.get(rangeId);
+        Range currRange = activeRanges.get(rangeId.toUpperCase());
         if(currRange.isUse()){
             throw new IllegalArgumentException("Range is in use");
         }
-        activeRanges.remove(rangeId);
+        activeRanges.remove(rangeId.toUpperCase());
     }
 
     @Override
@@ -695,9 +696,12 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     @Override
-    public String predictCalculate(String expression) {
-        Expression currExpression = stringToExpression(expression, new CoordinateImpl("A1"));
-        return currExpression.evaluate().getValue().toString();
+    public String predictCalculate(String expression, String cellId) {
+        Expression currExpression = stringToExpression(expression, new CoordinateImpl(cellId));
+        EffectiveValue res = currExpression.evaluate();
+        String result = res.toString();
+        return result;
+        //return currExpression.evaluate().getValue().toString();
     }
 
 }

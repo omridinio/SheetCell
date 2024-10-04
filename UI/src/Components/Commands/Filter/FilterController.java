@@ -95,7 +95,6 @@ public class FilterController implements Commands {
 
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
-            e.printStackTrace();
         }
 
     }
@@ -109,7 +108,6 @@ public class FilterController implements Commands {
                 return true;
             } catch (Exception e) {
                 ErrorController.showError(e.getMessage());
-                e.printStackTrace();
             }
         }
 

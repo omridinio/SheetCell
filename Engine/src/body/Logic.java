@@ -38,5 +38,5 @@ public interface Logic {
     void updateDaynmicAnlayze(String cellId, String value);
     Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
     void deleteSheet();
-    String predictCalculate(String expression) throws IOException, ClassNotFoundException;
+    String predictCalculate(String expression, String cellID) throws IOException, ClassNotFoundException;
 }

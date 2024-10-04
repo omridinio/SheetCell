@@ -85,7 +85,7 @@ public class CellContoller implements Serializable {
     }
 
     public CellContoller duplicate() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Components/Cell/Cell.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Components/Cell/cell.fxml"));
         Node cell = fxmlLoader.load();
         CellContoller newController = fxmlLoader.getController();
         newController.shitsellController = this.shitsellController;

@@ -42,10 +42,10 @@ TextField, ChoiceBox {
     -fx-background-color: #FAFAFA; /* Soft white background */
     -fx-border-color: #D1D1D1; /* Very light gray border */
     -fx-border-radius: 5px; /* Slight rounding for premium feel */
-    -fx-padding: 6px; /* Smaller padding */
-    -fx-font-size: 11px; /* Smaller, clean font size */
-    -fx-text-fill: #333333; /* Soft dark text */
-    -fx-pref-height: 22px; /* Reduced height for compact design */
+    /*-fx-padding: 6px; !* Smaller padding *!*/
+    /*-fx-font-size: 11px; !* Smaller, clean font size *!*/
+    /*-fx-text-fill: #333333; !* Soft dark text *!*/
+    /*-fx-pref-height: 22px; !* Reduced height for compact design *!*/
 }
 
 TextField:focused, ChoiceBox:focused {

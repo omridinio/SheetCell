@@ -67,6 +67,7 @@ public class RangeController {
     }
 
     public void deleteModeOn() {
+        delete.setSelected(false);
         deleteMode.setValue(true);
     }
 
@@ -107,7 +108,6 @@ public class RangeController {
     }
 
     public void clicked(ActionEvent event) {
-       //shitsellController.rangeClicked(rangeDTO, range);
         rangeControllerArea.rangeClicked(rangeDTO, range);
     }
 

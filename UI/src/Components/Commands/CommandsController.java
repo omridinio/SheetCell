@@ -43,7 +43,7 @@ public class CommandsController {
 
     @FXML
     void clickeSort(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Commands/SetCommand/SetCommand.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Commands/SetCommand/setCommand.fxml"));
         Parent newWindowRoot = loader.load();
         SetCommandController setCommandController = loader.getController();
         setCommandController.setCommandsController(this);

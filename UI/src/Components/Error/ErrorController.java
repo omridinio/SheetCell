@@ -26,7 +26,7 @@ public class ErrorController {
     }
 
     public static void showError(String errorMessege) throws IOException {
-        FXMLLoader loader = new FXMLLoader(ErrorController.class.getResource("Error.fxml"));
+        FXMLLoader loader = new FXMLLoader(ErrorController.class.getResource("/Components/Error/error.fxml"));
         Parent newWindows = loader.load();
         ErrorController errorController = loader.getController();
         errorController.setErrorMessege(errorMessege);

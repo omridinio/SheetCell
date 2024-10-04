@@ -2,8 +2,6 @@ package Components.ActionLine;
 
 import Components.Error.ErrorController;
 import Components.Shitcell.ShitsellController;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -14,7 +14,7 @@ public class CellDTO {
     private String originalValue;
     private EffectiveValue effectiveValue;
     private List<Coordinate> cellsDependsOnThem = new ArrayList<>();
-    private List<Coordinate> cellsDependsOnHim =new ArrayList<>();
+    private List<Coordinate> cellsDependsOnHim = new ArrayList<>();
 
     public CellDTO(String id, int lastVersionUpdate, String originalValue, EffectiveValue effectiveValue,List<Coordinate> cellsDependsOnThem, List<Coordinate> cellsDependsOnHim) {
         this.Id = id;

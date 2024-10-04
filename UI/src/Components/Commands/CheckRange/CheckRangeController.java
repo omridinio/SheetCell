@@ -2,7 +2,6 @@ package Components.Commands.CheckRange;
 
 import Components.Commands.Commands;
 import Components.Error.ErrorController;
-import expression.Range;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -91,7 +90,6 @@ public class CheckRangeController {
             xButton.setDisable(false);
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
-            e.printStackTrace();
         }
         return choiceBox;
     }
