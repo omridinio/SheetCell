@@ -48,11 +48,7 @@ public class ActionLineController {
                     try {
                         shitsellController.versionSelected(newValue);
                     } catch (IOException e) {
-                        try {
-                            ErrorController.showError(e.getMessage());
-                        } catch (IOException ex) {
-                            e.printStackTrace();
-                        }
+                        ErrorController.showError(e.getMessage());
                     }
                 }
             }

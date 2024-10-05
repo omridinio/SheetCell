@@ -9,6 +9,7 @@ import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,9 @@ public interface Logic {
     CellDTO getCell(String cellID);
     CellDTO getCell(Coordinate coordinate);
     void updateCell(String cellId, String value);
+
+    void CreateNewSheet(InputStream inputStream) throws JAXBException;
+
     SheetDTO getSheet();
     void creatNewSheet(String path)throws JAXBException, FileNotFoundException, IOException;
     List<Integer> getNumberOfUpdatePerVersion();

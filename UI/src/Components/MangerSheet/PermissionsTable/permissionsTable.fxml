@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="801.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.PermissionsTable.PermissionsTableController">
+   <columns>
+      <TableColumn fx:id="username" prefWidth="267.0" text="Username" />
+      <TableColumn fx:id="permissionType" prefWidth="267.0" text="Permission Type" />
+      <TableColumn fx:id="permissionStatus" prefWidth="267.0" text="Permission Status" />
+   </columns>
+</TableView>

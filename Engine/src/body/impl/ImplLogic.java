@@ -111,8 +111,16 @@ public class ImplLogic implements Logic,Serializable  {
         mainSheet.add(newSheet);
     }
 
-    private Sheet STLSheet2Sheet(STLSheet stlSheet) {
+    @Override
+    public void CreateNewSheet(InputStream inputStream) throws JAXBException {
+        STLSheet res = creatGeneratedObject(inputStream);
+        Sheet newSheet = STLSheet2Sheet(res);
+        mainSheet.clear();
+        mainSheet.add(newSheet);
+    }
 
+
+    private Sheet STLSheet2Sheet(STLSheet stlSheet) {
         String name = stlSheet.getName();
         int thickness = stlSheet.getSTLLayout().getSTLSize().getRowsHeightUnits();
         int width = stlSheet.getSTLLayout().getSTLSize().getColumnWidthUnits();

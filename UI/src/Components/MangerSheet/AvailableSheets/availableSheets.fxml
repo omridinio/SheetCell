@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="Components.MangerSheet.AvailableSheets.AvailableSheetsController">
+  <columns>
+    <TableColumn fx:id="owner" prefWidth="200.0" text="Owner" />
+    <TableColumn fx:id="sheetName" prefWidth="200.0" text="Sheet Name" />
+      <TableColumn fx:id="sheetSize" prefWidth="200.0" text="Sheet size" />
+      <TableColumn fx:id="premission" prefWidth="200.0" text="Permission" />
+  </columns>
+</TableView>

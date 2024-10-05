@@ -1,8 +1,12 @@
 
+import Components.Login.LoginController;
+import Components.Main.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -21,12 +25,24 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setTitle("Test");
-        // Load the FXML file and set the controller
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-        Parent root = loader.load();
+//        stage.setTitle("Test");
+//        // Load the FXML file and set the controller
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
+//        Parent root = loader.load();
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+        stage.setTitle("Shitcell");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Main/main.fxml"));
+        ScrollPane root = loader.load();
+        MainController mainController = loader.getController();
+        FXMLLoader loaderLogin = new FXMLLoader(getClass().getResource("/Components/Login/login.fxml"));
+        AnchorPane login = loaderLogin.load();
+        LoginController loginController = loaderLogin.getController();
+        loginController.setMainController(mainController);
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        mainController.setPane(login);
         stage.show();
     }
 }
