@@ -1,5 +1,6 @@
 package body.impl;
 
+import Mangger.PermissionType;
 import body.Cell;
 import body.Coordinate;
 import body.Logic;
@@ -8,24 +9,34 @@ import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
 import dto.impl.RangeDTO;
+import dto.impl.SheetBasicData;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 import jaxb2.generated.STLCell;
 import jaxb2.generated.STLRange;
 import jaxb2.generated.STLSheet;
-
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ImplLogic implements Logic,Serializable  {
 
     private List<Sheet> mainSheet = new ArrayList<>();
+    private String sheetName;
+    private final String owner;
+    private Map<String, PermissionType> premmison = new HashMap<>();
+    private String size;
 
+    public ImplLogic() {
+        this.owner = "";
+    }
 
-    public ImplLogic() { }
+    public ImplLogic(String owner) {
+        this.owner = owner;
+    }
 
     public CellDTO getCell(String cellID) {
         Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(cellID);
@@ -117,6 +128,8 @@ public class ImplLogic implements Logic,Serializable  {
         Sheet newSheet = STLSheet2Sheet(res);
         mainSheet.clear();
         mainSheet.add(newSheet);
+        sheetName = newSheet.getSheetName();
+        size = mainSheet.get(0).getSize();
     }
 
 
@@ -249,6 +262,15 @@ public class ImplLogic implements Logic,Serializable  {
         return newVersion.predictCalculate(expression, cellID);
     }
 
+    @Override
+    public SheetBasicData getSheetBasicData(String userName) {
+        return new SheetBasicData(sheetName, owner, premmison ,size, userName);
+    }
+
+    @Override
+    public String getOwner() {
+        return owner;
+    }
 
 }
 

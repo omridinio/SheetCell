@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import utils.Constants;
 import utils.HttpClientUtil;
 
 import java.io.File;
@@ -24,17 +25,17 @@ import java.io.IOException;
 public class ManggerSheetController {
 
     @FXML
-    private TableView availableSheet;
+    private TableView availableSheets;
 
     @FXML private AvailableSheetsController availableSheetsController;
 
     @FXML
-    private TableView permission;
+    private TableView permissionsTable;
 
     @FXML private PermissionsTableController permissionsTableController;
 
     @FXML
-    private VBox commands;
+    private VBox manggerComands;
 
     @FXML private ManggerComandsController manggerComandsController;
 
@@ -60,7 +61,7 @@ public class ManggerSheetController {
                                     new File(file.getAbsolutePath())))
                     .build();
             Request request = new Request.Builder()
-                    .url("http://localhost:8080/web/loadSheet")
+                    .url(Constants.LOAD_SHEET)
                     .method("POST", body)
                     .build();
 
@@ -95,6 +96,7 @@ public class ManggerSheetController {
     public void initialize() {
         if(availableSheetsController != null) {
             availableSheetsController.setManggerSheetController(this);
+            availableSheetsController.init();
         }
         if(permissionsTableController != null) {
             permissionsTableController.setManggerSheetController(this);

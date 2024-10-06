@@ -3,6 +3,7 @@ package body;
 import dto.SheetDTO;
 import dto.impl. CellDTO;
 import dto.impl.RangeDTO;
+import dto.impl.SheetBasicData;
 import expression.Range;
 import jakarta.xml.bind.JAXBException;
 
@@ -43,4 +44,8 @@ public interface Logic {
     Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
     void deleteSheet();
     String predictCalculate(String expression, String cellID) throws IOException, ClassNotFoundException;
+
+    SheetBasicData getSheetBasicData(String userName);
+
+    String getOwner();
 }

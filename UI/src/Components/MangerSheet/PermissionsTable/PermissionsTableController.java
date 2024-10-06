@@ -34,4 +34,6 @@ public class PermissionsTableController {
     public void setManggerSheetController(ManggerSheetController manggerSheetController) {
         this.manggerSheetController = manggerSheetController;
     }
+
+
 }

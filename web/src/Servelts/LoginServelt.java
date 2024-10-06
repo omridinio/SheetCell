@@ -1,4 +1,5 @@
 package Servelts;
+import Utils.Constants;
 import Utils.ServeltUtils;
 import Utils.SessionUtils;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,7 +12,7 @@ import Mangger.UserManger;
 import java.io.IOException;
 
 
-@WebServlet(name = "LoginServelt", urlPatterns = {"/login"})
+@WebServlet(name = "LoginServelt", urlPatterns = {Constants.LOGIN_PAGE})
 public class LoginServelt extends HttpServlet {
 
 

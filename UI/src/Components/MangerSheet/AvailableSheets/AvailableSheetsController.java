@@ -1,43 +1,80 @@
 package Components.MangerSheet.AvailableSheets;
 
 import Components.MangerSheet.ManggerSheetController;
+import dto.impl.SheetBasicData;
+import javafx.application.Platform;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+
+
+import java.util.*;
 
 public class AvailableSheetsController {
 
     @FXML
-    private TableColumn<?, ?> owner;
+    private TableColumn<SheetBasicData,String> sheetOwner;
 
     @FXML
-    private TableColumn<?, ?> premission;
+    private TableColumn<SheetBasicData,String> sheetPermission;
 
     @FXML
-    private TableColumn<?, ?> sheetName;
+    private TableColumn<SheetBasicData,String> sheetName;
 
     @FXML
-    private TableColumn<?, ?> sheetSize;
+    private TableColumn<SheetBasicData,String> sheetSize;
 
     @FXML
-    private TableView<?> table;
+    private TableView<SheetBasicData> table;
 
     private SimpleDoubleProperty width;
 
     private ManggerSheetController manggerSheetController;
 
+    private Map<String, SheetBasicData> sheets = new HashMap<>();
+
+    private TimerTask sheetRefresher;
+
+    private Timer timer;
+
+    private SheetBasicData selectedSheet;
+
+    @FXML
+    void slectedRow(MouseEvent event) {
+        selectedSheet = table.getSelectionModel().getSelectedItem();
+    }
 
     public void initialize() {
-//        width = (SimpleDoubleProperty) table.prefWidthProperty();
-//        owner.prefWidthProperty().bind(width.divide(4));
-//        premission.prefWidthProperty().bind(width.divide(4));
-//        sheetName.prefWidthProperty().bind(width.divide(4));
-//        sheetSize.prefWidthProperty().bind(width.divide(4));
+        sheetOwner.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetOwner"));
+        sheetPermission.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetPermission"));
+        sheetName.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetName"));
+        sheetSize.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetSize"));
     }
 
     public void setManggerSheetController(ManggerSheetController manggerSheetController) {
         this.manggerSheetController = manggerSheetController;
     }
 
+    private void updateSheets(List<SheetBasicData> sheets){;
+        for(SheetBasicData sheet : sheets){
+            this.sheets.put(sheet.getSheetName(), sheet);
+            Platform.runLater(() -> {
+                table.getItems().add(sheet);
+            });
+        }
+    }
+
+    private void stratSheetRefresher(){
+       sheetRefresher = new SheetRefresher(this::updateSheets);
+       timer = new Timer();
+       timer.schedule(sheetRefresher, 1000, 1000);
+    }
+
+    public void init() {
+        stratSheetRefresher();
+    }
 }

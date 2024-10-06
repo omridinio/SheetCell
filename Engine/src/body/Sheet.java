@@ -38,4 +38,6 @@ public interface Sheet {
     Map<Coordinate, Cell> sortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 
     String predictCalculate(String expression, String cellId) throws IOException, ClassNotFoundException;
+
+    String getSize();
 }

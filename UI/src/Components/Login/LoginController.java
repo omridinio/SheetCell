@@ -13,13 +13,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import okhttp3.*;
+import utils.Constants;
 import utils.HttpClientUtil;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
 
 public class LoginController {
-    private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
+
 
     @FXML
     private Label errorMessge;
@@ -37,7 +38,7 @@ public class LoginController {
         try {
             String userName = theUserName.getText();
             String finalUrl = HttpUrl
-                    .parse("http://localhost:8080/web/login")
+                    .parse(Constants.LOGIN_PAGE)
                     .newBuilder()
                     .addQueryParameter("username", userName)
                     .build()

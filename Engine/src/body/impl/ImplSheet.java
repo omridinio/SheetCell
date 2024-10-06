@@ -704,4 +704,9 @@ public class ImplSheet implements Sheet,Serializable  {
         //return currExpression.evaluate().getValue().toString();
     }
 
+    @Override
+    public String getSize() {
+        return row + "x" + col;
+    }
+
 }
