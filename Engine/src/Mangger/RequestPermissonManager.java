@@ -66,4 +66,14 @@ public class RequestPermissonManager {
         return allRequest.contains(request);
     }
 
+    public PermissionRequest deleteRequest(String owner, int requestId, String newStatus) {
+        if(requestPermissonByOwner.containsKey(owner) && requestPermissonByOwner.get(owner).containsKey(requestId)){
+            PermissionRequest request = requestPermissonByOwner.get(owner).get(requestId);
+            requestPermissonByOwner.get(owner).remove(requestId);
+            request.setApproved(true);
+            request.setStatus(newStatus);
+            return request;
+        }
+        return null;
+    }
 }

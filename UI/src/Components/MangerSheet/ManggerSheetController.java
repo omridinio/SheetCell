@@ -6,7 +6,13 @@ import Components.Main.MainController;
 import Components.MangerSheet.AvailableSheets.AvailableSheetsController;
 import Components.MangerSheet.ManngerCommands.ManggerComandsController;
 import Components.MangerSheet.PermissionsTable.PermissionsTableController;
+import dto.impl.SheetBasicData;
+import expression.impl.Str;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -42,7 +48,20 @@ public class ManggerSheetController {
     @FXML
     private Button loadSheet;
 
+    private SimpleStringProperty userName = new SimpleStringProperty("");
+
+    private SimpleStringProperty OwnerSelcetedSheet = new SimpleStringProperty("");
+
     private MainController mainController;
+
+    private SheetBasicData selectedSheet;
+
+
+    private SimpleBooleanProperty inScreen;
+
+    private SimpleBooleanProperty isSheetSelected = new SimpleBooleanProperty(false);
+
+    private SimpleStringProperty sheetName = new SimpleStringProperty();
 
     @FXML
     void loadSheetClicked(ActionEvent event){
@@ -94,20 +113,58 @@ public class ManggerSheetController {
     }
 
     public void initialize() {
+        inScreen = new SimpleBooleanProperty(true);
+        isSheetSelected = new SimpleBooleanProperty(false);
         if(availableSheetsController != null) {
             availableSheetsController.setManggerSheetController(this);
             availableSheetsController.init();
         }
         if(permissionsTableController != null) {
             permissionsTableController.setManggerSheetController(this);
+            permissionsTableController.init();
         }
         if(manggerComandsController != null) {
             manggerComandsController.setManggerSheetController(this);
+            manggerComandsController.init();
         }
-
     }
 
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
+    }
+
+    public void setSelectedSheet(SheetBasicData selectedSheet) {
+        this.selectedSheet = selectedSheet;
+        isSheetSelected.set(true);
+        sheetName.set(selectedSheet.getSheetName());
+        OwnerSelcetedSheet.set(selectedSheet.getSheetOwner());
+    }
+
+    public SheetBasicData getSelectedSheet() {
+        return selectedSheet;
+    }
+
+    public BooleanProperty inScreenProperty() {
+        return inScreen;
+    }
+
+    public BooleanProperty isSheetSelectedProperty() {
+        return isSheetSelected;
+    }
+
+    public StringProperty getSheetNameProperty() {
+        return sheetName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName.set(userName);
+    }
+
+    public SimpleStringProperty getUserName() {
+        return userName;
+    }
+
+    public SimpleStringProperty getOwnerSelcetedSheet() {
+        return OwnerSelcetedSheet;
     }
 }

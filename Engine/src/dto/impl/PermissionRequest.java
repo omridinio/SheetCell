@@ -49,6 +49,9 @@ public class PermissionRequest {
     public String getOwner() {
         return owner;
     }
+    public String getStatus() {
+        return status;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -62,5 +65,13 @@ public class PermissionRequest {
     @Override
     public int hashCode() {
         return username.hashCode() + sheetName.hashCode() + permission.hashCode();
+    }
+
+    public void delete() {
+        counter--;
+    }
+
+    public void setStatus(String newStatus) {
+        this.status = newStatus;
     }
 }

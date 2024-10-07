@@ -22,7 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-@WebServlet(name = "LoadSheetServelt", urlPatterns = {Constants.LOAD_SHEET, Constants.REFRESH_SHEET, Constants.PERMISSON_REQUEST, Constants.PERMISSON_REFRESH})
+
+@WebServlet(name = "LoadSheetServelt", urlPatterns = {Constants.LOAD_SHEET, Constants.REFRESH_SHEET, Constants.PERMISSON_REQUEST, Constants.PERMISSON_REFRESH, Constants.PERMISSION_OWNER, Constants.PERMISSON_APPROVE})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,
         maxRequestSize = 1024 * 1024 * 5 * 5)
@@ -49,7 +50,62 @@ public class LoadSheetServelt extends HttpServlet {
             case Constants.PERMISSON_REFRESH:
                 refreshPermisson(request, response);
                 break;
+            case Constants.PERMISSION_OWNER:
+                getPermissionOwner(request, response);
+                break;
         }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        switch (request.getServletPath()) {
+            case Constants.PERMISSON_APPROVE:
+                permissionApprove(request, response);
+                break;
+        }
+    }
+
+    private void permissionApprove(HttpServletRequest request, HttpServletResponse response) {
+        String usernameFromSession = SessionUtils.getUserNameFromSession(request);
+        if(usernameFromSession == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        int requestId = Integer.parseInt(request.getParameter("requestId"));
+        String newStatus = request.getParameter("status");
+        RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
+        try{
+            PermissionRequest perRequest = requestPermissonManager.deleteRequest(usernameFromSession,requestId,newStatus);
+            if(perRequest != null){
+                if(newStatus.equals("approved")){
+                    SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                    Logic sheet = sheetManger.getSheet(perRequest.getSheetName());
+                    sheet.addPermission(perRequest.getUsername(), perRequest.getPermission());
+                }
+            }
+            else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+    }
+
+    private void getPermissionOwner(HttpServletRequest request, HttpServletResponse response) {
+        String usernameFromSession = SessionUtils.getUserNameFromSession(request);
+        if(usernameFromSession == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
+        List<PermissionRequest> requests = requestPermissonManager.getAllRequestByOwner(usernameFromSession);
+        Gson gson = new Gson();
+        String json = gson.toJson(requests);
+        response.setContentType("application/json");
+        try {
+            response.getWriter().write(json);
+            response.getWriter().flush();
+        } catch (IOException e) { }
     }
 
     private void refreshPermisson(HttpServletRequest request, HttpServletResponse response) {
@@ -81,6 +137,7 @@ public class LoadSheetServelt extends HttpServlet {
                 RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
                 PermissionRequest permissionRequest = ServeltUtils.createPermissionRequest(request);
                 if (requestPermissonManager.isRequestExist(permissionRequest)) {
+                    permissionRequest.delete();
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     response.getOutputStream().print("Error: Request already exist");
                     return;

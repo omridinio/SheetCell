@@ -1,5 +1,6 @@
 package body;
 
+import Mangger.PermissionType;
 import dto.SheetDTO;
 import dto.impl. CellDTO;
 import dto.impl.RangeDTO;
@@ -48,4 +49,6 @@ public interface Logic {
     SheetBasicData getSheetBasicData(String userName);
 
     String getOwner();
+
+    void addPermission(String username, PermissionType newPermission);
 }

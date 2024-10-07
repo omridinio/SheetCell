@@ -41,11 +41,11 @@ public class AvailableSheetsController {
 
     private Timer timer;
 
-    private SheetBasicData selectedSheet;
 
     @FXML
     void slectedRow(MouseEvent event) {
-        selectedSheet = table.getSelectionModel().getSelectedItem();
+        manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
+
     }
 
     public void initialize() {
@@ -60,18 +60,26 @@ public class AvailableSheetsController {
     }
 
     private void updateSheets(List<SheetBasicData> sheets){;
-        for(SheetBasicData sheet : sheets){
-            this.sheets.put(sheet.getSheetName(), sheet);
-            Platform.runLater(() -> {
-                table.getItems().add(sheet);
-            });
-        }
+//        for(SheetBasicData sheet : sheets){
+//            this.sheets.put(sheet.getSheetName(), sheet);
+//            Platform.runLater(() -> {
+//                table.getItems().add(sheet);
+//            });
+//        }
+        int selectedIndex = table.getSelectionModel().getSelectedIndex();
+        Platform.runLater(() -> {
+            table.getItems().clear();
+            table.getItems().addAll(sheets);
+            if(selectedIndex >= 0 && selectedIndex < table.getItems().size()){
+                table.getSelectionModel().select(selectedIndex);
+            }
+        });
     }
 
     private void stratSheetRefresher(){
-       sheetRefresher = new SheetRefresher(this::updateSheets);
+       sheetRefresher = new SheetRefresher(this::updateSheets, manggerSheetController.inScreenProperty());
        timer = new Timer();
-       timer.schedule(sheetRefresher, 1000, 1000);
+       timer.schedule(sheetRefresher, 100, 500);
     }
 
     public void init() {
