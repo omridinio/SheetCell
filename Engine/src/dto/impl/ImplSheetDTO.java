@@ -59,8 +59,4 @@ public class ImplSheetDTO implements SheetDTO {
         Cell cell = currSheet.getCell(coordinate.toString());
         return new CellDTO(cell);
     }
-
-
-
-
 }

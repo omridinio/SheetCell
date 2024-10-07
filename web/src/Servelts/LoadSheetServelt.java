@@ -7,6 +7,8 @@ import Utils.ServeltUtils;
 import Utils.SessionUtils;
 import body.Logic;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import dto.impl.AproveRequest;
 import dto.impl.PermissionRequest;
 import dto.impl.SheetBasicData;
 import jakarta.servlet.ServletException;
@@ -18,8 +20,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import jakarta.xml.bind.JAXBException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.*;
 
 
@@ -65,30 +69,42 @@ public class LoadSheetServelt extends HttpServlet {
         }
     }
 
-    private void permissionApprove(HttpServletRequest request, HttpServletResponse response) {
+    private void permissionApprove(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
         if(usernameFromSession == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        int requestId = Integer.parseInt(request.getParameter("requestId"));
-        String newStatus = request.getParameter("status");
-        RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
-        try{
-            PermissionRequest perRequest = requestPermissonManager.deleteRequest(usernameFromSession,requestId,newStatus);
-            if(perRequest != null){
-                if(newStatus.equals("approved")){
-                    SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                    Logic sheet = sheetManger.getSheet(perRequest.getSheetName());
-                    sheet.addPermission(perRequest.getUsername(), perRequest.getPermission());
+        synchronized (this) {
+//            StringBuilder sb = new StringBuilder();
+//            BufferedReader reader = request.getReader();
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                sb.append(line);
+//            }
+//            Gson gson = new Gson();
+//            Type listType = new TypeToken<List<AproveRequest>>() {
+//            }.getType();
+//            List<AproveRequest> aproveRequests = gson.fromJson(sb.toString(), listType);
+           int requestId = Integer.parseInt(request.getParameter("requestId"));
+            String newStatus = request.getParameter("status");
+            RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
+            try {
+                PermissionRequest perRequest = requestPermissonManager.deleteRequest(usernameFromSession, requestId, newStatus);
+                if (perRequest != null) {
+                    if (newStatus.equals("approved")) {
+                        SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                        Logic sheet = sheetManger.getSheet(perRequest.getSheetName());
+                        sheet.addPermission(perRequest.getUsername(), perRequest.getPermission());
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 }
-            }
-            else {
+            } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     private void getPermissionOwner(HttpServletRequest request, HttpServletResponse response) {
@@ -97,15 +113,18 @@ public class LoadSheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-        RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
-        List<PermissionRequest> requests = requestPermissonManager.getAllRequestByOwner(usernameFromSession);
-        Gson gson = new Gson();
-        String json = gson.toJson(requests);
-        response.setContentType("application/json");
-        try {
-            response.getWriter().write(json);
-            response.getWriter().flush();
-        } catch (IOException e) { }
+        synchronized (this) {
+            RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
+            List<PermissionRequest> requests = requestPermissonManager.getAllRequestByOwner(usernameFromSession);
+            Gson gson = new Gson();
+            String json = gson.toJson(requests);
+            response.setContentType("application/json");
+            try {
+                response.getWriter().write(json);
+                response.getWriter().flush();
+            } catch (IOException e) {
+            }
+        }
     }
 
     private void refreshPermisson(HttpServletRequest request, HttpServletResponse response) {

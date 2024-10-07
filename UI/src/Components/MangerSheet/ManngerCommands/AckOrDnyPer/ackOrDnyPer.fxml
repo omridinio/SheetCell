@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+
+<ScrollPane prefHeight="384.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.AckOrDnyPer.AckOrDnyPerController">
+   <content>
+      <FlowPane fx:id="permissionArea" hgap="15.0" prefHeight="380.0" prefWidth="428.0" vgap="15.0">
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+      </FlowPane>
+   </content>
+</ScrollPane>
