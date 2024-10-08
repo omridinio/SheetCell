@@ -9,20 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CellDTO {
-    private String Id;
-    private int lastVersionUpdate;
-    private String originalValue;
-    private EffectiveValue effectiveValue;
-    private List<Coordinate> cellsDependsOnThem = new ArrayList<>();
-    private List<Coordinate> cellsDependsOnHim = new ArrayList<>();
+    final private String Id;
+    final private int lastVersionUpdate;
+    final private String originalValue;
+    final private String effectiveValue;
+    final private List<Coordinate> cellsDependsOnThem = new ArrayList<>();
+    final private List<Coordinate> cellsDependsOnHim = new ArrayList<>();
 
     public CellDTO(String id, int lastVersionUpdate, String originalValue, EffectiveValue effectiveValue,List<Coordinate> cellsDependsOnThem, List<Coordinate> cellsDependsOnHim) {
         this.Id = id;
         this.lastVersionUpdate = lastVersionUpdate;
         this.originalValue = originalValue;
-        this.effectiveValue = effectiveValue;
-        this.cellsDependsOnThem = cellsDependsOnThem;
-        this.cellsDependsOnHim = cellsDependsOnHim;
+        this.effectiveValue = effectiveValue.getValue().toString();
+        //this.cellsDependsOnThem = cellsDependsOnThem;
+        createListDepends(cellsDependsOnThem, this.cellsDependsOnThem);
+        //this.cellsDependsOnHim = cellsDependsOnHim;
+        createListDepends(cellsDependsOnHim, this.cellsDependsOnHim);
     }
 
 
@@ -30,18 +32,15 @@ public class CellDTO {
         this.Id = cell.getId();
         this.lastVersionUpdate = cell.getLastVersionUpdate();
         this.originalValue = cell.getOriginalValue();
-        this.effectiveValue = cell.getEffectiveValue();
-        this.cellsDependsOnThem = cell.getCellsDependsOnThem();
-        this.cellsDependsOnHim = cell.getCellsDependsOnHim();
+        this.effectiveValue = cell.getEffectiveValue().getValue().toString();
+        //this.cellsDependsOnThem = cell.getCellsDependsOnThem();
+        createListDepends(cell.getCellsDependsOnThem(), this.cellsDependsOnThem);
+        //this.cellsDependsOnHim = cell.getCellsDependsOnHim();
+        createListDepends(cell.getCellsDependsOnHim(), this.cellsDependsOnHim);
     }
 
-    public CellDTO(CellDTO cell, String id){
-        this.Id = id;
-        this.lastVersionUpdate = cell.getLastVersionUpdate();
-        this.originalValue = cell.getOriginalValue();
-        this.effectiveValue = (EffectiveValue) cell.getOriginalEffectiveValue();
-        this.cellsDependsOnThem = cell.getCellsDependsOnThem();
-        this.cellsDependsOnHim = cell.getCellsDependsOnHim();
+    private void createListDepends(List<Coordinate> from, List<Coordinate> to) {
+        to.addAll(from);
     }
 
     public String getId() {
@@ -51,8 +50,7 @@ public class CellDTO {
         return lastVersionUpdate;
     }
     public String getOriginalValue() {return originalValue;}
-    public Object getEffectiveValue() {return effectiveValue.getValue();}
-    public EffectiveValue getOriginalEffectiveValue() {return effectiveValue;}
+    public String getOriginalEffectiveValue() {return effectiveValue;}
     public List<Coordinate> getCellsDependsOnThem() {return cellsDependsOnThem;}
     public List<Coordinate> getCellsDependsOnHim() {return cellsDependsOnHim;}
 

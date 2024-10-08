@@ -163,11 +163,11 @@ public class CommandsController {
         return shitsellController.getRanges();
     }
 
-    public List<EffectiveValue> getRange(String text) {
+    public List<String> getRange(String text) {
         return shitsellController.getRange(text);
     }
 
-    public List<EffectiveValue> getCustomRange(String text) {
+    public List<String> getCustomRange(String text) {
         return shitsellController.getCustomRange(text);
     }
 

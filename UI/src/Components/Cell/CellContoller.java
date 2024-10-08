@@ -507,8 +507,10 @@ public class CellContoller implements Serializable {
 
     public boolean isNaturalNumber() {
         boolean isDependOnThem = cellDTO.getCellsDependsOnThem().size() > 0;
-        return ((cellDTO.getOriginalEffectiveValue() instanceof Number) && !isDependOnThem);
+        //return ((cellDTO.getOriginalEffectiveValue() instanceof Number) && !isDependOnThem);
+        return (tryParseDouble(cellDTO.getOriginalEffectiveValue()) && !isDependOnThem);
     }
+
 
     public void turnOnDynmicAnlayze() {
         dynamicArea.setVisible(true);

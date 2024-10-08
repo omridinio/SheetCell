@@ -60,8 +60,8 @@ public class GraphController {
     @FXML
     void OKClicked(ActionEvent event) {
         rest();
-        List<EffectiveValue> xaxis = getRange(xRangeText.getText());
-        List<EffectiveValue> yaxis = getRange(yRangeText.getText());
+        List<String> xaxis = getRange(xRangeText.getText());
+        List<String> yaxis = getRange(yRangeText.getText());
         if(xaxis == null || yaxis == null){
             return;
         }
@@ -91,7 +91,7 @@ public class GraphController {
 
     }
 
-    private List<EffectiveValue> getRange(String text) {
+    private List<String> getRange(String text) {
         if(xScrollRange.getItems().contains(text)){
             return commandsController.getRange(text);
         }
@@ -104,11 +104,22 @@ public class GraphController {
         }
     }
 
+    private boolean tryParseDouble(String value){
+        try{
+            Double.parseDouble(value);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
 
-    private void createLineGraph(List<EffectiveValue> xaxis,  List<EffectiveValue> yaxis) {
+    private void createLineGraph(List<String> xaxis,  List<String> yaxis) {
         for(int i = 0; i < Integer.min(xaxis.size(), yaxis.size()); i++){
-            if(xaxis.get(i).getCellType() == CellType.NUMERIC && yaxis.get(i).getCellType() == CellType.NUMERIC){
-                seriesLine.getData().add(new XYChart.Data<>((Number) xaxis.get(i).getValue(), (Number) yaxis.get(i).getValue()));
+//            if(xaxis.get(i).getCellType() == CellType.NUMERIC && yaxis.get(i).getCellType() == CellType.NUMERIC){
+//                seriesLine.getData().add(new XYChart.Data<>((Number) xaxis.get(i).getValue(), (Number) yaxis.get(i).getValue()));
+//            }
+            if(tryParseDouble(xaxis.get(i)) && tryParseDouble(yaxis.get(i))){
+                seriesLine.getData().add(new XYChart.Data<>((Number) Double.parseDouble(xaxis.get(i)), (Number) Double.parseDouble(yaxis.get(i))));
             }
         }
         LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxisLine, yAxis);
@@ -132,12 +143,16 @@ public class GraphController {
         yAxis.setUpperBound(yValue + yRange / 2);
     }
 
-    private void createBarGraph(List<EffectiveValue> xaxis,  List<EffectiveValue> yaxis) {
+    private void createBarGraph(List<String> xaxis,  List<String> yaxis) {
         for(int i = 0; i < Integer.min(xaxis.size(), yaxis.size()); i++){
-            if(yaxis.get(i).getCellType() == CellType.NUMERIC){
-                seriesBar.getData().add(new XYChart.Data<>((String) xaxis.get(i).getValue().toString(), (Number) yaxis.get(i).getValue()));
+//            if(yaxis.get(i).getCellType() == CellType.NUMERIC){
+//                seriesBar.getData().add(new XYChart.Data<>((String) xaxis.get(i).getValue().toString(), (Number) yaxis.get(i).getValue()));
+//            }
+            if(tryParseDouble(yaxis.get(i))){
+                //seriesLine.getData().add(new XYChart.Data<>((String) xaxis.get(i), (Number) Double.parseDouble(yaxis.get(i))));
+                seriesBar.getData().add(new XYChart.Data<>((String) xaxis.get(i), (Number) Double.parseDouble(yaxis.get(i))));
             }
-        }
+                    }
         BarChart<String, Number> barChart = new BarChart<String, Number>(xAxisBar, yAxis);
         barChart.setTitle("Bar Graph");
         barChart.getData().add(seriesBar);

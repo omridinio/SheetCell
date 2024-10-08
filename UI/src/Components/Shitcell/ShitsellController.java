@@ -819,9 +819,9 @@ public class ShitsellController {
         return rangeAreaController.getRanges();
     }
 
-    public List<EffectiveValue> getCustomRange(String range){
+    public List<String> getCustomRange(String range){
         RangeDTO tempRange = logic.createTempRange(range);
-        List<EffectiveValue> effectiveValues = new ArrayList<>();
+        List<String> effectiveValues = new ArrayList<>();
         List<CellDTO> cells = tempRange.getRangeCells();
         for(CellDTO cell : cells){
             effectiveValues.add(cell.getOriginalEffectiveValue());
@@ -829,9 +829,9 @@ public class ShitsellController {
         return effectiveValues;
     }
 
-    public List<EffectiveValue> getRange(String text) {
+    public List<String> getRange(String text) {
         RangeDTO range = logic.getRange(text);
-        List<EffectiveValue> effectiveValues = new ArrayList<>();
+        List<String> effectiveValues = new ArrayList<>();
         List<CellDTO> cells = range.getRangeCells();
         for(CellDTO cell : cells){
             effectiveValues.add(cell.getOriginalEffectiveValue());

@@ -98,6 +98,11 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     @Override
+    public Map<Coordinate, Cell> getActiveCell(){
+        return activeCells;
+    }
+
+    @Override
     public void setVersion(int version) {
         this.sheetVersion = version;
     }

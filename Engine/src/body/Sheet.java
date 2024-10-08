@@ -18,6 +18,9 @@ public interface Sheet {
     int getVersion();
     int getCountUpdateCell();
     void addNewRange(String rangeId, String cellRange);
+
+    Map<Coordinate, Cell> getActiveCell();
+
     void setVersion(int version);
     void setUpdateCellCount(int countUpdateCell);
     void updateCell(String cellId, String value);
