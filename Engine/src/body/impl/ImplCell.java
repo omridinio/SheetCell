@@ -1,7 +1,6 @@
 package body.impl;
 
 import body.Cell;
-import body.Coordinate;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 import expression.impl.Empty;

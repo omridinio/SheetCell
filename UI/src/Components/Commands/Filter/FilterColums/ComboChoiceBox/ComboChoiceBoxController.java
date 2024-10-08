@@ -1,11 +1,8 @@
 package Components.Commands.Filter.FilterColums.ComboChoiceBox;
 
 import Components.Commands.Filter.FilterColums.FilterColumsController;
-import body.Coordinate;
-import body.impl.CoordinateImpl;
+import body.impl.Coordinate;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -101,9 +98,9 @@ public class ComboChoiceBoxController {
         Set<String> selectedItems = getSelectedItems();
         int stratIndex = filterColumsController.getFirstRowInRane();
         for (int i : itemsInColums.keySet()) {
-            Coordinate currCoordinate = new CoordinateImpl(i, columIndex);
+            Coordinate currCoordinate = new Coordinate(i, columIndex);
             if (selectedItems.contains(itemsInColums.get(i))) {
-                Coordinate newCoordinate = new CoordinateImpl(stratIndex, columIndex);
+                Coordinate newCoordinate = new Coordinate(stratIndex, columIndex);
                 selectedItemsPrevAndNewCoordinates.put(currCoordinate, newCoordinate);
                 stratIndex++;
             }

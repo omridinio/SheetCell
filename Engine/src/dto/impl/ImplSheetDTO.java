@@ -1,14 +1,11 @@
 package dto.impl;
 
-import body.Coordinate;
 import body.Sheet;
+import body.impl.Coordinate;
 import dto.SheetDTO;
-import body.impl.ImplSheet;
-import expression.api.EffectiveValue;
 import body.Cell;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ImplSheetDTO implements SheetDTO {

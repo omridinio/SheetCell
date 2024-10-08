@@ -60,7 +60,6 @@ public class LoginController {
                         Platform.runLater(() -> {
                             mainController.setPane(mangerSheet);
                         });
-
                     } else {
                         Platform.runLater(() -> {
                             errorMessge.setVisible(true);
@@ -71,6 +70,7 @@ public class LoginController {
                             }
                         });
                     }
+                    response.body().string();
                 }
             });
         } catch (Exception e) {

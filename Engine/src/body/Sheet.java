@@ -1,5 +1,6 @@
 package body;
 
+import body.impl.Coordinate;
 import dto.impl.CellDTO;
 import expression.Range;
 

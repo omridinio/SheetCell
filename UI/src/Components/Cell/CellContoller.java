@@ -1,9 +1,7 @@
 package Components.Cell;
 
 import Components.Shitcell.ShitsellController;
-import body.Coordinate;
-import body.Sheet;
-import body.impl.CoordinateImpl;
+import body.impl.Coordinate;
 import dto.impl.CellDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
-import expression.impl.Number;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.RowConstraints;
@@ -175,8 +172,8 @@ public class CellContoller implements Serializable {
     }
 
     private void dynmicMode(){
-        int row = new CoordinateImpl(cellDTO.getId()).getRow();
-        int col = new CoordinateImpl(cellDTO.getId()).getColumn();
+        int row = new Coordinate(cellDTO.getId()).getRow();
+        int col = new Coordinate(cellDTO.getId()).getColumn();
         shitsellController.setCellDynmic(row, col);
     }
 
@@ -551,8 +548,8 @@ public class CellContoller implements Serializable {
         dynamicArea.setVisible(false);
         dynamicArea.setDisable(true);
         calculatecoord();
-        int row = new CoordinateImpl(cellDTO.getId()).getRow();
-        int col = new CoordinateImpl(cellDTO.getId()).getColumn();
+        int row = new Coordinate(cellDTO.getId()).getRow();
+        int col = new Coordinate(cellDTO.getId()).getColumn();
         shitsellController.restCellDynmic(row, col);
     }
 }

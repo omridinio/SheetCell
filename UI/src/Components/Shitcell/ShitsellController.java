@@ -7,15 +7,13 @@ import Components.LoadFile.LoadFileController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
 import Properties.CellUI;
-import body.Coordinate;
 import body.Logic;
-import body.impl.CoordinateImpl;
+import body.impl.Coordinate;
 import body.impl.ImplLogic;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.RangeDTO;
 
-import expression.api.EffectiveValue;
 import jakarta.xml.bind.JAXBException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -32,7 +30,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 import Components.Cell.CellContoller;
 import javafx.stage.Modality;
@@ -270,7 +267,7 @@ public class ShitsellController {
     private void updateSheet(SheetDTO sheet){
         for (int i = 1; i <= sheet.getRowCount(); i++) {
             for (int j = 1; j <= sheet.getColumnCount(); j++) {
-                Coordinate coordinate = new CoordinateImpl(i, j);
+                Coordinate coordinate = new Coordinate(i, j);
                 coordToController.get(coordinate).setCellDTO(sheet.getCell(coordinate));
             }
         }
@@ -332,7 +329,7 @@ public class ShitsellController {
                 else{
                     cell.getStyleClass().add("cell");
                     cell.setId(String.valueOf((char)('A' + j - 1)) + i);
-                    Coordinate coordinate = new CoordinateImpl(i, j);
+                    Coordinate coordinate = new Coordinate(i, j);
                     coordToController.put(coordinate, cellContoller);
                 }
                 cell.prefWidth(widthCell);
@@ -375,7 +372,7 @@ public class ShitsellController {
             String col = cellContoller.getText();
             for (int i = 1; i <= logic.getSheet().getRowCount(); i++) {
                 String cellId = col + i;
-                Coordinate coordinate = new CoordinateImpl(cellId);
+                Coordinate coordinate = new Coordinate(cellId);
                 CellContoller cell = coordToController.get(coordinate);
                 cell.getCell().getStyleClass().add("colSelect");
                 cell.setSelect();
@@ -397,7 +394,7 @@ public class ShitsellController {
             currCell.clickedCell = button;
             currCell.isClicked.setValue(true);
             currCell.clickedCell.getStyleClass().add("clicked");
-            currCell.cellContoller = coordToController.get(new CoordinateImpl(cell.getId()));
+            currCell.cellContoller = coordToController.get(new Coordinate(cell.getId()));
             styleSheetController.updateStyleSheet(currCell.cellContoller);
             if (currCell.cellContoller.isNaturalNumber()) {
                 commandAreaController.enableDynmicCell();
@@ -424,7 +421,7 @@ public class ShitsellController {
     public void cellIdEnter(TextField cellId) {
         String id = cellId.getText().toUpperCase();
         if(validInputCell(id)){
-            Coordinate coordinate = new CoordinateImpl(id);
+            Coordinate coordinate = new Coordinate(id);
             try {
                 CellDTO cell = logic.getCell(coordinate);
                 cellClicked(cell, coordToController.get(coordinate).getCell());
@@ -452,8 +449,8 @@ public class ShitsellController {
         try {
             logic.updateCell(cellId, actionLine);
             updateSheet(logic.getSheet());
-            CellDTO currCell = logic.getCell(new CoordinateImpl(cellId));
-            cellClicked(currCell, coordToController.get(new CoordinateImpl(cellId)).getCell());
+            CellDTO currCell = logic.getCell(new Coordinate(cellId));
+            cellClicked(currCell, coordToController.get(new Coordinate(cellId)).getCell());
             actionLineController.addVersion();
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
@@ -482,9 +479,9 @@ public class ShitsellController {
         rangeArea.requestFocus();
         List<CellDTO> cells = rangeDTO.getRangeCells();
         for (CellDTO cell : cells) {
-            coordToController.get(new CoordinateImpl(cell.getId())).getCell().getStyleClass().add("dependThem");;
-            coordToController.get(new CoordinateImpl(cell.getId())).setDependOnThem();
-            cellsDependOnThem.add(coordToController.get(new CoordinateImpl(cell.getId())));
+            coordToController.get(new Coordinate(cell.getId())).getCell().getStyleClass().add("dependThem");;
+            coordToController.get(new Coordinate(cell.getId())).setDependOnThem();
+            cellsDependOnThem.add(coordToController.get(new Coordinate(cell.getId())));
         }
         currRange = range;
         currRange.getStyleClass().add("clicked");
@@ -708,7 +705,7 @@ public class ShitsellController {
             backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
         }
         for (Coordinate coordinate : sortRange.keySet()){
-            switchCells(coordToController.get(coordinate), backupCoordToController.get((new CoordinateImpl(sortRange.get(coordinate).getId()))));
+            switchCells(coordToController.get(coordinate), backupCoordToController.get((new Coordinate(sortRange.get(coordinate).getId()))));
         }
     }
 
@@ -758,8 +755,8 @@ public class ShitsellController {
         int currRow = firstRowInRange;
         for (int row : rowSelected) {
             for (int col = firstColInRange; col <= lastColInRange; col++) {
-                Coordinate prevCoordinate = new CoordinateImpl(row, col);
-                Coordinate newCoordinate = new CoordinateImpl(currRow, col);
+                Coordinate prevCoordinate = new Coordinate(row, col);
+                Coordinate newCoordinate = new Coordinate(currRow, col);
                 switchCells(coordToController.get(newCoordinate), backupCoordToController.get(prevCoordinate));
                 coordinatesOfRange.remove(newCoordinate);
             }

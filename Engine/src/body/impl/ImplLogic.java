@@ -2,7 +2,6 @@ package body.impl;
 
 import Mangger.PermissionType;
 import body.Cell;
-import body.Coordinate;
 import body.Logic;
 import body.Sheet;
 import dto.SheetDTO;
@@ -145,7 +144,7 @@ public class ImplLogic implements Logic,Serializable  {
         for (STLCell stlCell : listofSTLCells) {
             res.setVersion(0);
             String cellId = stlCell.getColumn() + String.valueOf(stlCell.getRow());
-            Coordinate coordinate = new CoordinateImpl(cellId);
+            Coordinate coordinate = new Coordinate(cellId);
             res.updateCellDitels(cellId,stlCell.getSTLOriginalValue());
         }
         res.updateCellEffectiveValue("A3");

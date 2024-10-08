@@ -1,9 +1,8 @@
 package dto.impl;
 
 import body.Cell;
-import body.Coordinate;
+import body.impl.Coordinate;
 import expression.api.EffectiveValue;
-import expression.api.Expression;
 
 import java.util.ArrayList;
 import java.util.List;

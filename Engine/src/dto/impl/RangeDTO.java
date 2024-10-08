@@ -1,7 +1,6 @@
 package dto.impl;
 
 import body.Cell;
-import body.Coordinate;
 import expression.Range;
 
 import java.util.ArrayList;

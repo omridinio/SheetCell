@@ -1,9 +1,7 @@
 package dto;
 
-import body.Cell;
-import body.Coordinate;
+import body.impl.Coordinate;
 import dto.impl.CellDTO;
-import expression.api.EffectiveValue;
 
 public interface SheetDTO {
     String getSheetName();

@@ -1,6 +1,7 @@
 package body;
 
 import Mangger.PermissionType;
+import body.impl.Coordinate;
 import dto.SheetDTO;
 import dto.impl. CellDTO;
 import dto.impl.RangeDTO;

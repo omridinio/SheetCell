@@ -1,7 +1,6 @@
 package body.impl;
 
 import body.Cell;
-import body.Coordinate;
 import body.Sheet;
 import expression.Range;
 import expression.api.EffectiveValue;
@@ -52,7 +51,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public Cell getCell(String cellID) {
-        Coordinate coordinate = new CoordinateImpl(cellID);
+        Coordinate coordinate = new Coordinate(cellID);
         checkValidBounds(coordinate);
         if(!activeCells.containsKey(coordinate)){
             return new ImplCell(cellID);
@@ -126,7 +125,7 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     private void updateCellDitels(String cellId, String value, boolean isUpdate){
-        Coordinate currCoord = new CoordinateImpl(cellId);
+        Coordinate currCoord = new Coordinate(cellId);
         checkValidBounds(currCoord);
         activeCells.putIfAbsent(currCoord, new ImplCell(cellId));
         graph.addVertex(currCoord);
@@ -152,12 +151,12 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     private void updateCellEffectiveValue(String cellId, boolean isUpdate){
-        Set<Coordinate> neighbors = graph.listOfAccessibleVertex(new CoordinateImpl(cellId));
+        Set<Coordinate> neighbors = graph.listOfAccessibleVertex(new Coordinate(cellId));
         List<Coordinate> topologicalSorted = graph.topologicalSort();
 
         for(Coordinate coord : topologicalSorted){
             Cell currCell = activeCells.get(coord);
-            if(neighbors.contains(coord) && !coord.equals(new CoordinateImpl(cellId)) && isUpdate){
+            if(neighbors.contains(coord) && !coord.equals(new Coordinate(cellId)) && isUpdate){
                 currCell.setLastVersionUpdate(sheetVersion);
                 countUpdateCell++;
             }
@@ -191,7 +190,7 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     private Cell findUpdateCell(Cell prevCell){
-        Coordinate coord = new CoordinateImpl(prevCell.getId());
+        Coordinate coord = new Coordinate(prevCell.getId());
         return activeCells.get(coord);
     }
 
@@ -394,7 +393,7 @@ public class ImplSheet implements Sheet,Serializable  {
         String cellID = (String) input.evaluate().getValue();
         cellID = cellID.trim();
         if(validInputCell(cellID.toUpperCase(), toCoordinate)){
-            Coordinate coordinate = new CoordinateImpl(cellID);
+            Coordinate coordinate = new Coordinate(cellID);
             return coordinate;
         }
         return null;
@@ -409,7 +408,7 @@ public class ImplSheet implements Sheet,Serializable  {
         if (input.length() >= 2 && input.charAt(0) >= 'A' && input.charAt(0) <= 'Z') {
             String temp = input.substring(1);
             try {
-                Coordinate coordinate = new CoordinateImpl(input.toUpperCase());
+                Coordinate coordinate = new Coordinate(input.toUpperCase());
                 if(coordinate.getRow() > row || coordinate.getColumn() > col){
                     throw new IllegalArgumentException("Cell is out of bounds");
                 }
@@ -485,7 +484,7 @@ public class ImplSheet implements Sheet,Serializable  {
         }
         for(int i = firstRow; i <= lasrRow; i++){
             for(int j = firstCol; j <= lastCol; j++){
-                Coordinate coord = new CoordinateImpl(i,j);
+                Coordinate coord = new Coordinate(i,j);
                 cellsRange.add(coord);
             }
         }
@@ -512,7 +511,7 @@ public class ImplSheet implements Sheet,Serializable  {
     }
 
     private Coordinate createCoordinate(String cellID){
-        Coordinate coord = new CoordinateImpl(cellID);
+        Coordinate coord = new Coordinate(cellID);
         if(coord.getRow() > row || coord.getColumn() > col){
             throw new IllegalArgumentException("Cell is out of bounds");
         }
@@ -527,13 +526,13 @@ public class ImplSheet implements Sheet,Serializable  {
     private void rangeHelper(Coordinate currCoord, Range currRange){
         List<Cell> rangeCells = currRange.getRangeCells();
         for(Cell cell : rangeCells){
-            Coordinate coord = new CoordinateImpl(cell.getId());
+            Coordinate coord = new Coordinate(cell.getId());
             graph.addVertex(coord);
             graph.addEdge(coord, currCoord);
         }
         if (graph.hasCycle()) {
             for (Cell cell : rangeCells) {
-                Coordinate coord = new CoordinateImpl(cell.getId());
+                Coordinate coord = new Coordinate(cell.getId());
                 graph.removeEdge(coord, currCoord);
             }
             throw new IllegalArgumentException("Error! the range: " + currRange.getRangeId() + " create a circle");
@@ -592,7 +591,7 @@ public class ImplSheet implements Sheet,Serializable  {
     private Map<Coordinate, Cell> createSortedCells(List<Cell> rangeCells) throws IOException, ClassNotFoundException {
         Map<Coordinate, Cell> sortCells = new HashMap<>();
         for (Cell cell : rangeCells){
-            Coordinate coordinate = new CoordinateImpl(cell.getId());
+            Coordinate coordinate = new Coordinate(cell.getId());
             sortCells.put(coordinate, cell.copyCell());
         }
         return sortCells;
@@ -600,8 +599,8 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private void switchRows(int firstRow, int lastRow, Map<Coordinate, Cell> sortCells, int stratRow, int endRow) throws IOException, ClassNotFoundException {
         for (int i = stratRow; i <= endRow; i++){
-            Coordinate firstCoord = new CoordinateImpl(firstRow, i);
-            Coordinate lastCoord = new CoordinateImpl(lastRow, i);
+            Coordinate firstCoord = new Coordinate(firstRow, i);
+            Coordinate lastCoord = new Coordinate(lastRow, i);
             Cell firstCell = sortCells.get(firstCoord).copyCell();
             Cell lastCell = sortCells.get(lastCoord).copyCell();
             sortCells.put(firstCoord, lastCell);
@@ -620,7 +619,7 @@ public class ImplSheet implements Sheet,Serializable  {
         for (int i = firstcol; i <= lastcol; i++) {
             cols.put(i, new ArrayList<>());
             for (int j = firstrow; j <= lastrow; j++) {
-                Coordinate coordinate = new CoordinateImpl(j, i);
+                Coordinate coordinate = new Coordinate(j, i);
                 activeCells.putIfAbsent(coordinate, new ImplCell(coordinate.toString()));
                 Cell cell = activeCells.get(coordinate);
                 cols.get(i).add(cell);
@@ -678,7 +677,7 @@ public class ImplSheet implements Sheet,Serializable  {
         List<Cell> rangeCells = range.getRangeCells();
         Map<Integer, String> res = new HashMap<>();
         for (Cell cell : rangeCells){
-            Coordinate coordinate = new CoordinateImpl(cell.getId());
+            Coordinate coordinate = new Coordinate(cell.getId());
             if(coordinate.getColumn() == col){
                 res.put(coordinate.getRow(), cell.getEffectiveValue().toString());
             }
@@ -692,7 +691,7 @@ public class ImplSheet implements Sheet,Serializable  {
         List<Cell> rangeCells = range.getRangeCells();
         Map<Integer, String> res = new HashMap<>();
         for (Cell cell : rangeCells){
-            Coordinate coordinate = new CoordinateImpl(cell.getId());
+            Coordinate coordinate = new Coordinate(cell.getId());
             if(coordinate.getColumn() == col && rowSelected.contains(coordinate.getRow())){
                 res.put(coordinate.getRow(), cell.getEffectiveValue().toString());
             }
@@ -702,7 +701,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public String predictCalculate(String expression, String cellId) {
-        Expression currExpression = stringToExpression(expression, new CoordinateImpl(cellId));
+        Expression currExpression = stringToExpression(expression, new Coordinate(cellId));
         EffectiveValue res = currExpression.evaluate();
         String result = res.toString();
         return result;

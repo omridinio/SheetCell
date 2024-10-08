@@ -1,8 +1,5 @@
 package body.impl;
 
-import body.Cell;
-import body.Coordinate;
-
 import java.io.Serializable;
 import java.util.*;
 

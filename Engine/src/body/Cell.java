@@ -1,5 +1,6 @@
 package body;
 
+import body.impl.Coordinate;
 import expression.api.EffectiveValue;
 import expression.api.Expression;
 
