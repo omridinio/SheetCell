@@ -9,6 +9,8 @@ public class Constants {
     public final static String PERMISSON_APPROVE = "/permissionApprove";
     public final static String PERMISSION_OWNER = "/permissionOwner";
     public final static String VIEW_SHEET = "/viewSheet";
+    public final static String GET_RANGE = "/getRange";
+    public final static String GET_RANGES_NAME = "/getRangesName";
 
 
 }

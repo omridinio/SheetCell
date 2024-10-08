@@ -24,7 +24,7 @@ public class ImplSheetDTO implements SheetDTO {
         sheetName = sheet.getSheetName();
         version = sheet.getVersion();
         thicknes = sheet.getThickness();
-        width = sheet.getThickness();
+        width = sheet.getWidth();
         row = sheet.getRowCount();
         col = sheet.getColumnCount();
         createActiveCells(sheet);

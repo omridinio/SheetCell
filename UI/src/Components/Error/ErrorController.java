@@ -1,5 +1,6 @@
 package Components.Error;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,18 +27,20 @@ public class ErrorController {
     }
 
     public static void showError(String errorMessege) {
-        try {
-            FXMLLoader loader = new FXMLLoader(ErrorController.class.getResource("/Components/Error/error.fxml"));
-            Parent newWindows = loader.load();
-            ErrorController errorController = loader.getController();
-            errorController.setErrorMessege(errorMessege);
-            Stage stage = new Stage();
-            stage.setTitle("Error");
-            stage.setScene(new Scene(newWindows));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            Platform.runLater(() -> {
+                try {
+                FXMLLoader loader = new FXMLLoader(ErrorController.class.getResource("/Components/Error/error.fxml"));
+                Parent newWindows = loader.load();
+                ErrorController errorController = loader.getController();
+                errorController.setErrorMessege(errorMessege);
+                Stage stage = new Stage();
+                stage.setTitle("Error");
+                stage.setScene(new Scene(newWindows));
+                stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
     }
 

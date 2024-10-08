@@ -3,7 +3,6 @@ package Components.Shitcell;
 import Components.ActionLine.ActionLineController;
 import Components.Commands.CommandsController;
 import Components.Error.ErrorController;
-import Components.LoadFile.LoadFileController;
 import Components.MangerSheet.ManggerSheetController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
@@ -15,27 +14,32 @@ import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.RangeDTO;
 
-import jakarta.xml.bind.JAXBException;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 
 import Components.Cell.CellContoller;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import Properties.TaskLoadFile;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
+import utils.Constants;
+import utils.HttpClientUtil;
 
 
 public class ShitsellController {
@@ -90,6 +94,7 @@ public class ShitsellController {
     List<CellContoller> numberRowCell = new ArrayList<>();
     Map<Coordinate,CellContoller> backupCoordToController = new HashMap<>();
     private Logic logic = new ImplLogic();
+    private SheetDTO currSheet;
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
     private Button currRange;
     private List<CellContoller> cellsDependOnThem = new ArrayList<>();
@@ -155,6 +160,7 @@ public class ShitsellController {
 
     public void showSheet(SheetDTO sheet) {
         try {
+            currSheet = sheet;
             if(!isLoaded.get()){
                 restSheet();
                 isLoaded.setValue(true);
@@ -164,9 +170,10 @@ public class ShitsellController {
                 int height = sheet.getThickness();
                 createEmptySheet(col, row, width, height);
                 updateSheet(sheet);
-                //createRanges();
+                createRanges();
                 actionLine.setDisable(false);
             }
+
         } catch (Exception e){
             ErrorController.showError(e.getMessage());
         }
@@ -270,16 +277,70 @@ public class ShitsellController {
         }
     }
 
-    private void createRanges() throws IOException {
-        List<String> ranges = logic.getRangesName();
-        for (String range : ranges) {
-            try {
-                rangeAreaController.addRange(range, logic.getRange(range));
-            } catch (IOException e) {
-                ErrorController.showError(e.getMessage());
-                e.printStackTrace();
-            }
+    private void createRanges() throws IOException, InterruptedException {
+        List<String> ranges = getRangeName();
+        if (ranges == null) {
+            return;
         }
+        for (String range : ranges) {
+            getRange(range, (rangeId, rangeDTO) -> {
+                Platform.runLater(() -> {
+                    try {
+                        rangeAreaController.addRange(rangeId, rangeDTO);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            });
+        }
+    }
+
+
+    private void getRange(String rangeId, BiConsumer<String,RangeDTO> callback) {
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_RANGE)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("rangeId", rangeId)
+                .build()
+                .toString();
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    System.out.println("Error: " + response.code());
+                } else {
+                    String jsonArrayOfSheetNames = response.body().string();
+                    RangeDTO range = Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, RangeDTO.class);
+                    Platform.runLater(() -> callback.accept(rangeId, range));
+                }
+            }
+        });
+    }
+
+    private  List<String> getRangeName() throws IOException {
+       String finalUrl = HttpUrl
+                .parse(Constants.GET_RANGES_NAME)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .build()
+                .toString();
+        Response response = HttpClientUtil.runSync(finalUrl);
+        if (response.code() != 200) {
+            ErrorController.showError(response.body().string());
+        } else {
+            String jsonArrayOfSheetNames = response.body().string();
+            String[] rangesName = Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, String[].class);
+            List<String> ranges = List.of(rangesName);
+            return ranges;
+        }
+        return null;
     }
 
     private void updateSheet(SheetDTO sheet){
@@ -844,7 +905,7 @@ public class ShitsellController {
         return effectiveValues;
     }
 
-    public List<String> getRange(String text) {
+    public List<String> getRanges(String text) {
         RangeDTO range = logic.getRange(text);
         List<String> effectiveValues = new ArrayList<>();
         List<CellDTO> cells = range.getRangeCells();

@@ -4,19 +4,13 @@ import Components.Commands.Expression.ExpressionController;
 import Components.Commands.Filter.FilterController;
 import Components.Commands.Graph.GraphController;
 import Components.Commands.SetCommand.SetCommandController;
-import Components.Range.setRange.setRangeController;
 import Components.Shitcell.ShitsellController;
-import Properties.ExpressionUi;
-import expression.api.EffectiveValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -164,7 +158,7 @@ public class CommandsController {
     }
 
     public List<String> getRange(String text) {
-        return shitsellController.getRange(text);
+        return shitsellController.getRanges(text);
     }
 
     public List<String> getCustomRange(String text) {
