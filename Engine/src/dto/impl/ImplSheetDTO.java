@@ -2,6 +2,7 @@ package dto.impl;
 
 import body.Sheet;
 import body.impl.Coordinate;
+import body.impl.ImplCell;
 import dto.SheetDTO;
 import body.Cell;
 
@@ -85,6 +86,10 @@ public class ImplSheetDTO implements SheetDTO {
     public CellDTO getCell(Coordinate coordinate) {
 //        Cell cell = currSheet.getCell(coordinate.toString());
 //        return new CellDTO(cell);
-        return activeCells.get(coordinate);
+        CellDTO cell =  activeCells.get(coordinate);
+        if(cell == null){
+            cell = new CellDTO(new ImplCell(coordinate.toString()));
+        }
+        return cell;
     }
 }

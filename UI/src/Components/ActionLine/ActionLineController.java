@@ -27,6 +27,9 @@ public class ActionLineController {
     private TextField lastVersion;
 
     @FXML
+    private TextField userName;
+
+    @FXML
     private TextField originalValue;
 
     @FXML

@@ -52,4 +52,6 @@ public interface Logic {
     String getOwner();
 
     void addPermission(String username, PermissionType newPermission);
+
+    PermissionType getPermission(String userName);
 }

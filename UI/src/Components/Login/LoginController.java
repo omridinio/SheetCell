@@ -56,7 +56,7 @@ public class LoginController {
                         Parent mangerSheet = loader.load();
                         ManggerSheetController manggerSheetController = loader.getController();
                         manggerSheetController.setMainController(mainController);
-                        manggerSheetController.setUserName(userName);
+                        manggerSheetController.setUserName(userName.trim());
                         Platform.runLater(() -> {
                             mainController.setPane(mangerSheet);
                         });

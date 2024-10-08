@@ -8,6 +8,7 @@ public class Constants {
     public final static String PERMISSON_REFRESH = "/permissionRefresh";
     public final static String PERMISSON_APPROVE = "/permissionApprove";
     public final static String PERMISSION_OWNER = "/permissionOwner";
+    public final static String VIEW_SHEET = "/viewSheet";
 
 
 }

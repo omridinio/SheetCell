@@ -19,7 +19,7 @@ public class CellDTO {
         this.Id = id;
         this.lastVersionUpdate = lastVersionUpdate;
         this.originalValue = originalValue;
-        this.effectiveValue = effectiveValue.getValue().toString();
+        this.effectiveValue = effectiveValue.toString();
         //this.cellsDependsOnThem = cellsDependsOnThem;
         createListDepends(cellsDependsOnThem, this.cellsDependsOnThem);
         //this.cellsDependsOnHim = cellsDependsOnHim;
@@ -31,7 +31,7 @@ public class CellDTO {
         this.Id = cell.getId();
         this.lastVersionUpdate = cell.getLastVersionUpdate();
         this.originalValue = cell.getOriginalValue();
-        this.effectiveValue = cell.getEffectiveValue().getValue().toString();
+        this.effectiveValue = cell.getEffectiveValue().toString();
         //this.cellsDependsOnThem = cell.getCellsDependsOnThem();
         createListDepends(cell.getCellsDependsOnThem(), this.cellsDependsOnThem);
         //this.cellsDependsOnHim = cell.getCellsDependsOnHim();

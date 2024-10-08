@@ -4,6 +4,7 @@ import Components.ActionLine.ActionLineController;
 import Components.Commands.CommandsController;
 import Components.Error.ErrorController;
 import Components.LoadFile.LoadFileController;
+import Components.MangerSheet.ManggerSheetController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
 import Properties.CellUI;
@@ -51,8 +52,6 @@ public class ShitsellController {
     @FXML
     private RangeAreaController rangeAreaController;
 
-    @FXML
-    private TextField filePath;
 
     @FXML
     private GridPane sheet;
@@ -62,7 +61,6 @@ public class ShitsellController {
 
     @FXML
     StyleSheetController styleSheetController;
-
 
     @FXML
     VBox commandArea;
@@ -104,6 +102,7 @@ public class ShitsellController {
     private List<Coordinate> daynmicCells = new ArrayList<>();
     private File file;
     private boolean load = false;
+    private ManggerSheetController manggerSheetController;
 
 
 
@@ -154,72 +153,91 @@ public class ShitsellController {
         return sheet;
     }
 
-
-    @FXML
-    private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
+    public void showSheet(SheetDTO sheet) {
         try {
-            load = false;
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open XML File");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            file = fileChooser.showOpenDialog(null);
-            if(file == null){
-                return;
-            }
-            openLoadFile();
-            logic.creatNewSheet(file.getAbsolutePath());
-            restSheet();
-            load = true;
-
-        } catch (Exception e) {
-            ErrorController.showError(e.getMessage());
-        }
-    }
-
-    private void loadFilePart2() throws IOException {
-        try {
-            if(load) {
+            if(!isLoaded.get()){
+                restSheet();
                 isLoaded.setValue(true);
-                int row = logic.getSheet().getRowCount();
-                int col = logic.getSheet().getColumnCount();
-                int width = logic.getSheet().getWidth();
-                int height = logic.getSheet().getThickness();
+                int row = sheet.getRowCount();
+                int col = sheet.getColumnCount();
+                int width = sheet.getWidth();
+                int height = sheet.getThickness();
                 createEmptySheet(col, row, width, height);
-                updateSheet(logic.getSheet());
-                createRanges();
-                filePath.setText(file.getAbsolutePath());
+                updateSheet(sheet);
+                //createRanges();
                 actionLine.setDisable(false);
             }
-        } catch (Exception e) {
+        } catch (Exception e){
             ErrorController.showError(e.getMessage());
         }
     }
 
 
-    private void openLoadFile() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/LoadFile/LoadFile.fxml"));
-        Parent newWindowRoot = loader.load();
-        LoadFileController loadFileController = loader.getController();
-        loadFileController.setShitsellController(this);
-        Scene newScene = new Scene(newWindowRoot);
-        Stage newWindow = new Stage();
-        newWindow.setTitle("load file progress");
-        newWindow.setScene(newScene);
-        newWindow.initModality(Modality.APPLICATION_MODAL); // This makes the window modal
-        newWindow.initModality(Modality.APPLICATION_MODAL);
-        newWindow.show();
-        TaskLoadFile taskLoadFile = new TaskLoadFile();
-        loadFileController.bindProperty(taskLoadFile);
-        new Thread(taskLoadFile).start();
-        taskLoadFile.setOnSucceeded(workerStateEvent -> {
-            newWindow.close(); // Close the window when the task completes
-            try {
-                loadFilePart2();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-    }
+//    @FXML
+//    private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
+//        try {
+//            load = false;
+//            FileChooser fileChooser = new FileChooser();
+//            fileChooser.setTitle("Open XML File");
+//            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+//            file = fileChooser.showOpenDialog(null);
+//            if(file == null){
+//                return;
+//            }
+//            openLoadFile();
+//            logic.creatNewSheet(file.getAbsolutePath());
+//            restSheet();
+//            load = true;
+//
+//        } catch (Exception e) {
+//            ErrorController.showError(e.getMessage());
+//        }
+//    }
+//
+//    private void loadFilePart2() throws IOException {
+//        try {
+//            if(load) {
+//                isLoaded.setValue(true);
+//                int row = logic.getSheet().getRowCount();
+//                int col = logic.getSheet().getColumnCount();
+//                int width = logic.getSheet().getWidth();
+//                int height = logic.getSheet().getThickness();
+//                createEmptySheet(col, row, width, height);
+//                updateSheet(logic.getSheet());
+//                createRanges();
+//                filePath.setText(file.getAbsolutePath());
+//                actionLine.setDisable(false);
+//            }
+//        } catch (Exception e) {
+//            ErrorController.showError(e.getMessage());
+//        }
+//    }
+//
+//
+//    private void openLoadFile() throws IOException {
+//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/LoadFile/LoadFile.fxml"));
+//        Parent newWindowRoot = loader.load();
+//        LoadFileController loadFileController = loader.getController();
+//        loadFileController.setShitsellController(this);
+//        Scene newScene = new Scene(newWindowRoot);
+//        Stage newWindow = new Stage();
+//        newWindow.setTitle("load file progress");
+//        newWindow.setScene(newScene);
+//        newWindow.initModality(Modality.APPLICATION_MODAL); // This makes the window modal
+//        newWindow.initModality(Modality.APPLICATION_MODAL);
+//        newWindow.show();
+//        TaskLoadFile taskLoadFile = new TaskLoadFile();
+//        loadFileController.bindProperty(taskLoadFile);
+//        new Thread(taskLoadFile).start();
+//        taskLoadFile.setOnSucceeded(workerStateEvent -> {
+//            newWindow.close(); // Close the window when the task completes
+//            try {
+//                loadFilePart2();
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//    }
 
     @FXML
     private void closeReadOnlyCllicked() throws IOException, ClassNotFoundException {
@@ -873,5 +891,11 @@ public class ShitsellController {
             coordToController.get(coordinate).restCellArtitube();
         }
     }
+
+    public void setManggerSheetController(ManggerSheetController manggerSheetController){
+        this.manggerSheetController = manggerSheetController;
+    }
+
+
 }
 

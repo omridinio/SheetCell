@@ -53,6 +53,9 @@ public class PermissionRefresh extends TimerTask {
                         List<PermissionRequest> permissionRequestList = List.of(permissionRequest);
                         updatePermission.accept(permissionRequestList);
                     }
+                    else {
+                        response.body().string();
+                    }
                 }
             });
         }

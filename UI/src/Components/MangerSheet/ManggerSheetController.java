@@ -6,6 +6,7 @@ import Components.Main.MainController;
 import Components.MangerSheet.AvailableSheets.AvailableSheetsController;
 import Components.MangerSheet.ManngerCommands.ManggerComandsController;
 import Components.MangerSheet.PermissionsTable.PermissionsTableController;
+import Mangger.PermissionType;
 import dto.impl.SheetBasicData;
 import expression.impl.Str;
 import javafx.application.Platform;
@@ -15,6 +16,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
@@ -56,10 +58,11 @@ public class ManggerSheetController {
 
     private SheetBasicData selectedSheet;
 
-
     private SimpleBooleanProperty inScreen;
 
     private SimpleBooleanProperty isSheetSelected = new SimpleBooleanProperty(false);
+
+    private SimpleBooleanProperty havePermission = new SimpleBooleanProperty(false);
 
     private SimpleStringProperty sheetName = new SimpleStringProperty();
 
@@ -98,7 +101,8 @@ public class ManggerSheetController {
                     } else {
                         Platform.runLater(() -> {
                             try {
-                                ErrorController.showError(response.body().string());
+                                String messege = response.body().string();
+                                ErrorController.showError(messege);
                             } catch (IOException e) {
 
                             }
@@ -138,6 +142,13 @@ public class ManggerSheetController {
         isSheetSelected.set(true);
         sheetName.set(selectedSheet.getSheetName());
         OwnerSelcetedSheet.set(selectedSheet.getSheetOwner());
+        if(selectedSheet.getSheetPermission() != PermissionType.NONE || selectedSheet.getSheetOwner().equals(userName)){
+            havePermission.setValue(true);
+        }
+        else {
+            havePermission.setValue(false);
+        }
+
     }
 
     public SheetBasicData getSelectedSheet() {
@@ -167,4 +178,15 @@ public class ManggerSheetController {
     public SimpleStringProperty getOwnerSelcetedSheet() {
         return OwnerSelcetedSheet;
     }
+
+    public SimpleBooleanProperty getHavePermission(){
+        return havePermission;
+    }
+
+    public void changeContent(Parent pane){
+            mainController.setPane(pane);
+    }
+
+
+
 }

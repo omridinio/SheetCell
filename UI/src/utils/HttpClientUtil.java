@@ -1,10 +1,9 @@
 package utils;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 
 public class HttpClientUtil {
@@ -37,6 +36,14 @@ public class HttpClientUtil {
     public static void runAsync(Request request, Callback callback) {
         Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
         call.enqueue(callback);
+    }
+
+    public static @NotNull Response runSync(String request) throws IOException {
+        Request call = new Request.Builder()
+                .url(request)
+                .build();
+        Call response = HTTP_CLIENT.newCall(call);
+        return response.execute();
     }
 
     public static void shutdown() {

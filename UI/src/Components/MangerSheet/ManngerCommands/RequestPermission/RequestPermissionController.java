@@ -70,6 +70,7 @@ public class RequestPermissionController {
                         Stage stage = (Stage) ok.getScene().getWindow();
                         stage.close();
                     });
+                    response.body().string();
                 }
 
             }

@@ -68,6 +68,7 @@ public class OnePermissionController {
                 else {
                     ackOrDnyPerController.removePermission(index);
                 }
+                response.body().string();
             }
         });
     }

@@ -26,10 +26,10 @@
             <TextField fx:id="originalValue" disable="true" editable="false" prefHeight="29.0" prefWidth="231.0" />
          </children>
       </VBox>
-      <VBox id="actionLine" alignment="CENTER" prefHeight="54.0" prefWidth="435.0" spacing="3.0">
+      <VBox id="actionLine" alignment="CENTER" prefHeight="47.0" prefWidth="340.0" spacing="3.0">
          <children>
             <Label text="Action line:" />
-            <HBox id="actionLine" alignment="BOTTOM_LEFT">
+            <HBox id="actionLine" alignment="BOTTOM_LEFT" prefHeight="26.0" prefWidth="413.0">
                <children>
                   <TextField fx:id="actionLine" disable="true" prefHeight="29.0" prefWidth="413.0" />
                   <Label id="actionLabel" fx:id="actionError" prefHeight="14.0" prefWidth="17.0" visible="false" />
@@ -38,7 +38,7 @@
          </children>
       </VBox>
       <Button id="UpdateValue" fx:id="updateValue" mnemonicParsing="false" onAction="#updateCellClicked" text="Update Value" />
-      <VBox alignment="CENTER" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="141.0" spacing="3.0">
+      <VBox alignment="CENTER" minHeight="10.0" minWidth="10.0" prefHeight="54.0" prefWidth="137.0" spacing="3.0">
          <children>
             <Label id="lastUpdateCell" prefHeight="19.0" prefWidth="168.0" text="Last update cell version:">
                <padding>
@@ -50,6 +50,12 @@
                   <Insets left="50.0" right="50.0" />
                </VBox.margin>
             </TextField>
+         </children>
+      </VBox>
+      <VBox alignment="CENTER" fillWidth="false" spacing="3.0">
+         <children>
+            <Label id="cellID" prefHeight="18.0" prefWidth="71.0" text="user name:" />
+            <TextField id="cellId" fx:id="userName" disable="true" editable="false" onAction="#cellIdEnter" prefHeight="26.0" prefWidth="89.0" />
          </children>
       </VBox>
       <VBox id="versionSelctor" alignment="CENTER" spacing="3.0">

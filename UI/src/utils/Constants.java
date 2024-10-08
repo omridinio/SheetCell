@@ -16,6 +16,7 @@ public class Constants {
     public final static String PERMISSON_REFRESH = FULL_SERVER_PATH + "/permissionRefresh";
     public final static String PERMISSON_APPROVE = FULL_SERVER_PATH + "/permissionApprove";
     public final static String PERMISSION_OWNER = FULL_SERVER_PATH + "/permissionOwner";
+    public final static String VIEW_SHEET = FULL_SERVER_PATH + "/viewSheet";
 
     // GSON instance
     public final static Gson GSON_INSTANCE = new Gson();

@@ -276,6 +276,11 @@ public class ImplLogic implements Logic,Serializable  {
         premmison.put(username, newPermission);
     }
 
+    @Override
+    public PermissionType getPermission(String userName){
+        return premmison.get(userName);
+    }
+
 
 }
 
