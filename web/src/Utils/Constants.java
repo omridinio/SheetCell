@@ -11,6 +11,8 @@ public class Constants {
     public final static String VIEW_SHEET = "/viewSheet";
     public final static String GET_RANGE = "/getRange";
     public final static String GET_RANGES_NAME = "/getRangesName";
-
+    public final static String UPDATE_CELL = "/updateCell";
+    public final static String ADD_NEW_RANGE = "/assNewRange";
+    public final static String DELETE_RANGE = "/deleteRange";
 
 }

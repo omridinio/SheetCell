@@ -64,9 +64,10 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
-    public void updateCell(String cellId, String value){
+    public void updateCell(String cellId, String value, String userNameUpdate){
         try{
             Sheet newVersion = copySheet();
+            newVersion.setLastUserUpdate(userNameUpdate);
             newVersion.setUpdateCellCount(0);
             newVersion.updateCell(cellId, value);
             mainSheet.add(newVersion);
@@ -111,20 +112,20 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public void creatNewSheet(String path)throws JAXBException, FileNotFoundException {
-        if(!checkPostFix(path)){
-            throw new FileNotFoundException("Please enter a '.xml' file only.");
-        }
-        InputStream inputStream = new FileInputStream(new File(path));
-        STLSheet res = creatGeneratedObject(inputStream);
-        Sheet newSheet = STLSheet2Sheet(res);
-        mainSheet.clear();
-        mainSheet.add(newSheet);
+//        if(!checkPostFix(path)){
+//            throw new FileNotFoundException("Please enter a '.xml' file only.");
+//        }
+//        InputStream inputStream = new FileInputStream(new File(path));
+//        STLSheet res = creatGeneratedObject(inputStream);
+//        Sheet newSheet = STLSheet2Sheet(res);
+//        mainSheet.clear();
+//        mainSheet.add(newSheet);
     }
 
     @Override
-    public void CreateNewSheet(InputStream inputStream) throws JAXBException {
+    public void CreateNewSheet(InputStream inputStream, String userName) throws JAXBException {
         STLSheet res = creatGeneratedObject(inputStream);
-        Sheet newSheet = STLSheet2Sheet(res);
+        Sheet newSheet = STLSheet2Sheet(res, userName);
         mainSheet.clear();
         mainSheet.add(newSheet);
         sheetName = newSheet.getSheetName();
@@ -132,13 +133,13 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
 
-    private Sheet STLSheet2Sheet(STLSheet stlSheet) {
+    private Sheet STLSheet2Sheet(STLSheet stlSheet, String userName) {
         String name = stlSheet.getName();
         int thickness = stlSheet.getSTLLayout().getSTLSize().getRowsHeightUnits();
         int width = stlSheet.getSTLLayout().getSTLSize().getColumnWidthUnits();
         int row = stlSheet.getSTLLayout().getRows();
         int col = stlSheet.getSTLLayout().getColumns();
-        Sheet res = new ImplSheet(name,thickness,width,row,col);
+        Sheet res = new ImplSheet(name,thickness,width,row,col, userName);
         List<STLCell> listofSTLCells = stlSheet.getSTLCells().getSTLCell();
         createRangeList(stlSheet, res);
         for (STLCell stlCell : listofSTLCells) {
@@ -279,6 +280,11 @@ public class ImplLogic implements Logic,Serializable  {
     @Override
     public PermissionType getPermission(String userName){
         return premmison.get(userName);
+    }
+
+    @Override
+    public int getVersion() {
+        return mainSheet.size();
     }
 
 

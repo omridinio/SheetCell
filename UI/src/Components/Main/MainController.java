@@ -31,7 +31,7 @@ public class MainController {
         main.setContent(pane);
         main.layout();
         Stage stage = (Stage) main.getScene().getWindow(); // Get the current stage
-        stage.setWidth(width + 100);  // Adding some padding or margin
-        stage.setHeight(height + 100); // Adding some padding or margin
+        stage.setWidth(width + 50);  // Adding some padding or margin
+        stage.setHeight(height + 50); // Adding some padding or margin
     }
 }

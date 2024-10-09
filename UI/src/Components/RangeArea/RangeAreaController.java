@@ -19,10 +19,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RangeAreaController {
 
@@ -189,6 +186,10 @@ public class RangeAreaController {
 
     public List<String> getRanges() {
         return ranges.keySet().stream().toList();
+    }
+
+    public void clearRanges(){
+
     }
 }
 

@@ -19,6 +19,9 @@ public class Constants {
     public final static String VIEW_SHEET = FULL_SERVER_PATH + "/viewSheet";
     public final static String GET_RANGE = FULL_SERVER_PATH + "/getRange";
     public final static String GET_RANGES_NAME = FULL_SERVER_PATH + "/getRangesName";
+    public final static String UPDATE_CELL = FULL_SERVER_PATH + "/updateCell";
+    public final static String ADD_NEW_RANGE = FULL_SERVER_PATH + "/assNewRange";
+    public final static String DELETE_RANGE = FULL_SERVER_PATH + "/deleteRange";
 
     // GSON instance
     public final static Gson GSON_INSTANCE = new Gson();

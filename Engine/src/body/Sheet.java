@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface Sheet {
+    void setLastUserUpdate(String user);
+
     String getSheetName();
     Cell getCell(String cellID);
     Cell getCell(Coordinate coordinate);

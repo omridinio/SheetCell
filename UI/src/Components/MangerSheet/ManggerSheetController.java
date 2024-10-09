@@ -167,6 +167,14 @@ public class ManggerSheetController {
         return sheetName;
     }
 
+    public void setIsSheetSelected(boolean value) {
+        isSheetSelected.setValue(value);
+    }
+
+    public void setInScreen(boolean value) {
+        inScreen.setValue(value);
+    }
+
     public void setUserName(String userName) {
         this.userName.set(userName);
     }

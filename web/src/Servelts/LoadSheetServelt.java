@@ -76,16 +76,6 @@ public class LoadSheetServelt extends HttpServlet {
             return;
         }
         synchronized (this) {
-//            StringBuilder sb = new StringBuilder();
-//            BufferedReader reader = request.getReader();
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                sb.append(line);
-//            }
-//            Gson gson = new Gson();
-//            Type listType = new TypeToken<List<AproveRequest>>() {
-//            }.getType();
-//            List<AproveRequest> aproveRequests = gson.fromJson(sb.toString(), listType);
            int requestId = Integer.parseInt(request.getParameter("requestId"));
             String newStatus = request.getParameter("status");
             RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());

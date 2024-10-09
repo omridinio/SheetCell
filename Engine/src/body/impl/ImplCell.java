@@ -17,6 +17,7 @@ public class ImplCell implements Cell,Serializable  {
     private String originalValue;
     private Expression expression;
     private EffectiveValue effectiveValue;
+    private String username;
     private List<Coordinate> cellsDependsOnThem = new ArrayList<>();
     private List<Coordinate> cellsDependsOnHim = new ArrayList<>();
 
@@ -56,6 +57,16 @@ public class ImplCell implements Cell,Serializable  {
     @Override
     public void setId(String id) {
         Id = id;
+    }
+
+    @Override
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
     }
 
     @Override

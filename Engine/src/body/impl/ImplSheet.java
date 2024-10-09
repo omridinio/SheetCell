@@ -31,8 +31,9 @@ public class ImplSheet implements Sheet,Serializable  {
     private Graph graph;
     private int countUpdateCell = 0;
     private Map<String, Range> activeRanges = new HashMap<>();
+    private String lastUserUpdate;
 
-    public ImplSheet(String sheetName, int thickness, int width, int row, int col) {
+    public ImplSheet(String sheetName, int thickness, int width, int row, int col, String lastUserUpdate) {
         if (row > 50 || col > 20 || row < 1 || col < 1) {
             throw new IllegalArgumentException("ERROR! Can't load the file. The file has a row or column that is out of range.");
         }
@@ -42,6 +43,12 @@ public class ImplSheet implements Sheet,Serializable  {
         this.row = row;
         this.col = col;
         this.graph = new Graph();
+        this.lastUserUpdate = lastUserUpdate;
+    }
+
+    @Override
+    public void setLastUserUpdate(String user){
+        this.lastUserUpdate = user;
     }
 
     @Override
@@ -141,6 +148,7 @@ public class ImplSheet implements Sheet,Serializable  {
         cell.setOriginalValue(currExpression.expressionTOtoString());
         if(isUpdate) {
             cell.setLastVersionUpdate(sheetVersion);
+            cell.setUsername(lastUserUpdate);
             countUpdateCell++;
         }
     }
@@ -159,7 +167,9 @@ public class ImplSheet implements Sheet,Serializable  {
             if(neighbors.contains(coord) && !coord.equals(new Coordinate(cellId)) && isUpdate){
                 currCell.setLastVersionUpdate(sheetVersion);
                 countUpdateCell++;
+                currCell.setUsername(lastUserUpdate);
             }
+            updateListsOfDependencies(coord);
             String value = currCell.getOriginalValue();
             Expression currExpression = stringToExpression(value,coord);
             currCell.setExpression(currExpression);
@@ -170,20 +180,20 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public void updateCell(String cellId, String value) {
-        resrRanges();
+        restRanges();
         updateCellDitels(cellId, value);
         updateCellEffectiveValue(cellId);
     }
 
     @Override
     public void dynmicAnlayzeUpdate(String cellId, String value){
-        resrRanges();
+        restRanges();
         updateCellDitels(cellId, value, false);
         updateCellEffectiveValue(cellId, false);
     }
 
 
-    private void resrRanges() {
+    private void restRanges() {
         for (Range range : activeRanges.values()) {
             range.restUse();
         }
@@ -196,7 +206,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     @Override
     public void updateListsOfDependencies(Coordinate coord) {
-            Cell cell= activeCells.get(coord);
+            Cell cell = activeCells.get(coord);
             cell.setDependsOnHim(graph.getNeighbors(coord));
             cell.setDependsOnThem(graph.getSources(coord));
     }

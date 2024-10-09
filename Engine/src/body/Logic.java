@@ -20,9 +20,10 @@ import java.util.Map;
 public interface Logic {
     CellDTO getCell(String cellID);
     CellDTO getCell(Coordinate coordinate);
-    void updateCell(String cellId, String value);
+    void updateCell(String cellId, String value, String userNameUpdate);
 
-    void CreateNewSheet(InputStream inputStream) throws JAXBException;
+    void CreateNewSheet(InputStream inputStream, String userName) throws JAXBException;
+
 
     SheetDTO getSheet();
     void creatNewSheet(String path)throws JAXBException, FileNotFoundException, IOException;
@@ -54,4 +55,6 @@ public interface Logic {
     void addPermission(String username, PermissionType newPermission);
 
     PermissionType getPermission(String userName);
+
+    int getVersion();
 }

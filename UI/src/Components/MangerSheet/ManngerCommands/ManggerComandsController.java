@@ -109,56 +109,27 @@ public class ManggerComandsController {
                     .toString();
             Response response = HttpClientUtil.runSync(finalUrl);
             if (response.code() != 200) {
-                        ErrorController.showError(response.body().string());
-                    } else {
-                        String jsonResponse = response.body().string();
-                        Gson gson = new GsonBuilder()
-                                .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
-                                .create();
-                        SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
-                        if (!activeSheet.containsKey(sheetDTO.getSheetName())) {
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-                            Parent root = loader.load();
-                            ShitsellController shitsellController = loader.getController();
-                            shitsellController.setManggerSheetController(manggerSheetController);
-                            activeSheet.put(sheetDTO.getSheetName(), root);
-                            activeSheetsController.put(sheetDTO.getSheetName(), shitsellController);
-                        }
-                        manggerSheetController.changeContent(activeSheet.get(sheetDTO.getSheetName()));
-                        activeSheetsController.get(sheetDTO.getSheetName()).showSheet(sheetDTO);
-                    }
-//            HttpClientUtil.runAsync(finalUrl, new Callback() {
-//                @Override
-//                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//
-//                }
-//
-//                @Override
-//                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                    if (response.code() != 200) {
-//                        ErrorController.showError(response.body().string());
-//                    } else {
-//                        String jsonResponse = response.body().string();
-//                        Gson gson = new GsonBuilder()
-//                                .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
-//                                .create();
-//                        SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
-//                        if (!activeSheet.containsKey(sheetDTO.getSheetName())) {
-//                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-//                            Parent root = loader.load();
-//                            ShitsellController shitsellController = loader.getController();
-//                            shitsellController.setManggerSheetController(manggerSheetController);
-//                            activeSheet.put(sheetDTO.getSheetName(), root);
-//                            activeSheetsController.put(sheetDTO.getSheetName(), shitsellController);
-//                        }
-//                        Platform.runLater(() -> {
-//                            manggerSheetController.changeContent(activeSheet.get(sheetDTO.getSheetName()));
-//                            activeSheetsController.get(sheetDTO.getSheetName()).showSheet(sheetDTO);
-//                        });
-//
-//                    }
-//                }
-//            });
+                ErrorController.showError(response.body().string());
+            }
+            else {
+                String jsonResponse = response.body().string();
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                        .create();
+                SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
+                if (!activeSheet.containsKey(sheetDTO.getSheetName())) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
+                    Parent root = loader.load();
+                    ShitsellController shitsellController = loader.getController();
+                    shitsellController.setManggerSheetController(manggerSheetController);
+                    activeSheet.put(sheetDTO.getSheetName(), root);
+                    activeSheetsController.put(sheetDTO.getSheetName(), shitsellController);
+                }
+                manggerSheetController.setIsSheetSelected(false);
+                manggerSheetController.setInScreen(false);
+                manggerSheetController.changeContent(activeSheet.get(sheetDTO.getSheetName()));
+                activeSheetsController.get(sheetDTO.getSheetName()).showSheet(sheetDTO);
+            }
         } catch (Exception e){
             ErrorController.showError(e.getMessage());
         }

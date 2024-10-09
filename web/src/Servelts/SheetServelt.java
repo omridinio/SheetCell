@@ -20,13 +20,58 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "sheetServelt", urlPatterns = {Constants.VIEW_SHEET})
+@WebServlet(name = "sheetServelt", urlPatterns = {Constants.VIEW_SHEET, Constants.UPDATE_CELL})
 public class SheetServelt extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         switch (request.getServletPath()) {
             case Constants.VIEW_SHEET:
                 viewSheet(request, response);
                 break;
+            case Constants.UPDATE_CELL:
+                updatCell(request, response);
+        }
+    }
+
+    private void updatCell(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String usernameFromSession = SessionUtils.getUserNameFromSession(request);
+        if(usernameFromSession == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        else{
+            try {
+                String sheetName = request.getParameter("sheetName");
+                String cellId = request.getParameter("cellId");
+                String newValue = request.getParameter("newValue");
+                int currVersion = Integer.parseInt(request.getParameter("version"));
+                synchronized (this) {
+                    SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                    Logic sheet = sheetManger.getSheet(sheetName);
+                    int originalVersion = sheet.getVersion();
+                    if(originalVersion > currVersion) {
+                        response.getOutputStream().print("Error: A more recent version of the sheet is available");
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    }
+                    else {
+                        sheet.updateCell(cellId, newValue, usernameFromSession);
+                        SheetDTO newSheet = sheet.getSheet();
+                        Gson gson = new GsonBuilder()
+                                .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                                .create();
+                        String json = gson.toJson(newSheet);
+                        response.setContentType("application/json");
+                        response.getWriter().write(json);
+                        response.getWriter().flush();
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            catch (Exception e){
+                String messege = e.getMessage();
+                response.getOutputStream().print(messege);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         }
     }
 

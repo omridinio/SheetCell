@@ -28,7 +28,7 @@ public class SheetManger {
 
     public Logic createNewSheet(InputStream file, String owner) throws JAXBException {
         Logic logic = new ImplLogic(owner);
-        logic.CreateNewSheet(file);
+        logic.CreateNewSheet(file, owner);
         return logic;
     }
 

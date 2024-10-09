@@ -78,6 +78,10 @@ public class ActionLineController {
         return cellId;
     }
 
+    public TextField getUserName() {
+        return userName;
+    }
+
     public TextField getLastVersion() {
         return lastVersion;
     }

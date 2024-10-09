@@ -10,6 +10,11 @@ import java.util.List;
 public interface Cell {
     String getId();
     void setId(String id);
+
+    void setUsername(String username);
+
+    String getUsername();
+
     int getLastVersionUpdate();
     void setLastVersionUpdate(int version);
     String getOriginalValue();

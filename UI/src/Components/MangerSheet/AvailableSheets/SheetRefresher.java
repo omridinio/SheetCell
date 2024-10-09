@@ -47,6 +47,7 @@ public class SheetRefresher extends TimerTask {
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                     if (response.code() != 200) {
+                        response.body().string();
                     }
                     else {
                         String jsonArrayOfSheetNames = response.body().string();

@@ -6,12 +6,16 @@ import Components.Error.ErrorController;
 import Components.MangerSheet.ManggerSheetController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
+import Mangger.CoordinateAdapter;
 import Properties.CellUI;
 import body.Logic;
 import body.impl.Coordinate;
 import body.impl.ImplLogic;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
+import dto.impl.ImplSheetDTO;
 import dto.impl.RangeDTO;
 
 import java.util.function.BiConsumer;
@@ -23,6 +27,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -40,6 +45,8 @@ import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import utils.Constants;
 import utils.HttpClientUtil;
+
+import static java.net.http.HttpClient.newBuilder;
 
 
 public class ShitsellController {
@@ -282,6 +289,11 @@ public class ShitsellController {
         if (ranges == null) {
             return;
         }
+        insertRangesToSheet(ranges);
+    }
+
+    public void insertRangesToSheet(List<String> ranges){
+
         for (String range : ranges) {
             getRange(range, (rangeId, rangeDTO) -> {
                 Platform.runLater(() -> {
@@ -449,7 +461,7 @@ public class ShitsellController {
             clearCellsMark();
             clearCellChoosed();
             String col = cellContoller.getText();
-            for (int i = 1; i <= logic.getSheet().getRowCount(); i++) {
+            for (int i = 1; i <= currSheet.getRowCount(); i++) {
                 String cellId = col + i;
                 Coordinate coordinate = new Coordinate(cellId);
                 CellContoller cell = coordToController.get(coordinate);
@@ -470,6 +482,7 @@ public class ShitsellController {
             currCell.cellid.setValue(cell.getId());
             currCell.originalValue.setValue(cell.getOriginalValue());
             currCell.lastVersion.setValue(String.valueOf(cell.getLastVersionUpdate()));
+            currCell.lastUserUpdate.setValue(cell.getLastUserUpdate());
             currCell.clickedCell = button;
             currCell.isClicked.setValue(true);
             currCell.clickedCell.getStyleClass().add("clicked");
@@ -526,9 +539,12 @@ public class ShitsellController {
 
     private void updateCell(String actionLine, String cellId) throws IOException {
         try {
-            logic.updateCell(cellId, actionLine);
-            updateSheet(logic.getSheet());
-            CellDTO currCell = logic.getCell(new Coordinate(cellId));
+            //logic.updateCell(cellId, actionLine);
+
+            //updateSheet(logic.getSheet());
+            //CellDTO currCell = logic.getCell(new Coordinate(cellId));
+            updateCellInSheet(actionLine, cellId, this::updateSheet);
+            CellDTO currCell = currSheet.getCell(new Coordinate(cellId));
             cellClicked(currCell, coordToController.get(new Coordinate(cellId)).getCell());
             actionLineController.addVersion();
         } catch (Exception e) {
@@ -536,20 +552,87 @@ public class ShitsellController {
         }
     }
 
+    private void updateCellInSheet(String newValue, String cellId, Consumer<SheetDTO> updateSheet){
+        try {
+            String finalUrl = HttpUrl
+                    .parse(Constants.UPDATE_CELL)
+                    .newBuilder()
+                    .addQueryParameter("sheetName", currSheet.getSheetName())
+                    .addQueryParameter("cellId", cellId)
+                    .addQueryParameter("newValue", newValue)
+                    .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
+                    .build()
+                    .toString();
+            Response response = HttpClientUtil.runSync(finalUrl);
+            if (response.code() == 200) {
+                String jsonSheetName = response.body().string();
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                        .create();
+                SheetDTO newSheet =gson.fromJson(jsonSheetName, ImplSheetDTO.class);
+                currSheet = newSheet;
+                updateSheet.accept(currSheet);
+            }
+            else {
+                ErrorController.showError(response.body().string());
+            }
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
+    }
+
+
     public void updateCellClicked(TextField actionLine, TextField cellId) throws IOException {
         updateCell(actionLine.getText(), cellId.getText());
         actionLine.setText("");
     }
 
-    public void setRange(String rangeId, String theRange) throws IOException {
+    public void setRange(String rangeId, String theRange)  {
         try{
-            logic.createNewRange(rangeId, theRange);
-            rangeAreaController.addRange(rangeId, logic.getRange(rangeId));
-        } catch (IOException e) {
+//            logic.createNewRange(rangeId, theRange);
+//            rangeAreaController.addRange(rangeId, logic.getRange(rangeId));
+            addNewRange(rangeId, theRange);
+        } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
+    }
 
+    private void addNewRange(String rangeId, String theRange) {
+        try {
+            String finalUrl = HttpUrl
+                    .parse(Constants.ADD_NEW_RANGE)
+                    .newBuilder()
+                    .addQueryParameter("sheetName", currSheet.getSheetName())
+                    .addQueryParameter("rangeId", rangeId)
+                    .addQueryParameter("theRange", theRange)
+                    .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
+                    .build()
+                    .toString();
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
 
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.code() != 200) {
+                        ErrorController.showError(response.body().string());
+                    } else {
+                        String jsonRange = response.body().string();
+                        RangeDTO range = Constants.GSON_INSTANCE.fromJson(jsonRange, RangeDTO.class);
+                        Platform.runLater(() -> {
+                            try {
+                                rangeAreaController.addRange(rangeId, range);
+                            } catch (IOException e) {
+                            }
+                        });
+                    }
+                }
+            });
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
     }
 
     public void rangeClicked(RangeDTO rangeDTO, Button range, FlowPane rangeArea) {
@@ -584,10 +667,13 @@ public class ShitsellController {
     public void intitializeActionLine(ActionLineController actionLineController) {
         actionLineController.getOriginalValue().textProperty().bind(currCell.originalValue);
         actionLineController.getLastVersion().textProperty().bind(currCell.lastVersion);
+        actionLineController.getUserName().textProperty().bind(currCell.lastUserUpdate);
         actionLineController.getActionLine().disableProperty().bind(currCell.isClicked.not().and(isReadOnlyMode));
         actionLineController.getActionLine().editableProperty().bind(currCell.isClicked);
         actionLineController.getCellId().disableProperty().bind(isLoaded.not());
         actionLineController.getCellId().editableProperty().bind(isLoaded);
+        actionLineController.getUserName().disableProperty().bind(isLoaded.not());
+        actionLineController.getUserName().editableProperty().bind(isLoaded);
         actionLineController.getLastVersion().disableProperty().bind(isLoaded.not());
         actionLineController.getOriginalValue().disableProperty().bind(isLoaded.not());
         actionLineController.getUpdateValue().disableProperty().bind(isReadOnlyMode);
@@ -957,6 +1043,8 @@ public class ShitsellController {
         this.manggerSheetController = manggerSheetController;
     }
 
-
+    public String getSheetName() {
+        return currSheet.getSheetName();
+    }
 }
 
