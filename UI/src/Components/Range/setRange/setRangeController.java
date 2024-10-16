@@ -50,7 +50,6 @@ public class setRangeController {
             try {
                 errorMessege.visibleProperty().setValue(false);
                 rangeAreaController.okClicked(rangeName.getText(), theRange.getText().toUpperCase());
-
                 Stage stage = (Stage) okButtom.getScene().getWindow();
                 stage.close();
             } catch (IllegalArgumentException e) {

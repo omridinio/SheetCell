@@ -13,14 +13,17 @@ import body.impl.Coordinate;
 import body.impl.ImplLogic;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
 import dto.impl.ImplSheetDTO;
 import dto.impl.RangeDTO;
 
+import java.lang.reflect.Type;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import expression.impl.Str;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -36,12 +39,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 import Components.Cell.CellContoller;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.Response;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import utils.Constants;
 import utils.HttpClientUtil;
@@ -284,7 +285,8 @@ public class ShitsellController {
         }
     }
 
-    private void createRanges() throws IOException, InterruptedException {
+    private void createRanges() throws IOException {
+        rangeAreaController.restRangeArea();
         List<String> ranges = getRangeName();
         if (ranges == null) {
             return;
@@ -293,7 +295,6 @@ public class ShitsellController {
     }
 
     public void insertRangesToSheet(List<String> ranges){
-
         for (String range : ranges) {
             getRange(range, (rangeId, rangeDTO) -> {
                 Platform.runLater(() -> {
@@ -623,8 +624,9 @@ public class ShitsellController {
                         RangeDTO range = Constants.GSON_INSTANCE.fromJson(jsonRange, RangeDTO.class);
                         Platform.runLater(() -> {
                             try {
-                                rangeAreaController.addRange(rangeId, range);
+                                createRanges();
                             } catch (IOException e) {
+                                throw new RuntimeException(e);
                             }
                         });
                     }
@@ -842,11 +844,33 @@ public class ShitsellController {
     }
 
     public void sortRangeClicked(String range, List<Integer> dominantCols) throws IOException, ClassNotFoundException {
-        Map<Coordinate, CellDTO> sortRange = logic.getSortRange(range, dominantCols);
-        createReadOnlySheet(sortRange);
-        updateCells();
-        readOnlyCoord = sortRange.keySet();
-        modeReadOnly();
+        //Map<Coordinate, CellDTO> sortRange = logic.getSortRange(range, dominantCols);
+        Gson gson = new Gson();
+        String jsonBody = gson.toJson(dominantCols);
+        String version = String.valueOf(currSheet.getVersion());
+        RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(Constants.SORT)
+                .post(body)
+                .addHeader("sheetName", currSheet.getSheetName())
+                .addHeader("range", range)
+                .addHeader("version", version)
+                .build();
+        Response response = HttpClientUtil.runSync(request);
+        if (response.code() != 200) {
+            ErrorController.showError(response.body().string());
+        } else {
+            String jsonResponse = response.body().string();
+            Gson gsonFromServer = new GsonBuilder()
+                    .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                    .create();
+            Type mapType = new TypeToken<Map<Coordinate, CellDTO>>(){}.getType();
+            Map<Coordinate, CellDTO> sortedSheet = gsonFromServer.fromJson(jsonResponse, mapType);
+            createReadOnlySheet(sortedSheet);
+            updateCells();
+            readOnlyCoord = sortedSheet.keySet();
+            modeReadOnly();
+        }
     }
 
     private void modeReadOnly() {
@@ -861,8 +885,28 @@ public class ShitsellController {
         }
     }
 
-    public List<Integer> getColsInRange(String range){
-        return logic.getTheRangeOfTheRange(range);
+    public List<Integer> getColsInRange(String range) {
+        //return logic.getTheRangeOfTheRange(range);
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_THE_RANGE_OF_THE_RANGE)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("range", range)
+                .build()
+                .toString();
+        try {
+            Response response = HttpClientUtil.runSync(finalUrl);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonArrayOfSheetNames = response.body().string();
+                int[] cols = Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, int[].class);
+                return Arrays.stream(cols).boxed().collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
+        return null;
     }
 
     private void createReadOnlySheet(Map<Coordinate, CellDTO>sortRange) throws IOException, ClassNotFoundException {
@@ -892,7 +936,42 @@ public class ShitsellController {
     }
 
     public void deleteRange(String rangeId) {
-        logic.removeRange(rangeId);
+        //logic.removeRange(rangeId);
+        try {
+            String finalUrl = HttpUrl
+                    .parse(Constants.DELETE_RANGE)
+                    .newBuilder()
+                    .addQueryParameter("sheetName", currSheet.getSheetName())
+                    .addQueryParameter("rangeId", rangeId)
+                    .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
+                    .build()
+                    .toString();
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.code() != 200) {
+                        ErrorController.showError(response.body().string());
+                    } else {
+                        response.body().string();
+                        Platform.runLater(() -> {
+                            try {
+                                createRanges();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    }
+                }
+            });
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
+
     }
 
     public void deleteRangeModeOff() {
@@ -900,38 +979,101 @@ public class ShitsellController {
     }
 
     public Map<Integer, String> getColumsItem(int col, String theRange){
-        return logic.getColumsItem(col, theRange);
+        String version = String.valueOf(currSheet.getVersion());
+        Request request = new Request.Builder()
+                .url(Constants.GET_COL_ITEMS)
+                .post(RequestBody.create(null, new byte[0]))
+                .addHeader("sheetName", currSheet.getSheetName())
+                .addHeader("range", theRange)
+                .addHeader("version", version)
+                .addHeader("col", String.valueOf(col))
+                .build();
+        try {
+            Response response = HttpClientUtil.runSync(request);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonArrayOfSheetNames = response.body().string();
+                Type mapType = new TypeToken<Map<Integer, String>>(){}.getType();
+                return Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, mapType);
+            }
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
+        return null;
     }
 
     public Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected) {
-        return logic.getColumsItem(col, theRange, rowSelected);
+        Gson gson = new Gson();
+        String jsonBody = gson.toJson(rowSelected);
+        String version = String.valueOf(currSheet.getVersion());
+        RequestBody body = RequestBody.create(jsonBody, MediaType.parse("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(Constants.GET_COL_ITEMS)
+                .post(body)
+                .addHeader("sheetName", currSheet.getSheetName())
+                .addHeader("range", theRange)
+                .addHeader("version", version)
+                .addHeader("col", String.valueOf(col))
+                .build();
+        try {
+            Response response = HttpClientUtil.runSync(request);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonArrayOfSheetNames = response.body().string();
+                Type mapType = new TypeToken<Map<Integer, String>>(){}.getType();
+                return Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, mapType);
+            }
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
+        return null;
     }
 
     public void filterOkClicked(List<Integer> rowSelected, String theRange) throws IOException, ClassNotFoundException {
         int firstRowInRange = Integer.parseInt(theRange.substring(1, theRange.indexOf('.')));
         int firstColInRange = theRange.charAt(0) - 'A' + 1;
         int lastColInRange = theRange.charAt(theRange.length() - 2) - 'A' + 1;
-        List<Coordinate> coordinatesOfRange = logic.getCoordinateInRange(theRange);
-        readOnlyCoord = new HashSet<>(coordinatesOfRange);
-        rowSelected.sort(Comparator.naturalOrder());
-        for (Coordinate coordinate : coordToController.keySet()) {
-            backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
-        }
-        int currRow = firstRowInRange;
-        for (int row : rowSelected) {
-            for (int col = firstColInRange; col <= lastColInRange; col++) {
-                Coordinate prevCoordinate = new Coordinate(row, col);
-                Coordinate newCoordinate = new Coordinate(currRow, col);
-                switchCells(coordToController.get(newCoordinate), backupCoordToController.get(prevCoordinate));
-                coordinatesOfRange.remove(newCoordinate);
+        String finalUrl = HttpUrl
+                .parse(Constants.FILTER)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("range", theRange)
+                .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
+                .build()
+                .toString();
+        Response response = HttpClientUtil.runSync(finalUrl);
+        if (response.code() != 200) {
+            ErrorController.showError(response.body().string());
+        } else {
+            String jsonResponse = response.body().string();
+            Gson gsonFromServer = new GsonBuilder()
+                    .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                    .create();
+            Type listType = new TypeToken<List<Coordinate>>(){}.getType();
+            List<Coordinate> coordinatesOfRange = gsonFromServer.fromJson(jsonResponse, listType);
+            readOnlyCoord = new HashSet<>(coordinatesOfRange);
+            rowSelected.sort(Comparator.naturalOrder());
+            for (Coordinate coordinate : coordToController.keySet()) {
+                backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
             }
-            currRow++;
+            int currRow = firstRowInRange;
+            for (int row : rowSelected) {
+                for (int col = firstColInRange; col <= lastColInRange; col++) {
+                    Coordinate prevCoordinate = new Coordinate(row, col);
+                    Coordinate newCoordinate = new Coordinate(currRow, col);
+                    switchCells(coordToController.get(newCoordinate), backupCoordToController.get(prevCoordinate));
+                    coordinatesOfRange.remove(newCoordinate);
+                }
+                currRow++;
+            }
+            for (Coordinate coordinate : coordinatesOfRange) {
+                coordToController.get(coordinate).restCell();
+            }
+            updateCells();
+            modeReadOnly();
         }
-        for (Coordinate coordinate : coordinatesOfRange) {
-           coordToController.get(coordinate).restCell();
-        }
-        updateCells();
-        modeReadOnly();
     }
 
     public void versionSelected(int version) throws IOException {

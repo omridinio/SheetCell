@@ -80,14 +80,14 @@ public class RangeAreaController {
     void deleteSelctedRange(ActionEvent event) throws IOException {
         try {
             shitsellController.deleteRange(rangeToDelete.getRangeId());
-            rangeArea.getChildren().remove(rangeToDelete.getIndex());
-            ranges.remove(rangeToDelete.getRangeId());
-            for (RangeController range : ranges.values()) {
-                if(range.getIndex() > rangeToDelete.getIndex()) {
-                    range.setIndex(range.getIndex() - 1);
-                }
-            }
-            rangeToDelete = null;
+//            rangeArea.getChildren().remove(rangeToDelete.getIndex());
+//            ranges.remove(rangeToDelete.getRangeId());
+//            for (RangeController range : ranges.values()) {
+//                if(range.getIndex() > rangeToDelete.getIndex()) {
+//                    range.setIndex(range.getIndex() - 1);
+//                }
+//            }
+//            rangeToDelete = null;
             for (RangeController range : ranges.values()) {
                 range.deleteModeOff();
             }
@@ -123,6 +123,11 @@ public class RangeAreaController {
         rangeContoller.setIndex(countRanges++);
         ranges.put(rangeId, rangeContoller);
         rangeArea.getChildren().add(range);
+    }
+
+    public void restRangeArea() {
+        rangeArea.getChildren().clear();
+        ranges.clear();
     }
 
     public void setShitsellController(ShitsellController shitsellController){

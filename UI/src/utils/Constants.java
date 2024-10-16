@@ -22,6 +22,10 @@ public class Constants {
     public final static String UPDATE_CELL = FULL_SERVER_PATH + "/updateCell";
     public final static String ADD_NEW_RANGE = FULL_SERVER_PATH + "/assNewRange";
     public final static String DELETE_RANGE = FULL_SERVER_PATH + "/deleteRange";
+    public final static String SORT = FULL_SERVER_PATH + "/sort";
+    public final static String GET_THE_RANGE_OF_THE_RANGE = FULL_SERVER_PATH + "/getTheRangeOfTheRange";
+    public final static String FILTER = FULL_SERVER_PATH + "/filter";
+    public final static String GET_COL_ITEMS = FULL_SERVER_PATH + "/getColItems";
 
     // GSON instance
     public final static Gson GSON_INSTANCE = new Gson();

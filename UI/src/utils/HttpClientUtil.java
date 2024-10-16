@@ -46,6 +46,11 @@ public class HttpClientUtil {
         return response.execute();
     }
 
+    public static @NotNull Response runSync(Request request) throws IOException {
+        Call response = HTTP_CLIENT.newCall(request);
+        return response.execute();
+    }
+
     public static void shutdown() {
         System.out.println("Shutting down HTTP CLIENT");
         HTTP_CLIENT.dispatcher().executorService().shutdown();

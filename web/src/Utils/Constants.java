@@ -14,5 +14,8 @@ public class Constants {
     public final static String UPDATE_CELL = "/updateCell";
     public final static String ADD_NEW_RANGE = "/assNewRange";
     public final static String DELETE_RANGE = "/deleteRange";
-
+    public final static String SORT = "/sort";
+    public final static String GET_THE_RANGE_OF_THE_RANGE = "/getTheRangeOfTheRange";
+    public final static String FILTER = "/filter";
+    public final static String GET_COL_ITEMS = "/getColItems";
 }

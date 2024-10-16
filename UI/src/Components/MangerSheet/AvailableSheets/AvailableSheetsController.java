@@ -69,6 +69,8 @@ public class AvailableSheetsController {
         int selectedIndex = table.getSelectionModel().getSelectedIndex();
         Platform.runLater(() -> {
             table.getItems().clear();
+
+
             table.getItems().addAll(sheets);
             if(selectedIndex >= 0 && selectedIndex < table.getItems().size()){
                 table.getSelectionModel().select(selectedIndex);

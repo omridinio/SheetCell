@@ -112,7 +112,6 @@ public class SetCommandController implements Commands {
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
-
     }
 
     public void setCommandsController(CommandsController commandsController) {

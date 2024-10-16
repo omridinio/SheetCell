@@ -53,6 +53,16 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
+    public Map<Coordinate, CellDTO> getSortRange(int version, String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException {
+        Map<Coordinate,Cell> sortRange = mainSheet.get(version - 1).sortRange(rangeCells, dominantCol);
+        Map<Coordinate, CellDTO> res = new java.util.HashMap<>();
+        for (Coordinate coordinate : sortRange.keySet()) {
+            res.put(coordinate, new CellDTO(sortRange.get(coordinate)));
+        }
+        return res;
+    }
+
+    @Override
     public List<Integer> getTheRangeOfTheRange(String cellRange){
         return mainSheet.get(mainSheet.size() - 1).getTheRangeOfTheRange(cellRange);
     }
@@ -244,6 +254,11 @@ public class ImplLogic implements Logic,Serializable  {
     @Override
     public List<Coordinate> getCoordinateInRange(String cellRange) {
         return mainSheet.get(mainSheet.size() - 1).getCoordinateInRange(cellRange);
+    }
+
+    @Override
+    public List<Coordinate> getCoordinateInRange(int version, String cellRange) {
+        return mainSheet.get(version - 1).getCoordinateInRange(cellRange);
     }
 
     @Override

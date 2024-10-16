@@ -38,9 +38,15 @@ public interface Logic {
     RangeDTO createTempRange(String cellRange);
 
     List<String> getRangesName();
+
+    Map<Coordinate, CellDTO> getSortRange(int version, String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
+
     List<Integer> getTheRangeOfTheRange(String cellRange);
     void removeRange(String rangeId);
     List<Coordinate> getCoordinateInRange(String cellRange);
+
+    List<Coordinate> getCoordinateInRange(int version, String cellRange);
+
     Map<Integer, String> getColumsItem(int col, String theRange);
     Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected);
     void updateDaynmicAnlayze(String cellId, String value);
