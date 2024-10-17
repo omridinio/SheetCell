@@ -101,7 +101,6 @@ public class ShitsellController {
     List<CellContoller> numberColCell = new ArrayList<>();
     List<CellContoller> numberRowCell = new ArrayList<>();
     Map<Coordinate,CellContoller> backupCoordToController = new HashMap<>();
-    private Logic logic = new ImplLogic();
     private SheetDTO currSheet;
     private BooleanProperty isLoaded = new SimpleBooleanProperty(false);
     private Button currRange;
@@ -265,11 +264,26 @@ public class ShitsellController {
         isReadOnlyMode.setValue(false);
         actionLine.setDisable(false);
         actionLineController.getVersionSelctor().setValue(actionLineController.getVersionSelctor().getItems().getLast());
-        if(isDynmicMode.getValue()){
-            for (int i = 0; i< countDynmicAnlyze; i++){
-                logic.deleteSheet();
-
+        String finalUrl = HttpUrl
+                .parse(Constants.DELETE_DYNAMIC_SHEET)
+                .newBuilder()
+                .build()
+                .toString();
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
             }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    ErrorController.showError(response.body().string());
+                }
+                response.body().string();
+            }
+        });
+        if(isDynmicMode.getValue()){
             for(Coordinate coordinate : daynmicCells){
                 coordToController.get(coordinate).turnOffDynmicAnlayze();
             }
@@ -278,10 +292,8 @@ public class ShitsellController {
                 currCell.cellContoller.turnOffDynmicAnlayze();
             }
             isDynmicMode.setValue(false);
-            updateSheet(logic.getSheet());
+            updateSheet(currSheet);
             lastDynmicCell = "";
-            countDynmicAnlyze = 0;
-
         }
     }
 
@@ -448,7 +460,6 @@ public class ShitsellController {
         isdeleteRangeMode.setValue(false);
         isDynmicMode.setValue(false);
         lastDynmicCell = "";
-        countDynmicAnlyze = 0;
         daynmicCells.clear();
         numberRowCell.clear();
         numberColCell.clear();
@@ -516,7 +527,8 @@ public class ShitsellController {
         if(validInputCell(id)){
             Coordinate coordinate = new Coordinate(id);
             try {
-                CellDTO cell = logic.getCell(coordinate);
+                //CellDTO cell = logic.getCell(coordinate);
+                CellDTO cell = currSheet.getCell(coordinate);
                 cellClicked(cell, coordToController.get(coordinate).getCell());
                 cellId.setText(id);
             } catch (Exception e) { }
@@ -1077,14 +1089,30 @@ public class ShitsellController {
     }
 
     public void versionSelected(int version) throws IOException {
-        SheetDTO sheetbyVersion = logic.getSheetbyVersion(version - 1);
-        for (Coordinate coordinate : coordToController.keySet()) {
-            backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
-            coordToController.get(coordinate).restCellArtitube();
+        String finalUrl = HttpUrl
+                .parse(Constants.SHEET_BY_VERSION)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("version", String.valueOf(version - 1))
+                .build()
+                .toString();
+        Response response = HttpClientUtil.runSync(finalUrl);
+        if (response.code() != 200) {
+            ErrorController.showError(response.body().string());
+        } else {
+            String jsonSheetName = response.body().string();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                    .create();
+            SheetDTO sheetbyVersion = gson.fromJson(jsonSheetName, ImplSheetDTO.class);
+            for (Coordinate coordinate : coordToController.keySet()) {
+                backupCoordToController.put(coordinate, coordToController.get(coordinate).duplicate());
+                coordToController.get(coordinate).restCellArtitube();
+            }
+            readOnlyCoord = new HashSet<>(coordToController.keySet());
+            updateSheet(sheetbyVersion);
+            modeReadOnly();
         }
-        readOnlyCoord = new HashSet<>(coordToController.keySet());
-        updateSheet(sheetbyVersion);
-        modeReadOnly();
     }
 
     public void dynmicAnlyzeForCell() {
@@ -1098,15 +1126,30 @@ public class ShitsellController {
     }
 
     public void updateCellDynmicAnlyaze(double value, String cellId) {
-        logic.updateDaynmicAnlayze(cellId, String.valueOf(value));
-        updateSheet(logic.getSheet());
-        if(lastDynmicCell.equals(cellId)){
-            logic.deleteSheet();
+        String finalUrl = HttpUrl
+                .parse(Constants.DYNMIC_ANLYZE)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
+                .addQueryParameter("value", String.valueOf(value))
+                .addQueryParameter("cellId", cellId)
+                .build()
+                .toString();
+        try {
+            Response response = HttpClientUtil.runSync(finalUrl);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonSheetName = response.body().string();
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                        .create();
+                SheetDTO dynamicSheet =gson.fromJson(jsonSheetName, ImplSheetDTO.class);
+                updateSheet(dynamicSheet);
+            }
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
         }
-        else{
-            countDynmicAnlyze++;
-        }
-        lastDynmicCell = cellId;
     }
 
     public void dynmicAnlyzeForSheet() {
@@ -1124,23 +1167,62 @@ public class ShitsellController {
     }
 
     public List<String> getCustomRange(String range){
-        RangeDTO tempRange = logic.createTempRange(range);
-        List<String> effectiveValues = new ArrayList<>();
-        List<CellDTO> cells = tempRange.getRangeCells();
-        for(CellDTO cell : cells){
-            effectiveValues.add(cell.getOriginalEffectiveValue());
+        //RangeDTO tempRange = logic.createTempRange(range);
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_TEMP_RANGE)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("theRange", range)
+                .build()
+                .toString();
+        try {
+            Response response = HttpClientUtil.runSync(finalUrl);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonArrayOfSheetNames = response.body().string();
+                RangeDTO tempRange = Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, RangeDTO.class);
+                List<String> effectiveValues = new ArrayList<>();
+                List<CellDTO> cells = tempRange.getRangeCells();
+                for(CellDTO cell : cells){
+                    effectiveValues.add(cell.getOriginalEffectiveValue());
+                }
+                return effectiveValues;
+            }
+
+        } catch (IOException e) {
+            ErrorController.showError(e.getMessage());
         }
-        return effectiveValues;
+        return null;
     }
 
     public List<String> getRanges(String text) {
-        RangeDTO range = logic.getRange(text);
-        List<String> effectiveValues = new ArrayList<>();
-        List<CellDTO> cells = range.getRangeCells();
-        for(CellDTO cell : cells){
-            effectiveValues.add(cell.getOriginalEffectiveValue());
+        //RangeDTO range = logic.getRange(text);
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_RANGE)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("rangeId", text)
+                .build()
+                .toString();
+        try {
+            Response response = HttpClientUtil.runSync(finalUrl);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonArrayOfSheetNames = response.body().string();
+                RangeDTO range = Constants.GSON_INSTANCE.fromJson(jsonArrayOfSheetNames, RangeDTO.class);
+                List<String> effectiveValues = new ArrayList<>();
+                List<CellDTO> cells = range.getRangeCells();
+                for(CellDTO cell : cells){
+                    effectiveValues.add(cell.getOriginalEffectiveValue());
+                }
+                return effectiveValues;
+            }
+        } catch (IOException e) {
+            ErrorController.showError(e.getMessage());
         }
-        return effectiveValues;
+        return null;
     }
 
     public void onLeftColumnDragged(double newWidth) {
@@ -1154,7 +1236,17 @@ public class ShitsellController {
     }
 
     public String predictCalculate(String expression) throws IOException, ClassNotFoundException {
-        return logic.predictCalculate(expression, currCell.cellid.getValue());
+        //return logic.predictCalculate(expression, currCell.cellid.getValue());
+        String finalUrl = HttpUrl
+                .parse(Constants.PREDICT_CALCULATE)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("cellId", currCell.cellid.getValue())
+                .addQueryParameter("expression", expression)
+                .build()
+                .toString();
+        Response response = HttpClientUtil.runSync(finalUrl);
+        return response.body().string();
     }
 
     public void setCellDynmic(int row, int col) {

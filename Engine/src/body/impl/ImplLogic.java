@@ -99,9 +99,28 @@ public class ImplLogic implements Logic,Serializable  {
         }
     }
 
-    private Sheet copySheet() throws IOException, ClassNotFoundException {
+    @Override
+    public Sheet copySheet() throws IOException, ClassNotFoundException {
+//        Sheet newVersion = null;
+//        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
+//        // Step 1: Serialize the object to a byte array
+//        ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+//        ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
+//        outStream.writeObject(currentVersion);
+//        outStream.flush();
+//
+//        // Step 2: Deserialize the byte array into a new object
+//        ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
+//        ObjectInputStream inStream = new ObjectInputStream(byteInStream);
+//        newVersion = (Sheet) inStream.readObject();
+//        return newVersion;
+        return copySheetByVersion(mainSheet.size());
+    }
+
+    @Override
+    public Sheet copySheetByVersion(int version) throws IOException, ClassNotFoundException {
         Sheet newVersion = null;
-        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
+        Sheet currentVersion = mainSheet.get(version - 1);
         // Step 1: Serialize the object to a byte array
         ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
         ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
@@ -114,6 +133,7 @@ public class ImplLogic implements Logic,Serializable  {
         newVersion = (Sheet) inStream.readObject();
         return newVersion;
     }
+
 
     @Override
     public void deleteSheet() {

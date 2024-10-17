@@ -10,6 +10,7 @@ public class Constants {
     public final static String PERMISSION_OWNER = "/permissionOwner";
     public final static String VIEW_SHEET = "/viewSheet";
     public final static String GET_RANGE = "/getRange";
+    public final static String GET_TEMP_RANGE = "/getTempRange";
     public final static String GET_RANGES_NAME = "/getRangesName";
     public final static String UPDATE_CELL = "/updateCell";
     public final static String ADD_NEW_RANGE = "/assNewRange";
@@ -18,4 +19,8 @@ public class Constants {
     public final static String GET_THE_RANGE_OF_THE_RANGE = "/getTheRangeOfTheRange";
     public final static String FILTER = "/filter";
     public final static String GET_COL_ITEMS = "/getColItems";
+    public final static String DYNMIC_ANLYZE = "/dynmicAnlyze";
+    public final static String DELETE_DYNAMIC_SHEET = "/deleteDynamicSheet";
+    public final static String SHEET_BY_VERSION = "/sheetByVersion";
+    public final static String PREDICT_CALCULATE = "/predictCalculate";
 }

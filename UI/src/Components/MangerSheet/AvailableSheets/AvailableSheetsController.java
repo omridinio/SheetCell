@@ -45,7 +45,6 @@ public class AvailableSheetsController {
     @FXML
     void slectedRow(MouseEvent event) {
         manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
-
     }
 
     public void initialize() {

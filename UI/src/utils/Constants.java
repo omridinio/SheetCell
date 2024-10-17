@@ -8,7 +8,6 @@ public class Constants {
     private final static String BASE_URL = "http://" + BASE_DOMAIN + ":8080";
     private final static String CONTEXT_PATH = "/web";
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
-
     public final static String LOGIN_PAGE = FULL_SERVER_PATH + "/login";
     public final static String LOAD_SHEET = FULL_SERVER_PATH + "/loadSheet";
     public final static String REFRESH_SHEET = FULL_SERVER_PATH + "/refreshSheet";
@@ -18,6 +17,7 @@ public class Constants {
     public final static String PERMISSION_OWNER = FULL_SERVER_PATH + "/permissionOwner";
     public final static String VIEW_SHEET = FULL_SERVER_PATH + "/viewSheet";
     public final static String GET_RANGE = FULL_SERVER_PATH + "/getRange";
+    public final static String GET_TEMP_RANGE = FULL_SERVER_PATH + "/getTempRange";
     public final static String GET_RANGES_NAME = FULL_SERVER_PATH + "/getRangesName";
     public final static String UPDATE_CELL = FULL_SERVER_PATH + "/updateCell";
     public final static String ADD_NEW_RANGE = FULL_SERVER_PATH + "/assNewRange";
@@ -26,6 +26,10 @@ public class Constants {
     public final static String GET_THE_RANGE_OF_THE_RANGE = FULL_SERVER_PATH + "/getTheRangeOfTheRange";
     public final static String FILTER = FULL_SERVER_PATH + "/filter";
     public final static String GET_COL_ITEMS = FULL_SERVER_PATH + "/getColItems";
+    public final static String DYNMIC_ANLYZE = FULL_SERVER_PATH + "/dynmicAnlyze";
+    public final static String DELETE_DYNAMIC_SHEET = FULL_SERVER_PATH + "/deleteDynamicSheet";
+    public final static String SHEET_BY_VERSION = FULL_SERVER_PATH + "/sheetByVersion";
+    public final static String PREDICT_CALCULATE = FULL_SERVER_PATH + "/predictCalculate";
 
     // GSON instance
     public final static Gson GSON_INSTANCE = new Gson();

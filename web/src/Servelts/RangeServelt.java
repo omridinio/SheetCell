@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "RangeServelt", urlPatterns = {Constants.GET_RANGE, Constants.GET_RANGES_NAME, Constants.ADD_NEW_RANGE, Constants.DELETE_RANGE, Constants.GET_THE_RANGE_OF_THE_RANGE, Constants.GET_COL_ITEMS})
+@WebServlet(name = "RangeServelt", urlPatterns = {Constants.GET_RANGE, Constants.GET_TEMP_RANGE, Constants.GET_RANGES_NAME, Constants.ADD_NEW_RANGE, Constants.DELETE_RANGE, Constants.GET_THE_RANGE_OF_THE_RANGE, Constants.GET_COL_ITEMS})
 public class RangeServelt extends HttpServlet {
 
     @Override
@@ -31,6 +31,7 @@ public class RangeServelt extends HttpServlet {
             case Constants.ADD_NEW_RANGE -> addNewRange(request, response);
             case Constants.DELETE_RANGE -> deleteRange(request, response);
             case Constants.GET_THE_RANGE_OF_THE_RANGE -> getTheRangeOfTheRange(request, response);
+            case Constants.GET_TEMP_RANGE -> getTempRange(request, response);
         }
     }
 
@@ -38,6 +39,33 @@ public class RangeServelt extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         switch (request.getServletPath()) {
             case Constants.GET_COL_ITEMS -> getColItems(request, response);
+        }
+    }
+
+    private void getTempRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String usernameFromSession = SessionUtils.getUserNameFromSession(request);
+        if (usernameFromSession == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
+            try {
+                String sheet = request.getParameter("sheetName");
+                String theRange = request.getParameter("theRange");
+                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                RangeDTO range = sheetManger.getSheet(sheet).createTempRange(theRange);
+                if (range != null) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(range);
+                    response.setContentType("application/json");
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+            } catch (Exception e) {
+                response.getOutputStream().print(e.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         }
     }
 
@@ -174,23 +202,26 @@ public class RangeServelt extends HttpServlet {
 
     private void getRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if(usernameFromSession == null) {
+        if (usernameFromSession == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-        else {
-            String sheet = request.getParameter("sheetName");
-            String rangeId = request.getParameter("rangeId");
-            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-            RangeDTO range = sheetManger.getSheet(sheet).getRange(rangeId);
-            if(range != null){
-                Gson gson = new Gson();
-                String json = gson.toJson(range);
-                response.setContentType("application/json");
-                response.getWriter().write(json);
-                response.getWriter().flush();
-                response.setStatus(HttpServletResponse.SC_OK);
-            }
-            else{
+        } else {
+            try {
+                String sheet = request.getParameter("sheetName");
+                String rangeId = request.getParameter("rangeId");
+                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                RangeDTO range = sheetManger.getSheet(sheet).getRange(rangeId);
+                if (range != null) {
+                    Gson gson = new Gson();
+                    String json = gson.toJson(range);
+                    response.setContentType("application/json");
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+            } catch (Exception e) {
+                response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
