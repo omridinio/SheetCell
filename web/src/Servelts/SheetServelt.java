@@ -317,6 +317,11 @@ public class SheetServelt extends HttpServlet {
             try {
                 writeLock.lock();
                 Logic sheet = sheetManger.getSheet(sheetName);
+                int version = Integer.parseInt(request.getParameter("version"));
+                if(version < sheet.getVersion()) {
+                    response.getOutputStream().print("Error: A more recent version of the sheet is available");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
                 String cellId = request.getParameter("cellId");
                 String newValue = request.getParameter("newValue");
                 int currVersion = Integer.parseInt(request.getParameter("version"));

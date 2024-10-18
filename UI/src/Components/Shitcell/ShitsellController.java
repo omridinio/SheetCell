@@ -160,7 +160,7 @@ public class ShitsellController {
                 allTheSheet.setPrefHeight(newVal.doubleValue() - 5);
             }
         });
-        isReadMode.bind(isReaderPermission.or(actionLineController.isUpdate.not()));
+        isReadMode.bind(isReaderPermission);
     }
 
     public GridPane getSheet() {
@@ -180,6 +180,7 @@ public class ShitsellController {
                 createEmptySheet(col, row, width, height);
                 updateSheet(sheet);
                 createRanges();
+                actionLineController.addNewVersions(sheet.getVersion(), false, true);
                 actionLine.setDisable(false);
                 if(permissionType == PermissionType.READER){
                     isReaderPermission.setValue(true);
@@ -269,7 +270,8 @@ public class ShitsellController {
         readOnlyCoord.clear();
         isReadOnlyMode.setValue(false);
         actionLine.setDisable(false);
-        actionLineController.getVersionSelctor().setValue(actionLineController.getVersionSelctor().getItems().getLast());
+        //actionLineController.getVersionSelctor().setValue(actionLineController.getVersionSelctor().getItems().getLast());
+        actionLineController.getVersionSelctor().setValue(currSheet.getVersion());
         String finalUrl = HttpUrl
                 .parse(Constants.DELETE_DYNAMIC_SHEET)
                 .newBuilder()
@@ -326,7 +328,6 @@ public class ShitsellController {
         manggerSheetController.switchManagerSheet();
     }
 
-
     private void stratSheetRefresher(){
         sheetRefresher = new SheetVersionRefresher(currSheet.getVersion(), this::updateVersion, currSheet.getSheetName());
         timer = new Timer();
@@ -335,19 +336,7 @@ public class ShitsellController {
 
     private void updateVersion(int version) {
         try {
-            actionLineController.addNewVersions(version);
-            if(!actionLineController.isUpdate.getValue()){
-                DropShadow shadow = new DropShadow();
-                shadow.setColor(Color.GREEN);
-                shadow.setRadius(50);
-                Timeline timeline = new Timeline(
-                        new KeyFrame(Duration.seconds(0), e -> sheet.setEffect(shadow)),
-                        new KeyFrame(Duration.seconds(0.3), e -> sheet.setEffect(null)),
-                        new KeyFrame(Duration.seconds(0.6), e -> sheet.setEffect(shadow))
-                );
-                timeline.setCycleCount(1);
-                timeline.play();
-            }
+            actionLineController.addNewVersions(version, isReaderPermission.getValue(),false);
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
@@ -612,10 +601,15 @@ public class ShitsellController {
 
             //updateSheet(logic.getSheet());
             //CellDTO currCell = logic.getCell(new Coordinate(cellId));
-            updateCellInSheet(actionLine, cellId, this::updateSheet);
-            CellDTO currCell = currSheet.getCell(new Coordinate(cellId));
-            cellClicked(currCell, coordToController.get(new Coordinate(cellId)).getCell());
-            actionLineController.addVersion();
+            if(!actionLineController.isUpdate.getValue()){
+                ErrorController.showError("Error: A more recent version of the sheet is available");
+            }
+            else {
+                updateCellInSheet(actionLine, cellId, this::updateSheet);
+                CellDTO currCell = currSheet.getCell(new Coordinate(cellId));
+                cellClicked(currCell, coordToController.get(new Coordinate(cellId)).getCell());
+                actionLineController.addVersion();
+            }
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
@@ -1363,7 +1357,7 @@ public class ShitsellController {
                 SheetDTO newSheet =gson.fromJson(jsonSheetName, ImplSheetDTO.class);
                 currSheet = newSheet;
                 updateSheet(currSheet);
-                sheet.setEffect(null);
+                actionLineController.removeEffect();
             }
         } catch (IOException e) {
             ErrorController.showError(e.getMessage());
