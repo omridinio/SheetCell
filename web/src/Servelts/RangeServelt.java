@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 @WebServlet(name = "RangeServelt", urlPatterns = {Constants.GET_RANGE, Constants.GET_TEMP_RANGE, Constants.GET_RANGES_NAME, Constants.ADD_NEW_RANGE, Constants.DELETE_RANGE, Constants.GET_THE_RANGE_OF_THE_RANGE, Constants.GET_COL_ITEMS})
 public class RangeServelt extends HttpServlet {
@@ -47,11 +48,13 @@ public class RangeServelt extends HttpServlet {
         if (usernameFromSession == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheet = request.getParameter("sheetName");
+                readLock.lock();
                 String theRange = request.getParameter("theRange");
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                RangeDTO range = sheetManger.getSheet(sheet).createTempRange(theRange);
+                RangeDTO range = sheetManger.getSheet(sheetName).createTempRange(theRange);
                 if (range != null) {
                     Gson gson = new Gson();
                     String json = gson.toJson(range);
@@ -65,6 +68,8 @@ public class RangeServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -75,13 +80,15 @@ public class RangeServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getHeader("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getHeader("sheetName");
+                readLock.lock();
                 String range = request.getHeader("range");
                 int version = Integer.parseInt(request.getHeader("version"));
                 int col = Integer.parseInt(request.getHeader("col"));
                 BufferedReader reader = request.getReader();
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
                 Logic logicSheet = sheetManger.getSheet(sheetName);
                 Map<Integer, String> colItems;
                 if (!reader.ready()) {
@@ -103,9 +110,10 @@ public class RangeServelt extends HttpServlet {
             catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
+            } finally {
+                readLock.unlock();
             }
-            }
+        }
     }
 
     private void getTheRangeOfTheRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -114,10 +122,12 @@ public class RangeServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
+                readLock.lock();
                 String range = request.getParameter("range");
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
                 Logic logicSheet = sheetManger.getSheet(sheetName);
                 List<Integer> startEndRange = logicSheet.getTheRangeOfTheRange(range);
                 Gson gson = new Gson();
@@ -129,6 +139,8 @@ public class RangeServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -139,25 +151,27 @@ public class RangeServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock writeLock = sheetManger.getWriteLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
-                String rangeId = request.getParameter("rangeId");
-                int currVersion = Integer.parseInt(request.getParameter("version"));
-                synchronized (this) {
-                    SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                    Logic logicSheet = sheetManger.getSheet(sheetName);
-                    if(logicSheet.getVersion() > currVersion){
-                        response.getOutputStream().print("Error: A more recent version of the sheet is available");
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
-                    else{
-                        logicSheet.removeRange(rangeId);
-                        response.setStatus(HttpServletResponse.SC_OK);
-                    }
+            writeLock.lock();
+            String rangeId = request.getParameter("rangeId");
+            int currVersion = Integer.parseInt(request.getParameter("version"));
+                Logic logicSheet = sheetManger.getSheet(sheetName);
+                if(logicSheet.getVersion() > currVersion){
+                    response.getOutputStream().print("Error: A more recent version of the sheet is available");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+                else{
+                    logicSheet.removeRange(rangeId);
+                    response.setStatus(HttpServletResponse.SC_OK);
                 }
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                writeLock.unlock();
             }
         }
     }
@@ -168,35 +182,35 @@ public class RangeServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock writeLock = sheetManger.getWriteLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
+                writeLock.lock();
                 String rangeId = request.getParameter("rangeId");
                 String theRange = request.getParameter("theRange");
                 int currVersion = Integer.parseInt(request.getParameter("version"));
-                synchronized (this) {
-                    SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                    Logic logicSheet = sheetManger.getSheet(sheetName);
-                    if(logicSheet.getVersion() > currVersion){
-                        response.getOutputStream().print("Error: A more recent version of the sheet is available");
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
-                    else{
-                        logicSheet.createNewRange(rangeId, theRange);
-                        RangeDTO range = logicSheet.getRange(rangeId);
-                        Gson gson = new Gson();
-                        String json = gson.toJson(range);
-                        response.setContentType("application/json");
-                        response.getWriter().write(json);
-                        response.getWriter().flush();
-                        response.setStatus(HttpServletResponse.SC_OK);
-                    }
+                Logic logicSheet = sheetManger.getSheet(sheetName);
+                if(logicSheet.getVersion() > currVersion){
+                    response.getOutputStream().print("Error: A more recent version of the sheet is available");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+                else{
+                    logicSheet.createNewRange(rangeId, theRange);
+                    RangeDTO range = logicSheet.getRange(rangeId);
+                    Gson gson = new Gson();
+                    String json = gson.toJson(range);
+                    response.setContentType("application/json");
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.setStatus(HttpServletResponse.SC_OK);
                 }
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } finally {
+                writeLock.unlock();
             }
-
-
         }
     }
 
@@ -205,11 +219,13 @@ public class RangeServelt extends HttpServlet {
         if (usernameFromSession == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheet = request.getParameter("sheetName");
+                readLock.lock();
                 String rangeId = request.getParameter("rangeId");
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                RangeDTO range = sheetManger.getSheet(sheet).getRange(rangeId);
+                RangeDTO range = sheetManger.getSheet(sheetName).getRange(rangeId);
                 if (range != null) {
                     Gson gson = new Gson();
                     String json = gson.toJson(range);
@@ -223,6 +239,8 @@ public class RangeServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -234,12 +252,21 @@ public class RangeServelt extends HttpServlet {
         }
         String sheet = request.getParameter("sheetName");
         SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-        List<String> ranges = sheetManger.getSheet(sheet).getRangesName();
-        Gson gson = new Gson();
-        String json = gson.toJson(ranges);
-        response.setContentType("application/json");
-        response.getWriter().write(json);
-        response.getWriter().flush();
-        response.setStatus(HttpServletResponse.SC_OK);
+        Lock readLock = sheetManger.getReadLock(sheet);
+        try{
+            readLock.lock();
+            List<String> ranges = sheetManger.getSheet(sheet).getRangesName();
+            Gson gson = new Gson();
+            String json = gson.toJson(ranges);
+            response.setContentType("application/json");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            response.getOutputStream().print(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } finally {
+            readLock.unlock();
+        }
     }
 }

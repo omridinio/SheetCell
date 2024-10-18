@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 
 @WebServlet(name = "sheetServelt", urlPatterns = {Constants.VIEW_SHEET, Constants.GET_UPDATE_SHEET_VERSION, Constants.REFRESH_SHEET_VERSIONS, Constants.UPDATE_CELL, Constants.SORT, Constants.FILTER, Constants.DYNMIC_ANLYZE, Constants.DELETE_DYNAMIC_SHEET, Constants.SHEET_BY_VERSION, Constants.PREDICT_CALCULATE})
@@ -36,7 +37,7 @@ public class SheetServelt extends HttpServlet {
                 viewSheet(request, response);
                 break;
             case Constants.UPDATE_CELL:
-                updatCell(request, response);
+                updateCell(request, response);
                 break;
             case Constants.FILTER:
                 filter(request, response);
@@ -77,9 +78,11 @@ public class SheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                readLock.lock();
                 Logic sheet = sheetManger.getSheet(sheetName);
                 SheetDTO sheetDTO = sheet.getSheet();
                 Gson gson = new GsonBuilder()
@@ -93,6 +96,8 @@ public class SheetServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -103,15 +108,19 @@ public class SheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                readLock.lock();
                 Logic sheet = sheetManger.getSheet(sheetName);
                 response.getOutputStream().print(sheet.getVersion());
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -122,11 +131,13 @@ public class SheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
+                readLock.lock();
                 String cellId = request.getParameter("cellId");
                 String expression = request.getParameter("expression");
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
                 Logic sheet = sheetManger.getSheet(sheetName);
                 String predictCalculate = sheet.predictCalculate(expression, cellId);
                 response.getOutputStream().print(predictCalculate);
@@ -134,6 +145,8 @@ public class SheetServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -144,10 +157,12 @@ public class SheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
+                readLock.lock();
                 int version = Integer.parseInt(request.getParameter("version"));
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
                 Logic sheet = sheetManger.getSheet(sheetName);
                 SheetDTO sheetByVersion = sheet.getSheetbyVersion(version);
                 Gson gson = new GsonBuilder()
@@ -161,6 +176,8 @@ public class SheetServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -224,11 +241,13 @@ public class SheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
+                readLock.lock();
                 String range = request.getParameter("range");
                 int version = Integer.parseInt(request.getParameter("version"));
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
                 Logic sheet = sheetManger.getSheet(sheetName);
                 List<Coordinate> coordinateInRange = sheet.getCoordinateInRange(version, range);
                 Gson gson = new GsonBuilder()
@@ -243,6 +262,8 @@ public class SheetServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
@@ -253,8 +274,12 @@ public class SheetServelt extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else{
+            String sheetName = request.getHeader("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
             try {
-                String sheetName = request.getHeader("sheetName");
+                readLock.lock();
+                Logic sheet = sheetManger.getSheet(sheetName);
                 String theRange = request.getHeader("range");
                 String version = request.getHeader("version");
                 int versionNum = Integer.parseInt(version);
@@ -262,8 +287,6 @@ public class SheetServelt extends HttpServlet {
                 Gson gson = new Gson();
                 Type listType = new TypeToken<List<Integer>>(){}.getType();
                 List<Integer> dominantCol = gson.fromJson(reader, listType);
-                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                Logic sheet = sheetManger.getSheet(sheetName);
                 Map<Coordinate, CellDTO> sortedSheet = sheet.getSortRange(versionNum, theRange, dominantCol);
                 Gson resGson = new GsonBuilder()
                         .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
@@ -276,49 +299,49 @@ public class SheetServelt extends HttpServlet {
             } catch (Exception e) {
                 response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }
 
-    private void updatCell(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void updateCell(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
         if(usernameFromSession == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else{
+            String sheetName = request.getParameter("sheetName");
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock writeLock = sheetManger.getWriteLock(sheetName);
             try {
-                String sheetName = request.getParameter("sheetName");
+                writeLock.lock();
+                Logic sheet = sheetManger.getSheet(sheetName);
                 String cellId = request.getParameter("cellId");
                 String newValue = request.getParameter("newValue");
                 int currVersion = Integer.parseInt(request.getParameter("version"));
-                synchronized (this) {
-                    SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-                    Logic sheet = sheetManger.getSheet(sheetName);
-                    int originalVersion = sheet.getVersion();
-                    if(originalVersion > currVersion) {
-                        response.getOutputStream().print("Error: A more recent version of the sheet is available");
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
-                    else {
-                        sheet.updateCell(cellId, newValue, usernameFromSession);
-                        SheetDTO newSheet = sheet.getSheet();
-                        Gson gson = new GsonBuilder()
-                                .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
-                                .create();
-                        String json = gson.toJson(newSheet);
-                        response.setContentType("application/json");
-                        response.getWriter().write(json);
-                        response.getWriter().flush();
-                        response.setStatus(HttpServletResponse.SC_OK);
-                    }
+                int originalVersion = sheet.getVersion();
+                if (originalVersion > currVersion) {
+                    response.getOutputStream().print("Error: A more recent version of the sheet is available");
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                } else {
+                    sheet.updateCell(cellId, newValue, usernameFromSession);
+                    SheetDTO newSheet = sheet.getSheet();
+                    Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                            .create();
+                    String json = gson.toJson(newSheet);
+                    response.setContentType("application/json");
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.setStatus(HttpServletResponse.SC_OK);
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            catch (Exception e){
+            } catch (Exception e){
                 String messege = e.getMessage();
                 response.getOutputStream().print(messege);
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                writeLock.unlock();
             }
         }
     }
@@ -331,20 +354,29 @@ public class SheetServelt extends HttpServlet {
         else {
             String sheetName = request.getParameter("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-            Logic sheet = sheetManger.getSheet(sheetName);
-            if(sheet.getOwner().equals(usernameFromSession) || sheet.getPermission(usernameFromSession) != null){
-                SheetDTO mainSheet = sheet.getSheet();
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
-                        .create();
-                String json = gson.toJson(mainSheet);
-                response.setContentType("application/json");
-                response.getWriter().write(json);
-                response.getWriter().flush();
-                response.setStatus(HttpServletResponse.SC_OK);
-            }
-            else {
+            Lock readLock = sheetManger.getReadLock(sheetName);
+            try {
+                readLock.lock();
+                Logic sheet = sheetManger.getSheet(sheetName);
+                if(sheet.getOwner().equals(usernameFromSession) || sheet.getPermission(usernameFromSession) != null){
+                    SheetDTO mainSheet = sheet.getSheet();
+                    Gson gson = new GsonBuilder()
+                            .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                            .create();
+                    String json = gson.toJson(mainSheet);
+                    response.setContentType("application/json");
+                    response.getWriter().write(json);
+                    response.getWriter().flush();
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
+                else {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+            } catch (Exception e) {
+                response.getOutputStream().print(e.getMessage());
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
             }
         }
     }

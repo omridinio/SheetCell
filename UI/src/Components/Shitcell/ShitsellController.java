@@ -645,6 +645,13 @@ public class ShitsellController {
             else {
                 ErrorController.showError(response.body().string());
             }
+            Platform.runLater(() -> {
+                try {
+                    createRanges();
+                } catch (IOException e) {
+                    ErrorController.showError(e.getMessage());
+                }
+            });
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
         }
@@ -690,14 +697,14 @@ public class ShitsellController {
                     } else {
                         String jsonRange = response.body().string();
                         RangeDTO range = Constants.GSON_INSTANCE.fromJson(jsonRange, RangeDTO.class);
-                        Platform.runLater(() -> {
-                            try {
-                                createRanges();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
                     }
+                    Platform.runLater(() -> {
+                        try {
+                            createRanges();
+                        } catch (IOException e) {
+                            ErrorController.showError(e.getMessage());
+                        }
+                    });
                 }
             });
         } catch (Exception e) {

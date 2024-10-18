@@ -7,19 +7,23 @@ import jakarta.xml.bind.JAXBException;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
 
 public class SheetManger {
     private Map<String, Logic> sheets = new HashMap<>();
     private List<Logic> listOfSheets = new ArrayList<>();
+    LockManger lockManger = new LockManger();
 
     public synchronized void addSheet(String sheetName, Logic sheet){
         sheets.put(sheetName, sheet);
         listOfSheets.add(sheet);
+        lockManger.addLock(sheetName);
     }
 
     public synchronized void removeSheet(String sheetName){
         sheets.remove(sheetName);
         listOfSheets.remove(sheetName);
+        lockManger.removeLock(sheetName);
     }
 
     public synchronized boolean isSheetExist(String sheetName){
@@ -56,5 +60,11 @@ public class SheetManger {
         return sheets.get(sheetName);
     }
 
+    public Lock getReadLock(String sheetName) {
+        return lockManger.getReadLock(sheetName);
+    }
 
+    public Lock getWriteLock(String sheetName) {
+        return lockManger.getWriteLock(sheetName);
+    }
 }

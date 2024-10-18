@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
 
 public interface Logic {
@@ -66,4 +67,5 @@ public interface Logic {
     PermissionType getPermission(String userName);
 
     int getVersion();
+
 }
