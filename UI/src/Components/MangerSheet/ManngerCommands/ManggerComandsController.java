@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -51,9 +52,6 @@ public class ManggerComandsController {
 
     private ManggerSheetController manggerSheetController;
 
-    private Map<String, Parent> activeSheet = new HashMap<>();
-
-    private Map<String, ShitsellController> activeSheetsController = new HashMap<>();
 
     @FXML
     void ackOrDentClicked(ActionEvent event) {
@@ -117,18 +115,15 @@ public class ManggerComandsController {
                         .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
                         .create();
                 SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
-                if (!activeSheet.containsKey(sheetDTO.getSheetName())) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-                    Parent root = loader.load();
-                    ShitsellController shitsellController = loader.getController();
-                    shitsellController.setManggerSheetController(manggerSheetController);
-                    activeSheet.put(sheetDTO.getSheetName(), root);
-                    activeSheetsController.put(sheetDTO.getSheetName(), shitsellController);
-                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
+                ScrollPane root = loader.load();
+                ShitsellController shitsellController = loader.getController();
+                shitsellController.setManggerSheetController(manggerSheetController);
                 manggerSheetController.setIsSheetSelected(false);
                 manggerSheetController.setInScreen(false);
-                manggerSheetController.changeContent(activeSheet.get(sheetDTO.getSheetName()));
-                activeSheetsController.get(sheetDTO.getSheetName()).showSheet(sheetDTO, manggerSheetController.getSelectedSheet().getSheetPermission());
+                manggerSheetController.changeContent(root);
+                shitsellController.showSheet(sheetDTO, manggerSheetController.getSelectedSheet().getSheetPermission());
+                manggerSheetController.clearSheetSelect();
             }
         } catch (Exception e){
             e.printStackTrace();

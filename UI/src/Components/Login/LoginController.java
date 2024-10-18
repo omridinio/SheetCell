@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import okhttp3.*;
 import utils.Constants;
 import utils.HttpClientUtil;
@@ -54,12 +55,13 @@ public class LoginController {
                     if (response.code() == 200) {
                         response.body().string();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/MangerSheet/mangerSheet.fxml"));
-                        Parent mangerSheet = loader.load();
+                        AnchorPane mangerSheet = loader.load();
                         ManggerSheetController manggerSheetController = loader.getController();
                         manggerSheetController.setMainController(mainController);
                         manggerSheetController.setUserName(userName.trim());
                         Platform.runLater(() -> {
-                            mainController.setPane(mangerSheet);
+                            //mainController.setPane(mangerSheet);
+                            mainController.LoadManger(mangerSheet);
                         });
                     } else {
                         response.body().string();

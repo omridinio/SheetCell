@@ -44,6 +44,7 @@ import Components.Cell.CellContoller;
 import javafx.util.Duration;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.events.Event;
 import utils.Constants;
 import utils.HttpClientUtil;
 
@@ -300,6 +301,31 @@ public class ShitsellController {
             updateSheet(currSheet);
         }
     }
+
+    @FXML
+    private void backToDashboardClicked() {
+        String finalUrl = HttpUrl
+                .parse(Constants.DELETE_DYNAMIC_SHEET)
+                .newBuilder()
+                .build()
+                .toString();
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    ErrorController.showError(response.body().string());
+                }
+                response.body().string();
+            }
+        });
+        manggerSheetController.switchManagerSheet();
+    }
+
 
     private void stratSheetRefresher(){
         sheetRefresher = new SheetVersionRefresher(currSheet.getVersion(), this::updateVersion, currSheet.getSheetName());

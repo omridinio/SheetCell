@@ -3,11 +3,11 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#slectedRow" prefHeight="200.0" prefWidth="800.0" stylesheets="@../mangerSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.AvailableSheets.AvailableSheetsController">
+<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#slectedRow" prefHeight="315.0" prefWidth="861.0" stylesheets="@../mangerSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.AvailableSheets.AvailableSheetsController">
   <columns>
-    <TableColumn fx:id="sheetOwner" prefWidth="200.0" text="Owner" />
-    <TableColumn fx:id="sheetName" prefWidth="200.0" text="Sheet Name" />
-      <TableColumn fx:id="sheetSize" prefWidth="200.0" text="Sheet size" />
-      <TableColumn fx:id="sheetPermission" prefWidth="200.0" text="Permission" />
+    <TableColumn fx:id="sheetOwner" prefWidth="215.0" text="Owner" />
+    <TableColumn fx:id="sheetName" prefWidth="215.0" text="Sheet Name" />
+      <TableColumn fx:id="sheetSize" prefWidth="215.0" text="Sheet size" />
+      <TableColumn fx:id="sheetPermission" prefWidth="215.0" text="Permission" />
   </columns>
 </TableView>

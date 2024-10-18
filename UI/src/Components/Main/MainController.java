@@ -14,6 +14,8 @@ public class MainController {
     @FXML
     private ScrollPane main;
 
+    private AnchorPane mangger;
+
 
     public void initialize() {
 
@@ -31,7 +33,34 @@ public class MainController {
         main.setContent(pane);
         main.layout();
         Stage stage = (Stage) main.getScene().getWindow(); // Get the current stage
-        stage.setWidth(width + 50);  // Adding some padding or margin
-        stage.setHeight(height + 50); // Adding some padding or margin
+        stage.setWidth(width + 35);  // Adding some padding or margin
+        stage.setHeight(height + 55); // Adding some padding or margin
     }
+
+    public void LoadManger(AnchorPane mangger) {
+        double width = mangger.prefWidth(1);
+        double height = mangger.prefHeight(1);
+        main.setPrefWidth(width + 10);
+        main.setPrefHeight(height + 10);
+        AnchorPane.setTopAnchor(mangger, 1.0);
+        AnchorPane.setBottomAnchor(mangger, 1.0);
+        AnchorPane.setLeftAnchor(mangger, 1.0);
+        AnchorPane.setRightAnchor(mangger, 1.0);
+        main.setContent(mangger);
+        main.layout();
+        this.mangger = mangger;
+        Stage stage = (Stage) main.getScene().getWindow(); // Get the current stage
+        stage.setWidth(width + 35);  // Adding some padding or margin
+        stage.setHeight(height + 55); // Adding some padding or margin
+    }
+
+    public void switchManger() {
+        main.setContent(mangger);
+    }
+
+    public void switchSheet(ScrollPane sheet) {
+        main.setContent(sheet);
+    }
+
+
 }

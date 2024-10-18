@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
@@ -190,9 +191,21 @@ public class ManggerSheetController {
         return havePermission;
     }
 
-    public void changeContent(Parent pane){
-            mainController.setPane(pane);
+    public void changeContent(ScrollPane pane){
+            //mainController.setPane(pane);
+        mainController.switchSheet(pane);
     }
+
+    public void switchManagerSheet(){
+        setInScreen(true);
+        mainController.switchManger();
+    }
+
+    public void clearSheetSelect() {
+        availableSheetsController.clearSheetSelct();
+        selectedSheet = null;
+    }
+
 
 
 

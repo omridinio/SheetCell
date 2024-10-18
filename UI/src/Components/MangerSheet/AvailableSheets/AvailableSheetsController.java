@@ -47,9 +47,7 @@ public class AvailableSheetsController {
 
     @FXML
     void slectedRow(MouseEvent event) {
-        if (event.getTarget() instanceof TableRow) {
-            manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
-        }
+        manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
     }
 
     public void initialize() {
@@ -105,4 +103,9 @@ public class AvailableSheetsController {
     public void init() {
         stratSheetRefresher();
     }
+
+    public void clearSheetSelct() {
+        table.getSelectionModel().clearSelection();
+    }
+
 }
