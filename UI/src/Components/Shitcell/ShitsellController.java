@@ -23,6 +23,8 @@ import java.lang.reflect.Type;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -30,6 +32,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -38,10 +41,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import Components.Cell.CellContoller;
+import javafx.util.Duration;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import utils.Constants;
 import utils.HttpClientUtil;
+
+import static java.lang.Thread.sleep;
 
 
 public class ShitsellController {
@@ -302,7 +308,23 @@ public class ShitsellController {
     }
 
     private void updateVersion(int version) {
-        actionLineController.addNewVersions(version);
+        try {
+            actionLineController.addNewVersions(version);
+            if(!actionLineController.isUpdate.getValue()){
+                DropShadow shadow = new DropShadow();
+                shadow.setColor(Color.GREEN);
+                shadow.setRadius(50);
+                Timeline timeline = new Timeline(
+                        new KeyFrame(Duration.seconds(0), e -> sheet.setEffect(shadow)),
+                        new KeyFrame(Duration.seconds(0.3), e -> sheet.setEffect(null)),
+                        new KeyFrame(Duration.seconds(0.6), e -> sheet.setEffect(shadow))
+                );
+                timeline.setCycleCount(1);
+                timeline.play();
+            }
+        } catch (Exception e) {
+            ErrorController.showError(e.getMessage());
+        }
     }
 
 
@@ -1287,6 +1309,32 @@ public class ShitsellController {
 
     public String getSheetName() {
         return currSheet.getSheetName();
+    }
+
+    public void getUpdateSheetVersion() {
+        String finalUrl = HttpUrl
+                .parse(Constants.GET_UPDATE_SHEET_VERSION)
+                .newBuilder()
+                .addQueryParameter("sheetName", currSheet.getSheetName())
+                .build()
+                .toString();
+        try {
+            Response response = HttpClientUtil.runSync(finalUrl);
+            if (response.code() != 200) {
+                ErrorController.showError(response.body().string());
+            } else {
+                String jsonSheetName = response.body().string();
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                        .create();
+                SheetDTO newSheet =gson.fromJson(jsonSheetName, ImplSheetDTO.class);
+                currSheet = newSheet;
+                updateSheet(currSheet);
+                sheet.setEffect(null);
+            }
+        } catch (IOException e) {
+            ErrorController.showError(e.getMessage());
+        }
     }
 }
 

@@ -14,13 +14,13 @@
    <content>
       <AnchorPane id="back" fx:id="allTheSheet" maxHeight="1.0E8" maxWidth="1.0E8" minHeight="825.0" minWidth="1328.0" prefHeight="825.0" prefWidth="1328.0" stylesheets="@Shitsel.CSS">
          <children>
-            <HBox id="HboxUp1" alignment="CENTER_LEFT" prefHeight="63.0" prefWidth="1206.0" spacing="16.0" styleClass="upFrame" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox id="HboxUp1" alignment="CENTER" prefHeight="71.0" prefWidth="1328.0" spacing="16.0" styleClass="upFrame" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <padding>
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <fx:include fx:id="actionLine" source="../ActionLine/actionLine.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
-            <VBox id="commandVbox" alignment="TOP_CENTER" layoutY="126.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="696.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="126.0">
+            <fx:include fx:id="actionLine" source="../ActionLine/actionLine.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+            <VBox id="commandVbox" alignment="TOP_CENTER" layoutY="126.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="696.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="130.0">
                <children>
                   <fx:include fx:id="commandArea" source="../Commands/commands.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <AnchorPane maxHeight="1.0E16" maxWidth="1.0E17" prefHeight="413.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
@@ -30,7 +30,7 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <HBox alignment="CENTER_LEFT" layoutX="294.0" layoutY="124.0" prefHeight="118.0" prefWidth="1034.0" spacing="40.0" AnchorPane.leftAnchor="294.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="124.0">
+            <HBox alignment="CENTER_LEFT" layoutX="294.0" layoutY="136.0" prefHeight="106.0" prefWidth="1034.0" spacing="40.0" AnchorPane.leftAnchor="294.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="136.0">
                <children>
                   <fx:include fx:id="styleSheet" source="../StyleSheet/styleSheet.fxml" />
                   <Button fx:id="readOnlyMode" disable="true" mnemonicParsing="false" onAction="#closeReadOnlyCllicked" prefHeight="50.0" prefWidth="158.0" text="Close ReadOnly Mode" visible="false" />

@@ -2,6 +2,7 @@ package Components.Shitcell;
 
 
 import Components.Error.ErrorController;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -49,7 +50,9 @@ public class SheetVersionRefresher extends TimerTask {
                 else {
                     int newVersion = Integer.parseInt(response.body().string());
                     if (newVersion > version) {
-                        updateVersion.accept(newVersion);
+                        Platform.runLater(() -> {
+                            updateVersion.accept(newVersion);
+                        });
                         version = newVersion;
                     }
                 }

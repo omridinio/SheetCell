@@ -52,6 +52,7 @@ public class LoginController {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException, RuntimeException {
                     if (response.code() == 200) {
+                        response.body().string();
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/MangerSheet/mangerSheet.fxml"));
                         Parent mangerSheet = loader.load();
                         ManggerSheetController manggerSheetController = loader.getController();
@@ -61,6 +62,7 @@ public class LoginController {
                             mainController.setPane(mangerSheet);
                         });
                     } else {
+                        response.body().string();
                         Platform.runLater(() -> {
                             errorMessge.setVisible(true);
                             try {
@@ -70,7 +72,6 @@ public class LoginController {
                             }
                         });
                     }
-                    response.body().string();
                 }
             });
         } catch (Exception e) {

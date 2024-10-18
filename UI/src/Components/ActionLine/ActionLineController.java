@@ -49,17 +49,6 @@ public class ActionLineController {
         versionSelctor.getItems().add(1);
         versionSelctor.setValue(versionSelctor.getItems().getLast());
         versionSelctor.setEditable(false);
-        versionSelctor.valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
-            if (newValue != null) {
-                if(newValue != versionSelctor.getItems().getLast()) {
-                    try {
-                        shitsellController.versionSelected(newValue);
-                    } catch (IOException e) {
-                        ErrorController.showError(e.getMessage());
-                    }
-                }
-            }
-        });
         isUpdate.bind(Bindings.createBooleanBinding(
                 () -> {
                     return versionSelctor.getValue() != null
@@ -141,5 +130,19 @@ public class ActionLineController {
         versionSelctor.getItems().clear();
         versionSelctor.getItems().add(1);
         versionSelctor.setValue(versionSelctor.getItems().getLast());
+        versionSelctor.valueProperty().addListener((ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) -> {
+            try {
+                if (newValue != null) {
+                    if(newValue != versionSelctor.getItems().getLast()) {
+                        shitsellController.versionSelected(newValue);
+                    }
+                    else {
+                        shitsellController.getUpdateSheetVersion();
+                    }
+                }
+            } catch (IOException e) {
+                ErrorController.showError(e.getMessage());
+            }
+        });
     }
 }
