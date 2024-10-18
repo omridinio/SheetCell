@@ -2,7 +2,7 @@ package Components.MangerSheet.ManngerCommands.RequestPermission;
 
 import Components.Error.ErrorController;
 import Components.MangerSheet.ManngerCommands.ManggerComandsController;
-import Mangger.PermissionType;
+import dto.impl.PermissionType;
 import dto.impl.SheetBasicData;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,7 +20,6 @@ import utils.Constants;
 import utils.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.List;
 
 public class RequestPermissionController {
 

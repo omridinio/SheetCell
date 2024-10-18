@@ -128,9 +128,10 @@ public class ManggerComandsController {
                 manggerSheetController.setIsSheetSelected(false);
                 manggerSheetController.setInScreen(false);
                 manggerSheetController.changeContent(activeSheet.get(sheetDTO.getSheetName()));
-                activeSheetsController.get(sheetDTO.getSheetName()).showSheet(sheetDTO);
+                activeSheetsController.get(sheetDTO.getSheetName()).showSheet(sheetDTO, manggerSheetController.getSelectedSheet().getSheetPermission());
             }
         } catch (Exception e){
+            e.printStackTrace();
             ErrorController.showError(e.getMessage());
         }
     }

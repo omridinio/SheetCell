@@ -1,7 +1,5 @@
 package dto.impl;
 
-import Mangger.PermissionType;
-
 public class PermissionRequest {
     private static int counter = 0;
     private String username;

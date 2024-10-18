@@ -1,15 +1,13 @@
 package body;
 
-import Mangger.PermissionType;
+import dto.impl.PermissionType;
 import body.impl.Coordinate;
 import dto.SheetDTO;
 import dto.impl. CellDTO;
 import dto.impl.RangeDTO;
 import dto.impl.SheetBasicData;
-import expression.Range;
 import jakarta.xml.bind.JAXBException;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

@@ -2,6 +2,8 @@ package Components.ActionLine;
 
 import Components.Error.ErrorController;
 import Components.Shitcell.ShitsellController;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,6 +42,8 @@ public class ActionLineController {
 
     private ShitsellController shitsellController;
 
+    public SimpleBooleanProperty isUpdate = new SimpleBooleanProperty();
+
     public void initialize() {
         versionSelctor.setDisable(false);
         versionSelctor.getItems().add(1);
@@ -56,6 +60,15 @@ public class ActionLineController {
                 }
             }
         });
+        isUpdate.bind(Bindings.createBooleanBinding(
+                () -> {
+                    return versionSelctor.getValue() != null
+                            && !versionSelctor.getItems().isEmpty()
+                            && versionSelctor.getValue().equals(versionSelctor.getItems().get(versionSelctor.getItems().size() - 1));
+                },
+                versionSelctor.valueProperty(),
+                versionSelctor.getItems()
+        ));
     }
 
     public void initializeActionLine() {
@@ -112,6 +125,13 @@ public class ActionLineController {
         versionSelctor.getItems().add(versionSelctor.getItems().size() + 1);
         versionSelctor.setValue(versionSelctor.getItems().getLast());
     }
+
+    public void addNewVersions(int lastVersion) {
+        for(int i = versionSelctor.getItems().getLast() + 1; i <= lastVersion; i++) {
+            versionSelctor.getItems().add(i);
+        }
+    }
+
 
     public void rest() {
         actionLine.clear();

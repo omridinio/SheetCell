@@ -1,6 +1,6 @@
 package body.impl;
 
-import Mangger.PermissionType;
+import dto.impl.PermissionType;
 import body.Cell;
 import body.Logic;
 import body.Sheet;

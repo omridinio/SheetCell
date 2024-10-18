@@ -1,7 +1,5 @@
 package dto.impl;
 
-import Mangger.PermissionType;
-
 import java.util.Map;
 
 public class SheetBasicData {

@@ -1,6 +1,6 @@
 package Utils;
 
-import Mangger.PermissionType;
+import dto.impl.PermissionType;
 import Mangger.RequestPermissonManager;
 import Mangger.SheetManger;
 import body.Logic;

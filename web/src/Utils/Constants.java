@@ -23,4 +23,5 @@ public class Constants {
     public final static String DELETE_DYNAMIC_SHEET = "/deleteDynamicSheet";
     public final static String SHEET_BY_VERSION = "/sheetByVersion";
     public final static String PREDICT_CALCULATE = "/predictCalculate";
+    public final static String REFRESH_SHEET_VERSIONS = "/refreshSheetVersions";
 }

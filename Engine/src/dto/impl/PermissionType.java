@@ -1,4 +1,4 @@
-package Mangger;
+package dto.impl;
 
 public enum PermissionType {
     OWNER,

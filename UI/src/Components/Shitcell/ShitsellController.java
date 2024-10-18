@@ -3,14 +3,14 @@ package Components.Shitcell;
 import Components.ActionLine.ActionLineController;
 import Components.Commands.CommandsController;
 import Components.Error.ErrorController;
+import Components.MangerSheet.AvailableSheets.SheetRefresher;
 import Components.MangerSheet.ManggerSheetController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
 import Mangger.CoordinateAdapter;
+import dto.impl.PermissionType;
 import Properties.CellUI;
-import body.Logic;
 import body.impl.Coordinate;
-import body.impl.ImplLogic;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -23,22 +23,18 @@ import java.lang.reflect.Type;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import expression.impl.Str;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
 import Components.Cell.CellContoller;
@@ -46,8 +42,6 @@ import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import utils.Constants;
 import utils.HttpClientUtil;
-
-import static java.net.http.HttpClient.newBuilder;
 
 
 public class ShitsellController {
@@ -63,7 +57,6 @@ public class ShitsellController {
 
     @FXML
     private RangeAreaController rangeAreaController;
-
 
     @FXML
     private GridPane sheet;
@@ -109,12 +102,13 @@ public class ShitsellController {
     Tooltip actionMessege = new Tooltip();
     private List<CellContoller> cellChoosed = new ArrayList<>();
     private Set<Coordinate> readOnlyCoord = new HashSet<>();
-    private String lastDynmicCell = "";
-    private int countDynmicAnlyze = 0;
     private List<Coordinate> daynmicCells = new ArrayList<>();
-    private File file;
-    private boolean load = false;
     private ManggerSheetController manggerSheetController;
+    private SimpleBooleanProperty isReadMode = new SimpleBooleanProperty();
+    private SimpleBooleanProperty isReaderPermission = new SimpleBooleanProperty();
+    private TimerTask sheetRefresher;
+    private Timer timer;
+
 
 
 
@@ -159,13 +153,14 @@ public class ShitsellController {
                 allTheSheet.setPrefHeight(newVal.doubleValue() - 5);
             }
         });
+        isReadMode.bind(isReaderPermission.or(actionLineController.isUpdate.not()));
     }
 
     public GridPane getSheet() {
         return sheet;
     }
 
-    public void showSheet(SheetDTO sheet) {
+    public void showSheet(SheetDTO sheet, PermissionType permissionType) {
         try {
             currSheet = sheet;
             if(!isLoaded.get()){
@@ -179,6 +174,10 @@ public class ShitsellController {
                 updateSheet(sheet);
                 createRanges();
                 actionLine.setDisable(false);
+                if(permissionType == PermissionType.READER){
+                    isReaderPermission.setValue(true);
+                }
+                stratSheetRefresher();
             }
 
         } catch (Exception e){
@@ -293,9 +292,19 @@ public class ShitsellController {
             }
             isDynmicMode.setValue(false);
             updateSheet(currSheet);
-            lastDynmicCell = "";
         }
     }
+
+    private void stratSheetRefresher(){
+        sheetRefresher = new SheetVersionRefresher(currSheet.getVersion(), this::updateVersion, currSheet.getSheetName());
+        timer = new Timer();
+        timer.schedule(sheetRefresher, 100, 500);
+    }
+
+    private void updateVersion(int version) {
+        actionLineController.addNewVersions(version);
+    }
+
 
     private void createRanges() throws IOException {
         rangeAreaController.restRangeArea();
@@ -459,7 +468,6 @@ public class ShitsellController {
         isReadOnlyMode.setValue(false);
         isdeleteRangeMode.setValue(false);
         isDynmicMode.setValue(false);
-        lastDynmicCell = "";
         daynmicCells.clear();
         numberRowCell.clear();
         numberColCell.clear();
@@ -682,7 +690,7 @@ public class ShitsellController {
         actionLineController.getOriginalValue().textProperty().bind(currCell.originalValue);
         actionLineController.getLastVersion().textProperty().bind(currCell.lastVersion);
         actionLineController.getUserName().textProperty().bind(currCell.lastUserUpdate);
-        actionLineController.getActionLine().disableProperty().bind(currCell.isClicked.not().and(isReadOnlyMode));
+        actionLineController.getActionLine().disableProperty().bind(currCell.isClicked.not().or(isReadOnlyMode).or(isReadMode));
         actionLineController.getActionLine().editableProperty().bind(currCell.isClicked);
         actionLineController.getCellId().disableProperty().bind(isLoaded.not());
         actionLineController.getCellId().editableProperty().bind(isLoaded);
@@ -690,7 +698,7 @@ public class ShitsellController {
         actionLineController.getUserName().editableProperty().bind(isLoaded);
         actionLineController.getLastVersion().disableProperty().bind(isLoaded.not());
         actionLineController.getOriginalValue().disableProperty().bind(isLoaded.not());
-        actionLineController.getUpdateValue().disableProperty().bind(isReadOnlyMode);
+        actionLineController.getUpdateValue().disableProperty().bind(isReadOnlyMode.or(isReadMode));
         actionLineController.getCellId().textProperty().bind(currCell.cellid);
         actionLineController.getCellId().focusedProperty().addListener((observable, oldValue, newValue) -> {
             if(!newValue){
@@ -712,8 +720,8 @@ public class ShitsellController {
                 clearCellsMark();
             }
         });
-        rangeAreaController.getAddRange().disableProperty().bind((isReadOnlyMode.or(isdeleteRangeMode)).and(isDynmicMode));
-        rangeAreaController.getDeleteRange().disableProperty().bind((isReadOnlyMode.or(isdeleteRangeMode)).and(isDynmicMode));
+        rangeAreaController.getAddRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode).or(isReadMode));
+        rangeAreaController.getDeleteRange().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode).or(isReadMode));
         rangeAreaController.getSumbitDelete().visibleProperty().bind(isdeleteRangeMode);
         rangeAreaController.getCancel().visibleProperty().bind(isdeleteRangeMode);
     }
@@ -851,7 +859,7 @@ public class ShitsellController {
     public void initializeCommands(CommandsController commandsController) {
         commandArea.visibleProperty().bind(isLoaded);
         commandArea.disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode));
-        commandsController.getCustomFormula().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode).or(currCell.isClicked.not()));
+        commandsController.getCustomFormula().disableProperty().bind(isReadOnlyMode.or(isdeleteRangeMode).or(isDynmicMode).or(currCell.isClicked.not()).or(isReadMode));
 
     }
 

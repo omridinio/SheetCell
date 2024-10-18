@@ -1,7 +1,6 @@
 package Servelts;
 
 import Mangger.CoordinateAdapter;
-import Mangger.PermissionType;
 import Mangger.SheetManger;
 import Utils.Constants;
 import Utils.ServeltUtils;
@@ -9,7 +8,6 @@ import Utils.SessionUtils;
 import body.Logic;
 import body.Sheet;
 import body.impl.Coordinate;
-import body.impl.ImplSheet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -28,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@WebServlet(name = "sheetServelt", urlPatterns = {Constants.VIEW_SHEET, Constants.UPDATE_CELL, Constants.SORT, Constants.FILTER, Constants.DYNMIC_ANLYZE, Constants.DELETE_DYNAMIC_SHEET, Constants.SHEET_BY_VERSION, Constants.PREDICT_CALCULATE})
+@WebServlet(name = "sheetServelt", urlPatterns = {Constants.VIEW_SHEET, Constants.REFRESH_SHEET_VERSIONS, Constants.UPDATE_CELL, Constants.SORT, Constants.FILTER, Constants.DYNMIC_ANLYZE, Constants.DELETE_DYNAMIC_SHEET, Constants.SHEET_BY_VERSION, Constants.PREDICT_CALCULATE})
 public class SheetServelt extends HttpServlet {
 
     @Override
@@ -55,6 +53,9 @@ public class SheetServelt extends HttpServlet {
             case Constants.PREDICT_CALCULATE:
                 predictCalculate(request, response);
                 break;
+            case Constants.REFRESH_SHEET_VERSIONS:
+                refreshSheetVersions(request, response);
+                break;
         }
     }
 
@@ -64,6 +65,25 @@ public class SheetServelt extends HttpServlet {
             case Constants.SORT:
                 sort(request, response);
                 break;
+        }
+    }
+
+    private void refreshSheetVersions(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String usernameFromSession = SessionUtils.getUserNameFromSession(request);
+        if(usernameFromSession == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        else {
+            try {
+                String sheetName = request.getParameter("sheetName");
+                SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+                Logic sheet = sheetManger.getSheet(sheetName);
+                response.getOutputStream().print(sheet.getVersion());
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.getOutputStream().print(e.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
         }
     }
 
