@@ -307,7 +307,7 @@ public class ShitsellController {
     @FXML
     private void backToDashboardClicked() {
         String finalUrl = HttpUrl
-                .parse(Constants.DELETE_DYNAMIC_SHEET)
+                .parse(Constants.RESET_SESSION)
                 .newBuilder()
                 .build()
                 .toString();
@@ -325,6 +325,10 @@ public class ShitsellController {
                 response.body().string();
             }
         });
+        if(sheetRefresher != null){
+            sheetRefresher.cancel();
+            timer.cancel();
+        }
         manggerSheetController.switchManagerSheet();
     }
 
@@ -371,7 +375,6 @@ public class ShitsellController {
         String finalUrl = HttpUrl
                 .parse(Constants.GET_RANGE)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
                 .addQueryParameter("rangeId", rangeId)
                 .build()
                 .toString();
@@ -399,7 +402,6 @@ public class ShitsellController {
        String finalUrl = HttpUrl
                 .parse(Constants.GET_RANGES_NAME)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
                 .build()
                 .toString();
         Response response = HttpClientUtil.runSync(finalUrl);
@@ -620,10 +622,8 @@ public class ShitsellController {
             String finalUrl = HttpUrl
                     .parse(Constants.UPDATE_CELL)
                     .newBuilder()
-                    .addQueryParameter("sheetName", currSheet.getSheetName())
                     .addQueryParameter("cellId", cellId)
                     .addQueryParameter("newValue", newValue)
-                    .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
                     .build()
                     .toString();
             Response response = HttpClientUtil.runSync(finalUrl);
@@ -632,7 +632,7 @@ public class ShitsellController {
                 Gson gson = new GsonBuilder()
                         .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
                         .create();
-                SheetDTO newSheet =gson.fromJson(jsonSheetName, ImplSheetDTO.class);
+                SheetDTO newSheet = gson.fromJson(jsonSheetName, ImplSheetDTO.class);
                 currSheet = newSheet;
                 updateSheet.accept(currSheet);
             }
@@ -672,10 +672,8 @@ public class ShitsellController {
             String finalUrl = HttpUrl
                     .parse(Constants.ADD_NEW_RANGE)
                     .newBuilder()
-                    .addQueryParameter("sheetName", currSheet.getSheetName())
                     .addQueryParameter("rangeId", rangeId)
                     .addQueryParameter("theRange", theRange)
-                    .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
                     .build()
                     .toString();
             HttpClientUtil.runAsync(finalUrl, new Callback() {
@@ -921,9 +919,7 @@ public class ShitsellController {
         Request request = new Request.Builder()
                 .url(Constants.SORT)
                 .post(body)
-                .addHeader("sheetName", currSheet.getSheetName())
                 .addHeader("range", range)
-                .addHeader("version", version)
                 .build();
         Response response = HttpClientUtil.runSync(request);
         if (response.code() != 200) {
@@ -1010,9 +1006,7 @@ public class ShitsellController {
             String finalUrl = HttpUrl
                     .parse(Constants.DELETE_RANGE)
                     .newBuilder()
-                    .addQueryParameter("sheetName", currSheet.getSheetName())
                     .addQueryParameter("rangeId", rangeId)
-                    .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
                     .build()
                     .toString();
             HttpClientUtil.runAsync(finalUrl, new Callback() {
@@ -1107,9 +1101,7 @@ public class ShitsellController {
         String finalUrl = HttpUrl
                 .parse(Constants.FILTER)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
                 .addQueryParameter("range", theRange)
-                .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
                 .build()
                 .toString();
         Response response = HttpClientUtil.runSync(finalUrl);
@@ -1149,7 +1141,6 @@ public class ShitsellController {
         String finalUrl = HttpUrl
                 .parse(Constants.SHEET_BY_VERSION)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
                 .addQueryParameter("version", String.valueOf(version - 1))
                 .build()
                 .toString();
@@ -1186,8 +1177,6 @@ public class ShitsellController {
         String finalUrl = HttpUrl
                 .parse(Constants.DYNMIC_ANLYZE)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
-                .addQueryParameter("version", String.valueOf(currSheet.getVersion()))
                 .addQueryParameter("value", String.valueOf(value))
                 .addQueryParameter("cellId", cellId)
                 .build()
@@ -1258,7 +1247,6 @@ public class ShitsellController {
         String finalUrl = HttpUrl
                 .parse(Constants.GET_RANGE)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
                 .addQueryParameter("rangeId", text)
                 .build()
                 .toString();
@@ -1297,7 +1285,6 @@ public class ShitsellController {
         String finalUrl = HttpUrl
                 .parse(Constants.PREDICT_CALCULATE)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
                 .addQueryParameter("cellId", currCell.cellid.getValue())
                 .addQueryParameter("expression", expression)
                 .build()
@@ -1338,11 +1325,12 @@ public class ShitsellController {
         return currSheet.getSheetName();
     }
 
-    public void getUpdateSheetVersion() {
+    public void getUpdateSheetVersion(int updateVersion) {
         String finalUrl = HttpUrl
                 .parse(Constants.GET_UPDATE_SHEET_VERSION)
                 .newBuilder()
-                .addQueryParameter("sheetName", currSheet.getSheetName())
+                //.addQueryParameter("sheetName", currSheet.getSheetName())
+                .addQueryParameter("newVersion", String.valueOf(updateVersion - 1))
                 .build()
                 .toString();
         try {

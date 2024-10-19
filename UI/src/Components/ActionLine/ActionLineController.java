@@ -169,7 +169,7 @@ public class ActionLineController {
                         shitsellController.versionSelected(newValue);
                     }
                     else {
-                        shitsellController.getUpdateSheetVersion();
+                        shitsellController.getUpdateSheetVersion(newValue);
                         currVersion = newValue;
                     }
                 }

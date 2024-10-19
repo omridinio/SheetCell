@@ -33,7 +33,6 @@ public class SheetVersionRefresher extends TimerTask {
         String finalUrl = HttpUrl
                 .parse(Constants.REFRESH_SHEET_VERSIONS)
                 .newBuilder()
-                .addQueryParameter("sheetName", sheetName)
                 .build()
                 .toString();
         HttpClientUtil.runAsync(finalUrl, new Callback() {

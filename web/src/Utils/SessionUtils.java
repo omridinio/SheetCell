@@ -20,6 +20,18 @@ public class SessionUtils {
         return sessionAttribute != null ? (Sheet) sessionAttribute : null;
     }
 
+    public static String getSheetNameFromSession(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Object sessionAttribute = session != null ? session.getAttribute("sheetName") : null;
+        return sessionAttribute != null ? sessionAttribute.toString() : null;
+    }
+
+    public static int getCurrVersionFromSession(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        Object sessionAttribute = session != null ? session.getAttribute("version") : null;
+        return sessionAttribute != null ? (int) sessionAttribute : -1;
+    }
+
 
 
 }

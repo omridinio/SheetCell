@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
 
 public class ImplLogic implements Logic,Serializable  {
 
@@ -67,6 +65,11 @@ public class ImplLogic implements Logic,Serializable  {
     @Override
     public List<Integer> getTheRangeOfTheRange(String cellRange){
         return mainSheet.get(mainSheet.size() - 1).getTheRangeOfTheRange(cellRange);
+    }
+
+    @Override
+    public List<Integer> getTheRangeOfTheRange(String cellRange, int version){
+        return mainSheet.get(version - 1).getTheRangeOfTheRange(cellRange);
     }
 
     @Override
@@ -259,13 +262,28 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
+    public RangeDTO getRange(String rangeId, int version) {
+        return new RangeDTO(mainSheet.get(version - 1).getRange(rangeId.toUpperCase()));
+    }
+
+    @Override
     public RangeDTO createTempRange(String cellRange) {
         return new RangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
     }
 
     @Override
+    public RangeDTO createTempRange(String cellRange, int version) {
+        return new RangeDTO(mainSheet.get(version - 1).createTempRange(cellRange));
+    }
+
+    @Override
     public List<String> getRangesName() {
         return mainSheet.get(mainSheet.size() - 1).getRangeName();
+    }
+
+    @Override
+    public List<String> getRangesName(int version) {
+        return mainSheet.get(version - 1).getRangeName();
     }
 
     @Override
@@ -289,13 +307,29 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
+    public Map<Integer, String> getColumsItem(int col, String theRange, int version){
+        return mainSheet.get(version - 1).getColumsItem(col, theRange);
+    }
+
+    @Override
     public Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected){
         return mainSheet.get(mainSheet.size() - 1).getColumsItem(col, theRange, rowSelected);
     }
 
     @Override
+    public Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected, int version){
+        return mainSheet.get(version - 1).getColumsItem(col, theRange, rowSelected);
+    }
+
+    @Override
     public String predictCalculate(String expression, String cellID) throws IOException, ClassNotFoundException {
         Sheet newVersion = copySheet();
+        return newVersion.predictCalculate(expression, cellID);
+    }
+
+    @Override
+    public String predictCalculate(String expression, String cellID, int version) throws IOException, ClassNotFoundException {
+        Sheet newVersion = copySheetByVersion(version);
         return newVersion.predictCalculate(expression, cellID);
     }
 

@@ -25,4 +25,5 @@ public class Constants {
     public final static String PREDICT_CALCULATE = "/predictCalculate";
     public final static String REFRESH_SHEET_VERSIONS = "/refreshSheetVersions";
     public final static String GET_UPDATE_SHEET_VERSION = "/getUpdateSheetVersion";
+    public final static String RESET_SESSION = "/resetSession";
 }

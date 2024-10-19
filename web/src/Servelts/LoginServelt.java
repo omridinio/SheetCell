@@ -42,7 +42,7 @@ public class LoginServelt extends HttpServlet {
             }
         }
         else{
-            response.setStatus(HttpServletResponse.SC_OK);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getOutputStream().print("User " + usernameFromSession + " already logged in");
         }
     }

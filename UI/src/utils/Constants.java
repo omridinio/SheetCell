@@ -32,6 +32,7 @@ public class Constants {
     public final static String PREDICT_CALCULATE = FULL_SERVER_PATH + "/predictCalculate";
     public final static String REFRESH_SHEET_VERSIONS = FULL_SERVER_PATH + "/refreshSheetVersions";
     public final static String GET_UPDATE_SHEET_VERSION = FULL_SERVER_PATH + "/getUpdateSheetVersion";
+    public final static String RESET_SESSION = FULL_SERVER_PATH + "/resetSession";
 
     // GSON instance
     public final static Gson GSON_INSTANCE = new Gson();

@@ -45,16 +45,17 @@ public class RangeServelt extends HttpServlet {
 
     private void getTempRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if (usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
-            String sheetName = request.getParameter("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
             Lock readLock = sheetManger.getReadLock(sheetName);
             try {
                 readLock.lock();
                 String theRange = request.getParameter("theRange");
-                RangeDTO range = sheetManger.getSheet(sheetName).createTempRange(theRange);
+                RangeDTO range = sheetManger.getSheet(sheetName).createTempRange(theRange, version);
                 if (range != null) {
                     Gson gson = new Gson();
                     String json = gson.toJson(range);
@@ -76,29 +77,29 @@ public class RangeServelt extends HttpServlet {
 
     private void getColItems(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if(usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
-            String sheetName = request.getHeader("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
             Lock readLock = sheetManger.getReadLock(sheetName);
             try {
                 readLock.lock();
                 String range = request.getHeader("range");
-                int version = Integer.parseInt(request.getHeader("version"));
                 int col = Integer.parseInt(request.getHeader("col"));
                 BufferedReader reader = request.getReader();
                 Logic logicSheet = sheetManger.getSheet(sheetName);
                 Map<Integer, String> colItems;
                 if (!reader.ready()) {
-                   colItems = logicSheet.getColumsItem(col, range);
+                   colItems = logicSheet.getColumsItem(col, range, version);
                 }
                 else {
                     Gson gson = new Gson();
                     Type listType = new TypeToken<List<Integer>>(){}.getType();
                     List<Integer> rowSelected = gson.fromJson(reader, listType);
-                    colItems = logicSheet.getColumsItem(col, range, rowSelected);
+                    colItems = logicSheet.getColumsItem(col, range, rowSelected, version);
                 }
                 Gson toJson = new Gson();
                 String json = toJson.toJson(colItems);
@@ -118,18 +119,19 @@ public class RangeServelt extends HttpServlet {
 
     private void getTheRangeOfTheRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if(usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
-            String sheetName = request.getParameter("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
             Lock readLock = sheetManger.getReadLock(sheetName);
             try {
                 readLock.lock();
                 String range = request.getParameter("range");
                 Logic logicSheet = sheetManger.getSheet(sheetName);
-                List<Integer> startEndRange = logicSheet.getTheRangeOfTheRange(range);
+                List<Integer> startEndRange = logicSheet.getTheRangeOfTheRange(range, version);
                 Gson gson = new Gson();
                 String json = gson.toJson(startEndRange);
                 response.setContentType("application/json");
@@ -147,19 +149,19 @@ public class RangeServelt extends HttpServlet {
 
     private void deleteRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if(usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
-            String sheetName = request.getParameter("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
             Lock writeLock = sheetManger.getWriteLock(sheetName);
             try {
-            writeLock.lock();
-            String rangeId = request.getParameter("rangeId");
-            int currVersion = Integer.parseInt(request.getParameter("version"));
+                writeLock.lock();
+                String rangeId = request.getParameter("rangeId");
                 Logic logicSheet = sheetManger.getSheet(sheetName);
-                if(logicSheet.getVersion() > currVersion){
+                if(logicSheet.getVersion() > version){
                     response.getOutputStream().print("Error: A more recent version of the sheet is available");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 }
@@ -178,20 +180,20 @@ public class RangeServelt extends HttpServlet {
 
     private void addNewRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if(usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
         else {
-            String sheetName = request.getParameter("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
             Lock writeLock = sheetManger.getWriteLock(sheetName);
             try {
                 writeLock.lock();
                 String rangeId = request.getParameter("rangeId");
                 String theRange = request.getParameter("theRange");
-                int currVersion = Integer.parseInt(request.getParameter("version"));
                 Logic logicSheet = sheetManger.getSheet(sheetName);
-                if(logicSheet.getVersion() > currVersion){
+                if(logicSheet.getVersion() > version){
                     response.getOutputStream().print("Error: A more recent version of the sheet is available");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 }
@@ -216,16 +218,17 @@ public class RangeServelt extends HttpServlet {
 
     private void getRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if (usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
-            String sheetName = request.getParameter("sheetName");
             SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
             Lock readLock = sheetManger.getReadLock(sheetName);
             try {
                 readLock.lock();
                 String rangeId = request.getParameter("rangeId");
-                RangeDTO range = sheetManger.getSheet(sheetName).getRange(rangeId);
+                RangeDTO range = sheetManger.getSheet(sheetName).getRange(rangeId, version);
                 if (range != null) {
                     Gson gson = new Gson();
                     String json = gson.toJson(range);
@@ -247,26 +250,28 @@ public class RangeServelt extends HttpServlet {
 
     private void getListOfRange(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String usernameFromSession = SessionUtils.getUserNameFromSession(request);
-        if(usernameFromSession == null) {
+        String sheetName = SessionUtils.getSheetNameFromSession(request);
+        int version = SessionUtils.getCurrVersionFromSession(request);
+        if (usernameFromSession == null || sheetName == null || version == -1) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        }
-        String sheet = request.getParameter("sheetName");
-        SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
-        Lock readLock = sheetManger.getReadLock(sheet);
-        try{
-            readLock.lock();
-            List<String> ranges = sheetManger.getSheet(sheet).getRangesName();
-            Gson gson = new Gson();
-            String json = gson.toJson(ranges);
-            response.setContentType("application/json");
-            response.getWriter().write(json);
-            response.getWriter().flush();
-            response.setStatus(HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            response.getOutputStream().print(e.getMessage());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        } finally {
-            readLock.unlock();
+        } else {
+            SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+            Lock readLock = sheetManger.getReadLock(sheetName);
+            try {
+                readLock.lock();
+                List<String> ranges = sheetManger.getSheet(sheetName).getRangesName(version);
+                Gson gson = new Gson();
+                String json = gson.toJson(ranges);
+                response.setContentType("application/json");
+                response.getWriter().write(json);
+                response.getWriter().flush();
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.getOutputStream().print(e.getMessage());
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } finally {
+                readLock.unlock();
+            }
         }
     }
 }
