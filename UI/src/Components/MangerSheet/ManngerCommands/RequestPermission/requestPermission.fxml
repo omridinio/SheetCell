@@ -4,38 +4,43 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
-<VBox alignment="TOP_CENTER" prefHeight="243.0" prefWidth="433.0" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
-   <children>
-      <Label fx:id="sheetName" prefHeight="37.0" prefWidth="408.0" wrapText="true">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="433.0" spacing="10.0">
+<ScrollPane prefHeight="245.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
+   <content>
+      <VBox alignment="TOP_CENTER" prefHeight="243.0" prefWidth="412.0" spacing="20.0">
          <children>
-            <Label text="Permission: ">
+            <Label fx:id="sheetName" prefHeight="37.0" prefWidth="408.0" wrapText="true">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="permission" prefHeight="25.0" prefWidth="104.0" />
+            <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="433.0" spacing="10.0">
+               <children>
+                  <Label text="Permission: ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="permission" prefHeight="25.0" prefWidth="104.0" />
+               </children>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
+            <Button fx:id="ok" mnemonicParsing="false" onAction="#okClicked" prefHeight="25.0" prefWidth="58.0" text="OK">
+               <VBox.margin>
+                  <Insets left="300.0" top="40.0" />
+               </VBox.margin>
+            </Button>
          </children>
          <padding>
-            <Insets left="10.0" />
+            <Insets top="20.0" />
          </padding>
-      </HBox>
-      <Button fx:id="ok" mnemonicParsing="false" onAction="#okClicked" prefHeight="25.0" prefWidth="58.0" text="OK">
-         <VBox.margin>
-            <Insets left="300.0" top="40.0" />
-         </VBox.margin>
-      </Button>
-   </children>
-   <padding>
-      <Insets top="20.0" />
-   </padding>
-</VBox>
+      </VBox>
+   </content>
+</ScrollPane>

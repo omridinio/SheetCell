@@ -20,6 +20,16 @@ public class PermissionRequest {
         this.status = "Pending";
     }
 
+    public PermissionRequest(String owner, String sheetName) {
+        this.username = owner;
+        this.sheetName = sheetName;
+        this.permission = PermissionType.OWNER;
+        this.approved = true;
+        this.index = counter++;
+        this.owner = owner;
+        this.status = "Approved";
+    }
+
     public String getUsername() {
         return username;
     }

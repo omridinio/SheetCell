@@ -22,6 +22,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -88,12 +89,11 @@ public class ManggerComandsController {
         RequestPermissionController requestPermissionController = loader.getController();
         requestPermissionController.setManggerComandsController(this);
         requestPermissionController.init();
-        Scene newScene = new Scene(newWindowRoot);
-        Stage newWindow = new Stage();
-        newWindow.setTitle("Permission Request");
-        newWindow.setScene(newScene);
-        newWindow.initModality(Modality.APPLICATION_MODAL);
-        newWindow.show();
+        Popup popup = new Popup();
+        popup.setAutoHide(true); // Automatically hide when clicking outside
+        popup.getContent().clear();
+        popup.getContent().add(newWindowRoot);
+        popup.show(request, request.localToScreen(-110, request.getHeight()).getX(), request.localToScreen(0, request.getHeight()).getY());
     }
 
     @FXML
@@ -171,7 +171,7 @@ public class ManggerComandsController {
             popup.setAutoHide(true); // Automatically hide when clicking outside
             popup.getContent().clear();
             popup.getContent().add(newWindowRoot);
-            popup.show(ackOrDeny, ackOrDeny.localToScreen(0, ackOrDeny.getHeight()).getX(), ackOrDeny.localToScreen(0, ackOrDeny.getHeight()).getY());
+            popup.show(ackOrDeny, ackOrDeny.localToScreen(-100, ackOrDeny.getHeight()).getX(), ackOrDeny.localToScreen(0, ackOrDeny.getHeight()).getY());
         });
     }
 }

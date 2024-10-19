@@ -7,7 +7,7 @@
    <children>
       <fx:include fx:id="availableSheets" source="AvailableSheets/availableSheets.fxml" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="100.0" />
       <fx:include fx:id="permissionsTable" source="PermissionsTable/permissionsTable.fxml" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="450.0" />
-      <fx:include fx:id="manggerComands" source="ManngerCommands/manggerCommands.fxml" AnchorPane.leftAnchor="950.0" AnchorPane.topAnchor="110.0" />
+      <fx:include fx:id="manggerComands" source="ManngerCommands/manggerCommands.fxml" AnchorPane.leftAnchor="950.0" AnchorPane.topAnchor="30.0" />
       <Button fx:id="loadSheet" layoutX="22.0" layoutY="48.0" mnemonicParsing="false" onAction="#loadSheetClicked" prefHeight="35.0" prefWidth="156.0" text="Load Sheet File " AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="40.0" />
    </children>
 </AnchorPane>

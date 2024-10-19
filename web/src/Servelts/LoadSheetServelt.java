@@ -124,8 +124,14 @@ public class LoadSheetServelt extends HttpServlet {
             return;
         }
         String sheetName = request.getParameter("sheetName");
+        SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
+        if(!sheetManger.isSheetExist(sheetName)){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+        Logic sheet = sheetManger.getSheet(sheetName);
         RequestPermissonManager requestPermissonManager = ServeltUtils.getPermissionRequestManager(getServletContext());
-        List<PermissionRequest> requests = requestPermissonManager.getAllRequestBySheet(sheetName);
+        List<PermissionRequest> requests = requestPermissonManager.getAllRequestBySheet(sheet);
         Gson gson = new Gson();
         String json = gson.toJson(requests);
         response.setContentType("application/json");

@@ -1,5 +1,6 @@
 package Mangger;
 
+import body.Logic;
 import dto.impl.PermissionRequest;
 
 import java.util.*;
@@ -39,8 +40,12 @@ public class RequestPermissonManager {
         return res;
     }
 
-    public List<PermissionRequest> getAllRequestBySheet(String sheetName){
+    public List<PermissionRequest> getAllRequestBySheet(Logic sheet){
         List<PermissionRequest> res = new ArrayList<>();
+        String sheetName = sheet.getSheetName();
+        String owner = sheet.getOwner();
+        PermissionRequest ownerRequest = new PermissionRequest(owner,sheetName);
+        res.add(ownerRequest);
         if(requestPermissionBySheet.containsKey(sheetName)){
             res.addAll(requestPermissionBySheet.get(sheetName).values());
         }

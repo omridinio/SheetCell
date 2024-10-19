@@ -43,6 +43,11 @@ public class ImplLogic implements Logic,Serializable  {
     }
 
     @Override
+    public String getSheetName() {
+        return sheetName;
+    }
+
+    @Override
     public Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException {
         Map<Coordinate,Cell> sortRange = mainSheet.get(mainSheet.size() - 1).sortRange(rangeCells, dominantCol);
         Map<Coordinate, CellDTO> res = new java.util.HashMap<>();

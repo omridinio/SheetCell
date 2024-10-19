@@ -4,10 +4,9 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-
-<ScrollPane prefHeight="384.0" prefWidth="433.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.AckOrDnyPer.AckOrDnyPerController">
+<ScrollPane prefHeight="333.0" prefWidth="389.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.AckOrDnyPer.AckOrDnyPerController">
    <content>
-      <FlowPane fx:id="permissionArea" hgap="15.0" prefHeight="380.0" prefWidth="428.0" vgap="15.0">
+      <FlowPane fx:id="permissionArea" hgap="15.0" prefHeight="326.0" prefWidth="383.0" vgap="15.0">
          <padding>
             <Insets top="15.0" />
          </padding>

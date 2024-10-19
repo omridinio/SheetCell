@@ -6,15 +6,24 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="318.0" spacing="50.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.ManggerComandsController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="722.0" prefWidth="318.0" spacing="30.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.ManggerComandsController">
    <children>
       <Label text="Commands:">
          <font>
             <Font size="29.0" />
          </font></Label>
-      <Button fx:id="viewSheet" mnemonicParsing="false" onAction="#viewSheetClicked" prefHeight="100.0" prefWidth="150.0" text="View selcted sheet" textAlignment="CENTER" wrapText="true" />
-      <Button fx:id="request" mnemonicParsing="false" onAction="#requestClicked" prefHeight="100.0" prefWidth="150.0" text="Request permission for Selected Sheet" textAlignment="CENTER" wrapText="true" />
-      <Button fx:id="ackOrDeny" mnemonicParsing="false" onAction="#ackOrDentClicked" prefHeight="100.0" prefWidth="150.0" text="Ack\deny permission request" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="viewSheet" mnemonicParsing="false" onAction="#viewSheetClicked" prefHeight="100.0" prefWidth="150.0" text="View selcted sheet" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button fx:id="request" mnemonicParsing="false" onAction="#requestClicked" prefHeight="100.0" prefWidth="150.0" text="Request permission for Selected Sheet" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
+      <Button fx:id="ackOrDeny" mnemonicParsing="false" onAction="#ackOrDentClicked" prefHeight="100.0" prefWidth="150.0" text="Ack\deny permission request" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font></Button>
    </children>
    <padding>
       <Insets top="20.0" />

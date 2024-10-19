@@ -62,6 +62,9 @@ public interface Logic {
 
     Map<Integer, String> getColumsItem(int col, String theRange, List<Integer> rowSelected);
     void updateDaynmicAnlayze(String cellId, String value);
+
+    String getSheetName();
+
     Map<Coordinate, CellDTO> getSortRange(String rangeCells, List<Integer> dominantCol) throws IOException, ClassNotFoundException;
 
     Sheet copySheet() throws IOException, ClassNotFoundException;
