@@ -12,9 +12,9 @@
 
 <ScrollPane prefHeight="245.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
    <content>
-      <VBox alignment="TOP_CENTER" prefHeight="243.0" prefWidth="412.0" spacing="20.0">
+      <VBox alignment="TOP_CENTER" prefHeight="243.0" prefWidth="412.0">
          <children>
-            <Label fx:id="sheetName" prefHeight="37.0" prefWidth="408.0" wrapText="true">
+            <Label fx:id="sheetName" prefHeight="71.0" prefWidth="408.0" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>

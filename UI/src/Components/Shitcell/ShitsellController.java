@@ -89,6 +89,9 @@ public class ShitsellController {
     @FXML
     private AnchorPane allTheSheet;
 
+    @FXML
+    private Button chat;
+
 
 
 
@@ -330,6 +333,11 @@ public class ShitsellController {
             timer.cancel();
         }
         manggerSheetController.switchManagerSheet();
+    }
+
+    @FXML
+    void chatClicked(){
+        manggerSheetController.chatClick(chat);
     }
 
     private void stratSheetRefresher(){

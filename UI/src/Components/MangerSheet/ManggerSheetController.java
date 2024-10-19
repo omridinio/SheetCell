@@ -1,6 +1,7 @@
 package Components.MangerSheet;
 
 
+import Components.Chat.ChatAreaController;
 import Components.Error.ErrorController;
 import Components.Main.MainController;
 import Components.MangerSheet.AvailableSheets.AvailableSheetsController;
@@ -8,6 +9,8 @@ import Components.MangerSheet.ManngerCommands.ManggerComandsController;
 import Components.MangerSheet.PermissionsTable.PermissionsTableController;
 import dto.impl.PermissionType;
 import dto.impl.SheetBasicData;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -15,12 +18,18 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
+import javafx.stage.Window;
+import javafx.util.Duration;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import utils.Constants;
@@ -50,6 +59,12 @@ public class ManggerSheetController {
     @FXML
     private Button loadSheet;
 
+    @FXML
+    private Label hello;
+
+    @FXML
+    private Button chat;
+
     private SimpleStringProperty userName = new SimpleStringProperty("");
 
     private SimpleStringProperty OwnerSelcetedSheet = new SimpleStringProperty("");
@@ -65,6 +80,11 @@ public class ManggerSheetController {
     private SimpleBooleanProperty havePermission = new SimpleBooleanProperty(false);
 
     private SimpleStringProperty sheetName = new SimpleStringProperty();
+
+    private ScrollPane chatArea;
+
+    private ChatAreaController chatAreaController;
+
 
     @FXML
     void loadSheetClicked(ActionEvent event){
@@ -116,6 +136,34 @@ public class ManggerSheetController {
         }
     }
 
+    @FXML
+    void chatClicked(ActionEvent event) {
+        chatClick(this.chat);
+    }
+
+    public void chatClick(Button chat) {
+        Popup popup = new Popup();
+        popup.setAutoHide(true); // Automatically hide when clicking outside
+        popup.getContent().clear();
+        popup.getContent().add(chatArea);
+
+        // Get the window where the chat button resides (the main window)
+        Window window = chat.getScene().getWindow();
+
+        // Get the position of the button in screen coordinates
+        double buttonX = chat.localToScreen(0, 0).getX();
+        double buttonY = chat.localToScreen(0, 0).getY();
+
+        // Define the height of the chat area
+        double chatAreaHeight = 438; // Set this to the known height of chatArea
+        double popupOffsetX = -100; // Move popup left
+        double popupOffsetY = 0; // Move popup up
+
+        // Show the popup at the new position
+        popup.show(chat, buttonX + popupOffsetX, buttonY - chatAreaHeight + popupOffsetY);
+    }
+
+
     public void initialize() {
         inScreen = new SimpleBooleanProperty(true);
         isSheetSelected = new SimpleBooleanProperty(false);
@@ -130,6 +178,19 @@ public class ManggerSheetController {
         if(manggerComandsController != null) {
             manggerComandsController.setManggerSheetController(this);
             manggerComandsController.init();
+        }
+        initChatArea();
+    }
+
+    private void initChatArea() {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Chat/chat.fxml"));
+        try {
+            chatArea = loader.load();
+            chatAreaController = loader.getController();
+            chatAreaController.setManggerSheetController(this);
+            chatAreaController.init();
+        } catch (IOException e) {
+            ErrorController.showError(e.getMessage());
         }
     }
 
@@ -177,6 +238,7 @@ public class ManggerSheetController {
 
     public void setUserName(String userName) {
         this.userName.set(userName);
+        hello.setText("Hello " + userName);
     }
 
     public SimpleStringProperty getUserName() {

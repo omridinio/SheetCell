@@ -16,6 +16,8 @@ public class MainController {
 
     private AnchorPane mangger;
 
+    private String userName;
+
 
     public void initialize() {
 
@@ -62,5 +64,12 @@ public class MainController {
         main.setContent(sheet);
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
+
+    public String getUserName() {
+        return userName;
+    }
 }

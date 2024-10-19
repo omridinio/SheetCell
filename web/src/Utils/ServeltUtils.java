@@ -1,5 +1,6 @@
 package Utils;
 
+import Mangger.ChatManger;
 import dto.impl.PermissionType;
 import Mangger.RequestPermissonManager;
 import Mangger.SheetManger;
@@ -17,6 +18,7 @@ public class ServeltUtils {
     private static final Object userManagerLock = new Object();
     private static final Object sheetManagerLock = new Object();
     private static final Object permissionRequestLock = new Object();
+    private static final Object chatManagerLock = new Object();
 
     public static UserManger getUserManger(ServletContext servletContext){
         synchronized (userManagerLock){
@@ -52,6 +54,15 @@ public class ServeltUtils {
         Logic logic = getSheetManger(request.getServletContext()).getSheet(sheetName);
         String owner = logic.getOwner();
         return new PermissionRequest(usernameFromSession, sheetName, PermissionType.valueOf(permission), owner);
+    }
+
+    public static ChatManger getChatManger(ServletContext servletContext){
+        synchronized (chatManagerLock){
+            if(servletContext.getAttribute("chatManager") == null){
+                servletContext.setAttribute("chatManager", new ChatManger());
+            }
+        }
+        return (ChatManger) servletContext.getAttribute("chatManager");
     }
 
 

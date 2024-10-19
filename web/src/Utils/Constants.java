@@ -26,4 +26,6 @@ public class Constants {
     public final static String REFRESH_SHEET_VERSIONS = "/refreshSheetVersions";
     public final static String GET_UPDATE_SHEET_VERSION = "/getUpdateSheetVersion";
     public final static String RESET_SESSION = "/resetSession";
+    public final static String SEND_MESSAGE = "/sendMessage";
+    public final static String GET_MESSAGES = "/getMessages";
 }
