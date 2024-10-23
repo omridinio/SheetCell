@@ -1,6 +1,5 @@
 package Components.MangerSheet.ManngerCommands.AckOrDnyPer;
 
-import Components.Commands.SetCommand.SetCommandController;
 import Components.MangerSheet.ManngerCommands.AckOrDnyPer.OnePermission.OnePermissionController;
 import dto.impl.PermissionRequest;
 import javafx.application.Platform;
@@ -11,14 +10,17 @@ import javafx.scene.layout.FlowPane;
 
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AckOrDnyPerController {
 
     @FXML
     private FlowPane permissionArea;
 
-    int count = 0;
+
+    private Map<Integer, Parent> permissions = new HashMap<>();
 
 
 
@@ -28,12 +30,16 @@ public class AckOrDnyPerController {
             Parent newWindowRoot = loader.load();
             OnePermissionController onePermissionController = loader.getController();
             onePermissionController.setAckOrDnyPerController(this);
-            onePermissionController.createPermission(permission, count++);
+            onePermissionController.createPermission(permission, permission.getIndex());
             Platform.runLater(() -> permissionArea.getChildren().add(newWindowRoot));
+            this.permissions.put(permission.getIndex(), newWindowRoot);
         }
     }
 
     public void removePermission(int index) {
-        Platform.runLater(() -> permissionArea.getChildren().remove(index));
+        Platform.runLater(() -> {
+            permissionArea.getChildren().remove(permissions.get(index));
+            permissions.remove(index);
+        });
     }
 }

@@ -1,0 +1,43 @@
+/* HBox Styling */
+#request {
+    -fx-background-color: rgba(209, 196, 233, 0.84); /* Purple background for the HBox */
+    -fx-border-color: #B39DDB; /* Slightly darker lavender border */
+    -fx-border-radius: 5px;        /* Rounded corners */
+}
+
+/* Label Styling */
+.label {
+    -fx-text-fill: #4A148C;        /* Lighter purple for labels */
+    -fx-font-size: 12px;           /* Font size */
+    -fx-font-weight: bold;         /* Bold text */
+    -fx-text-alignment: CENTER;    /* Center align text */
+}
+
+#V {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-text-fill: white; /* White text */
+    -fx-border-color: #388E3C; /* Slightly darker border */
+}
+
+/* Hover Effect for V Button */
+#V:hover {
+    -fx-background-color: #45A049; /* Lighter green on hover */
+    -fx-border-color: #2E7D32; /* Darker border on hover */
+}
+
+/* X Button (Red for Cancel) */
+#xButton{
+    -fx-background-color: #F44336; /* Red background */
+    -fx-text-fill: white; /* White text */
+    -fx-border-color: #D32F2F; /* Slightly darker border */
+}
+
+/* Hover Effect for X Button */
+#xButton:hover {
+    -fx-background-color: #E53935; /* Lighter red on hover */
+    -fx-border-color: #C62828; /* Darker border on hover */
+}
+
+
+
+

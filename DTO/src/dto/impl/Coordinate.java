@@ -1,4 +1,4 @@
-package body.impl;
+package dto.impl;
 
 import java.io.Serializable;
 

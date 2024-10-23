@@ -10,8 +10,6 @@ import jakarta.servlet.ServletContext;
 import Mangger.UserManger;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.concurrent.locks.Lock;
-
 import static Utils.SessionUtils.getUserNameFromSession;
 
 public class ServeltUtils {

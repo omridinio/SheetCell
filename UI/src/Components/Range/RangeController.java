@@ -2,7 +2,6 @@ package Components.Range;
 
 import Components.RangeArea.RangeAreaController;
 import dto.impl.RangeDTO;
-import expression.Range;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;

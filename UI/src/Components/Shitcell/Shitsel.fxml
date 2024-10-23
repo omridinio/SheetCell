@@ -2,23 +2,22 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <ScrollPane fx:id="scrollPane" pannable="true" prefHeight="821.0" prefWidth="1331.0" stylesheets="@Shitsel.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Shitcell.ShitsellController">
    <content>
       <AnchorPane id="back" fx:id="allTheSheet" maxHeight="1.0E8" maxWidth="1.0E8" minHeight="811.0" minWidth="1328.0" prefHeight="811.0" prefWidth="1328.0" stylesheets="@Shitsel.CSS">
          <children>
-            <HBox id="HboxUp1" alignment="CENTER" prefHeight="71.0" prefWidth="1328.0" spacing="16.0" styleClass="upFrame" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </HBox>
             <fx:include fx:id="actionLine" source="../ActionLine/actionLine.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
             <VBox id="commandVbox" alignment="TOP_CENTER" layoutY="126.0" maxHeight="1.0E8" maxWidth="1.0E8" prefHeight="696.0" prefWidth="283.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="130.0">
                <children>
@@ -54,8 +53,19 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Button layoutX="1166.0" layoutY="741.0" mnemonicParsing="false" onAction="#backToDashboardClicked" prefHeight="42.0" prefWidth="120.0" text="Back to Dashboard" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="33.0" AnchorPane.rightAnchor="42.0" />
-            <Button fx:id="chat" layoutX="1054.0" layoutY="776.0" mnemonicParsing="false" onAction="#chatClicked" prefHeight="34.0" prefWidth="82.0" text="Chat" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="200.0" />
+            <Button id="dashboard" layoutX="1166.0" layoutY="741.0" mnemonicParsing="false" onAction="#backToDashboardClicked" prefHeight="42.0" prefWidth="120.0" text="Back to Dashboard" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="33.0" AnchorPane.rightAnchor="42.0" />
+            <Button id="chat" fx:id="chat" layoutX="1054.0" layoutY="776.0" mnemonicParsing="false" onAction="#chatClicked" prefHeight="35.0" prefWidth="80.0" text="Chat" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="200.0" />
+            <ImageView fitHeight="65.0" fitWidth="100.0" layoutX="610.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="610.0" AnchorPane.rightAnchor="610.0" AnchorPane.topAnchor="2.0">
+               <image>
+                  <Image url="@SheetCell%20(2)_80x65.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="יקךךם" layoutX="14.0" layoutY="14.0" prefHeight="44.0" prefWidth="251.0" />
+            <Label id="hello" fx:id="hello" layoutX="14.0" layoutY="14.0" prefHeight="44.0" prefWidth="251.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </content>

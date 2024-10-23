@@ -14,7 +14,7 @@ public class ChatMessege {
 
     @Override
     public String toString() {
-        return time + " " + username + ": " + message;
+        return time + " | " + username + ": " + message;
     }
 
 }

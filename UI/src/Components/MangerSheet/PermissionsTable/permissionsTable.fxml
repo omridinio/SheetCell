@@ -3,10 +3,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="315.0" prefWidth="860.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.PermissionsTable.PermissionsTableController">
+<TableView id="permissionsTable" fx:id="table" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="860.0" stylesheets="@../mangerSheet.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.PermissionsTable.PermissionsTableController">
    <columns>
       <TableColumn fx:id="username" prefWidth="287.0" text="Username" />
       <TableColumn fx:id="permissionType" prefWidth="287.0" text="Permission Type" />
-      <TableColumn fx:id="permissionStatus" prefWidth="287.0" text="Permission Status" />
+      <TableColumn fx:id="permissionStatus" prefWidth="282.0" text="Permission Status" />
    </columns>
 </TableView>

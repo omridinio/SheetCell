@@ -1,7 +1,7 @@
 package Components.Commands.Filter.FilterColums.ComboChoiceBox;
 
 import Components.Commands.Filter.FilterColums.FilterColumsController;
-import body.impl.Coordinate;
+import dto.impl.Coordinate;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

@@ -2,7 +2,6 @@ package Components.MangerSheet.ManngerCommands.AckOrDnyPer.OnePermission;
 
 import Components.MangerSheet.ManngerCommands.AckOrDnyPer.AckOrDnyPerController;
 import dto.impl.PermissionRequest;
-import dto.impl.SheetBasicData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -12,7 +11,6 @@ import utils.Constants;
 import utils.HttpClientUtil;
 
 import java.io.IOException;
-import java.util.List;
 
 public class OnePermissionController {
 
@@ -52,7 +50,7 @@ public class OnePermissionController {
                 .toString();
         Request request = new Request.Builder()
                 .url(finalUrl)
-                .put(RequestBody.create(null, new byte[0]))  // בקשת PUT ריקה (ללא תוכן)
+                .put(RequestBody.create(null, new byte[0]))
                 .build();
         HttpClientUtil.runAsync(request, new Callback() {
             @Override
@@ -84,5 +82,9 @@ public class OnePermissionController {
 
     public void setAckOrDnyPerController(AckOrDnyPerController ackOrDnyPerController) {
         this.ackOrDnyPerController = ackOrDnyPerController;
+    }
+
+    public void setIndex(int i) {
+        index = i;
     }
 }

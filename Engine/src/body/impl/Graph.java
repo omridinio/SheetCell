@@ -1,5 +1,7 @@
 package body.impl;
 
+import dto.impl.Coordinate;
+
 import java.io.Serializable;
 import java.util.*;
 

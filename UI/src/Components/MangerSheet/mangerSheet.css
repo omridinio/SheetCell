@@ -1,4 +1,143 @@
-.table-row-cell:selected {
-    -fx-background-color: lightblue;
-    -fx-text-fill: black;
+/* TableView Styling */
+.table-view {
+    -fx-background-color: #F7F9F9; /* Very light gray background */
+    -fx-border-color: #BDC3C7;     /* Light gray border */
+    -fx-border-width: 1px;
+    -fx-table-cell-border-color: transparent; /* Remove internal cell borders */
 }
+
+/* Style for table headers */
+.table-view .column-header {
+    -fx-background-color: #E3F2FD; /* Even lighter blue for headers */
+    -fx-text-fill: #2C3E50;        /* Darker blue-gray text */
+    -fx-font-weight: bold;         /* Bold text */
+    -fx-alignment: CENTER;         /* Center align text */
+    -fx-background-radius: 3px;    /* Slightly rounded corners */
+    -fx-padding: 5px;              /* Padding inside header cells */
+    -fx-font-size: 14px;           /* Increased font size for headers */
+    -fx-border-color: #BDC3C7;     /* Light gray border for header */
+    -fx-border-width: 1px;         /* Border width */
+}
+
+/* Style for each row */
+.table-row-cell {
+    -fx-background-color: #F0F8FF; /* Extremely light blue for rows */
+    -fx-text-fill: #2C3E50;        /* Dark text for readability */
+    -fx-font-size: 14px;           /* Increased font size for row values */
+}
+
+/* Alternate row styling for better readability */
+.table-row-cell:odd {
+    -fx-background-color: #EAF2F8; /* Slightly darker light blue for odd rows */
+}
+
+/* Style for selected rows */
+.table-row-cell:selected {
+    -fx-background-color: #BBDEFB; /* Lighter bright blue for selected rows */
+    -fx-text-fill: #2C3E50;        /* Darker text for selected rows */
+    -fx-font-weight: bold;         /* Bold text for emphasis */
+}
+
+/* Style for the individual columns */
+.table-column {
+    -fx-alignment: CENTER-LEFT;    /* Align text to the left */
+}
+
+
+
+
+/* AnchorPane background */
+#manger {
+    -fx-background-color: #F7F9FC; /* Light grayish blue background */
+    /* Padding around the AnchorPane */
+}
+
+/* Button Styling */
+#loadSheet{
+    -fx-background-color: #34495E; /* Dark blue-grey for primary buttons */
+    -fx-text-fill: white;          /* White text for contrast */
+    -fx-background-radius: 5px;    /* Rounded corners */
+    -fx-font-size: 14px;           /* Regular font size */
+    -fx-font-weight: bold;         /* Bold text for visibility */
+    -fx-pref-height: 35px;         /* Consistent button height */
+    -fx-pref-width: 156px;         /* Adjust width for Load Sheet Button */
+}
+
+#chat {
+    -fx-background-color: #34495E; /* Dark blue-grey for primary buttons */
+    -fx-text-fill: white;          /* White text for contrast */
+    -fx-background-radius: 5px;    /* Rounded corners */
+    -fx-font-size: 14px;           /* Regular font size */
+    -fx-font-weight: bold;         /* Bold text for visibility */
+}
+
+#loadSheet:hover, #chat:hover {
+    -fx-background-color: #2C3E50; /* Darker shade on hover */
+}
+
+/* Styling for Hello label */
+#hello, #sheetLoad {
+    -fx-text-fill: #2C3E50;      /* Darker text color */
+    -fx-font-size: 24px;         /* Larger text size */
+    -fx-font-weight: bold;       /* Bold text for emphasis */
+    -fx-padding: 10px;           /* Padding around the label */
+    -fx-background-color: #F7F9FC; /* Light blue background for emphasis */
+
+}
+
+
+
+/* Additional general styling for included FXML components */
+.fx-include {
+    -fx-background-color: #F7F9F9; /* Soft background to blend with the tables */
+    -fx-border-color: #BDC3C7;     /* Light gray border */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;        /* Slightly rounded corners */
+    -fx-padding: 10px;             /* Padding around the included components */
+}
+
+ScrollBar {
+    -fx-background-color: transparent; /* Transparent background */
+}
+
+/* Vertical ScrollBar Thumb Styling */
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray for vertical scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for thumb */
+}
+
+/* Horizontal ScrollBar Thumb Styling */
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #B0BEC5; /* Light gray for horizontal scroll thumb */
+    -fx-background-radius: 5px; /* Rounded corners for thumb */
+}
+
+/* ScrollBar Track Styling (Track is the background of the scroll bar) */
+.scroll-bar .track {
+    -fx-background-color: transparent; /* Transparent track to avoid visual clutter */
+}
+
+/* ScrollBar Increment/Decrement Button Styling */
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent; /* Transparent buttons to blend in */
+    -fx-padding: 2px; /* Small padding for a clean look */
+}
+
+/* ScrollPane Background */
+.scroll-pane {
+    -fx-background-color: #F7F9FC; /* Light gray background for the ScrollPane */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+/* ScrollPane Viewport (the area where content is displayed) */
+.scroll-pane .viewport {
+    -fx-background-color: #F7F9FC; /* Match the viewport background to ScrollPane */
+}
+
+FlowPane {
+    -fx-background-color: #E3F2FD; /* Light blue background for FlowPane */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 8px; /* Rounded corners */
+}
+

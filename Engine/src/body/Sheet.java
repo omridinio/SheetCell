@@ -1,7 +1,6 @@
 package body;
 
-import body.impl.Coordinate;
-import dto.impl.CellDTO;
+import dto.impl.Coordinate;
 import expression.Range;
 
 import java.io.IOException;

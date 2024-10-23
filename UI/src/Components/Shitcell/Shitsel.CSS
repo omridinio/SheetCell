@@ -215,3 +215,28 @@ ScrollBar {
     -fx-border-color: #78909C; /* Darker border on press */
 }
 
+#hello {
+    -fx-text-fill: #2C3E50;      /* Darker text color */
+    -fx-font-size: 16px;         /* Larger text size */
+    -fx-font-weight: bold;       /* Bold text for emphasis */
+    -fx-background-color: #F7F9FC; /* Light blue background for emphasis */
+}
+
+#dashboard {
+    -fx-background-color: #34495E; /* Dark blue-grey for primary action */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-font-size: 11px; /* Smaller font size for compact look */
+    -fx-font-weight: bold; /* Bold text for visibility */
+}
+
+#chat{
+    -fx-background-color: #34495E; /* Dark blue-grey for primary action */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-font-size: 14px; /* Smaller font size for compact look */
+    -fx-font-weight: bold; /* Bold text for visibility */
+}
+
+
+

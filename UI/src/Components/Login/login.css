@@ -1,0 +1,18 @@
+
+
+#login {
+    -fx-background-color: #F7F9F9; /* Very light gray background */
+}
+
+.label {
+    -fx-text-fill: #2C3E50; /* Dark slate for label text */
+    -fx-font-weight: bold; /* Bold to keep readability */
+}
+
+#button {
+    -fx-background-color: #34495E; /* Dark blue-grey for primary action */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-font-size: 14px; /* Smaller font size for compact look */
+    -fx-font-weight: bold; /* Bold text for visibility */
+}

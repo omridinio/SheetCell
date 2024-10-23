@@ -7,8 +7,6 @@ import Utils.ServeltUtils;
 import Utils.SessionUtils;
 import body.Logic;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import dto.impl.AproveRequest;
 import dto.impl.PermissionRequest;
 import dto.impl.SheetBasicData;
 import jakarta.servlet.ServletException;
@@ -18,12 +16,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
-import jakarta.xml.bind.JAXBException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.*;
 
 
@@ -204,7 +199,7 @@ public class LoadSheetServelt extends HttpServlet {
                     else{
                         sheetManger.addSheet(sheetName, newSheet);
                         response.setStatus(HttpServletResponse.SC_OK);
-                        response.getOutputStream().print("Sheet " + sheetName + " added successfully");
+                        response.getOutputStream().print("Sheet \"" + sheetName + "\" added successfully");
                     }
                 }
             } catch (Exception e) {

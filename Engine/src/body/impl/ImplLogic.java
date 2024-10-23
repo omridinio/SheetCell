@@ -1,5 +1,6 @@
 package body.impl;
 
+import dto.impl.Coordinate;
 import dto.impl.PermissionType;
 import body.Cell;
 import body.Logic;

@@ -7,25 +7,25 @@ import Components.Main.MainController;
 import Components.MangerSheet.AvailableSheets.AvailableSheetsController;
 import Components.MangerSheet.ManngerCommands.ManggerComandsController;
 import Components.MangerSheet.PermissionsTable.PermissionsTableController;
+import Components.Shitcell.ShitsellController;
 import dto.impl.PermissionType;
 import dto.impl.SheetBasicData;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 import javafx.stage.Window;
@@ -37,6 +37,8 @@ import utils.HttpClientUtil;
 
 import java.io.File;
 import java.io.IOException;
+
+import static java.lang.Thread.sleep;
 
 
 public class ManggerSheetController {
@@ -64,6 +66,11 @@ public class ManggerSheetController {
 
     @FXML
     private Button chat;
+
+    @FXML
+    private Label sheetLoad;
+
+    private ShitsellController currentSheetController = null;
 
     private SimpleStringProperty userName = new SimpleStringProperty("");
 
@@ -117,7 +124,11 @@ public class ManggerSheetController {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.code() == 200) {
-                        System.out.println("Sheet loaded");
+                        try {
+                            loadSucsses(response.body().string());
+                        } catch (InterruptedException e) {
+                            ErrorController.showError(e.getMessage());
+                        }
                     } else {
                         Platform.runLater(() -> {
                             try {
@@ -139,6 +150,16 @@ public class ManggerSheetController {
     @FXML
     void chatClicked(ActionEvent event) {
         chatClick(this.chat);
+    }
+
+    private void loadSucsses(String messege) throws InterruptedException {
+        Platform.runLater(() -> {
+            sheetLoad.setText(messege);
+        });
+        sleep(3000);
+        Platform.runLater(() -> {
+            sheetLoad.setText("");
+        });
     }
 
     public void chatClick(Button chat) {
@@ -260,6 +281,7 @@ public class ManggerSheetController {
 
     public void switchManagerSheet(){
         setInScreen(true);
+        currentSheetController = null;
         mainController.switchManger();
     }
 
@@ -268,7 +290,29 @@ public class ManggerSheetController {
         selectedSheet = null;
     }
 
+    public void setCurrSheetController(ShitsellController currSheet) {
+        currentSheetController = currSheet;
+    }
 
 
+    public void close() {
+        availableSheetsController.close();
+        permissionsTableController.close();
+        if(currentSheetController != null) {
+            currentSheetController.close();
+        }
+        chatAreaController.close();
+    }
 
+    public void setDisable() {
+        mainController.setDisable();
+    }
+
+    public void setEnable() {
+        mainController.setEnable();
+    }
+
+    public ObservableValue<String> getHelloProperty() {
+        return hello.textProperty();
+    }
 }

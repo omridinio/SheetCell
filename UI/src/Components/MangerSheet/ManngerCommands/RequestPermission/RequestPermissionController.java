@@ -66,8 +66,7 @@ public class RequestPermissionController {
                 }
                 else{
                     Platform.runLater(() -> {
-                        Stage stage = (Stage) ok.getScene().getWindow();
-                        stage.close();
+                        manggerComandsController.hideRequestPermission();
                     });
                     response.body().string();
                 }

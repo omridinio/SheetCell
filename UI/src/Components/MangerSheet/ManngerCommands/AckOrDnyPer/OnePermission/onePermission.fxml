@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<HBox alignment="CENTER" prefHeight="44.0" prefWidth="368.0" spacing="5.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.AckOrDnyPer.OnePermission.OnePermissionController">
+<HBox id="request" alignment="CENTER" prefHeight="46.0" prefWidth="396.0" spacing="5.0" stylesheets="@onePermission.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.AckOrDnyPer.OnePermission.OnePermissionController">
    <children>
       <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0" spacing="10.0">
          <children>
@@ -27,8 +26,8 @@
             <Label fx:id="permission" prefHeight="17.0" prefWidth="74.0" textAlignment="CENTER" />
          </children>
       </VBox>
-      <Button mnemonicParsing="false" onAction="#vClicked" prefHeight="38.0" prefWidth="42.0" text="V" />
-      <Button mnemonicParsing="false" onAction="#xClicked" prefHeight="38.0" prefWidth="42.0" text="X" />
+      <Button id="V" mnemonicParsing="false" onAction="#vClicked" prefHeight="38.0" prefWidth="42.0" text="V" />
+      <Button id="xButton" mnemonicParsing="false" onAction="#xClicked" prefHeight="38.0" prefWidth="42.0" text="X" />
    </children>
    <padding>
       <Insets left="10.0" />

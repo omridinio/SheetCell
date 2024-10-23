@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+
 public class HttpClientUtil {
 
     private final static CookieManager simpleCookieManager = new CookieManager();

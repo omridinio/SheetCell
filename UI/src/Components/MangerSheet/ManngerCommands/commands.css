@@ -1,0 +1,42 @@
+/* VBox Styling */
+#manggerComands {
+    -fx-background-color: #F7F9FC; /* Light blue background for the VBox */
+    -fx-spacing: 40px;             /* Spacing between children */
+}
+
+/* Label Styling */
+.label {
+    -fx-text-fill: #2C3E50;        /* Dark blue-gray text color */
+    -fx-font-weight: bold;          /* Bold text */
+    -fx-font-size: 29px;            /* Font size */
+}
+
+Button {
+    -fx-background-color: rgba(122, 161, 228, 0.29); /* Dark blue-grey for button background */
+    -fx-text-fill: #2C3E50; /* White text for contrast */
+    -fx-font-size: 18px; /* Smaller font for compact look */
+    -fx-font-weight: bold; /* Bold text for readability */
+    -fx-background-radius: 5px; /* Slightly rounded corners */
+    -fx-pref-height: 130px; /* Reduced height for buttons */
+    -fx-pref-width: 150px; /* Set consistent width */
+    -fx-wrap-text: true; /* Wrap text for long button labels */
+    -fx-text-alignment: CENTER; /* Center-align the text */
+    -fx-alignment: CENTER; /* Center the content in the button */
+    -fx-cursor: hand;
+}
+
+/* Hover Effect */
+Button:hover {
+    -fx-background-color: rgba(122, 161, 228, 0.6);; /* Darker blue-grey on hover */
+    -fx-text-fill: white; /* Switch to white text on hover for contrast */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 4, 0.5, 0, 1); /* Add a subtle shadow on hover */
+    -fx-scale-x: 1.03; /* Slightly enlarge the button on hover */
+    -fx-scale-y: 1.03; /* Slightly enlarge the button on hover */
+}
+
+/* Disabled Button Styling */
+Button:disabled {
+    -fx-background-color: #BDC3C7; /* Light gray for disabled buttons */
+    -fx-text-fill: #7F8C8D; /* Gray text for disabled state */
+}
+

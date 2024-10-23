@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 import java.util.List;
 import java.util.Timer;
@@ -37,11 +38,11 @@ public class PermissionsTableController {
     private Timer timer;
 
 
-
     public void initialize() {
         permissionStatus.setCellValueFactory(new PropertyValueFactory <PermissionTable, String>("permissionStatus"));
         permissionType.setCellValueFactory(new PropertyValueFactory <PermissionTable, String>("permissionType"));
         username.setCellValueFactory(new PropertyValueFactory <PermissionTable, String>("username"));
+        table.setSelectionModel(null);
     }
 
     public void setManggerSheetController(ManggerSheetController manggerSheetController) {
@@ -70,4 +71,10 @@ public class PermissionsTableController {
     }
 
 
+    public void close() {
+        if (permissionRefresher != null && timer != null) {
+            permissionRefresher.cancel();
+            timer.cancel();
+        }
+    }
 }

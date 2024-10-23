@@ -1,8 +1,6 @@
 package Components.Chat;
 
 import Components.Error.ErrorController;
-import Components.Main.MainController;
-import Components.MangerSheet.AvailableSheets.SheetRefresher;
 import Components.MangerSheet.ManggerSheetController;
 import com.google.gson.Gson;
 import dto.impl.ChatMessege;
@@ -16,7 +14,6 @@ import utils.Constants;
 import utils.HttpClientUtil;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -105,4 +102,10 @@ public class ChatAreaController {
         timer.schedule(chatAreaRefresher, 100, 500);
     }
 
+    public void close() {
+        if(chatAreaRefresher != null && timer != null) {
+            chatAreaRefresher.cancel();
+            timer.cancel();
+        }
+    }
 }

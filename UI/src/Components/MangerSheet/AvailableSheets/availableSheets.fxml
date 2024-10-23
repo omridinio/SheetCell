@@ -8,6 +8,6 @@
     <TableColumn fx:id="sheetOwner" prefWidth="215.0" text="Owner" />
     <TableColumn fx:id="sheetName" prefWidth="215.0" text="Sheet Name" />
       <TableColumn fx:id="sheetSize" prefWidth="215.0" text="Sheet size" />
-      <TableColumn fx:id="sheetPermission" prefWidth="215.0" text="Permission" />
+      <TableColumn fx:id="sheetPermission" prefWidth="212.0" text="Permission" />
   </columns>
 </TableView>

@@ -6,7 +6,7 @@ import Components.MangerSheet.ManngerCommands.AckOrDnyPer.AckOrDnyPerController;
 import Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController;
 import Components.Shitcell.ShitsellController;
 import Mangger.CoordinateAdapter;
-import body.impl.Coordinate;
+import dto.impl.Coordinate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dto.SheetDTO;
@@ -19,13 +19,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Region;
-import javafx.stage.Modality;
 import javafx.stage.Popup;
-import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -34,11 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import utils.Constants;
 import utils.HttpClientUtil;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ManggerComandsController {
 
@@ -53,9 +46,17 @@ public class ManggerComandsController {
 
     private ManggerSheetController manggerSheetController;
 
+    private Popup requestPopup = new Popup();
+
+    private Popup ackOrDnyPopup = new Popup();
+
 
     @FXML
     void ackOrDentClicked(ActionEvent event) {
+        if (ackOrDnyPopup.isShowing()) {
+            ackOrDnyPopup.hide();
+            return;
+        }
         String finalUrl = HttpUrl
                 .parse(Constants.PERMISSION_OWNER)
                 .newBuilder()
@@ -84,47 +85,72 @@ public class ManggerComandsController {
 
     @FXML
     void requestClicked(ActionEvent event) throws IOException {
+        if(requestPopup.isShowing()){
+            requestPopup.hide();
+            return;
+        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/MangerSheet/ManngerCommands/RequestPermission/requestPermission.fxml"));
         Parent newWindowRoot = loader.load();
         RequestPermissionController requestPermissionController = loader.getController();
         requestPermissionController.setManggerComandsController(this);
         requestPermissionController.init();
-        Popup popup = new Popup();
-        popup.setAutoHide(true); // Automatically hide when clicking outside
-        popup.getContent().clear();
-        popup.getContent().add(newWindowRoot);
-        popup.show(request, request.localToScreen(-110, request.getHeight()).getX(), request.localToScreen(0, request.getHeight()).getY());
+        requestPopup.setAutoHide(true); // Automatically hide when clicking outside
+        requestPopup.getContent().clear();
+        requestPopup.getContent().add(newWindowRoot);
+        requestPopup.show(request, request.localToScreen(-110, request.getHeight()).getX(), request.localToScreen(0, request.getHeight()).getY());
     }
 
     @FXML
     void viewSheetClicked(ActionEvent event) {
         try {
+            manggerSheetController.setDisable();
             String finalUrl = HttpUrl
                     .parse(Constants.VIEW_SHEET)
                     .newBuilder()
                     .addQueryParameter("sheetName", manggerSheetController.getSheetNameProperty().get())
                     .build()
                     .toString();
-            Response response = HttpClientUtil.runSync(finalUrl);
-            if (response.code() != 200) {
-                ErrorController.showError(response.body().string());
-            }
-            else {
-                String jsonResponse = response.body().string();
-                Gson gson = new GsonBuilder()
-                        .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
-                        .create();
-                SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-                ScrollPane root = loader.load();
-                ShitsellController shitsellController = loader.getController();
-                shitsellController.setManggerSheetController(manggerSheetController);
-                manggerSheetController.setIsSheetSelected(false);
-                manggerSheetController.setInScreen(false);
-                manggerSheetController.changeContent(root);
-                shitsellController.showSheet(sheetDTO, manggerSheetController.getSelectedSheet().getSheetPermission());
-                manggerSheetController.clearSheetSelect();
-            }
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Platform.runLater(() -> {
+                        ErrorController.showError(e.getMessage());
+                        manggerSheetController.setEnable();
+                    });
+                }
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    if (response.code() != 200) {
+                        Platform.runLater(() -> {
+                            try {
+                                ErrorController.showError(response.body().string());
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            manggerSheetController.setEnable();
+                        });
+                    }
+                    else {
+                        String jsonResponse = response.body().string();
+                        Gson gson = new GsonBuilder()
+                                .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
+                                .create();
+                        SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
+                        ScrollPane root = loader.load();
+                        ShitsellController shitsellController = loader.getController();
+                        shitsellController.setManggerSheetController(manggerSheetController);
+                        manggerSheetController.setCurrSheetController(shitsellController);
+                        manggerSheetController.setIsSheetSelected(false);
+                        manggerSheetController.setInScreen(false);
+                        Platform.runLater(() -> {
+                            manggerSheetController.changeContent(root);
+                            shitsellController.showSheet(sheetDTO, manggerSheetController.getSelectedSheet().getSheetPermission());
+                            manggerSheetController.clearSheetSelect();
+                        });
+                    }
+                }
+            });
         } catch (Exception e){
             e.printStackTrace();
             ErrorController.showError(e.getMessage());
@@ -167,11 +193,14 @@ public class ManggerComandsController {
         AckOrDnyPerController ackOrDnyPerController = loader.getController();
         ackOrDnyPerController.insertPermissions(permissionRequestList);
         Platform.runLater(() -> {
-            Popup popup = new Popup();
-            popup.setAutoHide(true); // Automatically hide when clicking outside
-            popup.getContent().clear();
-            popup.getContent().add(newWindowRoot);
-            popup.show(ackOrDeny, ackOrDeny.localToScreen(-100, ackOrDeny.getHeight()).getX(), ackOrDeny.localToScreen(0, ackOrDeny.getHeight()).getY());
+            ackOrDnyPopup.setAutoHide(true); // Automatically hide when clicking outside
+            ackOrDnyPopup.getContent().clear();
+            ackOrDnyPopup.getContent().add(newWindowRoot);
+            ackOrDnyPopup.show(ackOrDeny, ackOrDeny.localToScreen(-100, ackOrDeny.getHeight()).getX(), ackOrDeny.localToScreen(0, ackOrDeny.getHeight()).getY());
         });
+    }
+
+    public void hideRequestPermission() {
+        requestPopup.hide();
     }
 }

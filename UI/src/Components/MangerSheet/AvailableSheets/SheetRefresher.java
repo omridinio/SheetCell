@@ -1,10 +1,8 @@
 package Components.MangerSheet.AvailableSheets;
 
-import Components.Error.ErrorController;
 import dto.impl.SheetBasicData;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -17,7 +15,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
-import java.util.logging.ErrorManager;
 
 public class SheetRefresher extends TimerTask {
     private Consumer<List<SheetBasicData>> updateSheetList;

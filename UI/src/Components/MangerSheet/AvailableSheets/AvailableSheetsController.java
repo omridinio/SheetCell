@@ -4,12 +4,10 @@ import Components.MangerSheet.ManggerSheetController;
 import dto.impl.SheetBasicData;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -47,7 +45,9 @@ public class AvailableSheetsController {
 
     @FXML
     void slectedRow(MouseEvent event) {
-        manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
+        if(table.getSelectionModel().getSelectedItem() != null){
+            manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
+        }
     }
 
     public void initialize() {
@@ -55,7 +55,6 @@ public class AvailableSheetsController {
         sheetPermission.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetPermission"));
         sheetName.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetName"));
         sheetSize.setCellValueFactory(new PropertyValueFactory<SheetBasicData,String>("sheetSize"));
-        table.disableProperty().bind(Bindings.isEmpty(table.getItems()));
     }
 
     public void setManggerSheetController(ManggerSheetController manggerSheetController) {
@@ -63,22 +62,11 @@ public class AvailableSheetsController {
     }
 
     private void updateSheets(List<SheetBasicData> sheets){;
-//        for(SheetBasicData sheet : sheets){
-//            this.sheets.put(sheet.getSheetName(), sheet);
-//            Platform.runLater(() -> {
-//                table.getItems().add(sheet);
-//            });
-//        }
         int selectedIndex = table.getSelectionModel().getSelectedIndex();
         ObservableList<TableColumn<SheetBasicData, ?>> sortedColumns = table.getSortOrder();
         Platform.runLater(() -> {
             if (!sortedColumns.isEmpty()) {
                 TableColumn<SheetBasicData, ?> sortedColumn = sortedColumns.get(0);
-//                if (sortedColumn.getSortType() == TableColumn.SortType.ASCENDING) {
-//                    sortedColumn.setSortType(TableColumn.SortType.DESCENDING);
-//                } else {
-//                    sortedColumn.setSortType(TableColumn.SortType.ASCENDING);
-//                }
                 table.getSortOrder().clear();
                 table.getSortOrder().add(sortedColumn);
                 table.sort();
@@ -89,7 +77,9 @@ public class AvailableSheetsController {
             }
             if(selectedIndex >= 0 && selectedIndex < table.getItems().size()){
                 table.getSelectionModel().select(selectedIndex);
-                manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
+                if(table.getSelectionModel().getSelectedItem() != null){
+                    manggerSheetController.setSelectedSheet(table.getSelectionModel().getSelectedItem());
+                }
             }
         });
     }
@@ -108,4 +98,10 @@ public class AvailableSheetsController {
         table.getSelectionModel().clearSelection();
     }
 
+    public void close() {
+        if(sheetRefresher != null && timer != null){
+            sheetRefresher.cancel();
+            timer.cancel();
+        }
+    }
 }

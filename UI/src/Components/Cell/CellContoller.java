@@ -1,7 +1,7 @@
 package Components.Cell;
 
 import Components.Shitcell.ShitsellController;
-import body.impl.Coordinate;
+import dto.impl.Coordinate;
 import dto.impl.CellDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

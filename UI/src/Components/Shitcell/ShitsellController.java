@@ -3,14 +3,13 @@ package Components.Shitcell;
 import Components.ActionLine.ActionLineController;
 import Components.Commands.CommandsController;
 import Components.Error.ErrorController;
-import Components.MangerSheet.AvailableSheets.SheetRefresher;
 import Components.MangerSheet.ManggerSheetController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
 import Mangger.CoordinateAdapter;
 import dto.impl.PermissionType;
 import Properties.CellUI;
-import body.impl.Coordinate;
+import dto.impl.Coordinate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -23,8 +22,6 @@ import java.lang.reflect.Type;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -32,7 +29,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -41,10 +37,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import Components.Cell.CellContoller;
-import javafx.util.Duration;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import org.w3c.dom.events.Event;
 import utils.Constants;
 import utils.HttpClientUtil;
 
@@ -91,6 +85,9 @@ public class ShitsellController {
 
     @FXML
     private Button chat;
+
+    @FXML
+    private Label hello;
 
 
 
@@ -172,6 +169,7 @@ public class ShitsellController {
 
     public void showSheet(SheetDTO sheet, PermissionType permissionType) {
         try {
+            hello.textProperty().bind(manggerSheetController.getHelloProperty());
             currSheet = sheet;
             if(!isLoaded.get()){
                 restSheet();
@@ -1357,6 +1355,13 @@ public class ShitsellController {
             }
         } catch (IOException e) {
             ErrorController.showError(e.getMessage());
+        }
+    }
+
+    public void close() {
+        if(sheetRefresher != null && timer != null){
+            sheetRefresher.cancel();
+            timer.cancel();
         }
     }
 }

@@ -47,6 +47,8 @@ public class RequestPermissonManager {
         PermissionRequest ownerRequest = new PermissionRequest(owner,sheetName);
         res.add(ownerRequest);
         if(requestPermissionBySheet.containsKey(sheetName)){
+            List<PermissionRequest> requests = new ArrayList<>(requestPermissionBySheet.get(sheetName).values());
+            requests.sort(Comparator.comparingInt(PermissionRequest::getIndex));
             res.addAll(requestPermissionBySheet.get(sheetName).values());
         }
         return res;

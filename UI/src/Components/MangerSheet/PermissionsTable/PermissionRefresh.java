@@ -1,7 +1,6 @@
 package Components.MangerSheet.PermissionsTable;
 
 import dto.impl.PermissionRequest;
-import dto.impl.SheetBasicData;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;

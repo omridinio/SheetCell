@@ -1,7 +1,6 @@
 package dto.impl;
 
 import body.Sheet;
-import body.impl.Coordinate;
 import body.impl.ImplCell;
 import dto.SheetDTO;
 import body.Cell;

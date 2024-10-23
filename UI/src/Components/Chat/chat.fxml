@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Font?>
 
 
-<ScrollPane prefHeight="438.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Chat.ChatAreaController">
+<ScrollPane prefHeight="438.0" prefWidth="356.0" stylesheets="@chat.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Chat.ChatAreaController">
    <content>
-      <AnchorPane prefHeight="436.0" prefWidth="353.0">
+      <AnchorPane id="back" prefHeight="436.0" prefWidth="353.0">
          <children>
             <ScrollPane prefHeight="354.0" prefWidth="349.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <content>
@@ -17,7 +17,7 @@
                </content>
             </ScrollPane>
             <TextArea fx:id="text" layoutX="14.0" layoutY="372.0" prefHeight="50.0" prefWidth="260.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-            <Button fx:id="send" layoutX="287.0" layoutY="371.0" mnemonicParsing="false" onAction="#sendClicked" prefHeight="50.0" prefWidth="60.0" text="Send" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="6.0">
+            <Button id="send" fx:id="send" layoutX="287.0" layoutY="371.0" mnemonicParsing="false" onAction="#sendClicked" prefHeight="50.0" prefWidth="60.0" text="Send" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="6.0">
                <font>
                   <Font size="15.0" />
                </font>

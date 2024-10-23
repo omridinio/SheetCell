@@ -1,5 +1,6 @@
 package Components.Main;
 
+import Components.MangerSheet.ManggerSheetController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -18,9 +19,15 @@ public class MainController {
 
     private String userName;
 
+    private ManggerSheetController manggerSheetController;
+
 
     public void initialize() {
 
+    }
+
+    public void setManggerSheetController(ManggerSheetController manggerSheetController) {
+        this.manggerSheetController = manggerSheetController;
     }
 
     public void setPane(Parent pane) {
@@ -51,12 +58,14 @@ public class MainController {
         main.setContent(mangger);
         main.layout();
         this.mangger = mangger;
+        mangger.setDisable(false);
         Stage stage = (Stage) main.getScene().getWindow(); // Get the current stage
         stage.setWidth(width + 35);  // Adding some padding or margin
         stage.setHeight(height + 55); // Adding some padding or margin
     }
 
     public void switchManger() {
+        mangger.setDisable(false);
         main.setContent(mangger);
     }
 
@@ -68,8 +77,19 @@ public class MainController {
         this.userName = userName;
     }
 
-
     public String getUserName() {
         return userName;
+    }
+
+    public void close() {
+        manggerSheetController.close();
+    }
+
+    public void setDisable() {
+        mangger.setDisable(true);
+    }
+
+    public void setEnable() {
+        mangger.setDisable(false);
     }
 }

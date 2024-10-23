@@ -1,7 +1,7 @@
 package body;
 
 import dto.impl.PermissionType;
-import body.impl.Coordinate;
+import dto.impl.Coordinate;
 import dto.SheetDTO;
 import dto.impl. CellDTO;
 import dto.impl.RangeDTO;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
 
 
 public interface Logic {

@@ -60,6 +60,7 @@ public class LoginController {
                         manggerSheetController.setMainController(mainController);
                         manggerSheetController.setUserName(userName.trim());
                         mainController.setUserName(userName.trim());
+                        mainController.setManggerSheetController(manggerSheetController);
                         Platform.runLater(() -> {
                             //mainController.setPane(mangerSheet);
                             mainController.LoadManger(mangerSheet);

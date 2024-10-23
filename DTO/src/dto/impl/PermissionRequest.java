@@ -25,7 +25,6 @@ public class PermissionRequest {
         this.sheetName = sheetName;
         this.permission = PermissionType.OWNER;
         this.approved = true;
-        this.index = counter++;
         this.owner = owner;
         this.status = "Approved";
     }
@@ -82,4 +81,6 @@ public class PermissionRequest {
     public void setStatus(String newStatus) {
         this.status = newStatus;
     }
+
+
 }

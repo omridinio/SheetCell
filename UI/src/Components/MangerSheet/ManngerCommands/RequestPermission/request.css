@@ -1,0 +1,55 @@
+/* General Styles */
+.root {
+    -fx-background-color: #F5F5F7; /* Light gray background similar to iOS design */
+}
+
+/* ScrollPane Styling */
+.scroll-pane {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: transparent; /* No border */
+}
+
+/* VBox Styling */
+#vbox {
+    -fx-background-color: #E3F2FD; /* White background for the VBox */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 8px; /* Rounded corners */
+
+}
+
+/* Label Styling */
+.label{
+    -fx-text-fill: #333333; /* Dark gray text for labels */
+    -fx-font-size: 16px; /* Font size for main label */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-font-family: "San Francisco"; /* Apple font style */
+}
+
+
+
+/* ChoiceBox Styling */
+.choice-box {
+    -fx-background-color: #F0F0F5; /* Light gray for the choice box */
+    -fx-border-color: #D1D1D6; /* Border color */
+    -fx-border-radius: 8; /* Rounded corners */
+}
+
+/* Button Styling */
+.button {
+    -fx-background-color: #607D8B; /* Blue color for the button */
+    -fx-text-fill: white;           /* White text */
+    -fx-font-size: 14px;            /* Font size */
+    -fx-font-weight: bold;          /* Bold text */
+    -fx-background-radius: 8;       /* Rounded corners */
+    -fx-font-family: "San Francisco"; /* Apple font style */
+}
+
+/* Button Hover Effect */
+.button:hover {
+    -fx-background-color: #78909C; /* Darker blue on hover */
+}
+
+/* Button Pressed Effect */
+.button:pressed {
+    -fx-background-color: #004B9A; /* Even darker blue when pressed */
+}

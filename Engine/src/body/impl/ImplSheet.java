@@ -2,6 +2,7 @@ package body.impl;
 
 import body.Cell;
 import body.Sheet;
+import dto.impl.Coordinate;
 import expression.Range;
 import expression.api.EffectiveValue;
 import expression.api.Expression;

@@ -7,7 +7,7 @@ import Utils.ServeltUtils;
 import Utils.SessionUtils;
 import body.Logic;
 import body.Sheet;
-import body.impl.Coordinate;
+import dto.impl.Coordinate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

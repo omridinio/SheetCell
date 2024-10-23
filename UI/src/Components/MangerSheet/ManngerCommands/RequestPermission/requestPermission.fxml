@@ -10,23 +10,23 @@
 <?import javafx.scene.text.Font?>
 
 
-<ScrollPane prefHeight="245.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
+<ScrollPane prefHeight="245.0" prefWidth="420.0" stylesheets="@request.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
    <content>
-      <VBox alignment="TOP_CENTER" prefHeight="243.0" prefWidth="412.0">
+      <VBox id="vbox" alignment="TOP_CENTER" prefHeight="241.0" prefWidth="414.0">
          <children>
-            <Label fx:id="sheetName" prefHeight="71.0" prefWidth="408.0" wrapText="true">
+            <Label id="name" fx:id="sheetName" prefHeight="71.0" prefWidth="408.0" wrapText="true">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
             <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="433.0" spacing="10.0">
                <children>
-                  <Label text="Permission: ">
+                  <Label id="Permission" text="Permission: ">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="permission" prefHeight="25.0" prefWidth="104.0" />
+                  <ChoiceBox fx:id="permission" prefHeight="0.0" prefWidth="104.0" />
                </children>
                <padding>
                   <Insets left="10.0" />

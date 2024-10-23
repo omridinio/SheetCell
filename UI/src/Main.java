@@ -8,9 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import utils.HttpClientUtil;
+
 
 public class Main extends Application {
-
+    private MainController mainController;
 
 
     public static void main(String[] args) {
@@ -35,7 +37,7 @@ public class Main extends Application {
         stage.setTitle("Shitcell");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Main/main.fxml"));
         ScrollPane root = loader.load();
-        MainController mainController = loader.getController();
+        mainController = loader.getController();
         FXMLLoader loaderLogin = new FXMLLoader(getClass().getResource("/Components/Login/login.fxml"));
         AnchorPane login = loaderLogin.load();
         LoginController loginController = loaderLogin.getController();
@@ -44,5 +46,11 @@ public class Main extends Application {
         stage.setScene(scene);
         mainController.setPane(login);
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        HttpClientUtil.shutdown();
+        mainController.close();
     }
 }
