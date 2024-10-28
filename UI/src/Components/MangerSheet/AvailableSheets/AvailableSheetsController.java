@@ -65,15 +65,11 @@ public class AvailableSheetsController {
         int selectedIndex = table.getSelectionModel().getSelectedIndex();
         ObservableList<TableColumn<SheetBasicData, ?>> sortedColumns = table.getSortOrder();
         Platform.runLater(() -> {
+            table.getItems().setAll(sheets);
             if (!sortedColumns.isEmpty()) {
                 TableColumn<SheetBasicData, ?> sortedColumn = sortedColumns.get(0);
-                table.getSortOrder().clear();
                 table.getSortOrder().add(sortedColumn);
                 table.sort();
-            }
-            else {
-                table.getItems().clear();
-                table.getItems().addAll(sheets);
             }
             if(selectedIndex >= 0 && selectedIndex < table.getItems().size()){
                 table.getSelectionModel().select(selectedIndex);

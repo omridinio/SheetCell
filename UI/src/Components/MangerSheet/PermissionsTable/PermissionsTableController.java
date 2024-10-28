@@ -2,8 +2,10 @@ package Components.MangerSheet.PermissionsTable;
 
 import Components.MangerSheet.ManggerSheetController;
 import dto.impl.PermissionRequest;
+import dto.impl.SheetBasicData;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -53,9 +55,14 @@ public class PermissionsTableController {
         List<PermissionTable> permissionTables = permissionRequests.stream()
                 .map(PermissionTable::new)
                 .collect(Collectors.toList());
+        ObservableList<TableColumn<PermissionTable, ?>> sortedColumns = table.getSortOrder();
         Platform.runLater(() -> {
-            table.getItems().clear();
-            table.getItems().addAll(permissionTables);
+            table.getItems().setAll(permissionTables);
+            if(!sortedColumns.isEmpty()){
+                TableColumn<PermissionTable, ?> sortedColumn = sortedColumns.get(0);
+                table.getSortOrder().add(sortedColumn);
+                table.sort();
+            }
         });
     }
 

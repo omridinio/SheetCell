@@ -78,9 +78,11 @@ public class MainController {
         main.setContent(mangger);
     }
 
-    public void switchSheet(ScrollPane sheet) {
+    public void switchSheet(AnchorPane sheet) {
         double width = sheet.prefWidth(1);
         double height = sheet.prefHeight(1);
+        sheet.setPrefHeight(mangger.getPrefHeight());
+        sheet.setPrefWidth(mangger.getPrefWidth());
         main.widthProperty().addListener((observable, oldValue, newValue) -> {
             if(newValue.doubleValue() > width + 10) {
                 sheet.setPrefWidth(newValue.doubleValue() - 5);
@@ -91,12 +93,7 @@ public class MainController {
                 sheet.setPrefHeight(newValue.doubleValue() - 5);
             }
         });
-        if (main.getPrefHeight() - 5 > height) {
-            sheet.setPrefHeight(main.getPrefHeight() - 5);
-        }
-        if (main.getPrefWidth() - 5 > width) {
-            sheet.setPrefWidth(main.getPrefWidth() - 5);
-        }
+        sheet.requestLayout();
         main.setContent(sheet);
     }
 

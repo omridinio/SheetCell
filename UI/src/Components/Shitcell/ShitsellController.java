@@ -78,9 +78,6 @@ public class ShitsellController {
     private Button readOnlyMode;
 
     @FXML
-    private ScrollPane scrollPane;
-
-    @FXML
     private AnchorPane allTheSheet;
 
     @FXML

@@ -10,7 +10,7 @@
     -fx-text-fill: #4A148C;        /* Lighter purple for labels */
     -fx-font-size: 12px;           /* Font size */
     -fx-font-weight: bold;         /* Bold text */
-    -fx-text-alignment: CENTER;    /* Center align text */
+    -fx-alignment: center;    /* Center align text */
 }
 
 #V {

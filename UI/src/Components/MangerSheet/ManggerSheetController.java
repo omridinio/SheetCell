@@ -23,6 +23,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TableView;
 import javafx.scene.shape.Circle;
@@ -274,8 +275,7 @@ public class ManggerSheetController {
         return havePermission;
     }
 
-    public void changeContent(ScrollPane pane){
-            //mainController.setPane(pane);
+    public void changeContent(AnchorPane pane){
         mainController.switchSheet(pane);
     }
 

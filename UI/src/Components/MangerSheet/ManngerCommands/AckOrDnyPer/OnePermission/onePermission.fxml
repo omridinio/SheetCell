@@ -10,26 +10,26 @@
    <children>
       <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0" spacing="10.0">
          <children>
-            <Label prefHeight="19.0" prefWidth="64.0" text="userName:" textAlignment="CENTER" />
-            <Label fx:id="userName" prefHeight="17.0" prefWidth="70.0" textAlignment="CENTER" />
+            <Label prefHeight="17.0" prefWidth="81.0" text="Username:" />
+            <Label fx:id="userName" prefHeight="17.0" prefWidth="91.0" textAlignment="CENTER" />
          </children>
       </VBox>
       <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0" spacing="10.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="39.0" text="Sheet:" textAlignment="CENTER" />
-            <Label fx:id="sheet" prefHeight="17.0" prefWidth="74.0" textAlignment="CENTER" />
+            <Label prefHeight="17.0" prefWidth="96.0" text="Sheet:" textAlignment="CENTER" />
+            <Label fx:id="sheet" prefHeight="17.0" prefWidth="91.0" textAlignment="CENTER" />
          </children>
       </VBox>
       <VBox alignment="CENTER" prefHeight="50.0" prefWidth="80.0" spacing="10.0">
          <children>
-            <Label prefHeight="16.0" prefWidth="60.0" text="Permission:" textAlignment="CENTER" />
-            <Label fx:id="permission" prefHeight="17.0" prefWidth="74.0" textAlignment="CENTER" />
+            <Label prefHeight="17.0" prefWidth="133.0" text="Permission:" textAlignment="CENTER" />
+            <Label fx:id="permission" prefHeight="17.0" prefWidth="108.0" textAlignment="CENTER" />
          </children>
       </VBox>
       <Button id="V" mnemonicParsing="false" onAction="#vClicked" prefHeight="38.0" prefWidth="42.0" text="V" />
       <Button id="xButton" mnemonicParsing="false" onAction="#xClicked" prefHeight="38.0" prefWidth="42.0" text="X" />
    </children>
    <padding>
-      <Insets left="10.0" />
+      <Insets left="5.0" />
    </padding>
 </HBox>

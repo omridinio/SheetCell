@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Popup;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -137,7 +138,7 @@ public class ManggerComandsController {
                                 .create();
                         SheetDTO sheetDTO = gson.fromJson(jsonResponse, ImplSheetDTO.class);
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-                        ScrollPane root = loader.load();
+                        AnchorPane root = loader.load();
                         ShitsellController shitsellController = loader.getController();
                         shitsellController.setManggerSheetController(manggerSheetController);
                         manggerSheetController.setCurrSheetController(shitsellController);
