@@ -3,7 +3,6 @@ import Components.Login.LoginController;
 import Components.Main.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -27,13 +26,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        stage.setTitle("Test");
-//        // Load the FXML file and set the controller
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Shitcell/Shitsel.fxml"));
-//        Parent root = loader.load();
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         stage.setTitle("Shitcell");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/Main/main.fxml"));
         ScrollPane root = loader.load();
@@ -44,7 +36,7 @@ public class Main extends Application {
         loginController.setMainController(mainController);
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        mainController.setPane(login);
+        mainController.changeLogin(login);
         stage.show();
     }
 

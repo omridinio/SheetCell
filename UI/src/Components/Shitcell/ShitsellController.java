@@ -106,7 +106,6 @@ public class ShitsellController {
     private Button currRange;
     private List<CellContoller> cellsDependOnThem = new ArrayList<>();
     private List<CellContoller> getCellsDependOnhim = new ArrayList<>();
-    Tooltip actionMessege = new Tooltip();
     private List<CellContoller> cellChoosed = new ArrayList<>();
     private Set<Coordinate> readOnlyCoord = new HashSet<>();
     private List<Coordinate> daynmicCells = new ArrayList<>();
@@ -147,19 +146,19 @@ public class ShitsellController {
         readOnlyMode.visibleProperty().bind(isReadOnlyMode);
         sheet.disableProperty().bind(isdeleteRangeMode);
         actionLine.setDisable(true);
-        double widthScrollPane = scrollPane.getWidth();
-        scrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal.doubleValue() > widthScrollPane) {
-                allTheSheet.setPrefWidth(newVal.doubleValue() - 5);
-            }
-        });
-
-        double heightScrollPane = scrollPane.getHeight();
-        scrollPane.heightProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal.doubleValue() > heightScrollPane) {
-                allTheSheet.setPrefHeight(newVal.doubleValue() - 5);
-            }
-        });
+//        double widthScrollPane = scrollPane.getWidth();
+//        scrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+//            if (newVal.doubleValue() > widthScrollPane) {
+//                allTheSheet.setPrefWidth(newVal.doubleValue() - 5);
+//            }
+//        });
+//
+//        double heightScrollPane = scrollPane.getHeight();
+//        scrollPane.heightProperty().addListener((obs, oldVal, newVal) -> {
+//            if (newVal.doubleValue() > heightScrollPane) {
+//                allTheSheet.setPrefHeight(newVal.doubleValue() - 5);
+//            }
+//        });
         isReadMode.bind(isReaderPermission);
     }
 

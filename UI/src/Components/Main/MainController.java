@@ -1,14 +1,14 @@
 package Components.Main;
 
 import Components.MangerSheet.ManggerSheetController;
-import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import utils.HttpClientUtil;
+
+import java.util.Map;
 
 public class MainController {
 
@@ -21,7 +21,6 @@ public class MainController {
 
     private ManggerSheetController manggerSheetController;
 
-
     public void initialize() {
 
     }
@@ -30,7 +29,7 @@ public class MainController {
         this.manggerSheetController = manggerSheetController;
     }
 
-    public void setPane(Parent pane) {
+    public void changeLogin(Parent pane) {
         double width = pane.prefWidth(1);
         double height = pane.prefHeight(1);
         main.setPrefWidth(width + 10);
@@ -62,6 +61,16 @@ public class MainController {
         Stage stage = (Stage) main.getScene().getWindow(); // Get the current stage
         stage.setWidth(width + 35);  // Adding some padding or margin
         stage.setHeight(height + 55); // Adding some padding or margin
+        main.widthProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.doubleValue() > width + 10) {
+                mangger.setPrefWidth(newValue.doubleValue() - 5);
+            }
+        });
+        main.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.doubleValue() > height + 10) {
+                mangger.setPrefHeight(newValue.doubleValue() - 5);
+            }
+        });
     }
 
     public void switchManger() {
@@ -70,6 +79,24 @@ public class MainController {
     }
 
     public void switchSheet(ScrollPane sheet) {
+        double width = sheet.prefWidth(1);
+        double height = sheet.prefHeight(1);
+        main.widthProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.doubleValue() > width + 10) {
+                sheet.setPrefWidth(newValue.doubleValue() - 5);
+            }
+        });
+        main.heightProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue.doubleValue() > height + 10) {
+                sheet.setPrefHeight(newValue.doubleValue() - 5);
+            }
+        });
+        if (main.getPrefHeight() - 5 > height) {
+            sheet.setPrefHeight(main.getPrefHeight() - 5);
+        }
+        if (main.getPrefWidth() - 5 > width) {
+            sheet.setPrefWidth(main.getPrefWidth() - 5);
+        }
         main.setContent(sheet);
     }
 
