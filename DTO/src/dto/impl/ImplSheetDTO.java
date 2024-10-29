@@ -1,16 +1,17 @@
 package dto.impl;
 
-import body.Sheet;
-import body.impl.ImplCell;
+//import body.Sheet;
+//import body.impl.ImplCell;
 import dto.SheetDTO;
-import body.Cell;
+//import body.Cell;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ImplSheetDTO implements SheetDTO {
-    //final private Sheet currSheet;
     final String sheetName;
+    final String sheetOwner;
     final int version;
     final int thicknes;
     final int width;
@@ -18,28 +19,43 @@ public class ImplSheetDTO implements SheetDTO {
     final int col;
     final Map<Coordinate, CellDTO> activeCells = new HashMap<>();
 
-    public ImplSheetDTO(Sheet sheet) {
-        //this.currSheet = sheet;
-        sheetName = sheet.getSheetName();
-        version = sheet.getVersion();
-        thicknes = sheet.getThickness();
-        width = sheet.getWidth();
-        row = sheet.getRowCount();
-        col = sheet.getColumnCount();
-        createActiveCells(sheet);
+//    public ImplSheetDTO(Sheet sheet) {
+//        sheetName = sheet.getSheetName();
+//        version = sheet.getVersion();
+//        thicknes = sheet.getThickness();
+//        width = sheet.getWidth();
+//        row = sheet.getRowCount();
+//        col = sheet.getColumnCount();
+//        createActiveCells(sheet);
+//    }
+
+    public ImplSheetDTO(String sheetName, int version, int thicknes, int width, int row, int col, Map<Coordinate, CellDTO> activeCells, String sheetOwner) {
+        this.sheetName = sheetName;
+        this.version = version;
+        this.thicknes = thicknes;
+        this.width = width;
+        this.row = row;
+        this.col = col;
+        this.activeCells.putAll(activeCells);
+        this.sheetOwner = sheetOwner;
     }
 
-    private void createActiveCells(Sheet sheet) {
-        Map<Coordinate, Cell> active = sheet.getActiveCell();
-        for(Coordinate coord : active.keySet()){
-            this.activeCells.put(coord, new CellDTO(active.get(coord)));
-        }
-    }
+//    private void createActiveCells(Sheet sheet) {
+//        Map<Coordinate, Cell> active = sheet.getActiveCell();
+//        for(Coordinate coord : active.keySet()){
+//            this.activeCells.put(coord, new CellDTO(active.get(coord)));
+//        }
+//    }
 
     @Override
     public String getSheetName() {
         //return currSheet.getSheetName();
         return sheetName;
+    }
+
+    @Override
+    public String getSheetOwner() {
+        return sheetOwner;
     }
 
     @Override
@@ -87,7 +103,8 @@ public class ImplSheetDTO implements SheetDTO {
 //        return new CellDTO(cell);
         CellDTO cell =  activeCells.get(coordinate);
         if(cell == null){
-            cell = new CellDTO(new ImplCell(coordinate.toString()));
+            //cell = new CellDTO(new ImplCell(coordinate.toString()));
+            cell = new CellDTO(coordinate.toString(), 1, "", "", "", new ArrayList<Coordinate>(), new ArrayList<Coordinate>());
         }
         return cell;
     }

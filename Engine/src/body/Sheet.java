@@ -11,6 +11,9 @@ public interface Sheet {
     void setLastUserUpdate(String user);
 
     String getSheetName();
+
+    String getSheetOwner();
+
     Cell getCell(String cellID);
     Cell getCell(Coordinate coordinate);
     int getRowCount();

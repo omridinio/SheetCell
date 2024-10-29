@@ -6,7 +6,7 @@ import Components.Error.ErrorController;
 import Components.MangerSheet.ManggerSheetController;
 import Components.RangeArea.RangeAreaController;
 import Components.StyleSheet.StyleSheetController;
-import Mangger.CoordinateAdapter;
+import dto.impl.CoordinateAdapter;
 import dto.impl.PermissionType;
 import Properties.CellUI;
 import dto.impl.Coordinate;

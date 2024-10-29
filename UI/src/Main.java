@@ -9,6 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utils.HttpClientUtil;
 
+import java.util.Scanner;
+
 
 public class Main extends Application {
     private MainController mainController;
@@ -20,6 +22,8 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
+            Scanner scanner = new Scanner(System.in);
+            scanner.nextLine();
         }
 
     }
@@ -43,6 +47,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         HttpClientUtil.shutdown();
-        mainController.close();
+        if (mainController != null)
+            mainController.close();
     }
 }

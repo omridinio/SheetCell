@@ -1,5 +1,6 @@
 package body.impl;
 
+import DTOCreator.DTOCreator;
 import dto.impl.Coordinate;
 import dto.impl.PermissionType;
 import body.Cell;
@@ -40,7 +41,8 @@ public class ImplLogic implements Logic,Serializable  {
 
     public CellDTO getCell(String cellID) {
         Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(cellID);
-        return new CellDTO(temp);
+        //return new CellDTO(temp);
+        return DTOCreator.createCellDTO(temp);
     }
 
     @Override
@@ -53,7 +55,8 @@ public class ImplLogic implements Logic,Serializable  {
         Map<Coordinate,Cell> sortRange = mainSheet.get(mainSheet.size() - 1).sortRange(rangeCells, dominantCol);
         Map<Coordinate, CellDTO> res = new java.util.HashMap<>();
         for (Coordinate coordinate : sortRange.keySet()) {
-            res.put(coordinate, new CellDTO(sortRange.get(coordinate)));
+            //res.put(coordinate, new CellDTO(sortRange.get(coordinate)));
+            res.put(coordinate, DTOCreator.createCellDTO(sortRange.get(coordinate)));
         }
         return res;
     }
@@ -63,7 +66,8 @@ public class ImplLogic implements Logic,Serializable  {
         Map<Coordinate,Cell> sortRange = mainSheet.get(version - 1).sortRange(rangeCells, dominantCol);
         Map<Coordinate, CellDTO> res = new java.util.HashMap<>();
         for (Coordinate coordinate : sortRange.keySet()) {
-            res.put(coordinate, new CellDTO(sortRange.get(coordinate)));
+            //res.put(coordinate, new CellDTO(sortRange.get(coordinate)));
+            res.put(coordinate, DTOCreator.createCellDTO(sortRange.get(coordinate)));
         }
         return res;
     }
@@ -81,7 +85,8 @@ public class ImplLogic implements Logic,Serializable  {
     @Override
     public CellDTO getCell(Coordinate coordinate) {
         Cell temp = mainSheet.get(mainSheet.size() - 1).getCell(coordinate.toString());
-        return new CellDTO(temp);
+        //return new CellDTO(temp);
+        return DTOCreator.createCellDTO(temp);
     }
 
     @Override
@@ -180,7 +185,7 @@ public class ImplLogic implements Logic,Serializable  {
         int width = stlSheet.getSTLLayout().getSTLSize().getColumnWidthUnits();
         int row = stlSheet.getSTLLayout().getRows();
         int col = stlSheet.getSTLLayout().getColumns();
-        Sheet res = new ImplSheet(name,thickness,width,row,col, userName);
+        Sheet res = new ImplSheet(name,thickness,width,row,col, userName, owner);
         List<STLCell> listofSTLCells = stlSheet.getSTLCells().getSTLCell();
         createRangeList(stlSheet, res);
         for (STLCell stlCell : listofSTLCells) {
@@ -210,7 +215,8 @@ public class ImplLogic implements Logic,Serializable  {
     }
     @Override
     public SheetDTO getSheet() {
-        return new ImplSheetDTO(mainSheet.get(mainSheet.size() - 1));
+        //return new ImplSheetDTO(mainSheet.get(mainSheet.size() - 1));
+        return DTOCreator.createSheetDTO(mainSheet.get(mainSheet.size() - 1));
     }
 
     public List<Integer> getNumberOfUpdatePerVersion(){
@@ -223,7 +229,8 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public SheetDTO getSheetbyVersion(int version) {
-        return new ImplSheetDTO(mainSheet.get(version));
+        //return new ImplSheetDTO(mainSheet.get(version));
+        return DTOCreator.createSheetDTO(mainSheet.get(version));
     }
 
     private boolean checkPostFix(String fullPath) {
@@ -264,22 +271,26 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public RangeDTO getRange(String rangeId) {
-        return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId.toUpperCase()));
+        //return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId.toUpperCase()));
+        return DTOCreator.createRangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId.toUpperCase()));
     }
 
     @Override
     public RangeDTO getRange(String rangeId, int version) {
-        return new RangeDTO(mainSheet.get(version - 1).getRange(rangeId.toUpperCase()));
+        //return new RangeDTO(mainSheet.get(version - 1).getRange(rangeId.toUpperCase()));
+        return DTOCreator.createRangeDTO(mainSheet.get(version - 1).getRange(rangeId.toUpperCase()));
     }
 
     @Override
     public RangeDTO createTempRange(String cellRange) {
-        return new RangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
+        //return new RangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
+        return DTOCreator.createRangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
     }
 
     @Override
     public RangeDTO createTempRange(String cellRange, int version) {
-        return new RangeDTO(mainSheet.get(version - 1).createTempRange(cellRange));
+        //return new RangeDTO(mainSheet.get(version - 1).createTempRange(cellRange));
+        return DTOCreator.createRangeDTO(mainSheet.get(version - 1).createTempRange(cellRange));
     }
 
     @Override

@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.ScrollPane?>
 
 
-<ScrollPane id="main" fx:id="main" maxHeight="1.0E7" maxWidth="1.0E7" prefHeight="660.0" prefWidth="827.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Main.MainController" />
+<ScrollPane id="main" fx:id="main" maxHeight="1.0E7" maxWidth="1.0E7" prefHeight="660.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Main.MainController">
+   <stylesheets>
+      <URL value="@main.css" />
+      <URL value="@main.css" />
+   </stylesheets>
+</ScrollPane>

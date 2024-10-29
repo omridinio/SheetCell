@@ -1,6 +1,7 @@
 package Servelts;
 
-import Mangger.CoordinateAdapter;
+import DTOCreator.DTOCreator;
+import dto.impl.CoordinateAdapter;
 import Mangger.SheetManger;
 import Utils.Constants;
 import Utils.ServeltUtils;
@@ -264,7 +265,8 @@ public class SheetServelt extends HttpServlet {
                 String cellId = request.getParameter("cellId");
                 String value = request.getParameter("value");
                 dynamicSheet.dynmicAnlayzeUpdate(cellId, value);
-                SheetDTO newSheet = new ImplSheetDTO(dynamicSheet);
+                //SheetDTO newSheet = new ImplSheetDTO(dynamicSheet);
+                SheetDTO newSheet = DTOCreator.createSheetDTO(dynamicSheet);
                 Gson gson = new GsonBuilder()
                         .registerTypeAdapter(Coordinate.class, new CoordinateAdapter())
                         .create();

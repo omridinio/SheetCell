@@ -1,6 +1,6 @@
 package dto.impl;
 
-import body.Cell;
+//import body.Cell;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,16 +15,24 @@ public class CellDTO {
     final private List<Coordinate> cellsDependsOnHim = new ArrayList<>();
 
 
-    public CellDTO(Cell cell) {
-        this.Id = cell.getId();
-        this.lastVersionUpdate = cell.getLastVersionUpdate();
-        this.originalValue = cell.getOriginalValue();
-        this.effectiveValue = cell.getEffectiveValue().toString();
-        this.lastUserUpdate = cell.getUsername();
-        //this.cellsDependsOnThem = cell.getCellsDependsOnThem();
-        createListDepends(cell.getCellsDependsOnThem(), this.cellsDependsOnThem);
-        //this.cellsDependsOnHim = cell.getCellsDependsOnHim();
-        createListDepends(cell.getCellsDependsOnHim(), this.cellsDependsOnHim);
+//    public CellDTO(Cell cell) {
+//        this.Id = cell.getId();
+//        this.lastVersionUpdate = cell.getLastVersionUpdate();
+//        this.originalValue = cell.getOriginalValue();
+//        this.effectiveValue = cell.getEffectiveValue().toString();
+//        this.lastUserUpdate = cell.getUsername();
+//        createListDepends(cell.getCellsDependsOnThem(), this.cellsDependsOnThem);
+//        createListDepends(cell.getCellsDependsOnHim(), this.cellsDependsOnHim);
+//    }
+
+    public CellDTO(String Id, int lastVersionUpdate, String originalValue, String effectiveValue, String lastUserUpdate, List<Coordinate> cellsDependsOnThem, List<Coordinate> cellsDependsOnHim) {
+        this.Id = Id;
+        this.lastVersionUpdate = lastVersionUpdate;
+        this.originalValue = originalValue;
+        this.effectiveValue = effectiveValue;
+        this.lastUserUpdate = lastUserUpdate;
+        createListDepends(cellsDependsOnThem, this.cellsDependsOnThem);
+        createListDepends(cellsDependsOnHim, this.cellsDependsOnHim);
     }
 
     private void createListDepends(List<Coordinate> from, List<Coordinate> to) {

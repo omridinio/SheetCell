@@ -24,6 +24,7 @@ public class ImplSheet implements Sheet,Serializable  {
 
     private int sheetVersion = 1;
     final private String sheetName;
+    final private String sheetOwner;
     final private int thickness;
     final private int width;
     final private int row;
@@ -34,7 +35,7 @@ public class ImplSheet implements Sheet,Serializable  {
     private Map<String, Range> activeRanges = new HashMap<>();
     private String lastUserUpdate;
 
-    public ImplSheet(String sheetName, int thickness, int width, int row, int col, String lastUserUpdate) {
+    public ImplSheet(String sheetName, int thickness, int width, int row, int col, String lastUserUpdate, String sheetOwner) {
         if (row > 50 || col > 20 || row < 1 || col < 1) {
             throw new IllegalArgumentException("ERROR! Can't load the file. The file has a row or column that is out of range.");
         }
@@ -45,6 +46,7 @@ public class ImplSheet implements Sheet,Serializable  {
         this.col = col;
         this.graph = new Graph();
         this.lastUserUpdate = lastUserUpdate;
+        this.sheetOwner = sheetOwner;
     }
 
     @Override
@@ -55,6 +57,11 @@ public class ImplSheet implements Sheet,Serializable  {
     @Override
     public String getSheetName() {
         return sheetName;
+    }
+
+    @Override
+    public String getSheetOwner() {
+        return sheetOwner;
     }
 
     @Override

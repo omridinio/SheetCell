@@ -32,12 +32,12 @@ public class OnePermissionController {
 
     @FXML
     void vClicked(ActionEvent event) {
-        approvePermsiion("approved");
+        approvePermsiion("Approved");
     }
 
     @FXML
     void xClicked(ActionEvent event) {
-        approvePermsiion("denied");
+        approvePermsiion("Denied");
     }
 
     private void approvePermsiion(String status) {

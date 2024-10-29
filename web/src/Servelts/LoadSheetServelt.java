@@ -77,7 +77,7 @@ public class LoadSheetServelt extends HttpServlet {
             try {
                 PermissionRequest perRequest = requestPermissonManager.deleteRequest(usernameFromSession, requestId, newStatus);
                 if (perRequest != null) {
-                    if (newStatus.equals("approved")) {
+                    if (newStatus.equals("Approved")) {
                         SheetManger sheetManger = ServeltUtils.getSheetManger(getServletContext());
                         Logic sheet = sheetManger.getSheet(perRequest.getSheetName());
                         sheet.addPermission(perRequest.getUsername(), perRequest.getPermission());

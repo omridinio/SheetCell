@@ -3,7 +3,7 @@ package Components.Login;
 import Components.Error.ErrorController;
 import Components.Main.MainController;
 import Components.MangerSheet.ManggerSheetController;
-import jakarta.xml.bind.SchemaOutputResolver;
+//import jakarta.xml.bind.SchemaOutputResolver;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,13 +65,12 @@ public class LoginController {
                             mainController.LoadManger(mangerSheet);
                         });
                     } else {
-                        response.body().string();
                         Platform.runLater(() -> {
                             errorMessge.setVisible(true);
                             try {
                                 errorMessge.setText("Error: " + response.body().string());
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                e.printStackTrace();
                             }
                         });
                     }

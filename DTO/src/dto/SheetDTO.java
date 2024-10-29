@@ -6,6 +6,8 @@ import dto.impl.Coordinate;
 public interface SheetDTO {
     String getSheetName();
 
+    String getSheetOwner();
+
     int getVersion();
 
     int getThickness();
