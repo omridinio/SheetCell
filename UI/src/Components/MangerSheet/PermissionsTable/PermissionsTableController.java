@@ -66,8 +66,12 @@ public class PermissionsTableController {
         });
     }
 
+    private void clearTable() {
+        Platform.runLater(() -> table.getItems().clear());
+    }
+
     private void startRefreshTable() {
-        permissionRefresher = new PermissionRefresh(this::updateTable, manggerSheetController.isSheetSelectedProperty(), manggerSheetController.getSheetNameProperty());
+        permissionRefresher = new PermissionRefresh(this::updateTable, manggerSheetController.isSheetSelectedProperty(), manggerSheetController.getSheetNameProperty(), this::clearTable);
         timer = new Timer();
         timer.schedule(permissionRefresher, 100, 500);
     }

@@ -1,6 +1,7 @@
 package Components.MangerSheet.PermissionsTable;
 
 import dto.impl.PermissionRequest;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,13 +21,15 @@ import java.util.function.Consumer;
 
 public class PermissionRefresh extends TimerTask {
     private Consumer<List<PermissionRequest>> updatePermission;
+    private Runnable clearTable;
     private BooleanProperty shouldUpdate = new SimpleBooleanProperty(false);
     private StringProperty sheetName =  new SimpleStringProperty();
 
-    public PermissionRefresh(Consumer<List<PermissionRequest>> updatePermission, BooleanProperty shouldUpdate, StringProperty sheetName) {
+    public PermissionRefresh(Consumer<List<PermissionRequest>> updatePermission, BooleanProperty shouldUpdate, StringProperty sheetName, Runnable clearTable) {
         this.updatePermission = updatePermission;
         this.shouldUpdate.bind(shouldUpdate);
         this.sheetName.bind(sheetName);
+        this.clearTable = clearTable;
     }
 
     @Override
@@ -57,6 +60,9 @@ public class PermissionRefresh extends TimerTask {
                     }
                 }
             });
+        }
+        else{
+            Platform.runLater(() -> clearTable.run());
         }
     }
 }

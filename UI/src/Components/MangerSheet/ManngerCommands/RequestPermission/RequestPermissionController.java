@@ -7,9 +7,13 @@ import dto.impl.SheetBasicData;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -32,9 +36,13 @@ public class RequestPermissionController {
     @FXML
     private Label sheetName;
 
+    @FXML
+    private AnchorPane root;
+
     private ManggerComandsController manggerComandsController;
 
     private SheetBasicData selctedSheet;
+
 
     @FXML
     void okClicked(ActionEvent event) {
@@ -79,6 +87,11 @@ public class RequestPermissionController {
         permission.getItems().add(PermissionType.READER);
         permission.getItems().add(PermissionType.WRITER);
         ok.disableProperty().bind(permission.valueProperty().isNull());
+        root.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+            root.requestFocus();
+            permission.requestFocus();
+        });
+
     }
 
     public void init(){

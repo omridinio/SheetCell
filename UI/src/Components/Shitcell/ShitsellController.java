@@ -143,19 +143,6 @@ public class ShitsellController {
         readOnlyMode.visibleProperty().bind(isReadOnlyMode);
         sheet.disableProperty().bind(isdeleteRangeMode);
         actionLine.setDisable(true);
-//        double widthScrollPane = scrollPane.getWidth();
-//        scrollPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-//            if (newVal.doubleValue() > widthScrollPane) {
-//                allTheSheet.setPrefWidth(newVal.doubleValue() - 5);
-//            }
-//        });
-//
-//        double heightScrollPane = scrollPane.getHeight();
-//        scrollPane.heightProperty().addListener((obs, oldVal, newVal) -> {
-//            if (newVal.doubleValue() > heightScrollPane) {
-//                allTheSheet.setPrefHeight(newVal.doubleValue() - 5);
-//            }
-//        });
         isReadMode.bind(isReaderPermission);
     }
 
@@ -189,73 +176,6 @@ public class ShitsellController {
             ErrorController.showError(e.getMessage());
         }
     }
-
-
-//    @FXML
-//    private void loadFile(ActionEvent event) throws IOException, ClassNotFoundException, JAXBException {
-//        try {
-//            load = false;
-//            FileChooser fileChooser = new FileChooser();
-//            fileChooser.setTitle("Open XML File");
-//            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-//            file = fileChooser.showOpenDialog(null);
-//            if(file == null){
-//                return;
-//            }
-//            openLoadFile();
-//            logic.creatNewSheet(file.getAbsolutePath());
-//            restSheet();
-//            load = true;
-//
-//        } catch (Exception e) {
-//            ErrorController.showError(e.getMessage());
-//        }
-//    }
-//
-//    private void loadFilePart2() throws IOException {
-//        try {
-//            if(load) {
-//                isLoaded.setValue(true);
-//                int row = logic.getSheet().getRowCount();
-//                int col = logic.getSheet().getColumnCount();
-//                int width = logic.getSheet().getWidth();
-//                int height = logic.getSheet().getThickness();
-//                createEmptySheet(col, row, width, height);
-//                updateSheet(logic.getSheet());
-//                createRanges();
-//                filePath.setText(file.getAbsolutePath());
-//                actionLine.setDisable(false);
-//            }
-//        } catch (Exception e) {
-//            ErrorController.showError(e.getMessage());
-//        }
-//    }
-//
-//
-//    private void openLoadFile() throws IOException {
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Components/LoadFile/LoadFile.fxml"));
-//        Parent newWindowRoot = loader.load();
-//        LoadFileController loadFileController = loader.getController();
-//        loadFileController.setShitsellController(this);
-//        Scene newScene = new Scene(newWindowRoot);
-//        Stage newWindow = new Stage();
-//        newWindow.setTitle("load file progress");
-//        newWindow.setScene(newScene);
-//        newWindow.initModality(Modality.APPLICATION_MODAL); // This makes the window modal
-//        newWindow.initModality(Modality.APPLICATION_MODAL);
-//        newWindow.show();
-//        TaskLoadFile taskLoadFile = new TaskLoadFile();
-//        loadFileController.bindProperty(taskLoadFile);
-//        new Thread(taskLoadFile).start();
-//        taskLoadFile.setOnSucceeded(workerStateEvent -> {
-//            newWindow.close(); // Close the window when the task completes
-//            try {
-//                loadFilePart2();
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//    }
 
     @FXML
     private void closeReadOnlyCllicked() throws IOException, ClassNotFoundException {
@@ -601,10 +521,6 @@ public class ShitsellController {
 
     private void updateCell(String actionLine, String cellId) throws IOException {
         try {
-            //logic.updateCell(cellId, actionLine);
-
-            //updateSheet(logic.getSheet());
-            //CellDTO currCell = logic.getCell(new Coordinate(cellId));
             if(!actionLineController.isUpdate.getValue()){
                 ErrorController.showError("Error: A more recent version of the sheet is available");
             }
@@ -661,8 +577,6 @@ public class ShitsellController {
 
     public void setRange(String rangeId, String theRange)  {
         try{
-//            logic.createNewRange(rangeId, theRange);
-//            rangeAreaController.addRange(rangeId, logic.getRange(rangeId));
             addNewRange(rangeId, theRange);
         } catch (Exception e) {
             ErrorController.showError(e.getMessage());
@@ -953,7 +867,6 @@ public class ShitsellController {
     }
 
     public List<Integer> getColsInRange(String range) {
-        //return logic.getTheRangeOfTheRange(range);
         String finalUrl = HttpUrl
                 .parse(Constants.GET_THE_RANGE_OF_THE_RANGE)
                 .newBuilder()
@@ -1003,7 +916,6 @@ public class ShitsellController {
     }
 
     public void deleteRange(String rangeId) {
-        //logic.removeRange(rangeId);
         try {
             String finalUrl = HttpUrl
                     .parse(Constants.DELETE_RANGE)
@@ -1215,7 +1127,6 @@ public class ShitsellController {
     }
 
     public List<String> getCustomRange(String range){
-        //RangeDTO tempRange = logic.createTempRange(range);
         String finalUrl = HttpUrl
                 .parse(Constants.GET_TEMP_RANGE)
                 .newBuilder()
@@ -1245,7 +1156,6 @@ public class ShitsellController {
     }
 
     public List<String> getRanges(String text) {
-        //RangeDTO range = logic.getRange(text);
         String finalUrl = HttpUrl
                 .parse(Constants.GET_RANGE)
                 .newBuilder()
@@ -1283,7 +1193,6 @@ public class ShitsellController {
     }
 
     public String predictCalculate(String expression) throws IOException, ClassNotFoundException {
-        //return logic.predictCalculate(expression, currCell.cellid.getValue());
         String finalUrl = HttpUrl
                 .parse(Constants.PREDICT_CALCULATE)
                 .newBuilder()

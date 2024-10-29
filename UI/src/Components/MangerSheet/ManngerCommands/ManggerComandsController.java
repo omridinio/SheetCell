@@ -97,7 +97,7 @@ public class ManggerComandsController {
         requestPopup.setAutoHide(true); // Automatically hide when clicking outside
         requestPopup.getContent().clear();
         requestPopup.getContent().add(newWindowRoot);
-        requestPopup.show(request, request.localToScreen(-110, request.getHeight()).getX(), request.localToScreen(0, request.getHeight()).getY());
+        requestPopup.show(request, request.localToScreen(-120, request.getHeight()).getX(), request.localToScreen(0, request.getHeight()).getY());
     }
 
     @FXML

@@ -1,19 +1,13 @@
 /* General Styles */
-.root {
-    -fx-background-color: #F5F5F7; /* Light gray background similar to iOS design */
-}
 
 /* ScrollPane Styling */
-.scroll-pane {
-    -fx-background-color: transparent; /* Transparent background */
-    -fx-border-color: transparent; /* No border */
+#rootOfRoot {
+    -fx-background-color: #E3F2FD;
 }
 
 /* VBox Styling */
-#vbox {
+#root {
     -fx-background-color: #E3F2FD; /* White background for the VBox */
-    -fx-border-color: #B0BEC5; /* Light gray border */
-    -fx-border-radius: 8px; /* Rounded corners */
 
 }
 

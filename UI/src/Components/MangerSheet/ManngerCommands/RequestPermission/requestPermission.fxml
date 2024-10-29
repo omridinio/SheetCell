@@ -5,21 +5,19 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<ScrollPane prefHeight="245.0" prefWidth="420.0" stylesheets="@request.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
-   <content>
-      <VBox id="vbox" alignment="TOP_CENTER" prefHeight="241.0" prefWidth="414.0">
+<ScrollPane id="rootOfRoot" prefHeight="245.0" prefWidth="424.0" stylesheets="@request.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.MangerSheet.ManngerCommands.RequestPermission.RequestPermissionController">
+      <AnchorPane id="root" fx:id="root" prefHeight="242.0" prefWidth="420.0">
          <children>
-            <Label id="name" fx:id="sheetName" prefHeight="71.0" prefWidth="408.0" wrapText="true">
+            <Label id="name" fx:id="sheetName" prefHeight="71.0" prefWidth="408.0" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="433.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="406.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="100.0">
                <children>
                   <Label id="Permission" text="Permission: ">
                      <font>
@@ -32,15 +30,7 @@
                   <Insets left="10.0" />
                </padding>
             </HBox>
-            <Button fx:id="ok" mnemonicParsing="false" onAction="#okClicked" prefHeight="25.0" prefWidth="58.0" text="OK">
-               <VBox.margin>
-                  <Insets left="300.0" top="40.0" />
-               </VBox.margin>
-            </Button>
+            <Button fx:id="ok" mnemonicParsing="false" onAction="#okClicked" prefHeight="25.0" prefWidth="58.0" text="OK" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
          </children>
-         <padding>
-            <Insets top="20.0" />
-         </padding>
-      </VBox>
-   </content>
+      </AnchorPane>
 </ScrollPane>

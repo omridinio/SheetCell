@@ -14,7 +14,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
@@ -162,7 +161,6 @@ public class CellContoller implements Serializable {
 
     @FXML
     void clicked(ActionEvent event) {
-        //shitsellController.getSheetArea().requestFocus();
         if(isTitle){
             shitsellController.titleClicked(this);
         }

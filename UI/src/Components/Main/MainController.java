@@ -106,7 +106,8 @@ public class MainController {
     }
 
     public void close() {
-        manggerSheetController.close();
+        if(manggerSheetController != null)
+            manggerSheetController.close();
     }
 
     public void setDisable() {

@@ -8,7 +8,6 @@ import body.Logic;
 import body.Sheet;
 import dto.SheetDTO;
 import dto.impl.CellDTO;
-import dto.impl.ImplSheetDTO;
 import dto.impl.RangeDTO;
 import dto.impl.SheetBasicData;
 import jakarta.xml.bind.JAXBContext;
@@ -117,19 +116,6 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public Sheet copySheet() throws IOException, ClassNotFoundException {
-//        Sheet newVersion = null;
-//        Sheet currentVersion = mainSheet.get(mainSheet.size() - 1);
-//        // Step 1: Serialize the object to a byte array
-//        ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
-//        ObjectOutputStream outStream = new ObjectOutputStream(byteOutStream);
-//        outStream.writeObject(currentVersion);
-//        outStream.flush();
-//
-//        // Step 2: Deserialize the byte array into a new object
-//        ByteArrayInputStream byteInStream = new ByteArrayInputStream(byteOutStream.toByteArray());
-//        ObjectInputStream inStream = new ObjectInputStream(byteInStream);
-//        newVersion = (Sheet) inStream.readObject();
-//        return newVersion;
         return copySheetByVersion(mainSheet.size());
     }
 
@@ -158,14 +144,7 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public void creatNewSheet(String path)throws JAXBException, FileNotFoundException {
-//        if(!checkPostFix(path)){
-//            throw new FileNotFoundException("Please enter a '.xml' file only.");
-//        }
-//        InputStream inputStream = new FileInputStream(new File(path));
-//        STLSheet res = creatGeneratedObject(inputStream);
-//        Sheet newSheet = STLSheet2Sheet(res);
-//        mainSheet.clear();
-//        mainSheet.add(newSheet);
+
     }
 
     @Override
@@ -215,7 +194,6 @@ public class ImplLogic implements Logic,Serializable  {
     }
     @Override
     public SheetDTO getSheet() {
-        //return new ImplSheetDTO(mainSheet.get(mainSheet.size() - 1));
         return DTOCreator.createSheetDTO(mainSheet.get(mainSheet.size() - 1));
     }
 
@@ -229,7 +207,6 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public SheetDTO getSheetbyVersion(int version) {
-        //return new ImplSheetDTO(mainSheet.get(version));
         return DTOCreator.createSheetDTO(mainSheet.get(version));
     }
 
@@ -271,25 +248,21 @@ public class ImplLogic implements Logic,Serializable  {
 
     @Override
     public RangeDTO getRange(String rangeId) {
-        //return new RangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId.toUpperCase()));
         return DTOCreator.createRangeDTO(mainSheet.get(mainSheet.size() - 1).getRange(rangeId.toUpperCase()));
     }
 
     @Override
     public RangeDTO getRange(String rangeId, int version) {
-        //return new RangeDTO(mainSheet.get(version - 1).getRange(rangeId.toUpperCase()));
         return DTOCreator.createRangeDTO(mainSheet.get(version - 1).getRange(rangeId.toUpperCase()));
     }
 
     @Override
     public RangeDTO createTempRange(String cellRange) {
-        //return new RangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
         return DTOCreator.createRangeDTO(mainSheet.get(mainSheet.size() - 1).createTempRange(cellRange));
     }
 
     @Override
     public RangeDTO createTempRange(String cellRange, int version) {
-        //return new RangeDTO(mainSheet.get(version - 1).createTempRange(cellRange));
         return DTOCreator.createRangeDTO(mainSheet.get(version - 1).createTempRange(cellRange));
     }
 
