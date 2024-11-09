@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="305.0" prefWidth="500.0" stylesheets="@graph.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Graph.GraphController">
+   <children>
+      <VBox layoutX="-8.0" prefHeight="200.0" prefWidth="433.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
+               <children>
+                  <Label text="Graph Type:" />
+                  <ChoiceBox fx:id="graphType" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="107.0" prefWidth="500.0" spacing="40.0">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="211.0" spacing="5.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" prefHeight="17.0" prefWidth="53.0" text="X axis:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="29.0" prefWidth="225.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="19.0" prefWidth="64.0" text="Range: " />
+                              <TextField prefHeight="26.0" prefWidth="101.0" fx:id="xRangeText" />
+                              <ChoiceBox prefHeight="27.0" prefWidth="18.0" fx:id="xScrollRange" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="53.0" text="Title:  " />
+                              <TextField prefHeight="26.0" prefWidth="92.0" fx:id="xTitle" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="209.0" spacing="5.0">
+                     <children>
+                        <Label alignment="TOP_LEFT" prefHeight="17.0" prefWidth="53.0" text="Y axis:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="65.0" text="Range: " />
+                              <TextField fx:id="yRangeText" prefHeight="26.0" prefWidth="100.0" />
+                              <ChoiceBox fx:id="yScrollRange" prefHeight="27.0" prefWidth="26.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="154.0" spacing="5.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="53.0" text="Title:  " />
+                              <TextField fx:id="yTitle" prefHeight="26.0" prefWidth="92.0" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </HBox>
+            <VBox fx:id="errorMessege" prefHeight="79.0" prefWidth="490.0" visible="false">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="271.0" text="Invalid range format">
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Label>
+                  <Label prefHeight="25.0" prefWidth="317.0" text="Enter the range in this format: &lt;From&gt;..&lt;To&gt;">
+                     <padding>
+                        <Insets left="30.0" />
+                     </padding>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="71.0" prefWidth="490.0">
+               <children>
+                  <Button fx:id="Ok" alignment="CENTER" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#OKClicked" prefHeight="28.0" prefWidth="46.0" text="OK" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
+</AnchorPane>

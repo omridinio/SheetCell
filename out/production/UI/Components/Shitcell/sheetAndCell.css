@@ -1,0 +1,63 @@
+/* General ScrollPane Styling */
+#sheetarea {
+    -fx-background-color: #F7F9FC; /* Light background for scroll pane */
+}
+
+/* GridPane Styling */
+#sheet {
+    -fx-background-color: #FFFFFF; /* White background for the grid */
+}
+
+/* Cell Button Styling (Covers Entire AnchorPane) */
+Button {
+    -fx-background-color: #FFFFFF; /* White background for the cell button */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-text-fill: #2C3E50; /* Dark text color for contrast */
+    -fx-font-size: 12px; /* Standard font size */
+    -fx-alignment: CENTER; /* Center-align text */
+    -fx-padding: 0; /* No extra padding, button covers entire cell */
+    -fx-background-radius: 0; /* No rounded corners, keeping it square */
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-background-color: #ECF0F1; /* Light gray background on hover */
+    -fx-border-color: #90A4AE; /* Slightly darker border on hover */
+}
+
+/* Header Row and Column Styling */
+#sheet .ABC, #sheet .number {
+    -fx-background-color: #737370; /* Dark gray background for headers */
+    -fx-text-fill: #FFFFFF; /* White text for contrast */
+    -fx-font-weight: bold; /* Bold text for headers */
+    -fx-border-color: #4F4F4F; /* Darker gray border for headers */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-alignment: CENTER; /* Center-align text */
+    -fx-font-size: 12px; /* Font size */
+    -fx-padding: 0; /* No extra padding */
+}
+
+/* Empty Corner Cell Styling */
+#sheet .empty {
+    -fx-background-color: #737370; /* Keep the corner cell consistent with the headers */
+    -fx-border-color: #4F4F4F; /* Border matching the headers */
+}
+
+/* Separator Styling */
+.separator {
+    -fx-border-color: #BDC3C7; /* Light gray separator line */
+    -fx-border-width: 1px;
+}
+
+/* Dynamic Area (e.g., Slider, TextFields) */
+#dynamicArea {
+    -fx-background-color: #ECEFF1; /* Light gray background for dynamic area */
+    -fx-padding: 5px; /* Padding inside dynamic area */
+}
+
+/* Error Message Styling */
+#errorMessege {
+    -fx-text-fill: #E57373; /* Light red for error message */
+    -fx-font-size: 11px; /* Slightly smaller text */
+}

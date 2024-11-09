@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+
+<ScrollPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Expression.ExpressionController">
+   <content>
+      <AnchorPane prefHeight="621.0" prefWidth="941.0" stylesheets="@expression.CSS">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="901.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0">
+               <children>
+                  <Label text="Formula result:" />
+                  <Label fx:id="predict" prefHeight="17.0" prefWidth="722.0" />
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </HBox>
+            <HBox fx:id="ex" layoutX="10.0" layoutY="10.0" maxWidth="1000000.0" spacing="10.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="120.0">
+               <children>
+                  <ChoiceBox fx:id="function" minHeight="25.0" minWidth="80.0" prefHeight="25.0" prefWidth="80.0" />
+               </children>
+            </HBox>
+            <TextField fx:id="actionLine" layoutY="11.0" prefHeight="25.0" prefWidth="726.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            <Button fx:id="ok" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#okClicked" prefHeight="25.0" prefWidth="71.0" text="OK" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+         </children>
+      </AnchorPane>
+   </content>
+</ScrollPane>

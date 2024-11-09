@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="225.0" prefWidth="197.0" stylesheets="@choiceComboBox.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Commands.Filter.FilterColums.ComboChoiceBox.ComboChoiceBoxController">
+   <children>
+      <ScrollPane maxHeight="1000.0" minHeight="60.0" minWidth="141.0" prefHeight="60.0" prefWidth="141.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <VBox fx:id="item" prefHeight="187.0" prefWidth="160.0" spacing="10.0">
+               <padding>
+                  <Insets left="5.0" top="10.0" />
+               </padding>
+               <children>
+                  <TextField fx:id="searchBox" prefHeight="25.0" prefWidth="1.0">
+                     <VBox.margin>
+                        <Insets left="5.0" right="20.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <CheckBox fx:id="selectAll" layoutX="10.0" layoutY="20.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="146.0" selected="true" text="Select All" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

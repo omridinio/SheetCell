@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="cell" fx:id="cellSize" minHeight="10.0" minWidth="10.0" prefHeight="56.0" prefWidth="136.0" stylesheets="@cell.CSS" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Cell.CellContoller">
+   <children>
+      <Button fx:id="cell" alignment="CENTER" layoutX="-1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clicked" prefHeight="40.0" prefWidth="134.0" textAlignment="RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Separator id="leftSperator" fx:id="leftColSperate" disable="true" layoutX="114.0" onMouseDragged="#onLeftColumnDragged" onMousePressed="#onLeftMousePressed" orientation="VERTICAL" prefHeight="40.0" prefWidth="20.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Separator id="botomSperator" fx:id="botomSperator" disable="true" onMouseDragged="#onBotomDrag" onMousePressed="#onBotomPresed" prefHeight="15.0" prefWidth="136.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Separator>
+      <VBox fx:id="dynamicArea" layoutY="29.0" prefHeight="27.0" prefWidth="136.0" spacing="3.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Slider fx:id="slider" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="minValue" prefHeight="19.0" prefWidth="40.0">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="jump" alignment="TOP_LEFT" prefHeight="19.0" prefWidth="40.0">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="maxValue" alignment="TOP_LEFT" prefHeight="19.0" prefWidth="40.0">
+                     <font>
+                        <Font size="9.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

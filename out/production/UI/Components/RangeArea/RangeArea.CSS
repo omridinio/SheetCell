@@ -1,0 +1,91 @@
+/* VBox Background and Layout */
+VBox {
+    -fx-background-color: #F7F9FC; /* Light, soft background */
+    -fx-padding: 15px; /* Padding inside the VBox */
+    -fx-spacing: 10px; /* Space between the elements */
+}
+
+/* HBox (Button Container) Styling */
+HBox {
+    -fx-spacing: 20px; /* Space between buttons */
+    -fx-alignment: CENTER; /* Center alignment for the buttons */
+}
+
+/* Button General Styling */
+Button {
+    -fx-background-color: #ECEFF1; /* Light gray button background */
+    -fx-text-fill: #333333; /* Dark gray text for readability */
+    -fx-font-size: 12px; /* Clean font size */
+    -fx-font-weight: bold; /* Bold text for emphasis */
+    -fx-background-radius: 8px; /* Rounded corners */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-width: 1px; /* Thin border */
+    -fx-pref-height: 28px; /* Consistent button height */
+    -fx-pref-width: 110px; /* Adjusted width */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-padding: 5px 10px; /* Padding inside buttons */
+}
+
+/* Button Hover Effect */
+Button:hover {
+    -fx-background-color: #CFD8DC; /* Slightly darker gray on hover */
+    -fx-border-color: #90A4AE; /* Darker border on hover */
+}
+
+/* FlowPane Styling */
+FlowPane {
+    -fx-background-color: #E3F2FD; /* Light blue background for FlowPane */
+    -fx-border-color: #B0BEC5; /* Light gray border */
+    -fx-border-radius: 8px; /* Rounded corners */
+    -fx-padding: 10px; /* Padding inside the FlowPane */
+    -fx-hgap: 12px; /* Horizontal gap between items */
+    -fx-vgap: 12px; /* Vertical gap between items */
+}
+
+/* Cancel and Submit Buttons */
+#cancel, #sumbitDelete {
+    -fx-background-color: #607D8B; /* Darker blue-gray background */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-font-size: 12px; /* Clean, smaller font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-background-radius: 6px; /* Rounded corners for a polished look */
+    -fx-border-color: #546E7A; /* Dark gray border */
+    -fx-pref-height: 28px; /* Consistent height */
+}
+
+#sumbitDelete {
+    -fx-pref-width: 130px; /* Adjusted width for larger button */
+}
+
+/* Cancel and Submit Button Hover Effect */
+#cancel:hover, #sumbitDelete:hover {
+    -fx-background-color: #78909C; /* Lighter blue-gray on hover */
+    -fx-border-color: #455A64; /* Darker border on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 2, 0.5, 0, 1); /* Soft shadow on hover */
+}
+
+/* ScrollBar Styling */
+.scroll-bar .thumb {
+    -fx-background-color: #C0C0C0; /* Light gray scroll thumb */
+    -fx-background-radius: 4px; /* Slightly reduced rounded corners */
+}
+
+#cancel, #sumbitDelete {
+    -fx-background-color: #90A4AE; /* Stronger blue-gray background */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-font-size: 12px; /* Clean, smaller font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-background-radius: 10px; /* Slightly rounded corners */
+    -fx-pref-height: 28px; /* Consistent button height */
+    -fx-border-width: 0; /* No border */
+}
+
+#sumbitDelete {
+    -fx-pref-width: 140px; /* Adjusted width for a slightly larger button */
+}
+
+/* Cancel and Submit Button Hover Effect */
+#cancel:hover, #sumbitDelete:hover {
+    -fx-background-color: #B0BEC5; /* Slightly lighter blue-gray on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.5, 0, 1); /* Soft shadow on hover */
+}

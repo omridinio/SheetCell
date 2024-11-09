@@ -1,0 +1,57 @@
+/* HBox Container Styling */
+#HboxUp2 {
+    -fx-background-color: #F7F9F9; /* Very light gray background */
+    -fx-padding: 5px; /* Smaller padding for a more compact look */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Slightly smaller rounded corners */
+    -fx-background-radius: 3px; /* Consistent background radius */
+    -fx-spacing: 8px; /* Less space between components */
+}
+
+/* Label Styling */
+Label {
+    -fx-text-fill: #2C3E50; /* Dark slate for label text */
+    -fx-font-size: 11px; /* Smaller font size for compactness */
+    -fx-font-weight: bold; /* Bold to keep readability */
+    -fx-padding: 0 4 0 4; /* Smaller padding for alignment */
+}
+
+/* TextField Styling */
+TextField {
+    -fx-background-color: #FFFFFF; /* Clean white background */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Subtle rounded corners */
+    -fx-padding: 4px; /* Smaller padding */
+    -fx-font-size: 11px; /* Smaller, compact font size */
+    -fx-alignment: CENTER_LEFT; /* Align text to the left */
+    -fx-pref-height: 24px; /* Reduced height for text fields */
+}
+
+/* Update Button Styling */
+#UpdateValue {
+    -fx-background-color: #34495E; /* Dark blue-grey for primary action */
+    -fx-text-fill: white; /* White text for contrast */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-font-size: 11px; /* Smaller font size for compact look */
+    -fx-font-weight: bold; /* Bold text for visibility */
+    -fx-pref-height: 28px; /* Reduced button height */
+    -fx-pref-width: 100px; /* Smaller button width */
+}
+
+#UpdateValue:hover {
+    -fx-background-color: #2C3E50; /* Darken on hover */
+}
+
+/* ComboBox Styling */
+ComboBox {
+    -fx-background-color: #FFFFFF; /* Clean white background */
+    -fx-border-color: #BDC3C7; /* Light gray border */
+    -fx-border-radius: 3px; /* Subtle rounded corners */
+    -fx-font-size: 11px; /* Smaller font size */
+    -fx-pref-height: 24px; /* Reduced height for combo boxes */
+}
+
+/* HBox within Action Line */
+#actionLine {
+    -fx-spacing: 5px; /* Reduce spacing between internal elements */
+}
