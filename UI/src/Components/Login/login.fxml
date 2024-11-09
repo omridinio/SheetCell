@@ -12,7 +12,7 @@
 
 <AnchorPane id="login" prefHeight="340.0" prefWidth="506.0" stylesheets="@login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Components.Login.LoginController">
    <children>
-      <VBox layoutX="7.0" layoutY="193.0" prefHeight="104.0" prefWidth="403.0" spacing="20.0" AnchorPane.rightAnchor="96.0" AnchorPane.topAnchor="193.0">
+      <VBox layoutX="7.0" layoutY="193.0" prefHeight="104.0" prefWidth="490.0" spacing="20.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="193.0">
          <children>
             <HBox>
                <children>
@@ -24,7 +24,7 @@
                   <TextField fx:id="theUserName" prefHeight="25.0" prefWidth="161.0" />
                </children>
             </HBox>
-            <Label fx:id="errorMessge" prefHeight="37.0" prefWidth="387.0" />
+            <Label id="notValidUsername" fx:id="errorMessge" prefHeight="37.0" prefWidth="476.0" />
          </children>
       </VBox>
       <Button id="button" fx:id="login" layoutX="395.0" layoutY="276.0" mnemonicParsing="false" onAction="#loginClicked" prefHeight="42.0" prefWidth="84.0" text="Login" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="27.0" />

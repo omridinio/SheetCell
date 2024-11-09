@@ -10,6 +10,13 @@
     -fx-font-size: 16px; /* Smaller font size for compact look */
 }
 
+#notValidUsername {
+    -fx-text-fill: rgba(248, 3, 37, 0.5); /* Dark slate for label text */
+    -fx-font-weight: bold; /* Bold to keep readability */
+    -fx-font-size: 12px; /* Smaller font size for compact look */
+}
+
+
 #button {
     -fx-background-color: #34495E; /* Dark blue-grey for primary action */
     -fx-text-fill: white; /* White text for contrast */
